@@ -1,0 +1,29 @@
+---
+import WidgetShell from "../_shared/WidgetShell.astro";
+import { meConfig } from "./config";
+import { getMeProfile } from "./data/me.source";
+import "./me.styles.css";
+import "./me.animations.css";
+
+const profile = await getMeProfile();
+---
+
+<WidgetShell ariaLabel={meConfig.ariaLabel} layout="wide">
+  <div class="me-widget">
+    <img class="me-widget__avatar" src={profile.avatarUrl} alt="" width="56" height="56" />
+    <div class="me-widget__info">
+      <p class="me-widget__name">{profile.name}</p>
+      <p class="me-widget__role">{profile.role}</p>
+    </div>
+    <a
+      class="me-widget__instagram"
+      href={profile.instagramUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Instagram"
+      data-feedback="tap"
+    >
+      ig
+    </a>
+  </div>
+</WidgetShell>

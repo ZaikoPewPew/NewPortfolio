@@ -1,0 +1,105 @@
+@import "./tokens.css";
+@import "./themes/dark.css";
+@import "./themes/light.css";
+@import "./reset.css";
+@import "./typography.css";
+@import "../experience/motion/motion.tokens.css";
+@import "../features/home/background/background.css";
+@import "../features/transitions/view-transitions.css";
+
+html {
+  scroll-behavior: smooth;
+}
+
+html[data-theme="dark"],
+html:not([data-theme]) {
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--color-bg-page);
+  color: var(--color-text-on-bg);
+  position: relative;
+  z-index: var(--z-content);
+}
+
+.page {
+  min-height: 100vh;
+  padding: var(--layout-padding);
+  padding-bottom: calc(var(--space-3xl) + var(--space-2xl));
+}
+
+.page-grid,
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--layout-gap);
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .page-grid,
+  .grid {
+    grid-template-columns: minmax(300px, 1fr) minmax(360px, 1.3fr);
+    align-items: start;
+  }
+}
+
+/* Case hover blur */
+.is-case-active [data-case-card]:not(.is-active) {
+  filter: blur(6px);
+  opacity: 0.45;
+  transition:
+    filter var(--motion-base) var(--ease-out-expo),
+    opacity var(--motion-base) var(--ease-out-expo);
+}
+
+.is-case-active [data-case-card].is-active {
+  filter: none;
+  opacity: 1;
+}
+
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .is-case-active [data-case-card]:not(.is-active) {
+    filter: none;
+    opacity: 1;
+  }
+}
+
+.case-content {
+  max-width: 720px;
+}
+
+.case-content h2 {
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-tight);
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-md);
+}
+
+.case-content h3 {
+  font-size: var(--font-size-lg);
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-sm);
+}
+
+.case-content p {
+  margin-bottom: var(--space-md);
+  color: var(--color-text-on-bg);
+}
+
+.case-content ul,
+.case-content ol {
+  margin-bottom: var(--space-md);
+  padding-left: var(--space-lg);
+}
+
+.case-content li {
+  margin-bottom: var(--space-xs);
+}

@@ -1,0 +1,36 @@
+---
+description: Правила для контента кейсов
+globs: src/content/**
+alwaysApply: false
+---
+
+# Content — Cases
+
+## Размещение
+
+Кейсы — только MDX в `src/content/cases/`.
+
+## Обязательные поля frontmatter
+
+- `title`, `cover`, `order`, `summary`, `year`, `tags`
+- `hover` — gradientFrom, gradientTo, gradientAngle, previewImage (optional)
+- `card` — layout (horizontal|compact), subtitle (optional)
+
+## Пример
+
+```yaml
+hover:
+  gradientFrom: "#1a0a2e"
+  gradientTo: "#e94560"
+  gradientAngle: 160
+  previewImage: "/images/cases/preview.svg"
+card:
+  layout: horizontal
+  subtitle: "Подзаголовок карточки"
+```
+
+## Правила
+
+- Тексты кейсов не хардкодить в `.astro`
+- Схема — `src/content.config.ts`
+- Градиенты hover — в frontmatter, не в CSS компонентов

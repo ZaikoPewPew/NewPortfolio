@@ -1,0 +1,52 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  caseEntry: CollectionEntry<"cases">;
+}
+
+const { caseEntry } = Astro.props;
+const { summary } = caseEntry.data;
+---
+
+<div class="case-layout">
+  <header class="case-layout__header">
+    <a href="/" class="case-layout__back">← На главную</a>
+    <slot name="hero" />
+    <p class="case-layout__summary">{summary}</p>
+  </header>
+  <article class="case-layout__content case-content">
+    <slot />
+  </article>
+</div>
+
+<style>
+  .case-layout {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--layout-padding);
+  }
+
+  .case-layout__back {
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+    transition: color 0.2s ease;
+  }
+
+  .case-layout__back:hover {
+    color: var(--color-text-on-bg);
+  }
+
+  .case-layout__summary {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-md);
+    max-width: 640px;
+  }
+
+  .case-layout__content {
+    margin-top: var(--space-2xl);
+  }
+</style>

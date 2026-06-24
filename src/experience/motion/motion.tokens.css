@@ -1,0 +1,17 @@
+/* Motion tokens reference — values defined in tokens.css */
+.motion-transition {
+  transition-duration: var(--motion-base);
+  transition-timing-function: var(--ease-out-expo);
+}
+
+.motion-transition-fast {
+  transition-duration: var(--motion-fast);
+  transition-timing-function: var(--ease-out-expo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-transition,
+  .motion-transition-fast {
+    transition-duration: 0.01ms;
+  }
+}

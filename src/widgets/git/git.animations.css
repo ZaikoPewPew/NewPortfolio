@@ -1,0 +1,14 @@
+.git-widget__cell {
+  transition: transform var(--motion-fast) var(--ease-out-expo);
+}
+
+.git-widget:hover .git-widget__cell--l3,
+.git-widget:hover .git-widget__cell--l4 {
+  transform: scale(1.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .git-widget__cell {
+    transition: none;
+  }
+}

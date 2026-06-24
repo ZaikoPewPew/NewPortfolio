@@ -1,0 +1,31 @@
+---
+description: Emotional UX — звук, вибро, хоткеи, motion
+alwaysApply: true
+---
+
+# Emotional Design
+
+## Feedback
+
+Звук и вибро — **только** через `FeedbackBus.emit()`:
+
+```ts
+feedback.emit({ sound: "tap", haptic: "light", source: "dock.email" });
+```
+
+Запрещено: `new Audio()`, `navigator.vibrate()` напрямую в виджетах и компонентах.
+
+## Хоткеи
+
+Регистрация — только в `experience/hotkeys/hotkeys.config.ts`.
+Слушатель — один `HotkeysManager` в `HomeOrchestrator`.
+
+## Motion
+
+- Уважать `prefers-reduced-motion` и `UserPreferences`
+- Hover-звук debounced (не на каждый mousemove)
+- Autoplay audio — только после первого user gesture (`feedback.unlock()`)
+
+## Звуки
+
+Файлы в `public/audio/`, конфиг в `sounds.config.ts`.

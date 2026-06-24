@@ -1,0 +1,51 @@
+.me-widget {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  height: 100%;
+}
+
+.me-widget__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-bg-elevated);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.me-widget__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.me-widget__name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.me-widget__role {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-xs);
+}
+
+.me-widget__instagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+  transition: transform var(--motion-fast) var(--ease-out-expo);
+}
+
+.me-widget__instagram:hover {
+  transform: scale(1.08);
+}

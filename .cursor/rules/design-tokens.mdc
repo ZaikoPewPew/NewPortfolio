@@ -1,0 +1,33 @@
+---
+description: Design tokens — единственный источник визуальных констант
+alwaysApply: true
+---
+
+# Design Tokens
+
+Все цвета, spacing, radius, typography, motion, z-index — **только** в `src/styles/tokens.css`.
+
+Темы — `src/styles/themes/dark.css` и `light.css` (переопределяют semantic tokens).
+
+## Правила
+
+- В компонентах используй `var(--token-name)`, никогда сырые значения
+- Запрещено: hex/rgb/hsl в `.astro`, `.css`, `.mdx` (кроме `tokens.css` и frontmatter кейсов для `hover.*`)
+- Motion: `--motion-fast`, `--motion-base`, `--ease-out-expo`
+- Z-index: `--z-background`, `--z-content`, `--z-dock`, `--z-preview`
+
+## Примеры
+
+```css
+/* BAD */
+background: #242426;
+transition: 300ms ease;
+
+/* GOOD */
+background: var(--color-bg-surface);
+transition: var(--motion-base) var(--ease-out-expo);
+```
+
+## Исключение
+
+Градиенты кейсов при hover задаются в MDX frontmatter (`hover.gradientFrom/To`) — оркестратор применяет их через CSS vars.

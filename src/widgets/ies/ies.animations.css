@@ -1,0 +1,20 @@
+.ies-widget__bg {
+  animation: ies-pulse var(--motion-slow) var(--ease-out-expo) infinite alternate;
+}
+
+@keyframes ies-pulse {
+  from {
+    opacity: 0.85;
+    transform: translate(calc(-50% + 0.5px), calc(-50% + 0.34px)) scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: translate(calc(-50% + 0.5px), calc(-50% + 0.34px)) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ies-widget__bg {
+    animation: none;
+  }
+}

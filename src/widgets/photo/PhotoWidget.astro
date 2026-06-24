@@ -1,0 +1,12 @@
+---
+import WidgetShell from "../_shared/WidgetShell.astro";
+import { photoConfig } from "./config";
+import { getPhoto } from "./data/photo.source";
+import "./photo.animations.css";
+
+const photo = await getPhoto();
+---
+
+<WidgetShell ariaLabel={photoConfig.ariaLabel} layout="square">
+  <img class="photo-widget__image" src={photo.imageUrl} alt={photo.alt} />
+</WidgetShell>

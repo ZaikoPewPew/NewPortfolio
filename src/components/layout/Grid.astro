@@ -1,0 +1,36 @@
+---
+---
+
+<div class="grid">
+  <aside class="grid__widgets">
+    <slot name="widgets" />
+  </aside>
+  <section class="grid__cases" aria-label="Кейсы">
+    <slot name="cases" />
+  </section>
+</div>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--layout-gap);
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: minmax(280px, 1fr) minmax(320px, 1.2fr);
+      align-items: start;
+    }
+  }
+
+  .grid__widgets {
+    width: 100%;
+  }
+
+  .grid__cases {
+    width: 100%;
+  }
+</style>

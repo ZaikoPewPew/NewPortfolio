@@ -1,0 +1,30 @@
+.ies-widget__bg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 219px;
+  height: 218.688px;
+  transform: translate(calc(-50% + 0.5px), calc(-50% + 0.34px));
+  pointer-events: none;
+}
+
+.ies-widget__bg img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+.ies-widget__icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 56px;
+  height: 56px;
+  transform: translate(calc(-50% + 1px), calc(-50% - 2px));
+}
+
+.ies-widget__icon img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}

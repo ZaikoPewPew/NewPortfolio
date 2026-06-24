@@ -1,0 +1,40 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Tag from "../ui/Tag.astro";
+
+interface Props {
+  caseEntry: CollectionEntry<"cases">;
+}
+
+const { caseEntry } = Astro.props;
+const { title, year, tags } = caseEntry.data;
+---
+
+<header class="case-hero">
+  <div class="case-hero__meta">
+    <span class="case-hero__year">{year}</span>
+    {tags.map((tag) => <Tag label={tag} />)}
+  </div>
+  <h1 class="case-hero__title">{title}</h1>
+</header>
+
+<style>
+  .case-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+  }
+
+  .case-hero__year {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .case-hero__title {
+    font-size: var(--font-size-2xl);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-medium);
+  }
+</style>

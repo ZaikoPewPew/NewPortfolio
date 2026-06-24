@@ -1,0 +1,24 @@
+---
+description: Layouts, страницы и View Transitions
+globs: src/{layouts,pages}/**
+alwaysApply: false
+---
+
+# Layouts & Pages
+
+## Layouts
+
+- `BaseLayout.astro` — HTML-оболочка, meta, View Transitions, `data-page` на body
+- `CaseLayout.astro` — разметка детальной страницы кейса (hero slot + content)
+
+## Pages
+
+- `pages/index.astro` — главная: виджеты + кейсы + HomeOrchestrator
+- `pages/cases/[slug].astro` — детальный кейс из Content Collection
+
+## Правила
+
+- Новые маршруты — только в `src/pages/`, не в components
+- View Transitions — через `astro:transitions` в BaseLayout, стили в `features/transitions/`
+- Страницы собирают layout + features; бизнес-логику hover/dock не класть в pages
+- `page` prop BaseLayout: `home` | `case` | `default` — для page-scoped стилей

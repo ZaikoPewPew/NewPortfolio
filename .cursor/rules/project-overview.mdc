@@ -1,0 +1,40 @@
+---
+description: Обзор проекта портфолио продуктового дизайнера
+alwaysApply: true
+---
+
+# Project Overview
+
+Портфолио продуктового дизайнера (Vladislav Kurguzov). Язык — русский. Dark-first.
+
+## Стек
+
+- Astro + MDX (Content Collections)
+- CSS custom properties (`src/styles/tokens.css`)
+- Vanilla TS islands для интерактива
+- View Transitions API для навигации
+
+## Layout главной
+
+- **Header:** employer + location/time
+- **Слева:** bento-виджеты (`src/widgets/`, registry.ts)
+- **Справа:** кейсы с hover-градиентом (референс: lamanoujaim.com)
+- **Dock:** email, social, theme toggle
+
+## Архитектура
+
+- `widgets/<id>/` — модульные виджеты (mock/api через `*.source.ts`)
+- `experience/` — звук, вибро, хоткеи (FeedbackBus)
+- `features/home/` — hover-фон, preview, orchestrator
+- `components/` — dumb UI
+
+## Страницы
+
+- `/` — титульная
+- `/cases/[slug]` — детальный кейс (MDX)
+
+## Принципы
+
+- Не добавляй зависимости без необходимости
+- Отвечай на русском
+- Emotional UX: звук, вибро, motion — через experience layer

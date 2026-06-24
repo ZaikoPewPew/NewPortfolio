@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CaseLayout from "../../layouts/CaseLayout.astro";
+import CaseHero from "../../components/cases/CaseHero.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const cases = await getCollection("cases");
+  return cases.map((caseEntry) => ({
+    params: { slug: caseEntry.slug },
+    props: { caseEntry },
+  }));
+}
+
+const { caseEntry } = Astro.props;
+const { Content } = await render(caseEntry);
+const { title, summary } = caseEntry.data;
+---
+
+<BaseLayout title={`${title} — Портфолио`} description={summary} page="case">
+  <CaseLayout caseEntry={caseEntry}>
+    <CaseHero slot="hero" caseEntry={caseEntry} />
+    <Content />
+  </CaseLayout>
+</BaseLayout>

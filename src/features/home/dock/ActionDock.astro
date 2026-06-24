@@ -1,0 +1,88 @@
+---
+import { dockItems } from "../../../config/dock.config";
+---
+
+<nav class="action-dock" aria-label="Контакты и настройки">
+  {
+    dockItems.map((item) =>
+      item.href ? (
+        <a
+          class="action-dock__item"
+          href={item.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-feedback="tap"
+        >
+          {item.label}
+        </a>
+      ) : (
+        <button
+          type="button"
+          class="action-dock__item"
+          data-dock-action={item.action}
+          data-feedback="tap"
+          aria-label={item.id}
+        >
+          {item.label}
+        </button>
+      )
+    )
+  }
+</nav>
+
+<script>
+  import { userPreferences } from "../../../experience/preferences/UserPreferences";
+  import { feedback } from "../../../experience/feedback/FeedbackBus";
+
+  document.querySelectorAll("[data-dock-action]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const action = (btn as HTMLElement).dataset.dockAction;
+      if (action === "toggleTheme") {
+        userPreferences.toggleTheme();
+        feedback.emit({ sound: "tap", haptic: "light", source: "dock.theme" });
+      }
+      if (action === "toggleMusic") {
+        userPreferences.toggleSound();
+        feedback.emit({ haptic: "light", source: "dock.music" });
+      }
+    });
+  });
+</script>
+
+<style>
+  .action-dock {
+    position: fixed;
+    bottom: var(--space-lg);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-bg-elevated) 80%, transparent);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--color-border-subtle);
+    z-index: var(--z-dock);
+  }
+
+  .action-dock__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    padding: var(--space-sm) var(--space-md);
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background var(--motion-fast) var(--ease-out-expo);
+  }
+
+  .action-dock__item:hover {
+    background: var(--color-bg-surface);
+  }
+</style>

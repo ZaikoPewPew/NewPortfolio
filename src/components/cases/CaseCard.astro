@@ -1,0 +1,121 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Link from "../ui/Link.astro";
+import Tag from "../ui/Tag.astro";
+
+interface Props {
+  caseEntry: CollectionEntry<"cases">;
+}
+
+const { caseEntry } = Astro.props;
+const { title, summary, year, tags, cover, hover, card } = caseEntry.data;
+const slug = caseEntry.slug;
+const layout = card?.layout ?? "horizontal";
+const subtitle = card?.subtitle ?? summary;
+---
+
+<Link
+  href={`/cases/${slug}`}
+  class:list={["case-card", `case-card--${layout}`]}
+  data-case-card
+  data-hover-from={hover.gradientFrom}
+  data-hover-to={hover.gradientTo}
+  data-hover-angle={hover.gradientAngle}
+  data-hover-preview={hover.previewImage ?? cover}
+  data-hover-title={title}
+  tabindex="0"
+>
+  <article class="case-card__inner">
+    {
+      layout === "horizontal" && (
+        <div class="case-card__cover" aria-hidden="true">
+          <img src={cover} alt="" loading="lazy" />
+        </div>
+      )
+    }
+    <div class="case-card__body">
+      <div class="case-card__meta">
+        {tags.map((tag) => <Tag label={tag} />)}
+        <span class="case-card__year">{year}</span>
+      </div>
+      <h2 class="case-card__title">{title}</h2>
+      <p class="case-card__summary">{subtitle}</p>
+    </div>
+  </article>
+</Link>
+
+<style>
+  .case-card__inner {
+    display: flex;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    border-radius: var(--radius-card);
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-subtle);
+    transition:
+      border-color var(--motion-fast) var(--ease-out-expo),
+      transform var(--motion-fast) var(--ease-out-expo);
+    overflow: hidden;
+    min-height: 140px;
+  }
+
+  .case-card:hover .case-card__inner,
+  .case-card:focus-visible .case-card__inner {
+    border-color: var(--color-text-muted);
+    transform: translateY(-2px);
+  }
+
+  .case-card__cover {
+    flex: 0 0 45%;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--color-bg-elevated);
+  }
+
+  .case-card__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    min-height: 120px;
+  }
+
+  .case-card__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--space-sm);
+  }
+
+  .case-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: auto;
+    padding-bottom: var(--space-md);
+  }
+
+  .case-card__year {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-left: auto;
+  }
+
+  .case-card__title {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .case-card__summary {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .case-card--compact .case-card__inner {
+    flex-direction: column;
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+import WidgetShell from "../_shared/WidgetShell.astro";
+import { gitConfig } from "./config";
+import { getGitProfile } from "./data/git.source";
+import "./git.styles.css";
+import "./git.animations.css";
+
+const profile = await getGitProfile();
+
+const levelClass = (level: number) =>
+  level === 0 ? "" : `git-widget__cell--l${level}`;
+---
+
+<WidgetShell ariaLabel={gitConfig.ariaLabel} layout="wide">
+  <div class="git-widget">
+    <div class="git-widget__header">
+      <span class="git-widget__username">{profile.username}</span>
+      <span class="git-widget__total">{profile.totalContributions}</span>
+    </div>
+    <div class="git-widget__heatmap" aria-hidden="true">
+      {
+        profile.heatmap.map((day) => (
+          <span class:list={["git-widget__cell", levelClass(day.level)]} />
+        ))
+      }
+    </div>
+  </div>
+</WidgetShell>

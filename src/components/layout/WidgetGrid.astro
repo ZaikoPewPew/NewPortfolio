@@ -1,0 +1,50 @@
+---
+import { widgetRegistry } from "../../widgets/registry";
+---
+
+<div class="widget-grid">
+  {
+    widgetRegistry.map(({ id, component: Widget, grid }) => (
+      <div
+        class="widget-grid__cell"
+        style={`grid-column: span ${grid.col}; grid-row: span ${grid.row}`}
+        data-widget-id={id}
+      >
+        <Widget />
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .widget-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--bento-columns), var(--bento-cell-size));
+    gap: var(--bento-gap);
+    justify-content: start;
+  }
+
+  .widget-grid__cell {
+    min-width: 0;
+  }
+
+  @media (max-width: 767px) {
+    .widget-grid {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: var(--bento-gap);
+      padding-bottom: var(--space-sm);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .widget-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .widget-grid__cell {
+      flex: 0 0 var(--bento-wide-width);
+    }
+  }
+</style>

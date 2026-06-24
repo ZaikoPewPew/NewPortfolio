@@ -1,0 +1,26 @@
+---
+import WidgetShell from "../_shared/WidgetShell.astro";
+import { spotifyConfig } from "./config";
+import { getCurrentTrack } from "./data/spotify.source";
+import "./spotify.styles.css";
+
+const track = await getCurrentTrack();
+---
+
+<WidgetShell ariaLabel={spotifyConfig.ariaLabel} layout="wide">
+  <div class="spotify-widget">
+    <div class="spotify-widget__info">
+      <p class="spotify-widget__title">{track.title}</p>
+      <p class="spotify-widget__artist">{track.artist}</p>
+      <div class="spotify-widget__controls">
+        <button type="button" class="spotify-widget__btn" aria-label="Previous" data-feedback="tap">⏮</button>
+        <button type="button" class="spotify-widget__btn" aria-label="Pause" data-feedback="tap">⏸</button>
+        <button type="button" class="spotify-widget__btn" aria-label="Next" data-feedback="tap">⏭</button>
+      </div>
+    </div>
+    <div
+      class:list={["spotify-widget__vinyl", track.isPlaying && "spotify-widget__vinyl--playing"]}
+      aria-hidden="true"
+    />
+  </div>
+</WidgetShell>

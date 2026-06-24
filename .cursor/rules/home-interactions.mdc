@@ -1,0 +1,23 @@
+---
+description: Hover-фон и интеракции главной страницы
+globs: src/features/home/**
+alwaysApply: false
+---
+
+# Home Interactions
+
+## Hover кейсов
+
+- Градиент фона — `CaseHoverController`, не в `CaseCard`
+- Данные градиента — из frontmatter кейса (`hover.*`), через `data-hover-*` атрибуты
+- Blur неактивных карточек — CSS класс `is-case-active` на `html` и `[data-home-page]`
+- Preview — `CasePreviewPanel.astro`
+
+## Ограничения
+
+- Blur/preview отключены на mobile и `prefers-reduced-motion`
+- Фон — `PageBackground.astro` + `--page-gradient` на `:root`
+
+## Оркестрация
+
+`HomeOrchestrator.client.ts` инициализирует hover, feedback, hotkeys на главной.

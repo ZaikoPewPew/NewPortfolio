@@ -1,0 +1,41 @@
+.git-widget {
+  padding: var(--space-md) var(--space-lg);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.git-widget__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.git-widget__username {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.git-widget__total {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.git-widget__heatmap {
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 3px;
+  flex: 1;
+}
+
+.git-widget__cell {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  background: var(--color-bg-elevated);
+}
+
+.git-widget__cell--l1 { background: color-mix(in srgb, var(--color-accent-green) 25%, var(--color-bg-elevated)); }
+.git-widget__cell--l2 { background: color-mix(in srgb, var(--color-accent-green) 50%, var(--color-bg-elevated)); }
+.git-widget__cell--l3 { background: color-mix(in srgb, var(--color-accent-green) 75%, var(--color-bg-elevated)); }
+.git-widget__cell--l4 { background: var(--color-accent-green); }

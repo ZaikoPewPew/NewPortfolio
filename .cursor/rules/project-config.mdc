@@ -1,0 +1,20 @@
+---
+description: Конфигурация сайта, dock и env
+globs: src/config/**
+alwaysApply: false
+---
+
+# Project Config
+
+## Файлы
+
+- `site.config.ts` — имя, employer, location, social links
+- `dock.config.ts` — элементы ActionDock (email, social, theme, music)
+- `env.config.ts` — режимы mock/api для виджетов (`PUBLIC_*_MODE`)
+
+## Правила
+
+- Site metadata и social — только в `site.config.ts`, не хардкодить в компонентах
+- Dock items — только в `dock.config.ts`
+- Переключение mock/api — через `env.config.ts` + `widgets/*/data/*.source.ts`
+- Не дублировать URL (email, social) в dock и site — импортировать из `site.config` где возможно

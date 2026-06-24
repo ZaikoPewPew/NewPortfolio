@@ -1,0 +1,62 @@
+.spotify-widget {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  height: 100%;
+}
+
+.spotify-widget__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.spotify-widget__title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.spotify-widget__artist {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-xs);
+}
+
+.spotify-widget__controls {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.spotify-widget__btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.spotify-widget__vinyl {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--color-bg-elevated), var(--color-text-muted), var(--color-bg-elevated));
+  flex-shrink: 0;
+}
+
+.spotify-widget__vinyl--playing {
+  animation: vinyl-spin 4s linear infinite;
+}
+
+@keyframes vinyl-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotify-widget__vinyl--playing {
+    animation: none;
+  }
+}

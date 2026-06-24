@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from "astro:content";
+import CaseCard from "./CaseCard.astro";
+
+interface Props {
+  cases: CollectionEntry<"cases">[];
+}
+
+const { cases } = Astro.props;
+---
+
+<div class="case-list">
+  <h2 class="case-list__heading">Кейсы</h2>
+  <ul class="case-list__items">
+    {
+      cases.map((caseEntry) => (
+        <li>
+          <CaseCard caseEntry={caseEntry} />
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .case-list__heading {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--space-lg);
+    color: var(--color-text-secondary);
+  }
+
+  .case-list__items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+</style>

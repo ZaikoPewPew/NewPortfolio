@@ -1,0 +1,25 @@
+---
+description: Структура и соглашения для компонентов
+globs: src/components/**
+alwaysApply: false
+---
+
+# Component Structure
+
+## Размещение
+
+- `components/layout/` — Grid, PageShell, WidgetGrid (читает registry)
+- `components/cases/` — CaseCard, CaseList, CaseHero (dumb UI)
+- `components/ui/` — атомы (Button, Tag, Link)
+- `widgets/` — **интерактивные виджеты** (не в components/widgets/)
+
+## Правила
+
+- Один компонент = один файл
+- Dumb UI: props in → markup out, без fetch и side effects
+- Не хардкодь цвета — только CSS-переменные из tokens
+- Логика hover-фона — в `features/home/`, не в CaseCard
+
+## Виджеты
+
+Виджеты живут в `src/widgets/<id>/`, используют `WidgetShell` из `_shared/`.
