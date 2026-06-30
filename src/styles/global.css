@@ -4,7 +4,6 @@
 @import "./reset.css";
 @import "./typography.css";
 @import "../experience/motion/motion.tokens.css";
-@import "../features/home/background/background.css";
 @import "../features/transitions/view-transitions.css";
 @import "../experience/preferences/theme-transition.css";
 
@@ -47,29 +46,9 @@ body {
 @media (min-width: 640px) {
   .page-grid,
   .grid {
-    grid-template-columns: minmax(300px, 1fr) minmax(360px, 1.3fr);
+    grid-template-columns: var(--layout-widgets-width) minmax(0, 1fr);
+    gap: var(--layout-column-gap);
     align-items: start;
-  }
-}
-
-/* Case hover blur */
-.is-case-active [data-case-card]:not(.is-active) {
-  filter: blur(6px);
-  opacity: 0.45;
-  transition:
-    filter var(--motion-base) var(--ease-out-expo),
-    opacity var(--motion-base) var(--ease-out-expo);
-}
-
-.is-case-active [data-case-card].is-active {
-  filter: none;
-  opacity: 1;
-}
-
-@media (max-width: 639px), (prefers-reduced-motion: reduce) {
-  .is-case-active [data-case-card]:not(.is-active) {
-    filter: none;
-    opacity: 1;
   }
 }
 

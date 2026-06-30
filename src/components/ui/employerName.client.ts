@@ -18,12 +18,13 @@ const POINTER_OFFSET_X = 24;
 const POINTER_OFFSET_Y = 24;
 
 type EmployerPortal = {
+  root: HTMLElement;
   overlay: HTMLElement;
   block: HTMLElement;
   video: HTMLVideoElement | null;
 };
 
-const portals = new WeakMap<HTMLElement, EmployerPortal>();
+let sharedPortal: EmployerPortal | null = null;
 
 function readToken(name: string, fallback: number) {
   const raw = Number.parseFloat(
@@ -56,7 +57,43 @@ function isDesktopEmployer() {
   return !isMobileViewport();
 }
 
-function createPortal(host: HTMLElement): EmployerPortal {
+function findPortalInDom(): EmployerPortal | null {
+  document.querySelectorAll<HTMLElement>("[data-employer-overlay]").forEach((overlay) => {
+    if (!overlay.closest("[data-employer-focus-root]")) overlay.remove();
+  });
+  document.querySelectorAll<HTMLElement>("[data-currently-block]").forEach((block) => {
+    if (!block.closest("[data-employer-focus-root]")) block.remove();
+  });
+
+  const roots = document.querySelectorAll<HTMLElement>("[data-employer-focus-root]");
+  roots.forEach((root, index) => {
+    if (index < roots.length - 1) root.remove();
+  });
+
+  const root = document.querySelector<HTMLElement>("[data-employer-focus-root]");
+  if (!root) return null;
+
+  const overlay = root.querySelector<HTMLElement>("[data-employer-overlay]");
+  const block = root.querySelector<HTMLElement>("[data-currently-block]");
+  if (!overlay || !block) {
+    root.remove();
+    return null;
+  }
+
+  return {
+    root,
+    overlay,
+    block,
+    video: block.querySelector<HTMLVideoElement>(".currently-block__video"),
+  };
+}
+
+function createPortal(videoSrc?: string): EmployerPortal {
+  const root = document.createElement("div");
+  root.className = "employer-focus-root";
+  root.setAttribute("data-employer-focus-root", "");
+  root.setAttribute("aria-hidden", "true");
+
   const overlay = document.createElement("div");
   overlay.className = "employer-name__overlay";
   overlay.setAttribute("data-employer-overlay", "");
@@ -73,7 +110,6 @@ function createPortal(host: HTMLElement): EmployerPortal {
   const media = document.createElement("div");
   media.className = "currently-block__media";
 
-  const videoSrc = host.dataset.employerVideo;
   let video: HTMLVideoElement | null = null;
   if (videoSrc) {
     video = document.createElement("video");
@@ -91,17 +127,25 @@ function createPortal(host: HTMLElement): EmployerPortal {
 
   frame.append(media);
   block.append(frame);
-  document.body.append(overlay, block);
-  return { overlay, block, video };
+  root.append(overlay, block);
+  document.body.append(root);
+  return { root, overlay, block, video };
 }
 
-function getPortal(host: HTMLElement): EmployerPortal {
-  const existing = portals.get(host);
-  if (existing) return existing;
+function getSharedPortal(videoSrc?: string): EmployerPortal {
+  if (sharedPortal && document.body.contains(sharedPortal.root)) {
+    return sharedPortal;
+  }
 
-  const portal = createPortal(host);
-  portals.set(host, portal);
-  return portal;
+  sharedPortal = findPortalInDom() ?? createPortal(videoSrc);
+  return sharedPortal;
+}
+
+function clearOverlayCutout(overlay: HTMLElement) {
+  overlay.style.removeProperty("--employer-label-x");
+  overlay.style.removeProperty("--employer-label-y");
+  overlay.style.removeProperty("--employer-label-w");
+  overlay.style.removeProperty("--employer-label-h");
 }
 
 function bindEmployerHost(host: HTMLElement) {
@@ -110,7 +154,7 @@ function bindEmployerHost(host: HTMLElement) {
   const label = host.querySelector<HTMLElement>(".employer-name__label");
   if (!label) return;
 
-  const { block, video } = getPortal(host);
+  const { block, video, overlay } = getSharedPortal(host.dataset.employerVideo);
   host.setAttribute("data-employer-bound", "true");
 
   const reducedMotion = prefersReducedMotion();
@@ -134,6 +178,19 @@ function bindEmployerHost(host: HTMLElement) {
 
   let lastPointerX = 0;
   let lastPointerTime = 0;
+
+  const syncOverlayCutout = () => {
+    const rect = label.getBoundingClientRect();
+    overlay.style.setProperty("--employer-label-x", `${rect.left}px`);
+    overlay.style.setProperty("--employer-label-y", `${rect.top}px`);
+    overlay.style.setProperty("--employer-label-w", `${rect.width}px`);
+    overlay.style.setProperty("--employer-label-h", `${rect.height}px`);
+  };
+
+  const onScrollWhileActive = () => {
+    if (!isActive) return;
+    syncOverlayCutout();
+  };
 
   const applyMotion = () => {
     block.style.setProperty("--currently-block-x", `${posX}px`);
@@ -264,6 +321,8 @@ function bindEmployerHost(host: HTMLElement) {
     isActive = true;
     host.setAttribute("data-employer-active", "");
     document.documentElement.classList.add("is-employer-active");
+    syncOverlayCutout();
+    window.addEventListener("scroll", onScrollWhileActive, { passive: true });
     lastPointerX = clientX;
     lastPointerTime = performance.now();
     setTargetFromPointer(clientX, clientY, lastPointerTime);
@@ -275,6 +334,8 @@ function bindEmployerHost(host: HTMLElement) {
     isActive = false;
     host.removeAttribute("data-employer-active");
     document.documentElement.classList.remove("is-employer-active");
+    window.removeEventListener("scroll", onScrollWhileActive);
+    clearOverlayCutout(overlay);
     video?.pause();
     if (rafId) {
       cancelAnimationFrame(rafId);
@@ -284,16 +345,16 @@ function bindEmployerHost(host: HTMLElement) {
     resetMotion();
   };
 
-  label.addEventListener("mouseenter", (event) => {
+  host.addEventListener("mouseenter", (event) => {
     activate(event.clientX, event.clientY);
   });
 
-  label.addEventListener("mousemove", (event) => {
+  host.addEventListener("mousemove", (event) => {
     if (!isActive) return;
     setTargetFromPointer(event.clientX, event.clientY, performance.now());
   });
 
-  label.addEventListener("mouseleave", () => {
+  host.addEventListener("mouseleave", () => {
     deactivate();
   });
 
@@ -315,12 +376,15 @@ function bindEmployerHost(host: HTMLElement) {
 }
 
 export function initEmployerName(root: ParentNode = document) {
+  findPortalInDom();
   root.querySelectorAll<HTMLElement>("[data-employer-name-host]").forEach(bindEmployerHost);
 }
 
 export function resetEmployerName() {
   document.documentElement.classList.remove("is-employer-active");
-  document.querySelectorAll<HTMLElement>("[data-employer-active]").forEach((host) => {
+  document.querySelectorAll<HTMLElement>("[data-employer-name-host]").forEach((host) => {
     host.removeAttribute("data-employer-active");
   });
+  if (sharedPortal) clearOverlayCutout(sharedPortal.overlay);
+  sharedPortal?.video?.pause();
 }

@@ -1,7 +1,10 @@
 const CONTACT_ANIMATION_MS = 700;
 const MOBILE_MEDIA_QUERY = "(max-width: 639px)";
+const CASE_CONTACT_ANIMATE_KEY = "case-contact-animate";
 
 let animationTimer: number | undefined;
+let clickBound = false;
+let caseNavBound = false;
 
 function isMobileViewport(): boolean {
   return window.matchMedia(MOBILE_MEDIA_QUERY).matches;
@@ -9,6 +12,14 @@ function isMobileViewport(): boolean {
 
 function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function getLayout(): HTMLElement | null {
+  return document.querySelector<HTMLElement>("[data-contact-layout]");
+}
+
+export function isContactLocked(): boolean {
+  return getLayout()?.dataset.contactLocked === "true";
 }
 
 function clearContactAnimation(layout: HTMLElement) {
@@ -54,13 +65,14 @@ function startContactAnimation(layout: HTMLElement, nextOpen: boolean) {
 
 function setContactState(nextOpen: boolean, options: { animate?: boolean } = {}) {
   const { animate = true } = options;
-  const layout = document.querySelector<HTMLElement>("[data-contact-layout]");
+  const layout = getLayout();
   const button = document.querySelector<HTMLButtonElement>("[data-contact-button]");
   const label = document.querySelector<HTMLElement>("[data-contact-button-label]");
   const keycap = document.querySelector<HTMLElement>("[data-contact-button-keycap-char]");
   const slot = document.querySelector<HTMLElement>("[data-contact-slot]");
 
   if (!layout || !button || !label || !keycap || !slot) return;
+  if (isContactLocked() && !nextOpen) return;
 
   if (isAnimating(layout)) return;
 
@@ -78,7 +90,7 @@ function setContactState(nextOpen: boolean, options: { animate?: boolean } = {})
 }
 
 export function isContactPanelOpen(): boolean {
-  const layout = document.querySelector<HTMLElement>("[data-contact-layout]");
+  const layout = getLayout();
   if (!layout) return false;
   if (layout.dataset.contactAnimating === "opening") return true;
   if (layout.dataset.contactAnimating === "closing") return true;
@@ -86,23 +98,100 @@ export function isContactPanelOpen(): boolean {
 }
 
 export function toggleContactPanel(force?: boolean) {
-  if (isMobileViewport()) return;
+  if (isMobileViewport() || isContactLocked()) return;
 
   const nextOpen = typeof force === "boolean" ? force : !isContactPanelOpen();
   setContactState(nextOpen, { animate: true });
 }
 
+function syncContactButtonLock() {
+  const layout = getLayout();
+  const button = document.querySelector<HTMLButtonElement>("[data-contact-button]");
+  if (!layout || !button) return;
+
+  const locked = layout.dataset.contactLocked === "true";
+  button.disabled = locked;
+  button.toggleAttribute("aria-disabled", locked);
+  button.classList.toggle("contact-button--locked", locked);
+
+  if (locked) {
+    button.removeAttribute("data-feedback");
+  } else {
+    button.setAttribute("data-feedback", "tap");
+  }
+}
+
+function syncContactPanelOnLoad() {
+  if (isMobileViewport()) return;
+
+  const layout = getLayout();
+  if (!layout) return;
+
+  syncContactButtonLock();
+
+  const autoOpen = layout.dataset.contactAutoOpen === "true";
+  if (!autoOpen) {
+    setContactState(false, { animate: false });
+    return;
+  }
+
+  const shouldAnimate = sessionStorage.getItem(CASE_CONTACT_ANIMATE_KEY) === "1";
+  sessionStorage.removeItem(CASE_CONTACT_ANIMATE_KEY);
+
+  if (shouldAnimate && !prefersReducedMotion()) {
+    layout.dataset.contactOpen = "false";
+    const button = document.querySelector<HTMLButtonElement>("[data-contact-button]");
+    const label = document.querySelector<HTMLElement>("[data-contact-button-label]");
+    const keycap = document.querySelector<HTMLElement>("[data-contact-button-keycap-char]");
+    const slot = document.querySelector<HTMLElement>("[data-contact-slot]");
+    if (button && label && keycap && slot) {
+      updateContactUi(button, label, keycap, slot, false);
+    }
+    requestAnimationFrame(() => {
+      setContactState(true, { animate: true });
+    });
+    return;
+  }
+
+  setContactState(true, { animate: false });
+}
+
 export function bindContactPanel() {
   if (isMobileViewport()) return;
 
-  const button = document.querySelector<HTMLButtonElement>("[data-contact-button]");
-  if (!button) return;
-  if (button.dataset.bound === "true") return;
+  if (!clickBound) {
+    clickBound = true;
+    document.addEventListener("click", (e) => {
+      const button = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-contact-button]");
+      if (!button || button.disabled) return;
+      toggleContactPanel();
+    });
+  }
 
-  button.dataset.bound = "true";
-  setContactState(false, { animate: false });
+  syncContactPanelOnLoad();
+}
 
-  button.addEventListener("click", () => {
-    toggleContactPanel();
-  });
+export function bindCaseContactNavigation() {
+  if (caseNavBound) return;
+  caseNavBound = true;
+
+  document.addEventListener(
+    "click",
+    (e) => {
+      const link = (e.target as HTMLElement).closest<HTMLElement>("[data-case-nav]");
+      if (!link) return;
+      sessionStorage.setItem(CASE_CONTACT_ANIMATE_KEY, "1");
+    },
+    true
+  );
+}
+
+export function resetContactPanel() {
+  const layout = getLayout();
+  if (!layout) return;
+  clearContactAnimation(layout);
+  delete layout.dataset.contactOpen;
+  delete layout.dataset.contactAnimating;
+  delete layout.dataset.contactLocked;
+  delete layout.dataset.contactAutoOpen;
 }

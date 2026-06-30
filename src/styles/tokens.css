@@ -136,8 +136,10 @@
   /* Z-index */
   --z-background: 0;
   --z-content: 10;
+  --z-header: 15;
   --z-dock: 100;
   --z-preview: 200;
+  --z-employer-backdrop: 240;
   --z-employer-focus: 250;
   --z-tooltip: 1000;
 
@@ -154,15 +156,23 @@
   --page-gradient: transparent;
 
   /* Header */
-  --header-padding-top-desktop: var(--space-xl);
+  --header-padding-top-desktop: var(--space-md);
   --header-padding-top-mobile: 40px;
-  --header-row-height-desktop: 38px;
+  --header-row-height-desktop: 48px;
   --header-row-height-mobile: 19px;
   --header-employer-size-desktop: var(--font-size-2xl);
   --header-employer-size-mobile: var(--font-size-base);
   --header-divider-gap: var(--space-md);
+  --layout-header-block-height: calc(
+    var(--header-padding-top-desktop) + var(--header-row-height-desktop) +
+      var(--header-divider-gap) + 1px
+  );
   --layout-header-widget-gap-desktop: var(--space-md);
   --layout-header-widget-gap-mobile: var(--space-sm);
+
+  /* Case cards */
+  --case-card-min-height: 280px;
+  --case-card-media-width: 320px;
 
   /* Employer currently block */
   --employer-blur-amount: 3px;

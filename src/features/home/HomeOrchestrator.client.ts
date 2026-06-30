@@ -1,12 +1,7 @@
 import { feedback } from "../../experience/feedback/FeedbackBus";
 import { userPreferences } from "../../experience/preferences/UserPreferences";
 import { initHotkeys } from "../../experience/hotkeys/HotkeysManager";
-import {
-  initCaseHover,
-  resetCaseHover,
-  hideCasePreview,
-} from "./case-hover/CaseHoverController.client";
-import { bindContactPanel } from "./contact/ContactPanelController.client";
+import { bindContactPanel, bindCaseContactNavigation, resetContactPanel } from "./contact/ContactPanelController.client";
 import { resetEmployerName, initEmployerName } from "../../components/ui/employerName.client";
 
 let feedbackBound = false;
@@ -34,18 +29,23 @@ function bindFeedback() {
   });
 }
 
-function initExperience(scope: "global" | "home") {
+function hasWidgetsLayout() {
+  return Boolean(document.querySelector("[data-contact-layout]"));
+}
+
+function initExperience() {
   userPreferences.init();
   bindFeedback();
+  bindCaseContactNavigation();
 
   if (!hotkeysBound) {
     hotkeysBound = true;
-    initHotkeys(scope);
+    const hotkeyScope =
+      document.body.dataset.page === "home" || hasWidgetsLayout() ? "home" : "global";
+    initHotkeys(hotkeyScope);
   }
 
-  if (scope === "home") {
-    resetCaseHover();
-    initCaseHover();
+  if (hasWidgetsLayout()) {
     bindContactPanel();
     initEmployerName();
   }
@@ -53,15 +53,20 @@ function initExperience(scope: "global" | "home") {
 
 document.addEventListener("astro:page-load", () => {
   const isHome = document.body.dataset.page === "home";
-  initExperience(isHome ? "home" : "global");
+  initExperience();
 
   if (!isHome) {
     feedback.emit({ sound: "pageTransition", source: "navigation" });
   }
 });
 
+window.addEventListener("pageshow", (event) => {
+  if (!event.persisted) return;
+  initExperience();
+  resetEmployerName();
+});
+
 document.addEventListener("astro:before-preparation", () => {
-  document.documentElement.classList.remove("is-case-active");
-  hideCasePreview();
+  resetContactPanel();
   resetEmployerName();
 });

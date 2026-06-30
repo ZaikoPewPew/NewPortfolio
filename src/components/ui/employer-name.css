@@ -14,19 +14,21 @@
 
 .employer-name__label {
   position: relative;
-  z-index: 1;
   cursor: default;
 }
 
-html.is-employer-active .employer-name[data-employer-active] {
-  position: relative;
-  z-index: var(--z-employer-focus);
+.employer-focus-root {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-employer-backdrop);
+  pointer-events: none;
+  isolation: isolate;
 }
 
 .employer-name__overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
-  z-index: calc(var(--z-employer-focus) - 1);
+  z-index: 0;
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
@@ -51,13 +53,31 @@ html.is-employer-active .employer-name[data-employer-active] {
 html.is-employer-active .employer-name__overlay {
   opacity: 1;
   visibility: visible;
+  -webkit-mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+  -webkit-mask-size:
+    100% 100%,
+    var(--employer-label-w, 0px) var(--employer-label-h, 0px);
+  mask-size:
+    100% 100%,
+    var(--employer-label-w, 0px) var(--employer-label-h, 0px);
+  -webkit-mask-position:
+    0 0,
+    var(--employer-label-x, 0px) var(--employer-label-y, 0px);
+  mask-position:
+    0 0,
+    var(--employer-label-x, 0px) var(--employer-label-y, 0px);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
 
 .currently-block {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  z-index: var(--z-employer-focus);
+  z-index: 1;
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
@@ -98,15 +118,13 @@ html.is-employer-active .currently-block {
 }
 
 @media (max-width: 639px) {
-  .employer-name__overlay,
-  .currently-block {
+  .employer-focus-root {
     display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .employer-name__overlay,
-  .currently-block {
+  .employer-focus-root {
     display: none;
   }
 }

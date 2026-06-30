@@ -9,15 +9,27 @@ interface Props {
 const { cases } = Astro.props;
 ---
 
-<div class="case-list">
-  <h2 class="case-list__heading">Кейсы</h2>
-  <ul class="case-list__items">
-    {
-      cases.map((caseEntry) => (
-        <li>
-          <CaseCard caseEntry={caseEntry} />
-        </li>
-      ))
-    }
-  </ul>
-</div>
+<ul class="case-list">
+  {
+    cases.map((caseEntry) => (
+      <li class="case-list__item">
+        <CaseCard caseEntry={caseEntry} />
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .case-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--layout-column-gap);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .case-list__item {
+    min-width: 0;
+  }
+</style>

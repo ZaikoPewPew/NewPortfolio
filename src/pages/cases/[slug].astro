@@ -1,8 +1,11 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import CaseLayout from "../../layouts/CaseLayout.astro";
+import Header from "../../components/layout/Header.astro";
+import Grid from "../../components/layout/Grid.astro";
 import CaseHero from "../../components/cases/CaseHero.astro";
+import HomeWidgets from "../../features/home/HomeWidgets.astro";
 import { getCollection, render } from "astro:content";
+import "../../features/home/home.layout.css";
 
 export async function getStaticPaths() {
   const cases = await getCollection("cases");
@@ -18,8 +21,18 @@ const { title, summary } = caseEntry.data;
 ---
 
 <BaseLayout title={`${title} — Портфолио`} description={summary} page="case">
-  <CaseLayout caseEntry={caseEntry}>
-    <CaseHero slot="hero" caseEntry={caseEntry} />
-    <Content />
-  </CaseLayout>
+  <Header slot="header" />
+
+  <main class="home" data-case-page aria-label={title}>
+    <Grid>
+      <HomeWidgets slot="widgets" autoOpenContact />
+
+      <article slot="cases" class="home__cases case-content">
+        <CaseHero caseEntry={caseEntry} />
+        <Content />
+      </article>
+    </Grid>
+
+    <p class="home__copyright">krgzv.com © 2026</p>
+  </main>
 </BaseLayout>

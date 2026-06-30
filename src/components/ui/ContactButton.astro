@@ -2,24 +2,34 @@
 interface Props {
   hotkey?: string;
   class?: string;
+  expanded?: boolean;
+  locked?: boolean;
 }
 
-const { hotkey = "c", class: className } = Astro.props;
+const { hotkey = "c", class: className, expanded = false, locked = false } = Astro.props;
 ---
 
 <button
   type="button"
-  class:list={["contact-button", className]}
-  data-feedback="tap"
+  class:list={["contact-button", className, { "contact-button--locked": locked }]}
+  data-feedback={locked ? undefined : "tap"}
   data-contact-button
-  aria-expanded="false"
+  aria-expanded={expanded ? "true" : "false"}
+  aria-disabled={locked ? "true" : undefined}
+  disabled={locked}
 >
-  <span class="contact-button__label" data-contact-button-label>contact</span>
-  {hotkey && (
-    <span class="contact-button__keycap" aria-hidden="true" data-contact-button-keycap>
-      <span class="contact-button__keycap-char" data-contact-button-keycap-char>{hotkey}</span>
-    </span>
-  )}
+  <span class="contact-button__label" data-contact-button-label>
+    {expanded ? "about" : "contact"}
+  </span>
+  {
+    hotkey && (
+      <span class="contact-button__keycap" aria-hidden="true" data-contact-button-keycap>
+        <span class="contact-button__keycap-char" data-contact-button-keycap-char>
+          {expanded ? "a" : hotkey}
+        </span>
+      </span>
+    )
+  }
 </button>
 
 <style>
@@ -45,6 +55,12 @@ const { hotkey = "c", class: className } = Astro.props;
 
   .contact-button:hover {
     opacity: 0.92;
+  }
+
+  .contact-button--locked,
+  .contact-button--locked:hover {
+    opacity: 1;
+    cursor: default;
   }
 
   .contact-button__label {

@@ -5,6 +5,12 @@ import { meConfig } from "./config";
 import { getMeProfile } from "./data/me.source";
 import "./me.styles.css";
 
+interface Props {
+  contactExpanded?: boolean;
+  contactLocked?: boolean;
+}
+
+const { contactExpanded = false, contactLocked = false } = Astro.props;
 const profile = await getMeProfile();
 ---
 
@@ -31,6 +37,6 @@ const profile = await getMeProfile();
   </p>
 
   <div class="me-widget__desktop-only">
-    <ContactButton />
+    <ContactButton expanded={contactExpanded} locked={contactLocked} />
   </div>
 </article>

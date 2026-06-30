@@ -4,6 +4,7 @@ import { toggleThemeWithTransition } from "../preferences/themeTransition";
 import { userPreferences } from "../preferences/UserPreferences";
 import {
   isContactPanelOpen,
+  isContactLocked,
   toggleContactPanel,
 } from "../../features/home/contact/ContactPanelController.client";
 
@@ -50,6 +51,7 @@ function runAction(action: HotkeyAction, key: string) {
       break;
     }
     case "contactMe": {
+      if (isContactLocked()) return;
       const shouldToggle = key === "c" || (key === "a" && isContactPanelOpen());
       if (!shouldToggle) return;
       feedback.emit({ sound: "tap", haptic: "light", source: "hotkey.contact" });

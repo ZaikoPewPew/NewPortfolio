@@ -17,16 +17,80 @@ card:
 
 ## Проблема
 
-Четыре команды проектировали интерфейсы независимо. Визуальная несогласованность, дублирование работы, долгий time-to-market для новых фич.
+Четыре команды проектировали интерфейсы независимо. Визуальная несогласованность, дублирование работы, долгий time-to-market для новых фич. Каждый продукт имел свой набор кнопок, таблиц, модалок и empty states — пользователи enterprise-клиентов замечали разницу при переключении между модулями.
+
+Design debt накапливался быстрее, чем команды успевали его закрывать: одна и та же таблица с фильтрами проектировалась заново минимум три раза за квартал.
+
+## Контекст
+
+Компания росла через M&A — продукты приходили с разным стеком и разной зрелостью UI. Центральной команды дизайна не было; design champions были в каждой squad, но без общих правил и roadmap.
+
+Release cadence у команд разный: от weekly до monthly. Любое изменение в shared library должно было быть backward compatible или с migration guide.
+
+## Исследование
+
+Провели audit 140+ экранов в четырёх продуктах. Зафиксировали 280+ уникальных UI-паттернов, из которых 60% были вариациями одного и того же. Интервью с 12 инженерами и 8 PM показали: главная боль — «не знаем, что уже есть» и «боимся сломать соседнюю команду».
+
+Собрали inventory в FigJam: компоненты, состояния, отклонения от бренда, tech constraints (React + styled-components, legacy jQuery в одном модуле).
+
+## Стратегия
+
+Решили не делать «big bang redesign». Вместо этого — **progressive consolidation**: сначала foundations (color, type, spacing, elevation), затем core components, затем complex patterns (data tables, filters, wizards).
+
+Governance: RFC для новых компонентов, office hours с design ops, changelog с visual diff. Критерий попадания в system — минимум 2 команды используют или планируют в квартале.
 
 ## Процесс
 
 Аудит существующих паттернов, воркшопы с лидами команд, приоритизация компонентов по частоте использования. Токены и компоненты в Figma + Storybook.
 
-## Решение
+Первый спринт — semantic tokens и grid. Второй — Button, Input, Select, Checkbox, Radio. Третий — Modal, Drawer, Toast, Tooltip. Четвёртый — Table, Pagination, Bulk actions.
+
+Документация писалась параллельно с кодом: usage, do/don’t, accessibility notes, props table, live examples.
+
+## Foundations
+
+Ввели semantic tokens вместо raw hex: `--color-bg-surface`, `--color-text-primary`, `--color-border-subtle`. Spacing scale 4-based с named steps. Typography — 6 text styles с line-height под UI, не marketing.
+
+Dark theme заложили в tokens сразу, хотя в prod сначала вышла только light — команды не переписывали компоненты при добавлении dark.
+
+## Компоненты
 
 Библиотека из 48 компонентов, токены цветов/spacing/типографики, документация с примерами использования. Governance-модель: RFC для новых компонентов.
 
+Для таблиц — opinionated defaults: sticky header, row selection, column resize opt-in. Для форм — unified validation pattern и error summary на submit.
+
+Legacy wrapper layer позволил подключать DS в старый продукт без полного rewrite — adapter components с постепенной заменой.
+
+## Adoption
+
+Rollout через **pilot squad** — одна команда полностью на DS за 6 недель, feedback loop каждые 3 дня. Затем champions program: по одному дизайнеру и одному dev из каждой команды.
+
+Метрики adoption: % экранов на DS components, time to ship типового CRUD, количество custom forks. Через 2 квартала — 70% новых экранов на system components.
+
+## Документация и tooling
+
+Storybook как source of truth для QA и PM review. Figma library synced manually на первом этапе, позже — token sync script. ESLint rule запрещает import deprecated components.
+
+Migration guides для breaking changes: codemods где возможно, иначе — таблица «было / стало» с screenshots.
+
 ## Результат
 
-Время на типовые экраны сократилось на 40%. Единый визуальный язык во всех продуктах.
+Время на типовые экраны сократилось на 40%. Единый визуальный язык во всех продуктах. Design review meetings короче — спорят о UX, не о padding кнопки.
+
+Support tickets про «несовпадение интерфейсов» между модулями −55% YoY. Onboarding новых дизайнеров — с 3 недель до 5 дней до первого самостоятельного PR в продукт.
+
+## Риски и компромиссы
+
+Не все команды успели мигрировать legacy до deadline — оставили LTS ветку старых компонентов на 2 квартала. Часть advanced data viz осталась custom by design.
+
+Слишком жёсткая centralized review в начале замедляла squads — ослабили gate для experimental features в sandbox apps.
+
+## Следующие шаги
+
+Motion guidelines, AI-assisted content patterns, density modes (compact / comfortable) для power users. Расширение на mobile companion apps с shared token package.
+
+## Выводы
+
+Design system окупается не когда «красиво», а когда снимает повторяющиеся решения и даёт общий язык дизайну и разработке. Критичны governance без бюрократии и pilot перед mandate.
+
+Главный anti-pattern — строить библиотеку в вакууме. Компонент живой только если его завтра используют в production feature, а не в демо-странице.

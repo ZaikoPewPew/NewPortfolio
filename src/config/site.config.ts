@@ -20,5 +20,6 @@ export const siteConfig = {
     linkedin: "https://www.linkedin.com/in/kvneasy/",
     telegram: "https://t.me/ezzzz12345",
     x: "https://x.com/kvneasy",
+    cv: "",
   },
 } as const;

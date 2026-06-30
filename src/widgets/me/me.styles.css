@@ -88,6 +88,14 @@
   color: var(--color-text-primary);
 }
 
+.contact-widget__item--hidden {
+  display: none;
+}
+
+.contact-widget__item--static {
+  cursor: default;
+}
+
 .contact-widget__icon {
   display: flex;
   align-items: center;

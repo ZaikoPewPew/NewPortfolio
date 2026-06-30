@@ -6,24 +6,125 @@ interface Props {
 }
 
 const { caseEntry } = Astro.props;
-const { title, summary, year, hover } = caseEntry.data;
+const { title, summary, year, cover, card } = caseEntry.data;
 const slug = caseEntry.slug;
+const layout = card?.layout ?? "horizontal";
+const subtitle = card?.subtitle;
 ---
 
 <a
   href={`/cases/${slug}`}
-  class="case-card"
+  class:list={["case-card", `case-card--${layout}`]}
   data-case-card
-  data-hover-from={hover.gradientFrom}
-  data-hover-to={hover.gradientTo}
-  data-hover-angle={hover.gradientAngle}
-  data-hover-preview={hover.previewImage ?? cover}
-  data-hover-title={title}
+  data-case-nav
   tabindex="0"
 >
   <article class="case-card__inner">
-    <h2>{title}</h2>
-    <p>{summary}</p>
-    <p>{year}</p>
+    <div class="case-card__media">
+      <img class="case-card__cover" src={cover} alt="" loading="lazy" decoding="async" />
+    </div>
+    <div class="case-card__body">
+      {subtitle && <p class="case-card__subtitle">{subtitle}</p>}
+      <h2 class="case-card__title">{title}</h2>
+      <p class="case-card__summary">{summary}</p>
+      <span class="case-card__year">{year}</span>
+    </div>
   </article>
 </a>
+
+<style>
+  .case-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-radius: var(--radius-widget);
+    background: var(--color-bg-surface);
+    overflow: hidden;
+    transition:
+      transform var(--motion-base) var(--ease-out-expo),
+      box-shadow var(--motion-base) var(--ease-out-expo);
+  }
+
+  .case-card:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .case-card__inner {
+    display: flex;
+    min-height: var(--case-card-min-height);
+  }
+
+  .case-card--horizontal .case-card__inner {
+    flex-direction: row;
+  }
+
+  .case-card--compact .case-card__inner {
+    flex-direction: column;
+  }
+
+  .case-card__media {
+    flex-shrink: 0;
+    overflow: hidden;
+    background: var(--color-bg-elevated);
+  }
+
+  .case-card--horizontal .case-card__media {
+    width: var(--case-card-media-width);
+  }
+
+  .case-card--compact .case-card__media {
+    aspect-ratio: 16 / 10;
+    width: 100%;
+  }
+
+  .case-card__cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .case-card__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    min-width: 0;
+  }
+
+  .case-card__subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .case-card__title {
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+  }
+
+  .case-card__summary {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--color-text-muted);
+  }
+
+  .case-card__year {
+    margin-top: var(--space-xs);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-subdued);
+  }
+
+  @media (max-width: 639px) {
+    .case-card--horizontal .case-card__inner {
+      flex-direction: column;
+    }
+
+    .case-card--horizontal .case-card__media {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+    }
+  }
+</style>

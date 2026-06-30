@@ -14,23 +14,24 @@
   .grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--layout-gap);
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
+    gap: var(--layout-column-gap);
+    width: 100%;
+    align-items: start;
   }
 
   @media (min-width: 640px) {
     .grid {
-      grid-template-columns: minmax(280px, 1fr) minmax(320px, 1.2fr);
-      align-items: start;
+      grid-template-columns: var(--layout-widgets-width) minmax(0, 1fr);
     }
   }
 
   .grid__widgets {
     width: 100%;
+    min-width: 0;
   }
 
   .grid__cases {
     width: 100%;
+    min-width: 0;
   }
 </style>

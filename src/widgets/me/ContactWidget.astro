@@ -1,9 +1,19 @@
 ---
 import { siteConfig } from "../../config/site.config";
 
-const { email, linkedin, telegram, x } = siteConfig.social;
+const { email, linkedin, telegram, x, cv } = siteConfig.social;
 
-const contacts = [
+type ContactItem = {
+  label: string;
+  value: string;
+  href?: string;
+  external?: boolean;
+  ariaLabel?: string;
+  iconPath: string;
+  hidden?: boolean;
+};
+
+const contacts: ContactItem[] = [
   {
     label: "linkedin",
     value: "@kvneasy",
@@ -31,57 +41,88 @@ const contacts = [
       "M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12ZM16 12V13.5C16 14.8807 17.1193 16 18.5 16C19.8807 16 21 14.8807 21 13.5V12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21H16",
   },
   {
+    label: "cv",
+    value: "google docs",
+    href: cv || undefined,
+    external: true,
+    ariaLabel: "Открыть CV",
+    iconPath:
+      "M19 9L13 3H7C5.89543 3 5 3.89543 5 5V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V9ZM13 3V8C13 8.55228 13.4477 9 14 9H19M9 13H15M9 17H15",
+  },
+  {
     label: "x",
     value: "@kvneasy",
     href: x,
     external: true,
     ariaLabel: "Открыть X",
+    hidden: true,
     iconPath:
       "M12.7509 10.4601L8.76115 5.38218C8.57157 5.14089 8.28169 5 7.97483 5H4.53918L10.6373 12.7613L15.2389 18.6178C15.4285 18.8591 15.7184 19 16.0252 19H19.4609L12.7509 10.4601ZM10.6373 12.7613L5.08732 19M12.7509 10.4601L17.6329 5",
   },
-] as const;
+];
+
+const itemClass = (contact: ContactItem) =>
+  [
+    "contact-widget__item",
+    contact.hidden && "contact-widget__item--hidden",
+    !contact.href && "contact-widget__item--static",
+  ]
+    .filter(Boolean)
+    .join(" ");
 ---
 
 <article class="contact-widget" aria-label="Контакты" data-contact-widget>
   {
-    contacts.map((contact) => (
-      <a
-        class="contact-widget__item"
-        href={contact.href}
-        target={contact.external ? "_blank" : undefined}
-        rel={contact.external ? "noopener noreferrer" : undefined}
-        data-feedback="tap"
-        aria-label={contact.ariaLabel}
-      >
-        <span class="contact-widget__icon" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path
-              d={contact.iconPath}
-              stroke="currentColor"
-              stroke-width="1.3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </span>
-        <span class="contact-widget__text">
-          <span class="contact-widget__label">{contact.label}</span>
-          <span class="contact-widget__value">{contact.value}</span>
-        </span>
-        <span class="contact-widget__external" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <g opacity="0.25">
+    contacts.map((contact) => {
+      const content = (
+        <>
+          <span class="contact-widget__icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
-                d="M10 4H6C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V14M11 13L20 4M15 4H20V9"
+                d={contact.iconPath}
                 stroke="currentColor"
                 stroke-width="1.3"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
-            </g>
-          </svg>
-        </span>
-      </a>
-    ))
+            </svg>
+          </span>
+          <span class="contact-widget__text">
+            <span class="contact-widget__label">{contact.label}</span>
+            <span class="contact-widget__value">{contact.value}</span>
+          </span>
+          <span class="contact-widget__external" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <g opacity="0.25">
+                <path
+                  d="M10 4H6C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V14M11 13L20 4M15 4H20V9"
+                  stroke="currentColor"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+            </svg>
+          </span>
+        </>
+      );
+
+      return contact.href ? (
+        <a
+          class={itemClass(contact)}
+          href={contact.href}
+          target={contact.external ? "_blank" : undefined}
+          rel={contact.external ? "noopener noreferrer" : undefined}
+          data-feedback="tap"
+          aria-label={contact.ariaLabel}
+        >
+          {content}
+        </a>
+      ) : (
+        <div class={itemClass(contact)} aria-label={contact.ariaLabel}>
+          {content}
+        </div>
+      );
+    })
   }
 </article>
