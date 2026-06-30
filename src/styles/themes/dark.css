@@ -1,5 +1,6 @@
 html[data-theme="dark"],
-html:not([data-theme]) {
+html:not([data-theme]),
+.theme-switch-veil[data-theme="dark"] {
   --color-bg-page: #000000;
   --color-bg: #000000;
   --color-bg-surface: #242426;

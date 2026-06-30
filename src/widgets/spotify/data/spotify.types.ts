@@ -7,5 +7,4 @@ export interface SpotifyPlayback {
   tracks: SpotifyTrack[];
   currentIndex: number;
   isPlaying: boolean;
-  profileUrl: string;
 }

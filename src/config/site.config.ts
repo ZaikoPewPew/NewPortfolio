@@ -8,6 +8,7 @@ export const siteConfig = {
   employer: {
     label: "alfa-bank",
     prefix: "currently at",
+    video: "/images/widgets/currently-block/0630.mov",
   },
   location: {
     city: "Kazakhstan",

@@ -4,6 +4,12 @@
   z-index: 2147483646;
   pointer-events: none;
   background: var(--color-bg-page);
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-mode: alpha;
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  mask-mode: alpha;
 }
 
 @media (prefers-reduced-motion: reduce) {

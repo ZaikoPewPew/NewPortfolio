@@ -138,6 +138,7 @@
   --z-content: 10;
   --z-dock: 100;
   --z-preview: 200;
+  --z-employer-focus: 250;
   --z-tooltip: 1000;
 
   /* Layout */
@@ -162,6 +163,22 @@
   --header-divider-gap: var(--space-md);
   --layout-header-widget-gap-desktop: var(--space-md);
   --layout-header-widget-gap-mobile: var(--space-sm);
+
+  /* Employer currently block */
+  --employer-blur-amount: 3px;
+  --employer-grain-opacity: 0.22;
+  --employer-grain-size: 180px;
+  --currently-block-radius: var(--radius-widget);
+  --currently-block-inner-radius: var(--radius-control);
+  --currently-block-inner-width: 297px;
+  --currently-block-inner-height: 152px;
+  --currently-block-padding: var(--space-sm);
+  --employer-follow-force: 0.14;
+  --employer-follow-damping: 0.78;
+  --employer-tilt-max: 12;
+  --employer-balloon-force: 0.09;
+  --employer-balloon-damping: 0.82;
+  --employer-velocity-to-angle: 0.065;
 
   /* Keycap hint */
   --keycap-size: 19px;

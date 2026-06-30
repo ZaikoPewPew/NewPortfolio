@@ -1,5 +1,6 @@
 ---
 import LiveClock from "../ui/LiveClock.astro";
+import EmployerName from "../ui/EmployerName.astro";
 import { siteConfig } from "../../config/site.config";
 ---
 
@@ -8,13 +9,20 @@ import { siteConfig } from "../../config/site.config";
     <div class="header__row">
       <p class="header__employer">
         {siteConfig.employer.prefix}{" "}
-        <span class="header__employer-name">{siteConfig.employer.label}.</span>
+        <EmployerName label={siteConfig.employer.label} />
       </p>
       <LiveClock />
     </div>
     <div class="header__divider" aria-hidden="true"></div>
   </div>
 </header>
+
+<script>
+  import { initEmployerName } from "../ui/employerName.client";
+
+  initEmployerName();
+  document.addEventListener("astro:page-load", () => initEmployerName());
+</script>
 
 <style>
   .header {
@@ -46,10 +54,6 @@ import { siteConfig } from "../../config/site.config";
     line-height: var(--line-height-tight);
     color: var(--color-text-primary);
     white-space: nowrap;
-  }
-
-  .header__employer-name {
-    color: var(--color-accent);
   }
 
   .header__divider {

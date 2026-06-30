@@ -199,7 +199,34 @@ function bindTooltipHost(host: HTMLElement) {
     startLoop();
   };
 
+  const hide = () => {
+    isActive = false;
+    host.removeAttribute("data-tooltip-visible");
+    setTooltipLayerActive(host, false);
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
+      lastTimestamp = 0;
+    }
+    resetMotion();
+  };
+
+  const dismiss = () => {
+    hide();
+    host.setAttribute("data-tooltip-dismissed", "");
+    if (host.contains(document.activeElement)) {
+      (document.activeElement as HTMLElement).blur();
+    }
+  };
+
+  const clearDismiss = () => {
+    host.removeAttribute("data-tooltip-dismissed");
+  };
+
+  const canShow = () => !host.hasAttribute("data-tooltip-dismissed");
+
   host.addEventListener("mouseenter", (event) => {
+    if (!canShow()) return;
     isActive = true;
     host.setAttribute("data-tooltip-visible", "");
     setTooltipLayerActive(host, true);
@@ -214,13 +241,15 @@ function bindTooltipHost(host: HTMLElement) {
   });
 
   host.addEventListener("mouseleave", () => {
-    isActive = false;
-    host.removeAttribute("data-tooltip-visible");
-    setTooltipLayerActive(host, false);
-    resetMotion();
+    clearDismiss();
+    hide();
   });
 
+  host.addEventListener("mousedown", dismiss);
+  host.addEventListener("click", dismiss);
+
   host.addEventListener("focusin", () => {
+    if (!canShow()) return;
     isActive = true;
     host.setAttribute("data-tooltip-visible", "");
     setTooltipLayerActive(host, true);
@@ -230,10 +259,18 @@ function bindTooltipHost(host: HTMLElement) {
 
   host.addEventListener("focusout", (event) => {
     if (host.contains(event.relatedTarget as Node | null)) return;
-    isActive = false;
-    host.removeAttribute("data-tooltip-visible");
-    setTooltipLayerActive(host, false);
-    resetMotion();
+    hide();
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "hidden") return;
+    if (
+      !host.hasAttribute("data-tooltip-visible") &&
+      !host.contains(document.activeElement)
+    ) {
+      return;
+    }
+    dismiss();
   });
 }
 

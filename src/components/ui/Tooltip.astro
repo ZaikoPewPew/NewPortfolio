@@ -35,7 +35,7 @@ const { lines, class: className } = Astro.props;
   }
 
   :global([data-tooltip-visible]) .tooltip,
-  :global([data-tooltip-host]:focus-within) .tooltip {
+  :global([data-tooltip-host]:focus-within:not([data-tooltip-dismissed])) .tooltip {
     opacity: 1;
     visibility: visible;
   }
@@ -56,7 +56,7 @@ const { lines, class: className } = Astro.props;
   }
 
   :global([data-tooltip-visible]) .tooltip__balloon,
-  :global([data-tooltip-host]:focus-within) .tooltip__balloon {
+  :global([data-tooltip-host]:focus-within:not([data-tooltip-dismissed])) .tooltip__balloon {
     --tooltip-enter-offset: 0px;
     --tooltip-enter-scale: 1;
   }

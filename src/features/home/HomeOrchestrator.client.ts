@@ -7,6 +7,7 @@ import {
   hideCasePreview,
 } from "./case-hover/CaseHoverController.client";
 import { bindContactPanel } from "./contact/ContactPanelController.client";
+import { resetEmployerName, initEmployerName } from "../../components/ui/employerName.client";
 
 let feedbackBound = false;
 let hotkeysBound = false;
@@ -46,6 +47,7 @@ function initExperience(scope: "global" | "home") {
     resetCaseHover();
     initCaseHover();
     bindContactPanel();
+    initEmployerName();
   }
 }
 
@@ -61,4 +63,5 @@ document.addEventListener("astro:page-load", () => {
 document.addEventListener("astro:before-preparation", () => {
   document.documentElement.classList.remove("is-case-active");
   hideCasePreview();
+  resetEmployerName();
 });

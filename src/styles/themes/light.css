@@ -1,4 +1,5 @@
-html[data-theme="light"] {
+html[data-theme="light"],
+.theme-switch-veil[data-theme="light"] {
   --color-bg-page: #ffffff;
   --color-bg: #ffffff;
   --color-bg-surface: #f0f0f2;
@@ -25,4 +26,5 @@ html[data-theme="light"] {
   --color-overlay-glass: rgba(49, 49, 51, 0.2);
   --color-photo-indicator: #ffffff;
   --color-photo-indicator-progress: #000000;
+  --employer-grain-opacity: 0.14;
 }

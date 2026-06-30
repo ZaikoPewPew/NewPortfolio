@@ -4,15 +4,21 @@
 
 ## Назначение
 
-Компактный виджет «сейчас играет» — обложка трека, название, исполнитель и контролы prev/play/next.
+Компактный виджет «сейчас играет» — логотип Spotify, название, исполнитель и декоративные контролы prev/play/next.
 
 ## Данные
 
-- mock: `data/spotify.mock.ts`
-- api: Spotify Web API via `data/spotify.api.ts`
-- Переключатель: `PUBLIC_SPOTIFY_MODE=mock|api`
+Список треков — в `data/tracks.json`:
+
+```json
+[
+  { "title": "Название", "artist": "Исполнитель" }
+]
+```
+
+Выгрузи плейлист из Spotify (или скопируй вручную) и вставь сюда. Пересборка подхватит автоматически.
 
 ## UX
 
-- Hover: зелёный inset-shadow и логотип Spotify `#1ED760`
-- Кнопки управления — tap feedback через `FeedbackBus`
+- Hover: зелёный логотип Spotify (`--color-spotify`)
+- Кнопки управления — tap feedback через `FeedbackBus` (без реального воспроизведения)

@@ -1,0 +1,22 @@
+---
+import "./employer-name.css";
+import { siteConfig } from "../../config/site.config";
+
+interface Props {
+  label: string;
+}
+
+const { label } = Astro.props;
+const videoSrc = siteConfig.employer.video;
+---
+
+<span
+  class="employer-name"
+  data-employer-name-host
+  data-employer-video={videoSrc}
+  tabindex="0"
+  role="button"
+  aria-label={`Работаю в ${label}`}
+>
+  <span class="employer-name__label">{label}.</span>
+</span>
