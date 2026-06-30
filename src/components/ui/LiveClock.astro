@@ -9,36 +9,20 @@ const { class: className } = Astro.props;
 const { city, timezone } = siteConfig.location;
 ---
 
-<p class:list={["live-clock", className]} data-live-clock>
+<p
+  class:list={["live-clock", className]}
+  data-live-clock
+  data-timezone={timezone}
+>
   <span class="live-clock__city">{city}</span>
   <span class="live-clock__time" data-clock-time>--:--</span>
 </p>
 
-<script define:vars={{ timezone }}>
-  function bindLiveClock(root: ParentNode = document) {
-    root.querySelectorAll("[data-live-clock]").forEach((clock) => {
-      if (clock.hasAttribute("data-clock-bound")) return;
-      clock.setAttribute("data-clock-bound", "true");
+<script>
+  import { initLiveClock } from "./liveClock.client";
 
-      const timeEl = clock.querySelector("[data-clock-time]");
-      if (!timeEl) return;
-
-      function update() {
-        timeEl.textContent = new Intl.DateTimeFormat("en-US", {
-          timeZone: timezone,
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
-        }).format(new Date());
-      }
-
-      update();
-      setInterval(update, 60_000);
-    });
-  }
-
-  bindLiveClock();
-  document.addEventListener("astro:page-load", () => bindLiveClock());
+  initLiveClock();
+  document.addEventListener("astro:page-load", () => initLiveClock());
 </script>
 
 <style>

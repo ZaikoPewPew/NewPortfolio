@@ -11,7 +11,7 @@ export const siteConfig = {
     video: "/images/widgets/currently-block/0630.mov",
   },
   location: {
-    city: "Kazakhstan",
+    city: "Almaty",
     timezone: "Asia/Almaty",
   },
   social: {
