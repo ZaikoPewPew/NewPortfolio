@@ -19,6 +19,13 @@
   --tooltip-offset: var(--space-sm);
   --tooltip-line-gap: calc(var(--font-size-xs) * 0.25);
   --line-height-tooltip: 1;
+  --motion-tooltip-enter: var(--motion-base);
+  --tooltip-enter-scale-from: 0.96;
+  --tooltip-follow-clamp: 0.4;
+  --tooltip-tilt-max: 30;
+  --tooltip-balloon-force: 0.09;
+  --tooltip-balloon-damping: 0.82;
+  --tooltip-velocity-to-angle: 0.065;
   --color-text-primary: #ffffff;
   --color-text-muted: #a1a1a6;
   --color-text-secondary: #a1a1a6;

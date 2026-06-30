@@ -40,9 +40,11 @@
 | Mock / API режим | `src/config/env.config.ts`, `widgets/*/data/*.source.ts` |
 | Layout / маршруты | `src/layouts/`, `src/pages/` |
 | Сетка главной | `.cursor/rules/layout-grid.mdc`, `components/layout/Grid.astro` |
+| Тултип (balloon) | `src/components/ui/Tooltip.astro`, `tooltip.client.ts` — см. `components/ui/README.md` |
 
 ## Модульная документация
 
+- [`src/components/ui/README.md`](src/components/ui/README.md)
 - [`src/widgets/README.md`](src/widgets/README.md)
 - [`src/experience/README.md`](src/experience/README.md)
 - [`src/features/home/README.md`](src/features/home/README.md)

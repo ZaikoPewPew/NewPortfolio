@@ -52,6 +52,7 @@ src/
 
 | Модуль | README |
 |--------|--------|
+| UI (Tooltip и др.) | [`src/components/ui/README.md`](src/components/ui/README.md) |
 | Виджеты | [`src/widgets/README.md`](src/widgets/README.md) |
 | Experience layer | [`src/experience/README.md`](src/experience/README.md) |
 | Главная (hover, dock) | [`src/features/home/README.md`](src/features/home/README.md) |

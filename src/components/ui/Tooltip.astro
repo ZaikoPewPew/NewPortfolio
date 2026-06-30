@@ -8,10 +8,12 @@ const { lines, class: className } = Astro.props;
 ---
 
 <div class:list={["tooltip", className]} role="tooltip" aria-hidden="true">
-  <div class="tooltip__content">
-    {lines.map((line) => <p class="tooltip__line">{line}</p>)}
+  <div class="tooltip__balloon">
+    <div class="tooltip__content">
+      {lines.map((line) => <p class="tooltip__line">{line}</p>)}
+    </div>
+    <div class="tooltip__caret" aria-hidden="true"></div>
   </div>
-  <div class="tooltip__caret" aria-hidden="true"></div>
 </div>
 
 <style>
@@ -20,28 +22,43 @@ const { lines, class: className } = Astro.props;
     bottom: calc(100% + var(--tooltip-offset));
     left: calc(50% + var(--tooltip-shift-x, 0px));
     z-index: var(--z-tooltip);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     width: max-content;
     max-width: 240px;
     pointer-events: none;
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-50%) translateY(var(--tooltip-enter-offset, var(--space-2xs)));
+    transform: translateX(-50%);
     transition:
-      opacity var(--motion-fast) var(--ease-out-expo),
-      visibility var(--motion-fast) var(--ease-out-expo),
-      transform var(--motion-fast) var(--ease-out-expo);
-    filter: drop-shadow(var(--shadow-tooltip));
-    will-change: transform;
+      opacity var(--motion-tooltip-enter) var(--ease-spring-soft),
+      visibility var(--motion-tooltip-enter) var(--ease-spring-soft);
+    will-change: left;
   }
 
   :global([data-tooltip-visible]) .tooltip,
   :global([data-tooltip-host]:focus-within) .tooltip {
     opacity: 1;
     visibility: visible;
+  }
+
+  .tooltip__balloon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform-origin: bottom center;
+    translate: 0 var(--tooltip-enter-offset, var(--space-2xs));
+    scale: var(--tooltip-enter-scale, var(--tooltip-enter-scale-from));
+    rotate: var(--tooltip-tilt, 0deg);
+    filter: drop-shadow(var(--shadow-tooltip));
+    transition:
+      translate var(--motion-tooltip-enter) var(--ease-spring-soft),
+      scale var(--motion-tooltip-enter) var(--ease-spring-soft);
+    will-change: rotate, translate, scale;
+  }
+
+  :global([data-tooltip-visible]) .tooltip__balloon,
+  :global([data-tooltip-host]:focus-within) .tooltip__balloon {
     --tooltip-enter-offset: 0px;
+    --tooltip-enter-scale: 1;
   }
 
   .tooltip__content {
@@ -76,9 +93,17 @@ const { lines, class: className } = Astro.props;
 
   @media (prefers-reduced-motion: reduce) {
     .tooltip {
+      will-change: auto;
+    }
+
+    .tooltip__balloon {
+      translate: 0 0;
+      scale: 1;
+      rotate: 0deg;
+      filter: drop-shadow(var(--shadow-tooltip));
       transition:
-        opacity var(--motion-fast) var(--ease-out-expo),
-        visibility var(--motion-fast) var(--ease-out-expo);
+        opacity var(--motion-tooltip-enter) var(--ease-spring-soft),
+        visibility var(--motion-tooltip-enter) var(--ease-spring-soft);
       will-change: auto;
     }
   }

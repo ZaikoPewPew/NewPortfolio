@@ -15,7 +15,7 @@ feedback.emit({ sound: "tap", haptic: "light", source: "dock.email" });
 - `feedback/` — FeedbackBus, конфиги звуков и вибро
 - `audio/` — AudioEngine
 - `hotkeys/` — HotkeysManager, hotkeys.config
-- `motion/` — reduced motion helpers
+- `motion/` — reduced motion helpers (`prefersReducedMotion`; используется, например, в `components/ui/tooltip.client.ts`)
 - `preferences/` — UserPreferences (localStorage)
 
 ## Правила
