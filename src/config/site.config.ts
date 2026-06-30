@@ -15,8 +15,8 @@ export const siteConfig = {
   },
   social: {
     instagram: "https://instagram.com/",
-    email: "mailto:kvneasyy@gmail.com",
-    linkedin: "https://www.linkedin.com/in/kvneasy",
+    email: "kvneasyy@gmail.com",
+    linkedin: "https://www.linkedin.com/in/kvneasy/",
     telegram: "https://t.me/ezzzz12345",
     x: "https://x.com/kvneasy",
   },

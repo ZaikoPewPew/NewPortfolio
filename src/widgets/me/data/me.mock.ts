@@ -8,6 +8,5 @@ export function getMockMeProfile(): MeProfile {
     bioLine1: siteConfig.bio.line1,
     bioLine2: siteConfig.bio.line2,
     avatarUrl: "/images/widgets/avatar.jpg",
-    contactUrl: siteConfig.social.email,
   };
 }

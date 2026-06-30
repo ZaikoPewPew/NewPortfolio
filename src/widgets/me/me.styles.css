@@ -76,10 +76,13 @@
 }
 
 .contact-widget__item {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  width: 100%;
+  width: calc(100% + var(--space-sm));
+  margin-inline-end: calc(-1 * var(--space-sm));
+  padding-inline-end: calc(var(--space-2xl) + var(--space-sm));
   height: var(--space-2xl);
   text-decoration: none;
   color: var(--color-text-primary);
@@ -95,16 +98,43 @@
   background: var(--color-bg-control);
   color: var(--color-text-primary);
   flex-shrink: 0;
+  transition: color var(--motion-fast) var(--ease-out-expo);
 }
 
 .contact-widget__text {
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
   gap: var(--space-2xs);
-  width: 228px;
-  height: var(--space-2xl);
   min-width: 0;
+  height: var(--space-2xl);
+}
+
+.contact-widget__external {
+  position: absolute;
+  top: 50%;
+  right: var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--space-2xl);
+  height: var(--space-2xl);
+  color: var(--color-text-primary);
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity var(--motion-fast) var(--ease-out-expo);
+}
+
+.contact-widget__item:hover .contact-widget__icon,
+.contact-widget__item:focus-visible .contact-widget__icon {
+  color: var(--color-bento-accent);
+}
+
+.contact-widget__item:hover .contact-widget__external,
+.contact-widget__item:focus-visible .contact-widget__external {
+  opacity: 1;
 }
 
 .contact-widget__label,
@@ -115,12 +145,25 @@
   line-height: var(--line-height-normal);
 }
 
+.contact-widget__label {
+  transition: color var(--motion-fast) var(--ease-out-expo);
+}
+
 .contact-widget__value {
   color: var(--color-text-subdued);
 }
 
-.contact-widget__item:hover .contact-widget__value {
-  color: var(--color-text-primary);
+.contact-widget__item:hover .contact-widget__label,
+.contact-widget__item:focus-visible .contact-widget__label {
+  color: var(--color-bento-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-widget__icon,
+  .contact-widget__external,
+  .contact-widget__label {
+    transition: none;
+  }
 }
 
 @media (max-width: 639px) {
@@ -128,7 +171,16 @@
     display: none;
   }
 
-  .contact-widget {
-    display: none;
+  .contact-widget__item {
+    width: 100%;
+    margin-inline-end: 0;
+  }
+
+  .contact-widget__external {
+    right: 0;
+  }
+
+  .home__contact-mobile .contact-widget {
+    height: auto;
   }
 }

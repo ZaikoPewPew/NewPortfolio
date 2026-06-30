@@ -1,5 +1,5 @@
 .photo-widget__track {
-  transition: transform var(--motion-base) var(--ease-out-expo);
+  transition: transform var(--motion-photo-slide) var(--ease-spring-soft);
 }
 
 .photo-widget.is-dragging .photo-widget__track {

@@ -12,10 +12,29 @@ export function initPhotoWidget(root: HTMLElement) {
 
   if (!track || !indicator || !indicatorTrack) return;
 
-  const slideCount = Number(root.dataset.slideCount ?? 0);
+  const originalSlides = Array.from(
+    track.querySelectorAll<HTMLElement>("[data-photo-slide]"),
+  );
+  const slideCount = originalSlides.length;
   if (slideCount <= 0) return;
 
-  let index = 0;
+  if (slideCount > 1 && !track.hasAttribute("data-infinite-ready")) {
+    const firstClone = originalSlides[0].cloneNode(true) as HTMLElement;
+    const lastClone = originalSlides[slideCount - 1].cloneNode(true) as HTMLElement;
+
+    firstClone.removeAttribute("data-photo-slide");
+    lastClone.removeAttribute("data-photo-slide");
+    firstClone.dataset.clone = "first";
+    lastClone.dataset.clone = "last";
+    firstClone.setAttribute("aria-hidden", "true");
+    lastClone.setAttribute("aria-hidden", "true");
+
+    track.insertBefore(lastClone, originalSlides[0]);
+    track.appendChild(firstClone);
+    track.setAttribute("data-infinite-ready", "true");
+  }
+
+  let trackIndex = slideCount > 1 ? 1 : 0;
   let progress = 0;
   let isDragging = false;
   let dragStartX = 0;
@@ -26,6 +45,13 @@ export function initPhotoWidget(root: HTMLElement) {
   const reducedMotion = prefersReducedMotion();
 
   const getSlideWidth = () => root.clientWidth;
+
+  const getLogicalIndex = () => {
+    if (slideCount <= 1) return 0;
+    if (trackIndex === 0) return slideCount - 1;
+    if (trackIndex === slideCount + 1) return 0;
+    return trackIndex - 1;
+  };
 
   const setTranslate = (px: number, animate = true) => {
     if (!animate) track.style.transition = "none";
@@ -66,6 +92,7 @@ export function initPhotoWidget(root: HTMLElement) {
   };
 
   const renderIndicator = () => {
+    const index = getLogicalIndex();
     indicatorTrack.innerHTML = "";
 
     for (let i = 0; i < index; i += 1) {
@@ -79,23 +106,61 @@ export function initPhotoWidget(root: HTMLElement) {
     }
   };
 
-  const snapToIndex = (nextIndex: number, animate = true, resetProgress = true) => {
-    index = (nextIndex + slideCount) % slideCount;
+  const snapToTrackIndex = (
+    nextTrackIndex: number,
+    animate = true,
+    resetProgress = true,
+  ) => {
+    trackIndex = nextTrackIndex;
     if (resetProgress) progress = 0;
-    setTranslate(-index * getSlideWidth(), animate);
+    setTranslate(-trackIndex * getSlideWidth(), animate);
     renderIndicator();
-    root.dataset.currentIndex = String(index);
+    root.dataset.currentIndex = String(getLogicalIndex());
+
+    if (!animate || reducedMotion) {
+      normalizeTrackIndex();
+    }
+  };
+
+  const moveSlides = (delta: number) => {
+    if (slideCount <= 1 || delta === 0) {
+      setTranslate(-trackIndex * getSlideWidth(), true);
+      return;
+    }
+
+    if (trackIndex === 1 && delta === -1) {
+      snapToTrackIndex(0);
+      return;
+    }
+
+    if (trackIndex === slideCount && delta === 1) {
+      snapToTrackIndex(slideCount + 1);
+      return;
+    }
+
+    const nextLogical =
+      (getLogicalIndex() + delta + slideCount * 1000) % slideCount;
+    snapToTrackIndex(nextLogical + 1);
+  };
+
+  const normalizeTrackIndex = () => {
+    if (slideCount <= 1) return;
+    if (trackIndex === 0) {
+      snapToTrackIndex(slideCount, false, false);
+    } else if (trackIndex === slideCount + 1) {
+      snapToTrackIndex(1, false, false);
+    }
   };
 
   const tick = (timestamp: number) => {
     if (!lastTick) lastTick = timestamp;
 
-    if (!isDragging && !reducedMotion) {
+    if (!isDragging && !reducedMotion && slideCount > 1) {
       const elapsed = timestamp - lastTick;
       progress += elapsed / SLIDE_DURATION_MS;
 
       if (progress >= 1) {
-        snapToIndex(index + 1);
+        snapToTrackIndex(trackIndex + 1);
         lastTick = timestamp;
       } else {
         updateProgressFill();
@@ -113,7 +178,7 @@ export function initPhotoWidget(root: HTMLElement) {
     if (event.button !== 0) return;
     isDragging = true;
     dragStartX = event.clientX;
-    dragStartTranslate = -index * getSlideWidth();
+    dragStartTranslate = -trackIndex * getSlideWidth();
     dragOffset = 0;
     root.classList.add("is-dragging");
     root.setPointerCapture(event.pointerId);
@@ -133,15 +198,15 @@ export function initPhotoWidget(root: HTMLElement) {
 
     const slideWidth = getSlideWidth();
     const movedSlides = Math.round(-dragOffset / slideWidth);
-
-    if (movedSlides !== 0) {
-      snapToIndex(index + movedSlides);
-    } else {
-      setTranslate(-index * slideWidth, true);
-    }
+    moveSlides(movedSlides);
 
     lastTick = performance.now();
   };
+
+  track.addEventListener("transitionend", (event) => {
+    if (event.target !== track || event.propertyName !== "transform") return;
+    normalizeTrackIndex();
+  });
 
   root.addEventListener("pointerdown", onPointerDown);
   root.addEventListener("pointermove", onPointerMove);
@@ -149,10 +214,10 @@ export function initPhotoWidget(root: HTMLElement) {
   root.addEventListener("pointercancel", onPointerUp);
 
   window.addEventListener("resize", () => {
-    setTranslate(-index * getSlideWidth(), false);
+    setTranslate(-trackIndex * getSlideWidth(), false);
   });
 
-  snapToIndex(0, false);
+  snapToTrackIndex(trackIndex, false);
   lastTick = performance.now();
   rafId = window.requestAnimationFrame(tick);
 }

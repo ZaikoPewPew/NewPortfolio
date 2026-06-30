@@ -15,6 +15,9 @@ import "../features/home/contact/contact-panel.animations.css";
   <main class="home" data-home-page aria-label="Главная">
     <div class="home__widgets" data-contact-layout>
       <MeWidget />
+      <div class="home__contact-mobile">
+        <ContactWidget />
+      </div>
       <div class="home__widgets-body">
         <div class="home__widgets-default" data-contact-default>
           <div class="home__widget-item home__widget-item--git" data-contact-item="git">
@@ -40,6 +43,8 @@ import "../features/home/contact/contact-panel.animations.css";
         </div>
       </div>
     </div>
+
+    <p class="home__copyright">krgzv.com © 2026</p>
   </main>
 </BaseLayout>
 
@@ -121,6 +126,33 @@ import "../features/home/contact/contact-panel.animations.css";
     pointer-events: auto;
   }
 
+  .home__copyright {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .home__copyright {
+      display: block;
+      position: fixed;
+      bottom: var(--layout-gutter-desktop);
+      left: max(
+        var(--layout-gutter-desktop),
+        calc((100vw - var(--layout-content-width)) / 2 + var(--layout-gutter-desktop))
+      );
+      margin: 0;
+      font-family: var(--font-family);
+      font-weight: var(--font-weight-regular);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-subdued);
+      z-index: var(--z-content);
+      pointer-events: none;
+    }
+  }
+
+  .home__contact-mobile {
+    display: none;
+  }
+
   @media (max-width: 639px) {
     .home {
       padding-inline: var(--layout-gutter-mobile);
@@ -131,11 +163,11 @@ import "../features/home/contact/contact-panel.animations.css";
       margin-top: var(--layout-header-widget-gap-mobile);
     }
 
-    .home__widgets-body {
-      min-height: auto;
+    .home__contact-mobile {
+      display: block;
     }
 
-    .home__contact-slot {
+    .home__widgets-body {
       display: none;
     }
   }

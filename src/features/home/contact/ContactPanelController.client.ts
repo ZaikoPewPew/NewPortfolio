@@ -1,6 +1,11 @@
 const CONTACT_ANIMATION_MS = 700;
+const MOBILE_MEDIA_QUERY = "(max-width: 639px)";
 
 let animationTimer: number | undefined;
+
+function isMobileViewport(): boolean {
+  return window.matchMedia(MOBILE_MEDIA_QUERY).matches;
+}
 
 function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -19,7 +24,7 @@ function isAnimating(layout: HTMLElement): boolean {
 }
 
 function updateContactUi(
-  button: HTMLAnchorElement,
+  button: HTMLButtonElement,
   label: HTMLElement,
   keycap: HTMLElement,
   slot: HTMLElement,
@@ -50,7 +55,7 @@ function startContactAnimation(layout: HTMLElement, nextOpen: boolean) {
 function setContactState(nextOpen: boolean, options: { animate?: boolean } = {}) {
   const { animate = true } = options;
   const layout = document.querySelector<HTMLElement>("[data-contact-layout]");
-  const button = document.querySelector<HTMLAnchorElement>("[data-contact-button]");
+  const button = document.querySelector<HTMLButtonElement>("[data-contact-button]");
   const label = document.querySelector<HTMLElement>("[data-contact-button-label]");
   const keycap = document.querySelector<HTMLElement>("[data-contact-button-keycap-char]");
   const slot = document.querySelector<HTMLElement>("[data-contact-slot]");
@@ -81,20 +86,23 @@ export function isContactPanelOpen(): boolean {
 }
 
 export function toggleContactPanel(force?: boolean) {
+  if (isMobileViewport()) return;
+
   const nextOpen = typeof force === "boolean" ? force : !isContactPanelOpen();
   setContactState(nextOpen, { animate: true });
 }
 
 export function bindContactPanel() {
-  const button = document.querySelector<HTMLAnchorElement>("[data-contact-button]");
+  if (isMobileViewport()) return;
+
+  const button = document.querySelector<HTMLButtonElement>("[data-contact-button]");
   if (!button) return;
   if (button.dataset.bound === "true") return;
 
   button.dataset.bound = "true";
   setContactState(false, { animate: false });
 
-  button.addEventListener("click", (event) => {
-    event.preventDefault();
+  button.addEventListener("click", () => {
     toggleContactPanel();
   });
 }

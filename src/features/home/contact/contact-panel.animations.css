@@ -1,3 +1,4 @@
+@media (min-width: 640px) {
 @keyframes contactSlideOutLeft {
   from {
     transform: translate3d(0, 0, 0);
@@ -142,4 +143,5 @@
   .home__widgets:not([data-contact-open="true"]) .home__contact-slot {
     transform: translate3d(var(--contact-slide-distance), 0, 0);
   }
+}
 }

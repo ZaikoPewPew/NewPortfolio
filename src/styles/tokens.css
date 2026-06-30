@@ -96,6 +96,7 @@
   --motion-fast: 150ms;
   --motion-base: 300ms;
   --motion-slow: 500ms;
+  --motion-photo-slide: 650ms;
   --motion-contact-fast: 480ms;
   --motion-contact-medium: 520ms;
   --motion-contact-slow: 560ms;

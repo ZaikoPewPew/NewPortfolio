@@ -21,6 +21,7 @@ const gallery = await getPhotoGallery();
         gallery.slides.map((slide) => (
           <div
             class="photo-widget__slide"
+            data-photo-slide
             style={`background-image: url(${slide.imageUrl})`}
             role="img"
             aria-label={slide.alt}

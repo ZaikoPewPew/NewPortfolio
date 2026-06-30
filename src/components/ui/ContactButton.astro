@@ -1,15 +1,14 @@
 ---
 interface Props {
-  href: string;
   hotkey?: string;
   class?: string;
 }
 
-const { href, hotkey = "c", class: className } = Astro.props;
+const { hotkey = "c", class: className } = Astro.props;
 ---
 
-<a
-  href={href}
+<button
+  type="button"
   class:list={["contact-button", className]}
   data-feedback="tap"
   data-contact-button
@@ -21,7 +20,7 @@ const { href, hotkey = "c", class: className } = Astro.props;
       <span class="contact-button__keycap-char" data-contact-button-keycap-char>{hotkey}</span>
     </span>
   )}
-</a>
+</button>
 
 <style>
   .contact-button {
@@ -31,6 +30,7 @@ const { href, hotkey = "c", class: className } = Astro.props;
     justify-content: center;
     width: 100%;
     padding: var(--space-md) var(--space-lg);
+    border: none;
     border-radius: var(--radius-control);
     background: var(--color-bg-contrast);
     color: var(--color-text-on-contrast);
@@ -39,7 +39,7 @@ const { href, hotkey = "c", class: className } = Astro.props;
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-normal);
     text-align: center;
-    text-decoration: none;
+    cursor: pointer;
     transition: opacity var(--motion-fast) var(--ease-out-expo);
   }
 
