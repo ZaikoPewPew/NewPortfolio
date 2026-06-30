@@ -1,11 +1,25 @@
 .bento-widget {
   width: var(--widget-bento-width);
+  overflow: visible;
 }
 
 .bento-widget__grid {
   display: grid;
   grid-template-columns: repeat(2, var(--bento-tile-size));
   gap: var(--bento-gap);
+  overflow: visible;
+}
+
+.bento-widget__cell-host {
+  position: relative;
+  width: var(--bento-tile-size);
+  height: var(--bento-tile-size);
+}
+
+.bento-widget__cell-host--wide {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: var(--bento-tile-size);
 }
 
 .bento-widget__cell {
@@ -25,7 +39,6 @@
 
 .bento-widget__cell--wide {
   position: relative;
-  grid-column: 1 / -1;
   width: 100%;
   padding: 0;
 }
@@ -95,12 +108,13 @@
   fill: var(--color-bg-surface);
 }
 
-.bento-widget__cell:not(.bento-widget__cell--wide):hover {
-  --bento-icon-color: var(--color-bento-accent);
+.bento-widget__cell:not(.bento-widget__cell--wide):hover,
+.bento-widget__cell--wide:hover {
+  --bento-icon-color: var(--color-link-hover);
 }
 
 .bento-widget__cell--wide:hover .bento-widget__youtube-text {
-  color: var(--color-bento-accent);
+  color: var(--color-link-hover);
 }
 
 .bento-widget__cell:focus-visible {

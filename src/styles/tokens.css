@@ -12,7 +12,13 @@
   --color-git-cell-l2: #3ebe5e;
   --color-git-cell-l3: #2f984a;
   --color-git-cell-l4: #216435;
-  --shadow-git-widget-hover: inset 0 0 10px 0 rgba(30, 215, 96, 0.15);
+  --shadow-link-hover: inset 0 0 10px 0 rgba(255, 91, 80, 0.15);
+  --shadow-tooltip: 0 8px 16px -2px rgba(27, 33, 44, 0.12);
+  --color-tooltip-bg: #ffffff;
+  --color-tooltip-text: #000000;
+  --tooltip-offset: var(--space-sm);
+  --tooltip-line-gap: calc(var(--font-size-xs) * 0.25);
+  --line-height-tooltip: 1;
   --color-text-primary: #ffffff;
   --color-text-muted: #a1a1a6;
   --color-text-secondary: #a1a1a6;
@@ -41,6 +47,7 @@
   --radius-control: 16px;
   --radius-keycap: 4px;
   --radius-sm: 8px;
+  --radius-tooltip: var(--space-control);
 
   /* Bento grid */
   --bento-columns: 2;
@@ -54,8 +61,8 @@
   --widget-bento-width: 142px;
   --bento-tile-size: 63px;
   --color-spotify: #1ed760;
-  --color-bento-accent: #80fa4f;
-  --shadow-bento-script: rgba(36, 75, 20, 0.25);
+  --color-link-hover: #ff5b50;
+  --shadow-bento-script: rgba(255, 91, 80, 0.25);
   --color-overlay-glass: rgba(255, 255, 255, 0.25);
   --blur-control: 4px;
   --bento-youtube-icon-left: 17px;
@@ -81,6 +88,7 @@
   /* Typography */
   --font-family: "Styrene A LC", "Styrene A", system-ui, -apple-system, sans-serif;
   --font-family-script: "Comforter", cursive;
+  --font-size-xs: 12px;
   --font-size-sm: 14px;
   --font-size-base: 16px;
   --font-size-lg: 20px;
@@ -123,6 +131,7 @@
   --z-content: 10;
   --z-dock: 100;
   --z-preview: 200;
+  --z-tooltip: 1000;
 
   /* Layout */
   --layout-content-width: 1248px;

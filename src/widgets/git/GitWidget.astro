@@ -16,6 +16,7 @@ const levelClass = (level: number) =>
   target="_blank"
   rel="noopener noreferrer"
   aria-label={gitConfig.ariaLabel}
+  data-git-widget
 >
   <div class="git-widget__header">
     <svg
@@ -43,3 +44,16 @@ const levelClass = (level: number) =>
     }
   </div>
 </a>
+
+<script>
+  import { initGitWidget } from "./git.client";
+
+  function bindGitWidgets() {
+    document.querySelectorAll("[data-git-widget]").forEach((widget) => {
+      initGitWidget(widget as HTMLElement);
+    });
+  }
+
+  bindGitWidgets();
+  document.addEventListener("astro:page-load", bindGitWidgets);
+</script>

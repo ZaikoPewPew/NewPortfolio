@@ -44,10 +44,8 @@
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  justify-content: center;
   width: fit-content;
-  min-width: var(--photo-indicator-width);
-  height: var(--photo-indicator-height);
+  padding: var(--photo-indicator-padding);
   border-radius: 500px;
   background: var(--color-overlay-glass);
   backdrop-filter: blur(var(--blur-control));

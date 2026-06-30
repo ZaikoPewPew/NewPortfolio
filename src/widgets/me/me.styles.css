@@ -129,7 +129,7 @@
 
 .contact-widget__item:hover .contact-widget__icon,
 .contact-widget__item:focus-visible .contact-widget__icon {
-  color: var(--color-bento-accent);
+  color: var(--color-link-hover);
 }
 
 .contact-widget__item:hover .contact-widget__external,
@@ -155,7 +155,7 @@
 
 .contact-widget__item:hover .contact-widget__label,
 .contact-widget__item:focus-visible .contact-widget__label {
-  color: var(--color-bento-accent);
+  color: var(--color-link-hover);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,0 +1,85 @@
+---
+interface Props {
+  lines: string[];
+  class?: string;
+}
+
+const { lines, class: className } = Astro.props;
+---
+
+<div class:list={["tooltip", className]} role="tooltip" aria-hidden="true">
+  <div class="tooltip__content">
+    {lines.map((line) => <p class="tooltip__line">{line}</p>)}
+  </div>
+  <div class="tooltip__caret" aria-hidden="true"></div>
+</div>
+
+<style>
+  .tooltip {
+    position: absolute;
+    bottom: calc(100% + var(--tooltip-offset));
+    left: calc(50% + var(--tooltip-shift-x, 0px));
+    z-index: var(--z-tooltip);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: max-content;
+    max-width: 240px;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(var(--tooltip-enter-offset, var(--space-2xs)));
+    transition:
+      opacity var(--motion-fast) var(--ease-out-expo),
+      visibility var(--motion-fast) var(--ease-out-expo),
+      transform var(--motion-fast) var(--ease-out-expo);
+    filter: drop-shadow(var(--shadow-tooltip));
+    will-change: transform;
+  }
+
+  :global([data-tooltip-visible]) .tooltip,
+  :global([data-tooltip-host]:focus-within) .tooltip {
+    opacity: 1;
+    visibility: visible;
+    --tooltip-enter-offset: 0px;
+  }
+
+  .tooltip__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--tooltip-line-gap);
+    padding: var(--space-control);
+    border-radius: var(--radius-tooltip);
+    background: var(--color-tooltip-bg);
+  }
+
+  .tooltip__line {
+    margin: 0;
+    font-family: var(--font-family);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-tooltip);
+    color: var(--color-tooltip-text);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .tooltip__caret {
+    flex-shrink: 0;
+    width: 16px;
+    height: calc(var(--space-sm) + var(--space-2xs));
+    margin-top: calc(-1 * var(--space-2xs));
+    background: var(--color-tooltip-bg);
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tooltip {
+      transition:
+        opacity var(--motion-fast) var(--ease-out-expo),
+        visibility var(--motion-fast) var(--ease-out-expo);
+      will-change: auto;
+    }
+  }
+</style>

@@ -1,4 +1,4 @@
-[data-theme="light"] {
+html[data-theme="light"] {
   --color-bg-page: #ffffff;
   --color-bg: #ffffff;
   --color-bg-surface: #f0f0f2;
@@ -19,7 +19,9 @@
   --color-git-cell-l2: #3ebe5e;
   --color-git-cell-l3: #2f984a;
   --color-git-cell-l4: #216435;
-  --shadow-git-widget-hover: inset 0 0 10px 0 rgba(30, 215, 96, 0.12);
+  --color-link-hover: #ff5b50;
+  --shadow-link-hover: inset 0 0 10px 0 rgba(255, 91, 80, 0.12);
+  --shadow-bento-script: rgba(255, 91, 80, 0.2);
   --color-overlay-glass: rgba(49, 49, 51, 0.2);
   --color-photo-indicator: #ffffff;
   --color-photo-indicator-progress: #000000;

@@ -5,7 +5,7 @@
 }
 
 .bento-widget__cell:hover {
-  box-shadow: var(--shadow-git-widget-hover);
+  box-shadow: var(--shadow-link-hover);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -46,18 +46,45 @@
   background: var(--color-git-cell-empty);
 }
 
-.git-widget:hover .git-widget__cell--l1 {
+.git-widget:not([data-fog-active]):hover .git-widget__cell--l1,
+.git-widget[data-git-hover-all]:hover .git-widget__cell--l1 {
   background: var(--color-git-cell-l1);
 }
 
-.git-widget:hover .git-widget__cell--l2 {
+.git-widget:not([data-fog-active]):hover .git-widget__cell--l2,
+.git-widget[data-git-hover-all]:hover .git-widget__cell--l2 {
   background: var(--color-git-cell-l2);
 }
 
-.git-widget:hover .git-widget__cell--l3 {
+.git-widget:not([data-fog-active]):hover .git-widget__cell--l3,
+.git-widget[data-git-hover-all]:hover .git-widget__cell--l3 {
   background: var(--color-git-cell-l3);
 }
 
-.git-widget:hover .git-widget__cell--l4 {
+.git-widget:not([data-fog-active]):hover .git-widget__cell--l4,
+.git-widget[data-git-hover-all]:hover .git-widget__cell--l4 {
+  background: var(--color-git-cell-l4);
+}
+
+.git-widget[data-fog-active] .git-widget__cell--l1,
+.git-widget[data-fog-active] .git-widget__cell--l2,
+.git-widget[data-fog-active] .git-widget__cell--l3,
+.git-widget[data-fog-active] .git-widget__cell--l4 {
+  background: var(--color-git-cell-empty);
+}
+
+.git-widget[data-fog-active] .git-widget__cell--revealed.git-widget__cell--l1 {
+  background: var(--color-git-cell-l1);
+}
+
+.git-widget[data-fog-active] .git-widget__cell--revealed.git-widget__cell--l2 {
+  background: var(--color-git-cell-l2);
+}
+
+.git-widget[data-fog-active] .git-widget__cell--revealed.git-widget__cell--l3 {
+  background: var(--color-git-cell-l3);
+}
+
+.git-widget[data-fog-active] .git-widget__cell--revealed.git-widget__cell--l4 {
   background: var(--color-git-cell-l4);
 }

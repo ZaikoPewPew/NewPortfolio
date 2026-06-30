@@ -12,8 +12,8 @@ const HEATMAP_LEVELS: GitContributionLevel[] = [
 
 export function getMockGitProfile(): GitProfile {
   return {
-    username: "@zaikoopewpew",
-    profileUrl: "https://github.com/zaikoopewpew",
+    username: "@ZaikoPewPew",
+    profileUrl: "https://github.com/ZaikoPewPew",
     heatmap: HEATMAP_LEVELS.map((level) => ({ level })),
   };
 }

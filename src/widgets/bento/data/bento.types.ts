@@ -6,6 +6,7 @@ export interface BentoTile {
   href: string;
   variant: BentoTileVariant;
   caption?: [string, string];
+  tooltip?: string[];
 }
 
 export interface BentoData {

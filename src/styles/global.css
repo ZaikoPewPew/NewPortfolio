@@ -104,3 +104,8 @@ body {
 .case-content li {
   margin-bottom: var(--space-xs);
 }
+
+[data-tooltip-layer-active] {
+  position: relative;
+  z-index: var(--z-tooltip);
+}

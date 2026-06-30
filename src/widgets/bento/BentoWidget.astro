@@ -1,4 +1,5 @@
 ---
+import Tooltip from "../../components/ui/Tooltip.astro";
 import { bentoConfig } from "./config";
 import { getBentoData } from "./data/bento.source";
 import "./bento.styles.css";
@@ -13,14 +14,18 @@ const youtubeTile = data.tiles.find((tile) => tile.variant === "youtube");
   <div class="bento-widget__grid">
     {
       topTiles.map((tile) => (
-        <a
-          class="bento-widget__cell"
-          href={tile.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={tile.label}
-          data-bento-tile={tile.id}
+        <div
+          class="bento-widget__cell-host"
+          data-tooltip-host={tile.tooltip ? "" : undefined}
         >
+          <a
+            class="bento-widget__cell"
+            href={tile.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={tile.label}
+            data-bento-tile={tile.id}
+          >
           {tile.variant === "mychannel" && (
             <svg
               class="bento-widget__icon bento-widget__icon--mychannel"
@@ -64,20 +69,26 @@ const youtubeTile = data.tiles.find((tile) => tile.variant === "youtube");
               />
             </svg>
           )}
-        </a>
+          </a>
+          {tile.tooltip && <Tooltip lines={tile.tooltip} />}
+        </div>
       ))
     }
 
     {
       youtubeTile && (
-        <a
-          class="bento-widget__cell bento-widget__cell--wide"
-          href={youtubeTile.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={youtubeTile.label}
-          data-bento-tile={youtubeTile.id}
+        <div
+          class="bento-widget__cell-host bento-widget__cell-host--wide"
+          data-tooltip-host={youtubeTile.tooltip ? "" : undefined}
         >
+          <a
+            class="bento-widget__cell bento-widget__cell--wide"
+            href={youtubeTile.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={youtubeTile.label}
+            data-bento-tile={youtubeTile.id}
+          >
           <svg
             class="bento-widget__icon bento-widget__icon--youtube"
             viewBox="0 0 26 18.2863"
@@ -98,16 +109,21 @@ const youtubeTile = data.tiles.find((tile) => tile.variant === "youtube");
               </span>
             </span>
           )}
-        </a>
+          </a>
+          {youtubeTile.tooltip && <Tooltip lines={youtubeTile.tooltip} />}
+        </div>
       )
     }
   </div>
 </article>
 
 <script>
+  import { initDragTooltips } from "../../components/ui/tooltip.client";
   import { feedback } from "../../experience/feedback/FeedbackBus";
 
   function bindBentoTiles() {
+    initDragTooltips();
+
     document.querySelectorAll("[data-bento-tile]").forEach((tile) => {
       if (tile.hasAttribute("data-bound")) return;
       tile.setAttribute("data-bound", "true");

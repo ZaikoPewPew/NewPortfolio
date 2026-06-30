@@ -1,15 +1,9 @@
 .git-widget {
-  transition:
-    box-shadow var(--motion-base) var(--ease-out-expo),
-    background-color var(--motion-base) var(--ease-out-expo);
-}
-
-.git-widget:hover {
-  box-shadow: var(--shadow-git-widget-hover);
+  transition: background-color var(--motion-base) var(--ease-out-expo);
 }
 
 .git-widget__cell {
-  transition: background-color var(--motion-base) var(--ease-out-expo);
+  transition: background-color var(--motion-fast) var(--ease-out-expo);
 }
 
 @media (prefers-reduced-motion: reduce) {

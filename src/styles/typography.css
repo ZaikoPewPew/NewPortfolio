@@ -1,4 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Comforter&display=swap");
+@font-face {
+  font-family: "Comforter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("/fonts/Comforter-Regular.ttf") format("truetype");
+}
 
 body {
   font-family: var(--font-family);
