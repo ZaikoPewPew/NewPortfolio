@@ -1,0 +1,109 @@
+.bento-widget {
+  width: var(--widget-bento-width);
+}
+
+.bento-widget__grid {
+  display: grid;
+  grid-template-columns: repeat(2, var(--bento-tile-size));
+  gap: var(--bento-gap);
+}
+
+.bento-widget__cell {
+  --bento-icon-color: var(--color-text-primary);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--bento-tile-size);
+  height: var(--bento-tile-size);
+  border-radius: var(--radius-control);
+  background: var(--color-bg-surface);
+  color: var(--bento-icon-color);
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.bento-widget__cell--wide {
+  position: relative;
+  grid-column: 1 / -1;
+  width: 100%;
+  padding: 0;
+}
+
+.bento-widget__icon {
+  flex-shrink: 0;
+}
+
+.bento-widget__icon--mychannel {
+  width: 26px;
+  height: 32px;
+}
+
+.bento-widget__icon--ies {
+  width: 26px;
+  height: 26px;
+}
+
+.bento-widget__icon--youtube {
+  position: absolute;
+  left: var(--bento-youtube-icon-left);
+  top: 50%;
+  width: 26px;
+  height: 18px;
+  transform: translateY(-50%);
+}
+
+.bento-widget__youtube-text-wrap {
+  position: absolute;
+  left: calc(50% + var(--bento-youtube-text-offset-x));
+  top: calc(50% - var(--bento-youtube-text-offset-y));
+  width: var(--bento-youtube-text-width);
+  height: var(--bento-youtube-text-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.bento-widget__youtube-text {
+  margin: 0;
+  font-family: var(--font-family-script);
+  font-size: var(--bento-youtube-text-size);
+  font-weight: var(--font-weight-regular);
+  line-height: 0.63;
+  color: var(--color-text-primary);
+  text-align: center;
+  text-shadow: 0 0 10px var(--shadow-bento-script);
+  letter-spacing: var(--bento-youtube-text-tracking);
+  text-transform: lowercase;
+  white-space: nowrap;
+  transform: rotate(var(--bento-youtube-text-rotate));
+  transition: color var(--motion-base) var(--ease-out-expo);
+}
+
+.bento-widget__youtube-line {
+  display: block;
+}
+
+.bento-widget__icon-main {
+  fill: var(--bento-icon-color);
+  transition: fill var(--motion-base) var(--ease-out-expo);
+}
+
+.bento-widget__icon-detail {
+  fill: var(--color-bg-surface);
+}
+
+.bento-widget__cell:not(.bento-widget__cell--wide):hover {
+  --bento-icon-color: var(--color-bento-accent);
+}
+
+.bento-widget__cell--wide:hover .bento-widget__youtube-text {
+  color: var(--color-bento-accent);
+}
+
+.bento-widget__cell:focus-visible {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 2px;
+}

@@ -16,6 +16,10 @@ alwaysApply: false
 - `pages/index.astro` — главная: виджеты + кейсы + HomeOrchestrator
 - `pages/cases/[slug].astro` — детальный кейс из Content Collection
 
+## Сетка
+
+Размеры колонок, gutter и breakpoint — в `layout-grid.mdc`. Страницы не задают ширины напрямую.
+
 ## Правила
 
 - Новые маршруты — только в `src/pages/`, не в components

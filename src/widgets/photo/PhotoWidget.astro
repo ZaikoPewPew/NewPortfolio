@@ -1,12 +1,55 @@
 ---
-import WidgetShell from "../_shared/WidgetShell.astro";
 import { photoConfig } from "./config";
-import { getPhoto } from "./data/photo.source";
+import { getPhotoGallery } from "./data/photo.source";
+import "./photo.styles.css";
 import "./photo.animations.css";
 
-const photo = await getPhoto();
+const gallery = await getPhotoGallery();
 ---
 
-<WidgetShell ariaLabel={photoConfig.ariaLabel} layout="square">
-  <img class="photo-widget__image" src={photo.imageUrl} alt={photo.alt} />
-</WidgetShell>
+<article
+  class="photo-widget"
+  aria-label={photoConfig.ariaLabel}
+  aria-roledescription="carousel"
+  data-photo-widget
+  data-slide-count={gallery.slides.length}
+  data-current-index="0"
+>
+  <div class="photo-widget__viewport">
+    <div class="photo-widget__track" data-photo-track>
+      {
+        gallery.slides.map((slide) => (
+          <div
+            class="photo-widget__slide"
+            style={`background-image: url(${slide.imageUrl})`}
+            role="img"
+            aria-label={slide.alt}
+          />
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="photo-widget__indicator" data-photo-indicator aria-hidden="true">
+    <div class="photo-widget__indicator-track" data-photo-indicator-track>
+      <span class="photo-widget__indicator-item photo-widget__indicator-item--progress">
+        <span class="photo-widget__indicator-progress">
+          <span class="photo-widget__indicator-progress-fill" data-photo-progress style="width: 0%"></span>
+        </span>
+      </span>
+    </div>
+  </div>
+</article>
+
+<script>
+  import { initPhotoWidget } from "./photo.client";
+
+  function bindPhotoWidgets() {
+    document.querySelectorAll("[data-photo-widget]").forEach((widget) => {
+      initPhotoWidget(widget as HTMLElement);
+    });
+  }
+
+  bindPhotoWidgets();
+  document.addEventListener("astro:page-load", bindPhotoWidgets);
+</script>

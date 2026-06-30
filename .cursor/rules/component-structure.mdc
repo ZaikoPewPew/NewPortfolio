@@ -8,7 +8,7 @@ alwaysApply: false
 
 ## Размещение
 
-- `components/layout/` — Grid, PageShell, WidgetGrid (читает registry)
+- `components/layout/` — Grid (см. `layout-grid.mdc`), PageShell, WidgetGrid (читает registry)
 - `components/cases/` — CaseCard, CaseList, CaseHero (dumb UI)
 - `components/ui/` — атомы (Button, Tag, Link)
 - `widgets/` — **интерактивные виджеты** (не в components/widgets/)

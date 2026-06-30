@@ -1,6 +1,5 @@
-import type { PhotoData } from "./photo.types";
-import { getMockPhoto } from "./photo.mock";
+import type { PhotoGallery } from "./photo.types";
 
-export async function getApiPhoto(): Promise<PhotoData> {
-  return getMockPhoto();
+export async function getApiPhotoGallery(): Promise<PhotoGallery> {
+  throw new Error("Photo API not implemented yet");
 }

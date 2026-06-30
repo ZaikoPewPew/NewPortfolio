@@ -1,0 +1,20 @@
+.spotify-widget {
+  transition:
+    box-shadow var(--motion-base) var(--ease-out-expo),
+    background-color var(--motion-base) var(--ease-out-expo);
+}
+
+.spotify-widget__logo {
+  transition: color var(--motion-base) var(--ease-out-expo);
+}
+
+.spotify-widget:hover {
+  box-shadow: var(--shadow-git-widget-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotify-widget,
+  .spotify-widget__logo {
+    transition: none;
+  }
+}

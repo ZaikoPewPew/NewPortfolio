@@ -31,6 +31,7 @@ import { dockItems } from "../../../config/dock.config";
 </nav>
 
 <script>
+  import { toggleThemeWithTransition } from "../../../experience/preferences/themeTransition";
   import { userPreferences } from "../../../experience/preferences/UserPreferences";
   import { feedback } from "../../../experience/feedback/FeedbackBus";
 
@@ -38,7 +39,11 @@ import { dockItems } from "../../../config/dock.config";
     btn.addEventListener("click", () => {
       const action = (btn as HTMLElement).dataset.dockAction;
       if (action === "toggleTheme") {
-        userPreferences.toggleTheme();
+        const rect = (btn as HTMLElement).getBoundingClientRect();
+        toggleThemeWithTransition({
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
+        });
         feedback.emit({ sound: "tap", haptic: "light", source: "dock.theme" });
       }
       if (action === "toggleMusic") {

@@ -22,6 +22,7 @@
 | `home-interactions.mdc` | `src/features/home/**` |
 | `content-cases.mdc` | `src/content/**` |
 | `layouts-pages.mdc` | `src/layouts/**`, `src/pages/**` |
+| `layout-grid.mdc` | `src/components/layout/**`, `tokens.css`, главная |
 | `project-config.mdc` | `src/config/**` |
 
 ## Куда идти по задаче
@@ -38,6 +39,7 @@
 | Dock actions | `src/config/dock.config.ts` |
 | Mock / API режим | `src/config/env.config.ts`, `widgets/*/data/*.source.ts` |
 | Layout / маршруты | `src/layouts/`, `src/pages/` |
+| Сетка главной | `.cursor/rules/layout-grid.mdc`, `components/layout/Grid.astro` |
 
 ## Модульная документация
 

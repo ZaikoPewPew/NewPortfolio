@@ -1,9 +1,11 @@
+export type GitContributionLevel = 0 | 1 | 2 | 3 | 4;
+
 export interface GitContributionDay {
-  level: 0 | 1 | 2 | 3 | 4;
+  level: GitContributionLevel;
 }
 
 export interface GitProfile {
   username: string;
-  totalContributions: number;
+  profileUrl: string;
   heatmap: GitContributionDay[];
 }

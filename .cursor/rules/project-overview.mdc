@@ -17,9 +17,10 @@ alwaysApply: true
 ## Layout главной
 
 - **Header:** employer + location/time
-- **Слева:** bento-виджеты (`src/widgets/`, registry.ts)
+- **Слева:** bento-виджеты 300px (`src/widgets/`, registry.ts)
 - **Справа:** кейсы с hover-градиентом (референс: lamanoujaim.com)
 - **Dock:** email, social, theme toggle
+- **Сетка:** desktop 1248px (300 + 16 + 932), mobile stack — детали в `layout-grid.mdc`
 
 ## Архитектура
 

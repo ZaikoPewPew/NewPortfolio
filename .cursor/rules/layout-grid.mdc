@@ -1,0 +1,81 @@
+---
+description: Сетка главной — desktop 1248px, mobile stack
+globs: src/{components/layout,layouts,pages,widgets}/**,src/styles/tokens.css
+alwaysApply: false
+---
+
+# Layout Grid
+
+Спецификация сетки главной. Реализация: `components/layout/Grid.astro`, токены — `src/styles/tokens.css`.
+
+## Breakpoints
+
+Значения в `tokens.css`. В media queries — литералы, синхронизированные с токенами:
+
+| Зона | Viewport | Media query |
+|------|----------|-------------|
+| **Mobile** | < 640px | `max-width: 639px` |
+| **Tablet** | 640px – 1023px | `min-width: 640px` и `max-width: 1023px` |
+| **Desktop** | ≥ 1024px | `min-width: 1024px` |
+
+| Токен | Значение |
+|-------|----------|
+| `--bp-mobile` | 640px (нижняя граница tablet) |
+| `--bp-mobile-max` | 639px (верхняя граница mobile) |
+| `--bp-desktop` | 1024px |
+
+### Правила
+
+- **Mobile layout** (компактные виджеты, скрытие блоков, gutter 8px) — **только** `< 640px`
+- **Tablet** (640–1023px) ведёт себя как desktop-сетка, если в задаче не указано иное
+- Не использовать 768px как границу mobile — iPad и малые планшеты это tablet
+
+## Desktop (≥ `--bp-mobile`, tablet+)
+
+Двухколоночная сетка внутри контентной области **1248px**, центрированной на экране.
+
+| Зона | Ширина |
+|------|--------|
+| Виджеты (слева) | **300px** — фиксированная, всегда 300 |
+| Gap | **16px** |
+| Кейсы (справа) | **932px** на широком мониторе; сжимается при нехватке места |
+
+`300 + 16 + 932 = 1248`
+
+### Поведение при изменении ширины viewport
+
+- **Широкий экран:** блок 1248px по центру; колонки 300 / 16 / 932
+- **Сужение:** по бокам **16px** gutter; виджеты остаются **300px**, ширина блока кейсов подстраивается под оставшееся место
+- Desktop-режим действует от `--bp-mobile` (640px) и выше
+
+```css
+/* Схема desktop */
+grid-template-columns: var(--layout-widgets-width) var(--layout-column-gap) minmax(0, 1fr);
+max-width: var(--layout-content-width);
+```
+
+## Mobile (< 640px / `--bp-mobile`)
+
+- Виджеты — **вертикальный стек**, горизонтальный padding **8px** от краёв экрана
+- Мобильная версия **может отличаться** от desktop: иной порядок, скрытие части виджетов — закладывать при вёрстке (`registry`, media queries, mobile-спаны в config виджетов)
+
+## Токены
+
+Все размеры — только через CSS-переменные в `tokens.css`:
+
+| Токен | Значение |
+|-------|----------|
+| `--layout-content-width` | 1248px |
+| `--layout-widgets-width` | 300px |
+| `--layout-cases-width` | 932px (целевая на широком desktop) |
+| `--layout-column-gap` | 16px (`--space-md`) |
+| `--layout-gutter-desktop` | 16px |
+| `--layout-gutter-mobile` | 8px (`--space-sm`) |
+
+## Правила
+
+- Виджеты слева на desktop — **всегда 300px**, не `fr` и не `minmax` с уменьшением
+- Блок кейсов — гибкий, сжимается при сужении viewport
+- Bento внутри виджет-зоны — отдельная сетка в пределах 300px (`WidgetGrid.astro`)
+- Не менять сумму 1248 без согласования gap и колонок
+- Сырые px в `.astro` / `.css` запрещены — см. `design-tokens.mdc`

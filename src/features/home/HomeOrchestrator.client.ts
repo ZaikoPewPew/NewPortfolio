@@ -6,6 +6,7 @@ import {
   resetCaseHover,
   hideCasePreview,
 } from "./case-hover/CaseHoverController.client";
+import { bindContactPanel } from "./contact/ContactPanelController.client";
 
 let feedbackBound = false;
 let hotkeysBound = false;
@@ -44,6 +45,7 @@ function initExperience(scope: "global" | "home") {
   if (scope === "home") {
     resetCaseHover();
     initCaseHover();
+    bindContactPanel();
   }
 }
 

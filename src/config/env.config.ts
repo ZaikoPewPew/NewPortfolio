@@ -10,4 +10,10 @@ export const env = {
   me: {
     mode: (import.meta.env.PUBLIC_ME_MODE ?? "mock") as DataSourceMode,
   },
+  photo: {
+    mode: (import.meta.env.PUBLIC_PHOTO_MODE ?? "mock") as DataSourceMode,
+  },
+  bento: {
+    mode: (import.meta.env.PUBLIC_BENTO_MODE ?? "mock") as DataSourceMode,
+  },
 } as const;

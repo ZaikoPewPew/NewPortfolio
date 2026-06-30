@@ -7,16 +7,28 @@
   --color-surface: #242426;
   --color-accent: #ef3124;
   --color-accent-green: #30d158;
+  --color-git-cell-empty: #464646;
+  --color-git-cell-l1: #93e7a2;
+  --color-git-cell-l2: #3ebe5e;
+  --color-git-cell-l3: #2f984a;
+  --color-git-cell-l4: #216435;
+  --shadow-git-widget-hover: inset 0 0 10px 0 rgba(30, 215, 96, 0.15);
   --color-text-primary: #ffffff;
   --color-text-muted: #a1a1a6;
   --color-text-secondary: #a1a1a6;
+  --color-text-subdued: rgba(255, 255, 255, 0.5);
   --color-text-on-bg: #ffffff;
   --color-border: #3a3a3c;
   --color-border-subtle: #2c2c2e;
+  --color-bg-control: #313133;
+  --color-bg-contrast: #ffffff;
+  --color-text-on-contrast: #000000;
 
   /* Spacing */
+  --space-2xs: 2px;
   --space-xs: 4px;
   --space-sm: 8px;
+  --space-control: 12px;
   --space-md: 16px;
   --space-lg: 24px;
   --space-xl: 32px;
@@ -26,22 +38,55 @@
   /* Radius */
   --radius-widget: 24px;
   --radius-card: 24px;
+  --radius-control: 16px;
+  --radius-keycap: 4px;
   --radius-sm: 8px;
 
   /* Bento grid */
   --bento-columns: 2;
   --bento-cell-size: 136px;
-  --bento-wide-width: 280px;
+  --bento-wide-width: 288px;
   --bento-gap: var(--space-md);
   --widget-size: var(--bento-cell-size);
+  --widget-git-height: 133px;
+  --widget-spotify-size: 142px;
+  --widget-photo-size: 142px;
+  --widget-bento-width: 142px;
+  --bento-tile-size: 63px;
+  --color-spotify: #1ed760;
+  --color-bento-accent: #80fa4f;
+  --shadow-bento-script: rgba(36, 75, 20, 0.25);
+  --color-overlay-glass: rgba(255, 255, 255, 0.25);
+  --blur-control: 4px;
+  --bento-youtube-icon-left: 17px;
+  --bento-youtube-text-offset-x: 30.16px;
+  --bento-youtube-text-offset-y: 36.5px;
+  --bento-youtube-text-width: 87.329px;
+  --bento-youtube-text-height: 74.019px;
+  --bento-youtube-text-size: 48.253px;
+  --bento-youtube-text-tracking: -1.93px;
+  --bento-youtube-text-rotate: -11.38deg;
+  --photo-indicator-width: 63px;
+  --photo-indicator-height: 11px;
+  --photo-indicator-padding: var(--space-xs);
+  --photo-indicator-dot-size: 3px;
+  --photo-indicator-progress-width: 20px;
+  --photo-indicator-progress-height: 3px;
+  --color-photo-indicator: #ffffff;
+  --color-photo-indicator-progress: #000000;
+  --photo-slide-duration: 5s;
+  --git-cell-size: 12px;
+  --git-cell-gap: var(--space-xs);
 
   /* Typography */
   --font-family: "Styrene A LC", "Styrene A", system-ui, -apple-system, sans-serif;
+  --font-family-script: "Comforter", cursive;
   --font-size-sm: 14px;
   --font-size-base: 16px;
   --font-size-lg: 20px;
   --font-size-xl: 28px;
-  --font-size-2xl: 36px;
+  --font-size-2xl: 32px;
+  --font-size-3xl: 36px;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --line-height-tight: 1.2;
@@ -51,7 +96,26 @@
   --motion-fast: 150ms;
   --motion-base: 300ms;
   --motion-slow: 500ms;
+  --motion-contact-fast: 480ms;
+  --motion-contact-medium: 520ms;
+  --motion-contact-slow: 560ms;
+  --motion-contact-contact: 540ms;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring-soft: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring-snappy: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-contact-exit: cubic-bezier(0.4, 0, 0.8, 0.2);
+  --ease-contact-enter: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --contact-slide-distance: -110vw;
+  --contact-stagger-git-open: 0ms;
+  --contact-stagger-spotify-open: 25ms;
+  --contact-stagger-bento-open: 40ms;
+  --contact-stagger-photo-open: 50ms;
+  --contact-stagger-contact-open: 45ms;
+  --contact-stagger-git-close: 35ms;
+  --contact-stagger-spotify-close: 45ms;
+  --contact-stagger-bento-close: 55ms;
+  --contact-stagger-photo-close: 65ms;
+  --contact-stagger-contact-close: 0ms;
 
   /* Z-index */
   --z-background: 0;
@@ -60,12 +124,34 @@
   --z-preview: 200;
 
   /* Layout */
-  --layout-max-width: 1200px;
+  --layout-content-width: 1248px;
+  --layout-widgets-width: 300px;
+  --layout-cases-width: 932px;
+  --layout-column-gap: var(--space-md);
+  --layout-gutter-desktop: var(--space-md);
+  --layout-gutter-mobile: var(--space-sm);
+  --layout-max-width: var(--layout-content-width);
   --layout-gap: var(--space-xl);
   --layout-padding: var(--space-lg);
   --page-gradient: transparent;
 
-  /* Breakpoints */
-  --bp-mobile: 768px;
+  /* Header */
+  --header-padding-top-desktop: var(--space-xl);
+  --header-padding-top-mobile: 40px;
+  --header-row-height-desktop: 38px;
+  --header-row-height-mobile: 19px;
+  --header-employer-size-desktop: var(--font-size-2xl);
+  --header-employer-size-mobile: var(--font-size-base);
+  --header-divider-gap: var(--space-md);
+  --layout-header-widget-gap-desktop: var(--space-md);
+  --layout-header-widget-gap-mobile: var(--space-sm);
+
+  /* Keycap hint */
+  --keycap-size: 19px;
+  --keycap-border-bottom: 3px;
+
+  /* Breakpoints — в media queries: max-width 639px (mobile), min-width 640px (tablet+) */
+  --bp-mobile: 640px;
+  --bp-mobile-max: 639px;
   --bp-desktop: 1024px;
 }

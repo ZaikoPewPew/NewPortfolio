@@ -5,7 +5,9 @@ export function getMockMeProfile(): MeProfile {
   return {
     name: siteConfig.name,
     role: siteConfig.role,
-    avatarUrl: "/images/widgets/avatar-placeholder.svg",
-    instagramUrl: siteConfig.social.instagram,
+    bioLine1: siteConfig.bio.line1,
+    bioLine2: siteConfig.bio.line2,
+    avatarUrl: "/images/widgets/avatar.jpg",
+    contactUrl: siteConfig.social.email,
   };
 }

@@ -1,0 +1,145 @@
+@keyframes contactSlideOutLeft {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(var(--contact-slide-distance), 0, 0);
+  }
+}
+
+@keyframes contactSlideInFromLeft {
+  from {
+    transform: translate3d(var(--contact-slide-distance), 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.home__widget-item--git,
+[data-contact-item="spotify"],
+[data-contact-item="photo"],
+[data-contact-item="bento"],
+.home__contact-slot {
+  will-change: transform;
+}
+
+.home__widgets[data-contact-open="true"]:not([data-contact-animating]) .home__widget-item--git,
+.home__widgets[data-contact-open="true"]:not([data-contact-animating]) [data-contact-item="spotify"],
+.home__widgets[data-contact-open="true"]:not([data-contact-animating]) [data-contact-item="photo"],
+.home__widgets[data-contact-open="true"]:not([data-contact-animating]) [data-contact-item="bento"] {
+  transform: translate3d(var(--contact-slide-distance), 0, 0);
+}
+
+.home__widgets:not([data-contact-open="true"]):not([data-contact-animating]) .home__widget-item--git,
+.home__widgets:not([data-contact-open="true"]):not([data-contact-animating]) [data-contact-item="spotify"],
+.home__widgets:not([data-contact-open="true"]):not([data-contact-animating]) [data-contact-item="photo"],
+.home__widgets:not([data-contact-open="true"]):not([data-contact-animating]) [data-contact-item="bento"] {
+  transform: translate3d(0, 0, 0);
+}
+
+.home__widgets[data-contact-open="true"]:not([data-contact-animating]) .home__contact-slot {
+  transform: translate3d(0, 0, 0);
+}
+
+.home__widgets:not([data-contact-open="true"]):not([data-contact-animating]) .home__contact-slot {
+  transform: translate3d(var(--contact-slide-distance), 0, 0);
+}
+
+.home__widgets[data-contact-animating="opening"] .home__widget-item--git,
+.home__widgets[data-contact-animating="opening"] [data-contact-item="spotify"],
+.home__widgets[data-contact-animating="opening"] [data-contact-item="photo"],
+.home__widgets[data-contact-animating="opening"] [data-contact-item="bento"] {
+  transform: translate3d(0, 0, 0);
+}
+
+.home__widgets[data-contact-animating="opening"] .home__contact-slot {
+  transform: translate3d(var(--contact-slide-distance), 0, 0);
+}
+
+.home__widgets[data-contact-animating="closing"] .home__widget-item--git,
+.home__widgets[data-contact-animating="closing"] [data-contact-item="spotify"],
+.home__widgets[data-contact-animating="closing"] [data-contact-item="photo"],
+.home__widgets[data-contact-animating="closing"] [data-contact-item="bento"] {
+  transform: translate3d(var(--contact-slide-distance), 0, 0);
+}
+
+.home__widgets[data-contact-animating="closing"] .home__contact-slot {
+  transform: translate3d(0, 0, 0);
+}
+
+.home__widgets[data-contact-animating="opening"] .home__widget-item--git {
+  animation: contactSlideOutLeft var(--motion-contact-fast) var(--ease-contact-exit) var(--contact-stagger-git-open) both;
+}
+
+.home__widgets[data-contact-animating="opening"] [data-contact-item="spotify"] {
+  animation: contactSlideOutLeft var(--motion-contact-medium) var(--ease-contact-exit) var(--contact-stagger-spotify-open) both;
+}
+
+.home__widgets[data-contact-animating="opening"] [data-contact-item="bento"] {
+  animation: contactSlideOutLeft var(--motion-contact-medium) var(--ease-contact-exit) var(--contact-stagger-bento-open) both;
+}
+
+.home__widgets[data-contact-animating="opening"] [data-contact-item="photo"] {
+  animation: contactSlideOutLeft var(--motion-contact-slow) var(--ease-contact-exit) var(--contact-stagger-photo-open) both;
+}
+
+.home__widgets[data-contact-animating="opening"] .home__contact-slot {
+  animation: contactSlideInFromLeft var(--motion-contact-contact) var(--ease-contact-enter) var(--contact-stagger-contact-open) both;
+}
+
+.home__widgets[data-contact-animating="closing"] .home__contact-slot {
+  animation: contactSlideOutLeft var(--motion-contact-fast) var(--ease-contact-exit) var(--contact-stagger-contact-close) both;
+}
+
+.home__widgets[data-contact-animating="closing"] .home__widget-item--git {
+  animation: contactSlideInFromLeft var(--motion-contact-fast) var(--ease-contact-enter) var(--contact-stagger-git-close) both;
+}
+
+.home__widgets[data-contact-animating="closing"] [data-contact-item="spotify"] {
+  animation: contactSlideInFromLeft var(--motion-contact-medium) var(--ease-contact-enter) var(--contact-stagger-spotify-close) both;
+}
+
+.home__widgets[data-contact-animating="closing"] [data-contact-item="bento"] {
+  animation: contactSlideInFromLeft var(--motion-contact-medium) var(--ease-contact-enter) var(--contact-stagger-bento-close) both;
+}
+
+.home__widgets[data-contact-animating="closing"] [data-contact-item="photo"] {
+  animation: contactSlideInFromLeft var(--motion-contact-slow) var(--ease-contact-enter) var(--contact-stagger-photo-close) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__widget-item--git,
+  [data-contact-item="spotify"],
+  [data-contact-item="photo"],
+  [data-contact-item="bento"],
+  .home__contact-slot {
+    animation: none !important;
+    will-change: auto;
+    transition: none;
+  }
+
+  .home__widgets[data-contact-open="true"] .home__widget-item--git,
+  .home__widgets[data-contact-open="true"] [data-contact-item="spotify"],
+  .home__widgets[data-contact-open="true"] [data-contact-item="photo"],
+  .home__widgets[data-contact-open="true"] [data-contact-item="bento"] {
+    transform: translate3d(var(--contact-slide-distance), 0, 0);
+  }
+
+  .home__widgets:not([data-contact-open="true"]) .home__widget-item--git,
+  .home__widgets:not([data-contact-open="true"]) [data-contact-item="spotify"],
+  .home__widgets:not([data-contact-open="true"]) [data-contact-item="photo"],
+  .home__widgets:not([data-contact-open="true"]) [data-contact-item="bento"] {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .home__widgets[data-contact-open="true"] .home__contact-slot {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .home__widgets:not([data-contact-open="true"]) .home__contact-slot {
+    transform: translate3d(var(--contact-slide-distance), 0, 0);
+  }
+}

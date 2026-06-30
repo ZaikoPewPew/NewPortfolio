@@ -1,29 +1,36 @@
 ---
-import WidgetShell from "../_shared/WidgetShell.astro";
+import ContactButton from "../../components/ui/ContactButton.astro";
+import ThemeToggle from "../../components/ui/ThemeToggle.astro";
 import { meConfig } from "./config";
 import { getMeProfile } from "./data/me.source";
 import "./me.styles.css";
-import "./me.animations.css";
 
 const profile = await getMeProfile();
 ---
 
-<WidgetShell ariaLabel={meConfig.ariaLabel} layout="wide">
-  <div class="me-widget">
-    <img class="me-widget__avatar" src={profile.avatarUrl} alt="" width="56" height="56" />
-    <div class="me-widget__info">
+<article class="me-widget" aria-label={meConfig.ariaLabel}>
+  <div class="me-widget__header">
+    <img
+      class="me-widget__avatar"
+      src={profile.avatarUrl}
+      alt=""
+      width="48"
+      height="48"
+      loading="eager"
+    />
+    <div class="me-widget__identity">
       <p class="me-widget__name">{profile.name}</p>
       <p class="me-widget__role">{profile.role}</p>
     </div>
-    <a
-      class="me-widget__instagram"
-      href={profile.instagramUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Instagram"
-      data-feedback="tap"
-    >
-      ig
-    </a>
+    <ThemeToggle />
   </div>
-</WidgetShell>
+
+  <p class="me-widget__bio me-widget__desktop-only">
+    <span class="me-widget__bio-line">{profile.bioLine1}</span>
+    <span class="me-widget__bio-line">{profile.bioLine2}</span>
+  </p>
+
+  <div class="me-widget__desktop-only">
+    <ContactButton href={profile.contactUrl} />
+  </div>
+</article>

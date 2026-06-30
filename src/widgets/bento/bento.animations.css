@@ -1,0 +1,17 @@
+.bento-widget__cell {
+  transition:
+    box-shadow var(--motion-base) var(--ease-out-expo),
+    background-color var(--motion-base) var(--ease-out-expo);
+}
+
+.bento-widget__cell:hover {
+  box-shadow: var(--shadow-git-widget-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bento-widget__cell,
+  .bento-widget__icon-main,
+  .bento-widget__youtube-text {
+    transition: none;
+  }
+}

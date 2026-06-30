@@ -1,9 +1,14 @@
-import type { SpotifyTrack } from "./spotify.types";
+import type { SpotifyPlayback } from "./spotify.types";
 
-export function getMockTrack(): SpotifyTrack {
+export function getMockSpotifyPlayback(): SpotifyPlayback {
   return {
-    title: "True colors",
-    artist: "The Weeknd",
-    isPlaying: true,
+    tracks: [
+      { title: "Blinding Lights", artist: "The Weeknd" },
+      { title: "Starboy", artist: "The Weeknd" },
+      { title: "Save Your Tears", artist: "The Weeknd" },
+    ],
+    currentIndex: 0,
+    isPlaying: false,
+    profileUrl: "https://open.spotify.com",
   };
 }

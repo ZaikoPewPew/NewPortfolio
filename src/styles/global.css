@@ -6,6 +6,7 @@
 @import "../experience/motion/motion.tokens.css";
 @import "../features/home/background/background.css";
 @import "../features/transitions/view-transitions.css";
+@import "../experience/preferences/theme-transition.css";
 
 html {
   scroll-behavior: smooth;
@@ -43,7 +44,7 @@ body {
   margin: 0 auto;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .page-grid,
   .grid {
     grid-template-columns: minmax(300px, 1fr) minmax(360px, 1.3fr);
@@ -65,7 +66,7 @@ body {
   opacity: 1;
 }
 
-@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+@media (max-width: 639px), (prefers-reduced-motion: reduce) {
   .is-case-active [data-case-card]:not(.is-active) {
     filter: none;
     opacity: 1;

@@ -1,0 +1,124 @@
+.photo-widget {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--widget-photo-size);
+  height: var(--widget-photo-size);
+  border-radius: var(--radius-widget);
+  background: var(--color-bg-surface);
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.photo-widget.is-dragging {
+  cursor: grabbing;
+}
+
+.photo-widget__viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.photo-widget__track {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+}
+
+.photo-widget__slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-bg-surface);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.photo-widget__indicator {
+  position: absolute;
+  bottom: var(--space-sm);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-width: var(--photo-indicator-width);
+  height: var(--photo-indicator-height);
+  border-radius: 500px;
+  background: var(--color-overlay-glass);
+  backdrop-filter: blur(var(--blur-control));
+  -webkit-backdrop-filter: blur(var(--blur-control));
+  pointer-events: none;
+}
+
+.photo-widget__indicator-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  height: var(--photo-indicator-dot-size);
+}
+
+.photo-widget__indicator-item {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: var(--photo-indicator-dot-size);
+  height: var(--photo-indicator-dot-size);
+}
+
+.photo-widget__indicator-item::before {
+  content: "";
+  position: absolute;
+  inset: calc(var(--photo-indicator-padding) * -1);
+}
+
+.photo-widget__indicator-item--progress {
+  width: var(--photo-indicator-progress-width);
+  height: var(--photo-indicator-progress-height);
+}
+
+.photo-widget__indicator-item--progress::before {
+  content: none;
+}
+
+.photo-widget__indicator-dot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 500px;
+  background: var(--color-photo-indicator);
+}
+
+.photo-widget__indicator-progress {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 500px;
+  background: var(--color-photo-indicator);
+  overflow: hidden;
+}
+
+.photo-widget__indicator-progress-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  border-radius: 500px;
+  background: var(--color-photo-indicator-progress);
+  transition: width 50ms linear;
+}
+
+.photo-widget.is-dragging .photo-widget__indicator-progress-fill {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-widget__indicator-progress-fill {
+    transition: none;
+  }
+}

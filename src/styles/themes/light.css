@@ -1,13 +1,26 @@
 [data-theme="light"] {
-  --color-bg-page: #f5f5f7;
-  --color-bg: #f5f5f7;
-  --color-bg-surface: #ffffff;
+  --color-bg-page: #ffffff;
+  --color-bg: #ffffff;
+  --color-bg-surface: #f0f0f2;
   --color-bg-elevated: #e8e8ed;
-  --color-surface: #ffffff;
-  --color-text-primary: #1d1d1f;
+  --color-surface: #f0f0f2;
+  --color-text-primary: #313133;
   --color-text-muted: #6e6e73;
   --color-text-secondary: #6e6e73;
-  --color-text-on-bg: #1d1d1f;
+  --color-text-subdued: rgba(49, 49, 51, 0.5);
+  --color-text-on-bg: #313133;
   --color-border: #d2d2d7;
   --color-border-subtle: #e8e8ed;
+  --color-bg-control: #e8e8ed;
+  --color-bg-contrast: #313133;
+  --color-text-on-contrast: #ffffff;
+  --color-git-cell-empty: #e8e8ed;
+  --color-git-cell-l1: #93e7a2;
+  --color-git-cell-l2: #3ebe5e;
+  --color-git-cell-l3: #2f984a;
+  --color-git-cell-l4: #216435;
+  --shadow-git-widget-hover: inset 0 0 10px 0 rgba(30, 215, 96, 0.12);
+  --color-overlay-glass: rgba(49, 49, 51, 0.2);
+  --color-photo-indicator: #ffffff;
+  --color-photo-indicator-progress: #000000;
 }

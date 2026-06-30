@@ -1,41 +1,63 @@
 .git-widget {
-  padding: var(--space-md) var(--space-lg);
-  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-md);
+  width: 100%;
+  height: var(--widget-git-height);
+  padding: var(--space-sm);
+  border-radius: var(--radius-widget);
+  background: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  overflow: hidden;
 }
 
 .git-widget__header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: var(--space-sm);
 }
 
-.git-widget__username {
-  font-size: var(--font-size-sm);
+.git-widget__icon {
+  flex-shrink: 0;
+  width: var(--space-lg);
+  height: var(--space-lg);
   color: var(--color-text-primary);
 }
 
-.git-widget__total {
+.git-widget__username {
+  font-family: var(--font-family);
   font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
+  font-weight: var(--font-weight-regular);
+  line-height: 1;
+  color: var(--color-text-primary);
 }
 
 .git-widget__heatmap {
   display: grid;
-  grid-template-columns: repeat(13, 1fr);
-  gap: 3px;
-  flex: 1;
+  grid-template-columns: repeat(18, var(--git-cell-size));
+  gap: var(--git-cell-gap);
 }
 
 .git-widget__cell {
-  aspect-ratio: 1;
-  border-radius: 2px;
-  background: var(--color-bg-elevated);
+  width: var(--git-cell-size);
+  height: var(--git-cell-size);
+  border-radius: var(--radius-keycap);
+  background: var(--color-git-cell-empty);
 }
 
-.git-widget__cell--l1 { background: color-mix(in srgb, var(--color-accent-green) 25%, var(--color-bg-elevated)); }
-.git-widget__cell--l2 { background: color-mix(in srgb, var(--color-accent-green) 50%, var(--color-bg-elevated)); }
-.git-widget__cell--l3 { background: color-mix(in srgb, var(--color-accent-green) 75%, var(--color-bg-elevated)); }
-.git-widget__cell--l4 { background: var(--color-accent-green); }
+.git-widget:hover .git-widget__cell--l1 {
+  background: var(--color-git-cell-l1);
+}
+
+.git-widget:hover .git-widget__cell--l2 {
+  background: var(--color-git-cell-l2);
+}
+
+.git-widget:hover .git-widget__cell--l3 {
+  background: var(--color-git-cell-l3);
+}
+
+.git-widget:hover .git-widget__cell--l4 {
+  background: var(--color-git-cell-l4);
+}

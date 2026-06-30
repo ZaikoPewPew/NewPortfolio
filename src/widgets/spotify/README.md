@@ -1,16 +1,18 @@
 # Spotify Widget
 
-Текущий трек, controls play/pause, vinyl animation.
+Статус: **mock**
+
+## Назначение
+
+Компактный виджет «сейчас играет» — обложка трека, название, исполнитель и контролы prev/play/next.
 
 ## Данные
 
 - mock: `data/spotify.mock.ts`
 - api: Spotify Web API via `data/spotify.api.ts`
 - Переключатель: `PUBLIC_SPOTIFY_MODE=mock|api`
-- Статус: **mock**
 
 ## UX
 
-- Play/pause с feedback
-- Vinyl spin animation (CSS)
-- island: `spotify.client.ts` (planned)
+- Hover: зелёный inset-shadow и логотип Spotify `#1ED760`
+- Кнопки управления — tap feedback через `FeedbackBus`

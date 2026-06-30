@@ -1,31 +1,142 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PageShell from "../components/layout/PageShell.astro";
-import Grid from "../components/layout/Grid.astro";
-import WidgetGrid from "../components/layout/WidgetGrid.astro";
-import CaseList from "../components/cases/CaseList.astro";
-import PageBackground from "../features/home/background/PageBackground.astro";
-import SiteHeader from "../features/home/header/SiteHeader.astro";
-import ActionDock from "../features/home/dock/ActionDock.astro";
-import CasePreviewPanel from "../features/home/case-hover/CasePreviewPanel.astro";
-import { getCollection } from "astro:content";
-
-const cases = (await getCollection("cases")).sort(
-  (a, b) => a.data.order - b.data.order
-);
+import Header from "../components/layout/Header.astro";
+import MeWidget from "../widgets/me/MeWidget.astro";
+import ContactWidget from "../widgets/me/ContactWidget.astro";
+import GitWidget from "../widgets/git/GitWidget.astro";
+import SpotifyWidget from "../widgets/spotify/SpotifyWidget.astro";
+import PhotoWidget from "../widgets/photo/PhotoWidget.astro";
+import BentoWidget from "../widgets/bento/BentoWidget.astro";
+import "../features/home/contact/contact-panel.animations.css";
 ---
 
 <BaseLayout title="Портфолио — Продуктовый дизайнер" page="home">
-  <PageBackground />
-  <PageShell>
-    <main class="page" data-home-page>
-      <SiteHeader />
-      <Grid>
-        <WidgetGrid slot="widgets" />
-        <CaseList slot="cases" cases={cases} />
-      </Grid>
-    </main>
-    <ActionDock />
-    <CasePreviewPanel />
-  </PageShell>
+  <Header slot="header" />
+  <main class="home" data-home-page aria-label="Главная">
+    <div class="home__widgets" data-contact-layout>
+      <MeWidget />
+      <div class="home__widgets-body">
+        <div class="home__widgets-default" data-contact-default>
+          <div class="home__widget-item home__widget-item--git" data-contact-item="git">
+            <GitWidget />
+          </div>
+          <div class="home__widget-row" data-contact-item="row">
+            <div class="home__widget-stack">
+              <div data-contact-item="spotify">
+                <SpotifyWidget />
+              </div>
+              <div data-contact-item="bento">
+                <BentoWidget />
+              </div>
+            </div>
+            <div data-contact-item="photo">
+              <PhotoWidget />
+            </div>
+          </div>
+        </div>
+
+        <div class="home__contact-slot" data-contact-slot aria-hidden="true">
+          <ContactWidget />
+        </div>
+      </div>
+    </div>
+  </main>
 </BaseLayout>
+
+<style>
+  .home {
+    width: 100%;
+    max-width: var(--layout-content-width);
+    margin-inline: auto;
+    padding-inline: var(--layout-gutter-desktop);
+  }
+
+  .home__widgets {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--bento-gap);
+    width: var(--layout-widgets-width);
+    margin-top: var(--layout-header-widget-gap-desktop);
+  }
+
+  .home__widgets > .me-widget {
+    position: relative;
+    z-index: 4;
+  }
+
+  .home__widget-row {
+    display: flex;
+    gap: var(--bento-gap);
+    align-items: flex-start;
+  }
+
+  .home__widget-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--bento-gap);
+    width: var(--widget-spotify-size);
+  }
+
+  .home__widgets-body {
+    position: relative;
+    min-height: 292px;
+    overflow: visible;
+    z-index: 1;
+  }
+
+  .home__widgets-default {
+    display: flex;
+    flex-direction: column;
+    gap: var(--bento-gap);
+    position: relative;
+    z-index: 1;
+  }
+
+  .home__contact-slot {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .home__widgets[data-contact-open="true"] .home__widgets-default,
+  .home__widgets[data-contact-animating] .home__widgets-default {
+    pointer-events: none;
+  }
+
+  .home__widget-item--git,
+  [data-contact-item="spotify"],
+  [data-contact-item="photo"],
+  [data-contact-item="bento"] {
+    position: relative;
+  }
+
+  .home__widget-item--git {
+    z-index: -1;
+  }
+
+  .home__widgets[data-contact-open="true"] .home__contact-slot,
+  .home__widgets[data-contact-animating="opening"] .home__contact-slot {
+    pointer-events: auto;
+  }
+
+  @media (max-width: 639px) {
+    .home {
+      padding-inline: var(--layout-gutter-mobile);
+    }
+
+    .home__widgets {
+      width: 100%;
+      margin-top: var(--layout-header-widget-gap-mobile);
+    }
+
+    .home__widgets-body {
+      min-height: auto;
+    }
+
+    .home__contact-slot {
+      display: none;
+    }
+  }
+</style>

@@ -1,20 +1,13 @@
-.photo-widget__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.photo-widget__track {
   transition: transform var(--motion-base) var(--ease-out-expo);
 }
 
-.widget-shell:hover .photo-widget__image {
-  transform: scale(1.06);
+.photo-widget.is-dragging .photo-widget__track {
+  transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .photo-widget__image {
+  .photo-widget__track {
     transition: none;
-  }
-
-  .widget-shell:hover .photo-widget__image {
-    transform: none;
   }
 }

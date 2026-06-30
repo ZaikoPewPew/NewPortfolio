@@ -1,5 +1,5 @@
-import type { SpotifyTrack } from "./spotify.types";
+import type { SpotifyPlayback } from "./spotify.types";
 
-export async function getApiTrack(): Promise<SpotifyTrack> {
+export async function getApiSpotifyPlayback(): Promise<SpotifyPlayback> {
   throw new Error("Spotify API not implemented yet");
 }

@@ -1,9 +1,10 @@
 import { createDataSource } from "../../_shared/createDataSource";
-import { getMockPhoto } from "./photo.mock";
-import { getApiPhoto } from "./photo.api";
+import { env } from "../../../config/env.config";
+import { getMockPhotoGallery } from "./photo.mock";
+import { getApiPhotoGallery } from "./photo.api";
 
-export const getPhoto = createDataSource({
-  mode: "mock",
-  mock: getMockPhoto,
-  api: getApiPhoto,
+export const getPhotoGallery = createDataSource({
+  mode: env.photo.mode,
+  mock: getMockPhotoGallery,
+  api: getApiPhotoGallery,
 });

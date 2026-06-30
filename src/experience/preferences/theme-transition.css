@@ -1,0 +1,13 @@
+.theme-switch-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  pointer-events: none;
+  background: var(--color-bg-page);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-switch-veil {
+    display: none;
+  }
+}

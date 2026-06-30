@@ -1,6 +1,11 @@
 import { hotkeyBindings, type HotkeyAction } from "./hotkeys.config";
 import { feedback } from "../feedback/FeedbackBus";
+import { toggleThemeWithTransition } from "../preferences/themeTransition";
 import { userPreferences } from "../preferences/UserPreferences";
+import {
+  isContactPanelOpen,
+  toggleContactPanel,
+} from "../../features/home/contact/ContactPanelController.client";
 
 function isTypingTarget(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) return false;
@@ -8,7 +13,17 @@ function isTypingTarget(target: EventTarget | null): boolean {
   return tag === "INPUT" || tag === "TEXTAREA" || target.isContentEditable;
 }
 
-function runAction(action: HotkeyAction) {
+function normalizeHotkey(event: KeyboardEvent): string | null {
+  if (event.code === "KeyC") return "c";
+  if (event.code === "KeyA") return "a";
+  if (event.code === "KeyK") return "k";
+  if (event.code === "KeyM") return "m";
+  if (event.code === "KeyT") return "t";
+  if (event.key === "?") return "?";
+  return event.key.length === 1 ? event.key.toLowerCase() : null;
+}
+
+function runAction(action: HotkeyAction, key: string) {
   switch (action) {
     case "toggleSound": {
       const on = userPreferences.toggleSound();
@@ -17,7 +32,7 @@ function runAction(action: HotkeyAction) {
       break;
     }
     case "toggleTheme": {
-      const theme = userPreferences.toggleTheme();
+      const theme = toggleThemeWithTransition();
       feedback.emit({ sound: "tap", haptic: "light", source: "hotkey.theme" });
       console.info(`Theme: ${theme}`);
       break;
@@ -34,6 +49,13 @@ function runAction(action: HotkeyAction) {
       feedback.emit({ haptic: "light", source: "hotkey.help" });
       break;
     }
+    case "contactMe": {
+      const shouldToggle = key === "c" || (key === "a" && isContactPanelOpen());
+      if (!shouldToggle) return;
+      feedback.emit({ sound: "tap", haptic: "light", source: "hotkey.contact" });
+      toggleContactPanel();
+      break;
+    }
   }
 }
 
@@ -42,14 +64,17 @@ export function initHotkeys(scope: "global" | "home" = "global") {
     if (isTypingTarget(e.target)) return;
     if (e.metaKey || e.ctrlKey || e.altKey) return;
 
+    const normalizedKey = normalizeHotkey(e);
+    if (!normalizedKey) return;
+
     const binding = hotkeyBindings.find(
       (b) =>
-        b.key === e.key &&
+        b.key === normalizedKey &&
         (b.scope === "global" || (b.scope === "home" && scope === "home"))
     );
 
     if (!binding) return;
     e.preventDefault();
-    runAction(binding.action);
+    runAction(binding.action, normalizedKey);
   });
 }

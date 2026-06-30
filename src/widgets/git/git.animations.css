@@ -1,13 +1,19 @@
-.git-widget__cell {
-  transition: transform var(--motion-fast) var(--ease-out-expo);
+.git-widget {
+  transition:
+    box-shadow var(--motion-base) var(--ease-out-expo),
+    background-color var(--motion-base) var(--ease-out-expo);
 }
 
-.git-widget:hover .git-widget__cell--l3,
-.git-widget:hover .git-widget__cell--l4 {
-  transform: scale(1.1);
+.git-widget:hover {
+  box-shadow: var(--shadow-git-widget-hover);
+}
+
+.git-widget__cell {
+  transition: background-color var(--motion-base) var(--ease-out-expo);
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .git-widget,
   .git-widget__cell {
     transition: none;
   }

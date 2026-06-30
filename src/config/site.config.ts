@@ -1,6 +1,10 @@
 export const siteConfig = {
   name: "Vladislav Kurguzov",
-  role: "product designer",
+  role: "design engineer",
+  bio: {
+    line1: "senior product designer in fintech.",
+    line2: "I also ship what I design",
+  },
   employer: {
     label: "alfa-bank",
     prefix: "currently at",
@@ -11,8 +15,9 @@ export const siteConfig = {
   },
   social: {
     instagram: "https://instagram.com/",
-    email: "mailto:hello@example.com",
-    linkedin: "https://linkedin.com/",
-    telegram: "https://t.me/",
+    email: "mailto:kvneasyy@gmail.com",
+    linkedin: "https://www.linkedin.com/in/kvneasy",
+    telegram: "https://t.me/ezzzz12345",
+    x: "https://x.com/kvneasy",
   },
 } as const;

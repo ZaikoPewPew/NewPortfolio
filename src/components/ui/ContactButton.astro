@@ -1,0 +1,74 @@
+---
+interface Props {
+  href: string;
+  hotkey?: string;
+  class?: string;
+}
+
+const { href, hotkey = "c", class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={["contact-button", className]}
+  data-feedback="tap"
+  data-contact-button
+  aria-expanded="false"
+>
+  <span class="contact-button__label" data-contact-button-label>contact</span>
+  {hotkey && (
+    <span class="contact-button__keycap" aria-hidden="true" data-contact-button-keycap>
+      <span class="contact-button__keycap-char" data-contact-button-keycap-char>{hotkey}</span>
+    </span>
+  )}
+</a>
+
+<style>
+  .contact-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-control);
+    background: var(--color-bg-contrast);
+    color: var(--color-text-on-contrast);
+    font-family: var(--font-family);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-normal);
+    text-align: center;
+    text-decoration: none;
+    transition: opacity var(--motion-fast) var(--ease-out-expo);
+  }
+
+  .contact-button:hover {
+    opacity: 0.92;
+  }
+
+  .contact-button__label {
+    white-space: nowrap;
+  }
+
+  .contact-button__keycap {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--keycap-size);
+    height: var(--keycap-size);
+    border: 1px solid var(--color-text-on-contrast);
+    border-bottom-width: var(--keycap-border-bottom);
+    border-radius: var(--radius-keycap);
+    opacity: 0.15;
+  }
+
+  .contact-button__keycap-char {
+    font-size: var(--font-size-sm);
+    line-height: 1;
+    color: var(--color-text-on-contrast);
+  }
+</style>

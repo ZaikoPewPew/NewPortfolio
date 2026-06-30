@@ -1,8 +1,13 @@
-import type { PhotoData } from "./photo.types";
+import type { PhotoGallery } from "./photo.types";
 
-export function getMockPhoto(): PhotoData {
+export function getMockPhotoGallery(): PhotoGallery {
   return {
-    imageUrl: "/images/widgets/photo-placeholder.svg",
-    alt: "Детское фото",
+    slides: [
+      { id: "1", imageUrl: "/images/widgets/photo-1.svg", alt: "Фото 1" },
+      { id: "2", imageUrl: "/images/widgets/photo-2.svg", alt: "Фото 2" },
+      { id: "3", imageUrl: "/images/widgets/photo-3.svg", alt: "Фото 3" },
+      { id: "4", imageUrl: "/images/widgets/photo-4.svg", alt: "Фото 4" },
+      { id: "5", imageUrl: "/images/widgets/photo-5.svg", alt: "Фото 5" },
+    ],
   };
 }

@@ -1,11 +1,13 @@
 # Me Widget
 
-Профиль: фото, имя, роль, ссылка на Instagram.
+Профиль: аватар, имя, роль, bio, contact me, переключатель темы.
 
 ## UX-сценарии
 
 - Hover: лёгкий scale аватара
-- Click Instagram: открытие ссылки + feedback tap
+- Click theme toggle: смена темы + feedback tap
+- Click contact me: mailto + feedback tap
+- Hotkey `c`: открыть contact (desktop)
 
 ## Данные
 
@@ -13,6 +15,11 @@
 - api: (planned) CMS или static JSON
 - Статус: **mock**
 
+## Адаптив
+
+- Desktop: 300×179px, полный контент
+- Mobile: на всю ширину, скрыты bio и кнопка contact me
+
 ## Hotkeys
 
-- (planned) `p` — focus profile widget
+- `c` — contact me (home)
