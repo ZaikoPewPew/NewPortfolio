@@ -4,6 +4,18 @@
   animation-timing-function: var(--ease-out-expo);
 }
 
+html.is-case-navigating ::view-transition-old(root),
+html.is-case-navigating ::view-transition-new(root) {
+  animation-duration: var(--motion-case-back);
+  animation-timing-function: var(--ease-case-exit);
+}
+
+html.is-case-returning ::view-transition-old(root),
+html.is-case-returning ::view-transition-new(root) {
+  animation-duration: var(--motion-case-back);
+  animation-timing-function: var(--ease-case-exit);
+}
+
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root),
   ::view-transition-new(root) {

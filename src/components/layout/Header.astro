@@ -2,13 +2,16 @@
 import LiveClock from "../ui/LiveClock.astro";
 import EmployerName from "../ui/EmployerName.astro";
 import { siteConfig } from "../../config/site.config";
+import { getMessages } from "../../i18n";
+
+const m = getMessages();
 ---
 
 <header class="header">
   <div class="header__inner">
     <div class="header__row">
       <p class="header__employer">
-        {siteConfig.employer.prefix}{" "}
+        {m.header.employerPrefix}{" "}
         <EmployerName label={siteConfig.employer.label} />
       </p>
       <LiveClock />

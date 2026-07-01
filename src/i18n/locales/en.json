@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "defaultTitle": "Portfolio",
+    "defaultDescription": "Product designer portfolio",
+    "homeTitle": "Portfolio — Product Designer"
+  },
+  "home": {
+    "ariaLabel": "Home"
+  },
+  "header": {
+    "employerPrefix": "currently at",
+    "employerAriaLabel": "Working at {employer}"
+  },
+  "me": {
+    "ariaLabel": "Profile",
+    "role": "design engineer",
+    "bio": {
+      "line1": "senior product designer in fintech.",
+      "line2": "I also ship what I design"
+    },
+    "contactButton": {
+      "contact": "contact",
+      "about": "about",
+      "backToHome": "back to home"
+    }
+  },
+  "contact": {
+    "ariaLabel": "Contacts",
+    "cvValue": "google docs",
+    "openLinkedIn": "Open LinkedIn",
+    "openTelegram": "Open Telegram",
+    "writeEmail": "Write an email",
+    "openCv": "Open CV",
+    "openX": "Open X"
+  },
+  "theme": {
+    "toggleAriaLabel": "Toggle theme"
+  },
+  "bento": {
+    "ariaLabel": "Links and channels",
+    "tiles": {
+      "mychannel": {
+        "label": "My blog",
+        "tooltip": ["my blog", "1.1k subs"]
+      },
+      "ies": {
+        "label": "IES",
+        "tooltip": ["tg mini app", "1.8k users"]
+      },
+      "youtube": {
+        "label": "YouTube — Design Lead",
+        "caption": ["Design", "Lead"],
+        "tooltip": ["youtube", "22k subs"]
+      }
+    }
+  },
+  "hotkeys": {
+    "toggleSound": "Toggle sound",
+    "toggleTheme": "Toggle theme",
+    "focusCases": "Focus cases",
+    "contactMe": "Contact",
+    "contactAbout": "About",
+    "backToHome": "Back to home",
+    "showShortcutsHelp": "Show shortcuts"
+  }
+}

@@ -14,8 +14,8 @@
   --color-git-cell-l4: #216435;
   --shadow-link-hover: inset 0 0 10px 0 rgba(255, 91, 80, 0.15);
   --shadow-tooltip: 0 8px 16px -2px rgba(27, 33, 44, 0.12);
-  --color-tooltip-bg: #ffffff;
-  --color-tooltip-text: #000000;
+  --color-tooltip-bg: var(--color-bg-contrast);
+  --color-tooltip-text: var(--color-text-on-contrast);
   --tooltip-offset: var(--space-sm);
   --tooltip-line-gap: calc(var(--font-size-xs) * 0.25);
   --line-height-tooltip: 1;
@@ -132,6 +132,18 @@
   --contact-stagger-bento-close: 55ms;
   --contact-stagger-photo-close: 65ms;
   --contact-stagger-contact-close: 0ms;
+
+  /* Case transition — aligned with contact panel swap */
+  --motion-case-total: var(--motion-contact-slow);
+  --motion-case-morph: var(--motion-contact-fast);
+  --motion-case-collapse: 360ms;
+  --motion-case-text-delay: var(--contact-stagger-bento-open);
+  --motion-case-text-duration: var(--motion-contact-medium);
+  --motion-case-meta-duration: var(--motion-contact-fast);
+  --motion-case-meta-delay: 0ms;
+  --motion-case-back: 360ms;
+  --ease-case-exit: var(--ease-contact-exit);
+  --ease-case-enter: var(--ease-contact-enter);
 
   /* Z-index */
   --z-background: 0;

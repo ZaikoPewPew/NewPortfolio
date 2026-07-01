@@ -7,6 +7,60 @@ interface Props {
 }
 
 const { cases } = Astro.props;
+
+const viewTransitionRules = cases
+  .map((caseEntry) => {
+    const slug = caseEntry.slug;
+    return `
+::view-transition-old(case-list-${slug}) {
+  animation: caseCollapseOut var(--motion-case-collapse) var(--ease-case-exit) both;
+  transform-origin: top center;
+}
+
+::view-transition-group(case-${slug}) {
+  animation-duration: var(--motion-case-morph);
+  animation-timing-function: var(--ease-case-enter);
+}
+
+::view-transition-old(case-${slug}) {
+  animation: caseMorphOldFade var(--motion-case-morph) var(--ease-case-exit) both;
+  overflow: hidden;
+  border-radius: var(--radius-widget);
+}
+
+::view-transition-new(case-${slug}) {
+  animation: caseMorphNewFade var(--motion-case-morph) var(--ease-case-enter) both;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+}
+
+html.is-case-returning ::view-transition-group(case-${slug}),
+html.is-case-returning ::view-transition-old(case-${slug}),
+html.is-case-returning ::view-transition-new(case-${slug}) {
+  animation-duration: var(--motion-case-back);
+  animation-timing-function: var(--ease-case-exit);
+}`;
+  })
+  .join("\n");
+
+const reducedMotionRules = cases
+  .map(
+    (caseEntry) => `
+::view-transition-old(case-list-${caseEntry.slug}),
+::view-transition-old(case-${caseEntry.slug}),
+::view-transition-new(case-${caseEntry.slug}) {
+  animation: none !important;
+}`
+  )
+  .join("\n");
+
+const globalCaseTransitionCss = `@media (min-width: 640px) {
+${viewTransitionRules}
+}
+
+@media (min-width: 640px) and (prefers-reduced-motion: reduce) {
+${reducedMotionRules}
+}`;
 ---
 
 <ul class="case-list">
@@ -18,6 +72,8 @@ const { cases } = Astro.props;
     ))
   }
 </ul>
+
+<style is:global set:html={globalCaseTransitionCss}></style>
 
 <style>
   .case-list {

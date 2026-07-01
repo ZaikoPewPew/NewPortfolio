@@ -1,20 +1,15 @@
 ---
 import ContactButton from "../../components/ui/ContactButton.astro";
 import ThemeToggle from "../../components/ui/ThemeToggle.astro";
-import { meConfig } from "./config";
+import { getMessages } from "../../i18n";
 import { getMeProfile } from "./data/me.source";
 import "./me.styles.css";
 
-interface Props {
-  contactExpanded?: boolean;
-  contactLocked?: boolean;
-}
-
-const { contactExpanded = false, contactLocked = false } = Astro.props;
 const profile = await getMeProfile();
+const m = getMessages();
 ---
 
-<article class="me-widget" aria-label={meConfig.ariaLabel}>
+<article class="me-widget" aria-label={m.me.ariaLabel}>
   <div class="me-widget__header">
     <img
       class="me-widget__avatar"
@@ -37,6 +32,6 @@ const profile = await getMeProfile();
   </p>
 
   <div class="me-widget__desktop-only">
-    <ContactButton expanded={contactExpanded} locked={contactLocked} />
+    <ContactButton />
   </div>
 </article>

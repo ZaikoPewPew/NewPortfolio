@@ -6,23 +6,15 @@ import SpotifyWidget from "../../widgets/spotify/SpotifyWidget.astro";
 import PhotoWidget from "../../widgets/photo/PhotoWidget.astro";
 import BentoWidget from "../../widgets/bento/BentoWidget.astro";
 import "../home/contact/contact-panel.animations.css";
-
-interface Props {
-  autoOpenContact?: boolean;
-}
-
-const { autoOpenContact = false } = Astro.props;
 ---
 
 <div
   class="home__widgets"
   data-contact-layout
-  data-contact-auto-open={autoOpenContact ? "true" : undefined}
-  data-contact-locked={autoOpenContact ? "true" : undefined}
-  data-contact-open={autoOpenContact ? "true" : undefined}
-  transition:name={autoOpenContact ? "case-widgets" : "home-widgets"}
+  data-contact-open="false"
+  transition:persist="home-widgets"
 >
-  <MeWidget contactExpanded={autoOpenContact} contactLocked={autoOpenContact} />
+  <MeWidget />
   <div class="home__contact-mobile">
     <ContactWidget />
   </div>
@@ -47,11 +39,7 @@ const { autoOpenContact = false } = Astro.props;
       </div>
     </div>
 
-    <div
-      class="home__contact-slot"
-      data-contact-slot
-      aria-hidden={autoOpenContact ? "false" : "true"}
-    >
+    <div class="home__contact-slot" data-contact-slot aria-hidden="true">
       <ContactWidget />
     </div>
   </div>

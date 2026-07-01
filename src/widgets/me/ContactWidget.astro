@@ -1,7 +1,9 @@
 ---
 import { siteConfig } from "../../config/site.config";
+import { getMessages } from "../../i18n";
 
 const { email, linkedin, telegram, x, cv } = siteConfig.social;
+const m = getMessages();
 
 type ContactItem = {
   label: string;
@@ -19,7 +21,7 @@ const contacts: ContactItem[] = [
     value: "@kvneasy",
     href: linkedin,
     external: true,
-    ariaLabel: "Открыть LinkedIn",
+    ariaLabel: m.contact.openLinkedIn,
     iconPath:
       "M8 16V10.5M12 16V14M12 10.5V14M16 16V14C16 12.5 15.5 11 14 11C12.5 11 12 12.5 12 14M8 8V7.5M6 20H18C19.1046 20 20 19.1046 20 18V6C20 4.89543 19.1046 4 18 4H6C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20Z",
   },
@@ -28,7 +30,7 @@ const contacts: ContactItem[] = [
     value: "@ezzzz12345",
     href: telegram,
     external: true,
-    ariaLabel: "Открыть Telegram",
+    ariaLabel: m.contact.openTelegram,
     iconPath: "M21 3L3 10L10 14L14 21L21 3ZM10 14L21 3",
   },
   {
@@ -36,16 +38,16 @@ const contacts: ContactItem[] = [
     value: email,
     href: `mailto:${email}`,
     external: false,
-    ariaLabel: "Написать на email",
+    ariaLabel: m.contact.writeEmail,
     iconPath:
       "M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12ZM16 12V13.5C16 14.8807 17.1193 16 18.5 16C19.8807 16 21 14.8807 21 13.5V12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21H16",
   },
   {
     label: "cv",
-    value: "google docs",
+    value: m.contact.cvValue,
     href: cv || undefined,
     external: true,
-    ariaLabel: "Открыть CV",
+    ariaLabel: m.contact.openCv,
     iconPath:
       "M19 9L13 3H7C5.89543 3 5 3.89543 5 5V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V9ZM13 3V8C13 8.55228 13.4477 9 14 9H19M9 13H15M9 17H15",
   },
@@ -54,7 +56,7 @@ const contacts: ContactItem[] = [
     value: "@kvneasy",
     href: x,
     external: true,
-    ariaLabel: "Открыть X",
+    ariaLabel: m.contact.openX,
     hidden: true,
     iconPath:
       "M12.7509 10.4601L8.76115 5.38218C8.57157 5.14089 8.28169 5 7.97483 5H4.53918L10.6373 12.7613L15.2389 18.6178C15.4285 18.8591 15.7184 19 16.0252 19H19.4609L12.7509 10.4601ZM10.6373 12.7613L5.08732 19M12.7509 10.4601L17.6329 5",
@@ -71,7 +73,7 @@ const itemClass = (contact: ContactItem) =>
     .join(" ");
 ---
 
-<article class="contact-widget" aria-label="Контакты" data-contact-widget>
+<article class="contact-widget" aria-label={m.contact.ariaLabel} data-contact-widget>
   {
     contacts.map((contact) => {
       const content = (

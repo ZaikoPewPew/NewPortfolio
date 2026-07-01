@@ -1,7 +1,16 @@
 import { feedback } from "../../experience/feedback/FeedbackBus";
 import { userPreferences } from "../../experience/preferences/UserPreferences";
 import { initHotkeys } from "../../experience/hotkeys/HotkeysManager";
-import { bindContactPanel, bindCaseContactNavigation, resetContactPanel } from "./contact/ContactPanelController.client";
+import {
+  bindContactPanel,
+  bindContactPanelPersistence,
+  prepareContactPanelForNavigation,
+} from "./contact/ContactPanelController.client";
+import {
+  bindCaseTransition,
+  resetCaseTransition,
+  syncCaseTransitionOnLoad,
+} from "./case-transition/CaseTransitionController.client";
 import { resetEmployerName, initEmployerName } from "../../components/ui/employerName.client";
 
 let feedbackBound = false;
@@ -36,7 +45,8 @@ function hasWidgetsLayout() {
 function initExperience() {
   userPreferences.init();
   bindFeedback();
-  bindCaseContactNavigation();
+  bindContactPanelPersistence();
+  bindCaseTransition();
 
   if (!hotkeysBound) {
     hotkeysBound = true;
@@ -54,6 +64,7 @@ function initExperience() {
 document.addEventListener("astro:page-load", () => {
   const isHome = document.body.dataset.page === "home";
   initExperience();
+  syncCaseTransitionOnLoad();
 
   if (!isHome) {
     feedback.emit({ sound: "pageTransition", source: "navigation" });
@@ -66,7 +77,11 @@ window.addEventListener("pageshow", (event) => {
   resetEmployerName();
 });
 
-document.addEventListener("astro:before-preparation", () => {
-  resetContactPanel();
+type AstroTransitionEvent = Event & { to?: URL };
+
+document.addEventListener("astro:before-preparation", (event) => {
+  const transitionEvent = event as AstroTransitionEvent;
+  prepareContactPanelForNavigation(transitionEvent.to);
+  resetCaseTransition();
   resetEmployerName();
 });

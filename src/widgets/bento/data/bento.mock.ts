@@ -1,29 +1,38 @@
+import { getMessages } from "../../../i18n";
 import type { BentoData } from "./bento.types";
 
+const TILE_HREFS = {
+  mychannel: "https://t.me/dsgn_thinking",
+  ies: "https://t.me/howlhouse_bot",
+  youtube: "https://www.youtube.com/@DesignLeadd",
+} as const;
+
 export function getMockBentoData(): BentoData {
+  const { bento } = getMessages();
+
   return {
     tiles: [
       {
         id: "mychannel",
-        label: "My blog",
-        href: "https://t.me/dsgn_thinking",
+        label: bento.tiles.mychannel.label,
+        href: TILE_HREFS.mychannel,
         variant: "mychannel",
-        tooltip: ["my blog", "1.1k subs"],
+        tooltip: [...bento.tiles.mychannel.tooltip],
       },
       {
         id: "ies",
-        label: "IES",
-        href: "https://t.me/howlhouse_bot",
+        label: bento.tiles.ies.label,
+        href: TILE_HREFS.ies,
         variant: "ies",
-        tooltip: ["tg mini app", "1.8k users"],
+        tooltip: [...bento.tiles.ies.tooltip],
       },
       {
         id: "youtube",
-        label: "YouTube — Design Lead",
-        href: "https://www.youtube.com/@DesignLeadd",
+        label: bento.tiles.youtube.label,
+        href: TILE_HREFS.youtube,
         variant: "youtube",
-        caption: ["Design", "Lead"],
-        tooltip: ["youtube", "22k subs"],
+        caption: [...bento.tiles.youtube.caption],
+        tooltip: [...bento.tiles.youtube.tooltip],
       },
     ],
   };

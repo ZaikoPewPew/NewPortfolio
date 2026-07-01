@@ -7,18 +7,45 @@ interface Props {
 }
 
 const { caseEntry } = Astro.props;
-const { title, year, tags } = caseEntry.data;
+const { title, year, tags, cover } = caseEntry.data;
+const slug = caseEntry.slug;
 ---
 
 <header class="case-hero">
+  <div class="case-hero__morph" data-case-morph transition:name={`case-${slug}`}>
+    <div class="case-hero__media">
+      <img class="case-hero__cover" src={cover} alt="" decoding="async" />
+    </div>
+    <h1 class="case-hero__title">{title}</h1>
+  </div>
   <div class="case-hero__meta">
     <span class="case-hero__year">{year}</span>
     {tags.map((tag) => <Tag label={tag} />)}
   </div>
-  <h1 class="case-hero__title">{title}</h1>
 </header>
 
 <style>
+  .case-hero__morph {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .case-hero__media {
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background: var(--color-bg-elevated);
+    aspect-ratio: 16 / 9;
+    width: 100%;
+  }
+
+  .case-hero__cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   .case-hero__meta {
     display: flex;
     flex-wrap: wrap;

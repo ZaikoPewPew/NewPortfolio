@@ -1,31 +1,43 @@
 ---
+import { getMessages } from "../../i18n";
+
+type ContactButtonMode = "contact" | "about";
+
 interface Props {
   hotkey?: string;
   class?: string;
-  expanded?: boolean;
-  locked?: boolean;
+  mode?: ContactButtonMode;
 }
 
-const { hotkey = "c", class: className, expanded = false, locked = false } = Astro.props;
+const { hotkey = "c", class: className, mode = "contact" } = Astro.props;
+const m = getMessages();
+
+const labelByMode: Record<ContactButtonMode, string> = {
+  contact: m.me.contactButton.contact,
+  about: m.me.contactButton.about,
+};
+
+const keycapByMode: Record<ContactButtonMode, string> = {
+  contact: hotkey,
+  about: "a",
+};
 ---
 
 <button
   type="button"
-  class:list={["contact-button", className, { "contact-button--locked": locked }]}
-  data-feedback={locked ? undefined : "tap"}
+  class:list={["contact-button", className]}
+  data-feedback="tap"
   data-contact-button
-  aria-expanded={expanded ? "true" : "false"}
-  aria-disabled={locked ? "true" : undefined}
-  disabled={locked}
+  aria-expanded={mode === "about" ? "true" : "false"}
 >
   <span class="contact-button__label" data-contact-button-label>
-    {expanded ? "about" : "contact"}
+    {labelByMode[mode]}
   </span>
   {
-    hotkey && (
+    keycapByMode[mode] && (
       <span class="contact-button__keycap" aria-hidden="true" data-contact-button-keycap>
         <span class="contact-button__keycap-char" data-contact-button-keycap-char>
-          {expanded ? "a" : hotkey}
+          {keycapByMode[mode]}
         </span>
       </span>
     )
@@ -55,12 +67,6 @@ const { hotkey = "c", class: className, expanded = false, locked = false } = Ast
 
   .contact-button:hover {
     opacity: 0.92;
-  }
-
-  .contact-button--locked,
-  .contact-button--locked:hover {
-    opacity: 1;
-    cursor: default;
   }
 
   .contact-button__label {

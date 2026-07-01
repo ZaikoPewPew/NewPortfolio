@@ -1,12 +1,14 @@
+import { navigate } from "astro:transitions/client";
 import { hotkeyBindings, type HotkeyAction } from "./hotkeys.config";
 import { feedback } from "../feedback/FeedbackBus";
 import { toggleThemeWithTransition } from "../preferences/themeTransition";
 import { userPreferences } from "../preferences/UserPreferences";
+import { getMessages } from "../../i18n";
 import {
   isContactPanelOpen,
-  isContactLocked,
   toggleContactPanel,
 } from "../../features/home/contact/ContactPanelController.client";
+import { beginCaseTransitionBack } from "../../features/home/case-transition/CaseTransitionController.client";
 
 function isTypingTarget(target: EventTarget | null): boolean {
   if (!(target instanceof HTMLElement)) return false;
@@ -20,6 +22,7 @@ function normalizeHotkey(event: KeyboardEvent): string | null {
   if (event.code === "KeyK") return "k";
   if (event.code === "KeyM") return "m";
   if (event.code === "KeyT") return "t";
+  if (event.code === "KeyB") return "b";
   if (event.key === "?") return "?";
   return event.key.length === 1 ? event.key.toLowerCase() : null;
 }
@@ -45,17 +48,24 @@ function runAction(action: HotkeyAction, key: string) {
       break;
     }
     case "showShortcutsHelp": {
-      const lines = hotkeyBindings.map((b) => `${b.key} — ${b.description}`);
+      const hotkeys = getMessages().hotkeys;
+      const lines = hotkeyBindings.map((b) => `${b.key} — ${hotkeys[b.messageKey]}`);
       console.info("Hotkeys:\n" + lines.join("\n"));
       feedback.emit({ haptic: "light", source: "hotkey.help" });
       break;
     }
     case "contactMe": {
-      if (isContactLocked()) return;
       const shouldToggle = key === "c" || (key === "a" && isContactPanelOpen());
       if (!shouldToggle) return;
       feedback.emit({ sound: "tap", haptic: "light", source: "hotkey.contact" });
       toggleContactPanel();
+      break;
+    }
+    case "goBackHome": {
+      if (document.body.dataset.page !== "case") return;
+      feedback.emit({ sound: "tap", haptic: "light", source: "hotkey.backHome" });
+      beginCaseTransitionBack();
+      navigate("/");
       break;
     }
   }

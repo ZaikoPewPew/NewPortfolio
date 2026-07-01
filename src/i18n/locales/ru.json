@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "defaultTitle": "Портфолио",
+    "defaultDescription": "Портфолио продуктового дизайнера",
+    "homeTitle": "Портфолио — Продуктовый дизайнер"
+  },
+  "home": {
+    "ariaLabel": "Главная"
+  },
+  "header": {
+    "employerPrefix": "сейчас в",
+    "employerAriaLabel": "Работаю в {employer}"
+  },
+  "me": {
+    "ariaLabel": "Профиль",
+    "role": "design engineer",
+    "bio": {
+      "line1": "senior product designer in fintech.",
+      "line2": "I also ship what I design"
+    },
+    "contactButton": {
+      "contact": "contact",
+      "about": "about",
+      "backToHome": "back to home"
+    }
+  },
+  "contact": {
+    "ariaLabel": "Контакты",
+    "cvValue": "google docs",
+    "openLinkedIn": "Открыть LinkedIn",
+    "openTelegram": "Открыть Telegram",
+    "writeEmail": "Написать на email",
+    "openCv": "Открыть CV",
+    "openX": "Открыть X"
+  },
+  "theme": {
+    "toggleAriaLabel": "Сменить тему"
+  },
+  "bento": {
+    "ariaLabel": "Ссылки и каналы",
+    "tiles": {
+      "mychannel": {
+        "label": "My blog",
+        "tooltip": ["my blog", "1.1k subs"]
+      },
+      "ies": {
+        "label": "IES",
+        "tooltip": ["tg mini app", "1.8k users"]
+      },
+      "youtube": {
+        "label": "YouTube — Design Lead",
+        "caption": ["Design", "Lead"],
+        "tooltip": ["youtube", "22k subs"]
+      }
+    }
+  },
+  "hotkeys": {
+    "toggleSound": "Вкл/выкл звук",
+    "toggleTheme": "Сменить тему",
+    "focusCases": "Фокус на кейсы",
+    "contactMe": "Связаться",
+    "contactAbout": "About",
+    "backToHome": "На главную",
+    "showShortcutsHelp": "Показать хоткеи"
+  }
+}

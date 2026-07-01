@@ -25,11 +25,13 @@ const { title, summary } = caseEntry.data;
 
   <main class="home" data-case-page aria-label={title}>
     <Grid>
-      <HomeWidgets slot="widgets" autoOpenContact />
+      <HomeWidgets slot="widgets" />
 
-      <article slot="cases" class="home__cases case-content">
+      <article slot="cases" class="home__cases case-content" data-case-content>
         <CaseHero caseEntry={caseEntry} />
-        <Content />
+        <div class="case-content__body" data-case-content-body>
+          <Content />
+        </div>
       </article>
     </Grid>
 

@@ -1,13 +1,7 @@
 export const siteConfig = {
   name: "Vladislav Kurguzov",
-  role: "design engineer",
-  bio: {
-    line1: "senior product designer in fintech.",
-    line2: "I also ship what I design",
-  },
   employer: {
     label: "alfa-bank",
-    prefix: "currently at",
     video: "/images/widgets/currently-block/0630.mov",
   },
   location: {

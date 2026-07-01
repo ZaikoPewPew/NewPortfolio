@@ -1,22 +1,24 @@
 ---
 import Tooltip from "../../components/ui/Tooltip.astro";
-import { bentoConfig } from "./config";
+import { getMessages } from "../../i18n";
 import { getBentoData } from "./data/bento.source";
 import "./bento.styles.css";
 import "./bento.animations.css";
 
 const data = await getBentoData();
+const m = getMessages();
 const topTiles = data.tiles.filter((tile) => tile.variant !== "youtube");
 const youtubeTile = data.tiles.find((tile) => tile.variant === "youtube");
 ---
 
-<article class="bento-widget" aria-label={bentoConfig.ariaLabel}>
+<article class="bento-widget" aria-label={m.bento.ariaLabel}>
   <div class="bento-widget__grid">
     {
       topTiles.map((tile) => (
         <div
           class="bento-widget__cell-host"
           data-tooltip-host={tile.tooltip ? "" : undefined}
+          data-tooltip-focus-backdrop={tile.tooltip ? "" : undefined}
         >
           <a
             class="bento-widget__cell"
@@ -80,6 +82,7 @@ const youtubeTile = data.tiles.find((tile) => tile.variant === "youtube");
         <div
           class="bento-widget__cell-host bento-widget__cell-host--wide"
           data-tooltip-host={youtubeTile.tooltip ? "" : undefined}
+          data-tooltip-focus-backdrop={youtubeTile.tooltip ? "" : undefined}
         >
           <a
             class="bento-widget__cell bento-widget__cell--wide"

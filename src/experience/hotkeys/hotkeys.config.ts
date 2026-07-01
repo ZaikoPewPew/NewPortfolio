@@ -1,3 +1,5 @@
+import type { HotkeyMessageKey } from "../../i18n/types";
+
 export type HotkeyScope = "global" | "home";
 
 export type HotkeyAction =
@@ -5,20 +7,22 @@ export type HotkeyAction =
   | "toggleTheme"
   | "focusCases"
   | "showShortcutsHelp"
-  | "contactMe";
+  | "contactMe"
+  | "goBackHome";
 
 export interface HotkeyBinding {
   key: string;
   action: HotkeyAction;
   scope: HotkeyScope;
-  description: string;
+  messageKey: HotkeyMessageKey;
 }
 
 export const hotkeyBindings: HotkeyBinding[] = [
-  { key: "m", action: "toggleSound", scope: "global", description: "Вкл/выкл звук" },
-  { key: "t", action: "toggleTheme", scope: "global", description: "Сменить тему" },
-  { key: "k", action: "focusCases", scope: "home", description: "Фокус на кейсы" },
-  { key: "c", action: "contactMe", scope: "home", description: "Связаться" },
-  { key: "a", action: "contactMe", scope: "home", description: "About" },
-  { key: "?", action: "showShortcutsHelp", scope: "global", description: "Показать хоткеи" },
+  { key: "m", action: "toggleSound", scope: "global", messageKey: "toggleSound" },
+  { key: "t", action: "toggleTheme", scope: "global", messageKey: "toggleTheme" },
+  { key: "k", action: "focusCases", scope: "home", messageKey: "focusCases" },
+  { key: "c", action: "contactMe", scope: "home", messageKey: "contactMe" },
+  { key: "a", action: "contactMe", scope: "home", messageKey: "contactAbout" },
+  { key: "b", action: "goBackHome", scope: "home", messageKey: "backToHome" },
+  { key: "?", action: "showShortcutsHelp", scope: "global", messageKey: "showShortcutsHelp" },
 ];

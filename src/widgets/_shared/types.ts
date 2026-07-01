@@ -7,7 +7,8 @@ export type WidgetLayout = "square" | "wide";
 
 export interface WidgetConfig {
   id: string;
-  ariaLabel: string;
+  /** Задаётся в i18n, если виджет переводимый */
+  ariaLabel?: string;
   layout: WidgetLayout;
   grid: WidgetGridSpan;
   status: "planned" | "mock" | "live";

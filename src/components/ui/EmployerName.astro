@@ -1,6 +1,7 @@
 ---
 import "./employer-name.css";
 import { siteConfig } from "../../config/site.config";
+import { getMessages, interpolate } from "../../i18n";
 
 interface Props {
   label: string;
@@ -8,6 +9,7 @@ interface Props {
 
 const { label } = Astro.props;
 const videoSrc = siteConfig.employer.video;
+const m = getMessages();
 ---
 
 <span
@@ -16,7 +18,7 @@ const videoSrc = siteConfig.employer.video;
   data-employer-video={videoSrc}
   tabindex="0"
   role="button"
-  aria-label={`Работаю в ${label}`}
+  aria-label={interpolate(m.header.employerAriaLabel, { employer: label })}
 >
   <span class="employer-name__label">{label}.</span>
 </span>

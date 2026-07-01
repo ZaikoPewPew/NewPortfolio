@@ -1,5 +1,6 @@
 ---
 import { ViewTransitions } from "astro:transitions";
+import { defaultLocale, getMessages } from "../i18n";
 
 interface Props {
   title?: string;
@@ -7,15 +8,17 @@ interface Props {
   page?: "home" | "case" | "default";
 }
 
+const m = getMessages();
+
 const {
-  title = "Портфолио",
-  description = "Портфолио продуктового дизайнера",
+  title = m.meta.defaultTitle,
+  description = m.meta.defaultDescription,
   page = "default",
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="ru" data-theme="dark">
+<html lang={defaultLocale} data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

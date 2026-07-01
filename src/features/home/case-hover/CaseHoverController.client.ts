@@ -59,6 +59,20 @@ export function hideCasePreview() {
   getPanel()?.classList.remove("is-visible");
 }
 
+export function deactivateCaseHover() {
+  const page = document.querySelector<HTMLElement>("[data-home-page]");
+  const activeCard = page?.querySelector<HTMLElement>(".case-card.is-active");
+
+  if (activeCard) {
+    activeCard.classList.remove("is-active");
+  }
+
+  document.documentElement.classList.remove("is-case-active");
+  page?.classList.remove("is-case-active");
+  document.documentElement.style.removeProperty("--page-gradient");
+  hideCasePreview();
+}
+
 export function initCaseHover() {
   if (hoverBound) return;
   const page = document.querySelector<HTMLElement>("[data-home-page]");
