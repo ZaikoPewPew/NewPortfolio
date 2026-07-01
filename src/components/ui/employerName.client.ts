@@ -25,6 +25,7 @@ type EmployerPortal = {
 };
 
 let sharedPortal: EmployerPortal | null = null;
+let sharedFloat: HTMLElement | null = null;
 
 function readToken(name: string, fallback: number) {
   const raw = Number.parseFloat(
@@ -136,16 +137,33 @@ function getSharedPortal(videoSrc?: string): EmployerPortal {
   if (sharedPortal && document.body.contains(sharedPortal.root)) {
     return sharedPortal;
   }
-
   sharedPortal = findPortalInDom() ?? createPortal(videoSrc);
   return sharedPortal;
 }
 
-function clearOverlayCutout(overlay: HTMLElement) {
-  overlay.style.removeProperty("--employer-label-x");
-  overlay.style.removeProperty("--employer-label-y");
-  overlay.style.removeProperty("--employer-label-w");
-  overlay.style.removeProperty("--employer-label-h");
+/**
+ * Floating label — прямой потомок body.
+ *
+ * position: sticky у header всегда создаёт stacking context (браузерная спека),
+ * поэтому z-index внутри header не может превысить его уровень.
+ * Float живёт вне header, в stacking context body → z-index: 250 > overlay: 240.
+ */
+function getSharedFloat(): HTMLElement {
+  if (sharedFloat && document.body.contains(sharedFloat)) return sharedFloat;
+
+  const existing = document.querySelector<HTMLElement>("[data-employer-float]");
+  if (existing) {
+    sharedFloat = existing;
+    return existing;
+  }
+
+  const el = document.createElement("span");
+  el.className = "employer-name__label-float";
+  el.setAttribute("data-employer-float", "");
+  el.setAttribute("aria-hidden", "true");
+  document.body.append(el);
+  sharedFloat = el;
+  return el;
 }
 
 function bindEmployerHost(host: HTMLElement) {
@@ -154,7 +172,8 @@ function bindEmployerHost(host: HTMLElement) {
   const label = host.querySelector<HTMLElement>(".employer-name__label");
   if (!label) return;
 
-  const { block, video, overlay } = getSharedPortal(host.dataset.employerVideo);
+  const { block, video } = getSharedPortal(host.dataset.employerVideo);
+  const floatEl = getSharedFloat();
   host.setAttribute("data-employer-bound", "true");
 
   const reducedMotion = prefersReducedMotion();
@@ -179,17 +198,45 @@ function bindEmployerHost(host: HTMLElement) {
   let lastPointerX = 0;
   let lastPointerTime = 0;
 
-  const syncOverlayCutout = () => {
+  /**
+   * Позиционируем float через transform (субпиксельная точность композитора,
+   * не layout-round как top/left) и копируем все типографические свойства.
+   * Все мутации стилей — синхронно, до следующего paint.
+   */
+  const syncFloat = () => {
     const rect = label.getBoundingClientRect();
-    overlay.style.setProperty("--employer-label-x", `${rect.left}px`);
-    overlay.style.setProperty("--employer-label-y", `${rect.top}px`);
-    overlay.style.setProperty("--employer-label-w", `${rect.width}px`);
-    overlay.style.setProperty("--employer-label-h", `${rect.height}px`);
+    const s = window.getComputedStyle(label);
+    // Снэппим к device-pixel grid чтобы совпасть с layout-позицией оригинала
+    const dpr = window.devicePixelRatio || 1;
+    const snap = (v: number) => Math.round(v * dpr) / dpr;
+    floatEl.style.top = `${snap(rect.top)}px`;
+    floatEl.style.left = `${snap(rect.left)}px`;
+    floatEl.style.fontFamily = s.fontFamily;
+    floatEl.style.fontSize = s.fontSize;
+    floatEl.style.fontWeight = s.fontWeight;
+    floatEl.style.fontStyle = s.fontStyle;
+    // rect.height = em-box высота (то что реально рендерит Chrome для inline),
+    // а не line-height. Используем её чтобы не добавлять half-leading смещение.
+    floatEl.style.lineHeight = `${rect.height}px`;
+    floatEl.style.letterSpacing = s.letterSpacing;
+    floatEl.style.color = s.color;
+    floatEl.textContent = label.textContent;
+  };
+
+  const showFloat = () => {
+    syncFloat();
+    label.style.visibility = "hidden";
+    floatEl.style.visibility = "visible";
+  };
+
+  const hideFloat = () => {
+    floatEl.style.visibility = "hidden";
+    label.style.visibility = "";
   };
 
   const onScrollWhileActive = () => {
     if (!isActive) return;
-    syncOverlayCutout();
+    syncFloat();
   };
 
   const applyMotion = () => {
@@ -320,8 +367,8 @@ function bindEmployerHost(host: HTMLElement) {
     }
     isActive = true;
     host.setAttribute("data-employer-active", "");
+    showFloat();
     document.documentElement.classList.add("is-employer-active");
-    syncOverlayCutout();
     window.addEventListener("scroll", onScrollWhileActive, { passive: true });
     lastPointerX = clientX;
     lastPointerTime = performance.now();
@@ -335,7 +382,7 @@ function bindEmployerHost(host: HTMLElement) {
     host.removeAttribute("data-employer-active");
     document.documentElement.classList.remove("is-employer-active");
     window.removeEventListener("scroll", onScrollWhileActive);
-    clearOverlayCutout(overlay);
+    hideFloat();
     video?.pause();
     if (rafId) {
       cancelAnimationFrame(rafId);
@@ -384,7 +431,9 @@ export function resetEmployerName() {
   document.documentElement.classList.remove("is-employer-active");
   document.querySelectorAll<HTMLElement>("[data-employer-name-host]").forEach((host) => {
     host.removeAttribute("data-employer-active");
+    const lbl = host.querySelector<HTMLElement>(".employer-name__label");
+    if (lbl) lbl.style.visibility = "";
   });
-  if (sharedPortal) clearOverlayCutout(sharedPortal.overlay);
+  if (sharedFloat) sharedFloat.style.visibility = "hidden";
   sharedPortal?.video?.pause();
 }
