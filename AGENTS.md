@@ -24,6 +24,7 @@
 | `layouts-pages.mdc` | `src/layouts/**`, `src/pages/**` |
 | `layout-grid.mdc` | `src/components/layout/**`, `tokens.css`, главная |
 | `project-config.mdc` | `src/config/**` |
+| `i18n.mdc` | всегда (тексты, локали, переводы) |
 
 ## Куда идти по задаче
 
@@ -41,9 +42,11 @@
 | Layout / маршруты | `src/layouts/`, `src/pages/` |
 | Сетка главной | `.cursor/rules/layout-grid.mdc`, `components/layout/Grid.astro` |
 | Тултип (balloon) | `src/components/ui/Tooltip.astro`, `tooltip.client.ts` — см. `components/ui/README.md` |
+| UI-тексты / переводы | `src/i18n/locales/*.json`, `locale.config.ts` — см. `i18n.mdc` |
 
 ## Модульная документация
 
+- [`src/i18n/README.md`](src/i18n/README.md)
 - [`src/components/ui/README.md`](src/components/ui/README.md)
 - [`src/widgets/README.md`](src/widgets/README.md)
 - [`src/experience/README.md`](src/experience/README.md)

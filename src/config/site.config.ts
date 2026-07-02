@@ -2,6 +2,7 @@ export const siteConfig = {
   name: "Vladislav Kurguzov",
   employer: {
     label: "alfa-bank",
+    url: "https://alfabank.ru/",
     video: "/images/widgets/currently-block/0630.mov",
   },
   location: {

@@ -22,4 +22,5 @@ feedback.emit({ sound: "tap", haptic: "light", source: "dock.email" });
 
 - Не вызывать `new Audio()` или `navigator.vibrate()` напрямую в виджетах
 - Хоткеи регистрируются только в `hotkeys.config.ts`
+- Подписи хоткеев в help — `messageKey` → [`src/i18n/locales/*.json`](../i18n/locales/en.json) (`hotkeys.*`)
 - Уважать `prefers-reduced-motion` и UserPreferences

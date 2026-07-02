@@ -8,9 +8,10 @@
 
 ## Данные
 
-- mock: `data/bento.mock.ts`
+- mock: `data/bento.mock.ts` — labels/tooltips из `getMessages().bento`
 - api: `data/bento.api.ts` (planned)
 - Переключатель: `PUBLIC_BENTO_MODE=mock|api`
+- i18n-ключи: `bento.ariaLabel`, `bento.tiles.*` — см. [`src/i18n/README.md`](../../i18n/README.md)
 
 ## UX
 

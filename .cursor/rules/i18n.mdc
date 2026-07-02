@@ -1,0 +1,56 @@
+---
+description: Локализация UI, виджетов и контента
+alwaysApply: true
+---
+
+# i18n — тексты и переводы
+
+Сайт двуязычный: `en` (default) и `ru`. Источник истины для UI — `src/i18n/`.
+
+## Карта источников
+
+| Что | Где | Переводим? |
+|-----|-----|------------|
+| UI, aria-label, meta, хоткеи | `src/i18n/locales/en.json` + `ru.json` | **Да** — всегда оба файла |
+| Типы ключей | `src/i18n/types.ts` (из `en.json`) | синхронно с JSON |
+| Активная локаль | `src/i18n/locale.config.ts` → `defaultLocale` | конфиг, не текст |
+| API | `getMessages()`, `interpolate()` | `src/i18n/index.ts` |
+| Имя, employer, город, URL | `src/config/site.config.ts` | **Нет** — proper nouns / ссылки |
+| Dock labels (иконки) | `src/config/dock.config.ts` | **Нет** — символы, не copy |
+| Хоткеи (клавиши) | `src/experience/hotkeys/hotkeys.config.ts` | только `messageKey` → i18n |
+| Виджеты (mock) | `src/widgets/*/data/*.mock.ts` | через `getMessages()`, не строки в `.astro` |
+| Кейсы — карточка | MDX frontmatter (`title`, `summary`, `card.subtitle`) | **TBD** — см. ниже |
+| Кейсы — тело | MDX body в `src/content/cases/` | **TBD** — сейчас на русском |
+| Градиенты hover | frontmatter кейса | не переводятся |
+
+## Правила для новых строк
+
+1. **Запрещено** хардкодить пользовательский copy в `.astro`, `.ts` (client), `.mdx` компонентах — только `getMessages()` / `interpolate()`.
+2. Новый ключ — **сначала** в `en.json`, зеркально в `ru.json`. Структура ключей: `секция.подсекция` (`header.employerPrefix`, `bento.tiles.youtube.label`).
+3. Плейсхолдеры — `{name}` в JSON, подстановка через `interpolate()`.
+4. Хоткеи: текст описания — в `messages.hotkeys`, в `hotkeys.config.ts` только `messageKey`.
+5. Виджет с текстом: строки в i18n, в mock — `getMessages().<section>`; `WidgetConfig.ariaLabel` — из i18n.
+6. `ru.json` должен содержать **те же ключи**, что и `en.json` (тип `Messages`).
+
+## Что не переводить
+
+- Бренды, employer label, имена, handles, email, URL
+- Числа и метрики в tooltip (`1.1k subs`) — можно оставить как есть или локализовать единообразно в паре
+- Теги кейсов (`mobile`, `fintech`) — технические метки, не UI copy
+
+## Кейсы (решение не зафиксировано)
+
+Сейчас: один MDX на slug, тексты на русском. При добавлении i18n для кейсов — **не смешивать** подходы; выбрать один:
+
+- **A. Файлы по локали** — `project-alpha.en.mdx` / `project-alpha.ru.mdx` (или `cases/en/`, `cases/ru/`)
+- **B. Только карточка в i18n** — frontmatter-поля в JSON, тело кейса остаётся на одном языке
+- **C. Полный дубль коллекции** — `cases_en` / `cases_ru` в `content.config.ts`
+
+До выбора: новые кейсы писать в `src/content/cases/`; не дублировать `title`/`summary` в компонентах.
+
+## Чеклист агента
+
+- [ ] UI-строка → оба JSON, не в разметке
+- [ ] Новый хоткей → `messageKey` + ключ в `hotkeys`
+- [ ] Виджет → i18n-секция + mock через `getMessages()`
+- [ ] Кейс → только MDX; карточные поля в frontmatter

@@ -1,6 +1,6 @@
 # Портфолио — Vladislav Kurguzov
 
-Портфолио продуктового дизайнера. Язык контента — русский. Dark-first.
+Портфолио продуктового дизайнера. Локали `en` / `ru` — `src/i18n/`. Dark-first.
 
 ## Стек
 
@@ -31,6 +31,7 @@ src/
 ├── components/       # dumb UI: layout, cases, ui
 ├── config/           # site, dock, env (mock/api режимы)
 ├── content/cases/    # кейсы (MDX)
+├── i18n/             # локали en/ru, getMessages()
 ├── experience/       # звук, вибро, хоткеи, motion
 ├── features/
 │   ├── home/         # hover-фон, dock, header, orchestrator
@@ -52,6 +53,7 @@ src/
 
 | Модуль | README |
 |--------|--------|
+| i18n (UI-тексты) | [`src/i18n/README.md`](src/i18n/README.md) |
 | UI (Tooltip и др.) | [`src/components/ui/README.md`](src/components/ui/README.md) |
 | Виджеты | [`src/widgets/README.md`](src/widgets/README.md) |
 | Experience layer | [`src/experience/README.md`](src/experience/README.md) |

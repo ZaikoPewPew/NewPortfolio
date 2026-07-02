@@ -2,11 +2,17 @@
   position: relative;
   display: inline;
   color: var(--color-accent);
-  cursor: default;
+  cursor: pointer;
   outline: none;
 }
 
-.employer-name:focus-visible .employer-name__label {
+.employer-name__link {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.employer-name__link:focus-visible .employer-name__label {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
   border-radius: var(--space-2xs);
@@ -14,7 +20,7 @@
 
 .employer-name__label {
   position: relative;
-  cursor: default;
+  cursor: pointer;
 }
 
 /*

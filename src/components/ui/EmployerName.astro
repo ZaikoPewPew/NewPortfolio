@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { label } = Astro.props;
-const videoSrc = siteConfig.employer.video;
+const { video: videoSrc, url: employerUrl } = siteConfig.employer;
 const m = getMessages();
 ---
 
@@ -16,9 +16,14 @@ const m = getMessages();
   class="employer-name"
   data-employer-name-host
   data-employer-video={videoSrc}
-  tabindex="0"
-  role="button"
-  aria-label={interpolate(m.header.employerAriaLabel, { employer: label })}
 >
-  <span class="employer-name__label">{label}.</span>
+  <a
+    class="employer-name__link"
+    href={employerUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={interpolate(m.header.employerAriaLabel, { employer: label })}
+  >
+    <span class="employer-name__label">{label}.</span>
+  </a>
 </span>

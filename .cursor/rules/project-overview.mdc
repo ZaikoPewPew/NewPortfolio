@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Project Overview
 
-Портфолио продуктового дизайнера (Vladislav Kurguzov). Язык — русский. Dark-first.
+Портфолио продуктового дизайнера (Vladislav Kurguzov). Локали `en` / `ru` — `src/i18n/` (см. `i18n.mdc`). Dark-first.
 
 ## Стек
 

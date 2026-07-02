@@ -11,9 +11,10 @@
 
 ## Данные
 
-- mock: `data/me.mock.ts`
+- mock: `data/me.mock.ts` — role, bio из `getMessages().me`
 - api: (planned) CMS или static JSON
 - Статус: **mock**
+- i18n-ключи: `me.*`, `contact.*` — см. [`src/i18n/README.md`](../../i18n/README.md)
 
 ## Адаптив
 

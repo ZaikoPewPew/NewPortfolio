@@ -34,3 +34,4 @@ card:
 - Тексты кейсов не хардкодить в `.astro`
 - Схема — `src/content.config.ts`
 - Градиенты hover — в frontmatter, не в CSS компонентов
+- Переводы карточки и body — стратегия в `i18n.mdc` (пока один MDX на slug)
