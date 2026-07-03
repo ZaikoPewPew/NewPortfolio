@@ -9,4 +9,5 @@ export interface GitProfile {
   username: string;
   profileUrl: string;
   heatmap: GitContributionDay[];
+  commitsPerYear: number;
 }

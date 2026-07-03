@@ -64,11 +64,16 @@ export async function getApiGitProfile(): Promise<GitProfile> {
     }
 
     const data = (await response.json()) as ContributionsResponse;
+    const commitsPerYear = data.contributions.reduce(
+      (sum, day) => sum + day.count,
+      0,
+    );
 
     return {
       username: `@${username}`,
       profileUrl: siteConfig.social.github,
       heatmap: mapContributionsToHeatmap(data.contributions),
+      commitsPerYear,
     };
   } catch (error) {
     console.warn("[git-widget] API failed, using mock:", error);

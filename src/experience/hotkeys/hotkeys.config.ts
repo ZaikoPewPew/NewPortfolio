@@ -21,8 +21,8 @@ export const hotkeyBindings: HotkeyBinding[] = [
   { key: "m", action: "toggleSound", scope: "global", messageKey: "toggleSound" },
   { key: "t", action: "toggleTheme", scope: "global", messageKey: "toggleTheme" },
   { key: "k", action: "focusCases", scope: "home", messageKey: "focusCases" },
-  { key: "c", action: "contactMe", scope: "home", messageKey: "contactMe" },
-  { key: "a", action: "contactMe", scope: "home", messageKey: "contactAbout" },
+  { key: "h", action: "contactMe", scope: "home", messageKey: "contactMe" },
+  { key: "c", action: "contactMe", scope: "home", messageKey: "contactAbout" },
   { key: "b", action: "goBackHome", scope: "home", messageKey: "backToHome" },
   { key: "?", action: "showShortcutsHelp", scope: "global", messageKey: "showShortcutsHelp" },
 ];

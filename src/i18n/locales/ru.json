@@ -19,8 +19,8 @@
       "line2": "I also ship what I design"
     },
     "contactButton": {
-      "contact": "contact",
-      "about": "about",
+      "contact": "say hi",
+      "about": "vibe check",
       "backToHome": "back to home"
     }
   },
@@ -44,7 +44,7 @@
   "git": {
     "ariaLabel": "Активность на GitHub",
     "openProfile": "Открыть профиль на GitHub",
-    "follow": "Follow"
+    "commitsPerYear": "{count} коммитов в год"
   },
   "bento": {
     "ariaLabel": "Ссылки и каналы",
@@ -55,12 +55,12 @@
       },
       "ies": {
         "label": "IES",
-        "tooltip": ["tg mini app", "1.8k users"]
+        "tooltip": ["my pet project", "1.8k users"]
       },
       "youtube": {
         "label": "YouTube — Design Lead",
         "caption": ["Design", "Lead"],
-        "tooltip": ["youtube", "22k subs"]
+        "tooltip": ["my youtube", "22k subs"]
       }
     }
   },
@@ -68,8 +68,8 @@
     "toggleSound": "Вкл/выкл звук",
     "toggleTheme": "Сменить тему",
     "focusCases": "Фокус на кейсы",
-    "contactMe": "Связаться",
-    "contactAbout": "About",
+    "contactMe": "say hi",
+    "contactAbout": "vibe check",
     "backToHome": "На главную",
     "showShortcutsHelp": "Показать хоткеи"
   }

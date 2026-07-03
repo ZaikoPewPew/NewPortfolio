@@ -18,7 +18,7 @@ function isTypingTarget(target: EventTarget | null): boolean {
 
 function normalizeHotkey(event: KeyboardEvent): string | null {
   if (event.code === "KeyC") return "c";
-  if (event.code === "KeyA") return "a";
+  if (event.code === "KeyH") return "h";
   if (event.code === "KeyK") return "k";
   if (event.code === "KeyM") return "m";
   if (event.code === "KeyT") return "t";
@@ -55,7 +55,7 @@ function runAction(action: HotkeyAction, key: string) {
       break;
     }
     case "contactMe": {
-      const shouldToggle = key === "c" || (key === "a" && isContactPanelOpen());
+      const shouldToggle = key === "h" || (key === "c" && isContactPanelOpen());
       if (!shouldToggle) return;
       feedback.emit({ sound: "tap", haptic: "light", source: "hotkey.contact" });
       toggleContactPanel();

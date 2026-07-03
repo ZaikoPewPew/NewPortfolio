@@ -1,6 +1,6 @@
 ---
 import Tooltip from "../../components/ui/Tooltip.astro";
-import { getMessages } from "../../i18n";
+import { defaultLocale, getMessages, interpolate } from "../../i18n";
 import { GIT_HEATMAP_COLS, GIT_HEATMAP_SIZE } from "./data/git.constants";
 import { getGitProfile } from "./data/git.source";
 import { formatContributionDate } from "./formatContributionDate";
@@ -9,6 +9,9 @@ import "./git.animations.css";
 
 const profile = await getGitProfile();
 const m = getMessages();
+const commitsPerYearLabel = interpolate(m.git.commitsPerYear, {
+  count: new Intl.NumberFormat(defaultLocale).format(profile.commitsPerYear),
+});
 const lastRowStartIndex = GIT_HEATMAP_SIZE - GIT_HEATMAP_COLS;
 
 const levelClass = (level: number) =>
@@ -43,10 +46,10 @@ const levelClass = (level: number) =>
           {profile.username}
         </span>
         <span
-          class="git-widget__username-layer git-widget__username-layer--follow"
+          class="git-widget__username-layer git-widget__username-layer--commits"
           aria-hidden="true"
         >
-          {m.git.follow}
+          {commitsPerYearLabel}
         </span>
       </span>
     </a>

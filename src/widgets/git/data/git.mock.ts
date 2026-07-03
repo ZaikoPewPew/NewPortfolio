@@ -17,6 +17,7 @@ const HEATMAP_LEVELS: GitContributionLevel[] = [
 ];
 
 const MOCK_DATES = buildHeatmapDates();
+const MOCK_COMMITS_PER_YEAR = 412;
 
 export function getMockGitProfile(): GitProfile {
   return {
@@ -26,5 +27,6 @@ export function getMockGitProfile(): GitProfile {
       level,
       date: MOCK_DATES[index],
     })),
+    commitsPerYear: MOCK_COMMITS_PER_YEAR,
   };
 }

@@ -62,7 +62,7 @@ function updateContactUi(
 ) {
   button.setAttribute("aria-expanded", String(mode === "about"));
   label.textContent = mode === "about" ? contactButtonLabels.about : contactButtonLabels.contact;
-  keycap.textContent = mode === "about" ? "a" : "c";
+  keycap.textContent = mode === "about" ? "c" : "h";
   slot.setAttribute("aria-hidden", String(mode === "contact"));
 }
 

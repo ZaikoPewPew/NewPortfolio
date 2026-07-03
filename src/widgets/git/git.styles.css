@@ -53,7 +53,7 @@
     opacity var(--motion-base) var(--ease-out-expo);
 }
 
-.git-widget__username-layer--follow {
+.git-widget__username-layer--commits {
   opacity: 0;
   transform: translateY(100%);
 }
@@ -63,7 +63,7 @@
   transform: translateY(-100%);
 }
 
-.git-widget:hover .git-widget__username-layer--follow {
+.git-widget:hover .git-widget__username-layer--commits {
   opacity: 1;
   transform: translateY(0);
 }

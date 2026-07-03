@@ -15,6 +15,6 @@
 
 ## UX
 
-- Hover: зелёный inset-shadow и иконки `#80FA4F`
+- Hover: иконки и текст YouTube → `--color-link-hover`
 - Tap feedback через `FeedbackBus`
 - Тултипы на плитках: balloon-on-string (`Tooltip` + `initDragTooltips`) — см. [`src/components/ui/README.md`](../../components/ui/README.md)

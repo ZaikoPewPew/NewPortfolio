@@ -9,7 +9,7 @@ interface Props {
   mode?: ContactButtonMode;
 }
 
-const { hotkey = "c", class: className, mode = "contact" } = Astro.props;
+const { hotkey = "h", class: className, mode = "contact" } = Astro.props;
 const m = getMessages();
 
 const labelByMode: Record<ContactButtonMode, string> = {
@@ -19,7 +19,7 @@ const labelByMode: Record<ContactButtonMode, string> = {
 
 const keycapByMode: Record<ContactButtonMode, string> = {
   contact: hotkey,
-  about: "a",
+  about: "c",
 };
 ---
 

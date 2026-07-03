@@ -1,11 +1,5 @@
 .bento-widget__cell {
-  transition:
-    box-shadow var(--motion-base) var(--ease-out-expo),
-    background-color var(--motion-base) var(--ease-out-expo);
-}
-
-.bento-widget__cell:hover {
-  box-shadow: var(--shadow-link-hover);
+  transition: background-color var(--motion-base) var(--ease-out-expo);
 }
 
 @media (prefers-reduced-motion: reduce) {
