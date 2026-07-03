@@ -78,10 +78,10 @@ html.is-employer-active .employer-name__overlay {
 }
 
 .currently-block {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: var(--z-employer-block);
   pointer-events: none;
   opacity: 0;
   visibility: hidden;

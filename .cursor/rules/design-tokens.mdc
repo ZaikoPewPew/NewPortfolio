@@ -14,7 +14,7 @@ alwaysApply: true
 - В компонентах используй `var(--token-name)`, никогда сырые значения
 - Запрещено: hex/rgb/hsl в `.astro`, `.css`, `.mdx` (кроме `tokens.css` и frontmatter кейсов для `hover.*`)
 - Motion: `--motion-fast`, `--motion-base`, `--ease-out-expo`
-- Z-index: `--z-background`, `--z-content`, `--z-dock`, `--z-preview`
+- Z-index: `--z-background`, `--z-content`, `--z-dock`, `--z-preview`, `--z-employer-backdrop`, `--z-employer-focus`, `--z-employer-block`
 - Если нужного токена нет — **сначала проверь `tokens.css`**: возможно, подходящий semantic-токен уже есть (например `--color-text-primary` для белого текста, `--space-2xl` для 48px)
 - Новый токен добавляй только если существующие не покрывают смысл; не плодить синонимы (`--color-bg-button` ≈ `--color-bg-contrast`)
 - Имена токенов — общие и переиспользуемые (без привязки к одному виджету/странице)

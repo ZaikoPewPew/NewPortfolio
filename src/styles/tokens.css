@@ -171,6 +171,7 @@
   --z-preview: 200;
   --z-employer-backdrop: 240;
   --z-employer-focus: 250;
+  --z-employer-block: 255;
   --z-tooltip: 2147483647;
 
   /* Layout */

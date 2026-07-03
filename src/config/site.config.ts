@@ -3,7 +3,7 @@ export const siteConfig = {
   employer: {
     label: "alfa-bank",
     url: "https://alfabank.ru/",
-    video: "/images/widgets/currently-block/0630.mov",
+    video: "/images/widgets/currently-block/fantech.mp4",
   },
   location: {
     city: "Almaty",

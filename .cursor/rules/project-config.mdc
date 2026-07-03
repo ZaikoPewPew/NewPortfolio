@@ -8,7 +8,7 @@ alwaysApply: false
 
 ## Файлы
 
-- `site.config.ts` — имя, employer, location, social links
+- `site.config.ts` — имя, employer (label, url, video), location, social links
 - `dock.config.ts` — элементы ActionDock (email, social, theme, music)
 - `env.config.ts` — режимы mock/api для виджетов (`PUBLIC_*_MODE`)
 
@@ -18,3 +18,4 @@ alwaysApply: false
 - Dock items — только в `dock.config.ts`
 - Переключение mock/api — через `env.config.ts` + `widgets/*/data/*.source.ts`
 - Не дублировать URL (email, social) в dock и site — импортировать из `site.config` где возможно
+- Видео employer hover — `employer.video` в `site.config.ts`; ассеты в `public/images/widgets/currently-block/`

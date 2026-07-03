@@ -62,8 +62,9 @@ function findPortalInDom(): EmployerPortal | null {
   document.querySelectorAll<HTMLElement>("[data-employer-overlay]").forEach((overlay) => {
     if (!overlay.closest("[data-employer-focus-root]")) overlay.remove();
   });
-  document.querySelectorAll<HTMLElement>("[data-currently-block]").forEach((block) => {
-    if (!block.closest("[data-employer-focus-root]")) block.remove();
+  const blocks = document.querySelectorAll<HTMLElement>("[data-currently-block]");
+  blocks.forEach((block, index) => {
+    if (index < blocks.length - 1) block.remove();
   });
 
   const roots = document.querySelectorAll<HTMLElement>("[data-employer-focus-root]");
@@ -72,12 +73,17 @@ function findPortalInDom(): EmployerPortal | null {
   });
 
   const root = document.querySelector<HTMLElement>("[data-employer-focus-root]");
-  if (!root) return null;
+  const block = document.querySelector<HTMLElement>("[data-currently-block]");
+  if (!root || !block) {
+    root?.remove();
+    block?.remove();
+    return null;
+  }
 
   const overlay = root.querySelector<HTMLElement>("[data-employer-overlay]");
-  const block = root.querySelector<HTMLElement>("[data-currently-block]");
-  if (!overlay || !block) {
+  if (!overlay) {
     root.remove();
+    block.remove();
     return null;
   }
 
@@ -128,8 +134,8 @@ function createPortal(videoSrc?: string): EmployerPortal {
 
   frame.append(media);
   block.append(frame);
-  root.append(overlay, block);
-  document.body.append(root);
+  root.append(overlay);
+  document.body.append(root, block);
   return { root, overlay, block, video };
 }
 
@@ -146,7 +152,8 @@ function getSharedPortal(videoSrc?: string): EmployerPortal {
  *
  * position: sticky у header всегда создаёт stacking context (браузерная спека),
  * поэтому z-index внутри header не может превысить его уровень.
- * Float живёт вне header, в stacking context body → z-index: 250 > overlay: 240.
+ * Float живёт вне header, в stacking context body → z-index: 250.
+ * Currently-block — отдельный слой body → z-index: 255, выше float.
  */
 function getSharedFloat(): HTMLElement {
   if (sharedFloat && document.body.contains(sharedFloat)) return sharedFloat;

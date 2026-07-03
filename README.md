@@ -111,7 +111,7 @@ npm run preview  # предпросмотр сборки
 
 ### Header
 
-- **Employer** — «currently at» + ссылка на работодателя (`site.config.ts`), hover с видео (`EmployerName.astro`)
+- **Employer** — «currently at» + ссылка на работодателя (`site.config.ts`), hover с видео-блоком **currently-block** (`EmployerName.astro`). Ролик: `public/images/widgets/currently-block/fantech.mp4`. Подробнее — [`src/components/ui/README.md`](src/components/ui/README.md)
 - **LiveClock** — время в часовом поясе из `site.config.location.timezone` (Almaty)
 
 ### Левая колонка — виджеты (300px на desktop)
@@ -290,7 +290,7 @@ interpolate(m.header.employerAriaLabel, { employer: "alfa-bank" });
 
 | Файл | Содержимое |
 |------|------------|
-| `src/config/site.config.ts` | Имя, employer (label, url, video), location, social links |
+| `src/config/site.config.ts` | Имя, employer (label, url, video), location, social links — см. [`src/config/README.md`](src/config/README.md) |
 | `src/config/dock.config.ts` | Элементы ActionDock |
 | `src/config/env.config.ts` | Режимы mock/api виджетов (`PUBLIC_*_MODE`) |
 | `src/config/cases.config.ts` | `homeLimit` — сколько кейсов на главной |
@@ -322,6 +322,9 @@ interpolate(m.header.employerAriaLabel, { employer: "alfa-bank" });
 | `--z-content` | контент |
 | `--z-dock` | dock |
 | `--z-preview` | preview кейса |
+| `--z-employer-backdrop` | blur-оверлей employer hover |
+| `--z-employer-focus` | float-текст employer над overlay |
+| `--z-employer-block` | видео-блок currently-block (над текстом) |
 | `--z-tooltip` | тултипы |
 
 ### Шрифты

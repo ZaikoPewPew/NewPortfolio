@@ -42,6 +42,8 @@
 | Layout / маршруты | `src/layouts/`, `src/pages/` |
 | Сетка главной | `.cursor/rules/layout-grid.mdc`, `components/layout/Grid.astro` |
 | Тултип (balloon) | `src/components/ui/Tooltip.astro`, `tooltip.client.ts` — см. `components/ui/README.md` |
+| Employer hover / currently-block | `src/components/ui/EmployerName.astro`, `employerName.client.ts` — см. `components/ui/README.md` |
+| Конфиг сайта | `src/config/` — см. `config/README.md` |
 | UI-тексты / переводы | `src/i18n/locales/*.json`, `locale.config.ts` — см. `i18n.mdc` |
 
 ## Модульная документация
@@ -51,3 +53,4 @@
 - [`src/widgets/README.md`](src/widgets/README.md)
 - [`src/experience/README.md`](src/experience/README.md)
 - [`src/features/home/README.md`](src/features/home/README.md)
+- [`src/config/README.md`](src/config/README.md)
