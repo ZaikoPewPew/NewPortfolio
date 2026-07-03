@@ -97,11 +97,13 @@
 
 | Файл | Назначение |
 |------|------------|
-| `EmployerName.astro` | Ссылка на работодателя, `data-employer-video` из `site.config` |
-| `employerName.client.ts` | Портал на `body`, физика, float-label, видео |
-| `employer-name.css` | Overlay, float, currently-block |
+| `EmployerName.astro` | Ссылка на работодателя, `data-employer-video` из `site.config`, `data-wash-tint="employer"` |
+| `employerName.client.ts` | Портал на `body`, физика, float-label, видео, wash |
+| `employer-name.css` | Overlay (backdrop + wash + grain), float, currently-block |
+| `experience/wash/wash.client.ts` | Canvas wash, `readWashTint()` |
+| `experience/wash/wash.css` | `.wash__canvas`, `.wash__grain` |
 
-Видео-ассет — `public/images/widgets/currently-block/` (см. README в папке). Инициализация — `initEmployerName()` из `HomeOrchestrator.client.ts`; сброс при навигации — `resetEmployerName()`.
+Спека wash: [`src/experience/wash/`](../experience/wash/). Цвета — `--wash-tint-*` в `src/styles/themes/dark.css` / `light.css`. Видео-ассет — `public/images/widgets/currently-block/` (см. README в папке). Инициализация — `initEmployerName()` из `HomeOrchestrator.client.ts`; сброс при навигации — `resetEmployerName()`.
 
 ### Подключение
 
@@ -117,8 +119,10 @@
 
 | Слой | Элемент | z-index |
 |------|---------|---------|
-| Blur + grain | `.employer-focus-root` → `.employer-name__overlay` | `--z-employer-backdrop` (240) |
+| Blur | `.employer-name__backdrop` — fullscreen, без маски | `--z-employer-backdrop` (240) |
+| Wash + grain | `.employer-name__overlay` → canvas (radial mask) | поверх blur |
 | Текст employer | `.employer-name__label-float` (`data-employer-float`) | `--z-employer-focus` (250) |
+| Префикс «currently at» | `.employer-prefix__float` (`data-employer-prefix-float`) | `--z-employer-focus` (250) |
 | Видео-блок | `.currently-block` (`data-currently-block`) | `--z-employer-block` (255) |
 
 `currently-block` — отдельный sibling на `body`, не внутри `employer-focus-root`, чтобы блок летал **над** текстом, а не под ним.
@@ -134,13 +138,19 @@
 | `data-employer-bound` | Хост (JS) | Защита от двойной инициализации |
 | `data-employer-active` | Хост (JS) | Активное состояние |
 | `data-employer-focus-root` | Портал overlay | Корень blur-слоя |
-| `data-employer-overlay` | Overlay | Blur + grain |
+| `data-employer-overlay` | Overlay | Wash + grain (fade) |
+| `data-wash-canvas` | Canvas | Animated gradient wash |
+| `data-wash-tint` | Хост | Id токена `--wash-tint-{id}` |
 | `data-employer-float` | Float label | Копия текста над overlay |
+| `data-employer-prefix` | Префикс в header | Исходный «currently at» |
+| `data-employer-prefix-float` | Float prefix | Копия префикса над overlay |
 | `data-currently-block` | Видео-блок | Плавающий виджет |
 
 Глобальный класс `html.is-employer-active` включает видимость overlay и блока.
 
 ### Поведение
+
+**Wash** — WebGL mesh-gradient в `experience/wash/`. rAF-цикл независим от курсора; grain в шейдере (`--wash-grain-mixer`, `--wash-grain-overlay`). Hover: fade overlay + `setTint(--wash-tint-{id})` с плавным HSL-mix.
 
 **Позиция блока** — `translate: var(--currently-block-x/y)` от `position: fixed; top/left: 0`. Цель — курсор + offset (`POINTER_OFFSET_X/Y` = 24px). Inertial spring: `--employer-follow-force`, `--employer-follow-damping`.
 
@@ -165,8 +175,11 @@
 | `--currently-block-inner-width` / `--height` | Размер области видео (297×152) |
 | `--currently-block-radius` / `--inner-radius` | Скругления рамки и медиа |
 | `--currently-block-padding` | Padding рамки |
-| `--employer-blur-amount` | Сила backdrop-blur оверлея |
-| `--employer-grain-opacity` / `--employer-grain-size` | Grain поверх blur |
+| `--employer-blur-amount` | Сила backdrop-blur под wash |
+| `--wash-blur` / `--wash-saturate` | Blur/saturate canvas wash |
+| `--wash-grain-opacity` / `--wash-grain-size` / `--wash-grain-cycle` | Grain поверх wash |
+| `--wash-bg` | Фон wash (тема) |
+| `--wash-tint-employer` / `--wash-tint-email` / … | Tint по id ссылки (тема) |
 | `--employer-follow-force` / `--employer-follow-damping` | Spring позиции |
 | `--employer-tilt-max` | Макс. угол наклона, ° |
 | `--employer-balloon-force` / `--employer-balloon-damping` | Spring угла |

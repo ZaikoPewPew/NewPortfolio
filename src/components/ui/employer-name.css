@@ -1,3 +1,5 @@
+@import "../../experience/wash/wash.css";
+
 .employer-name {
   position: relative;
   display: inline;
@@ -29,7 +31,8 @@
   employer-name внутри него нельзя поднять через z-index.
   Float рендерится вне header, в stacking context body.
 */
-.employer-name__label-float {
+.employer-name__label-float,
+.employer-prefix__float {
   position: fixed;
   z-index: var(--z-employer-focus);
   pointer-events: none;
@@ -47,7 +50,7 @@
   isolation: isolate;
 }
 
-.employer-name__overlay {
+.employer-name__backdrop {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -61,17 +64,35 @@
     visibility var(--motion-base) var(--ease-out-expo);
 }
 
-.employer-name__overlay::after {
-  content: "";
+.employer-name__overlay {
   position: absolute;
   inset: 0;
-  opacity: var(--employer-grain-opacity);
+  z-index: 1;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: var(--employer-grain-size) var(--employer-grain-size);
-  mix-blend-mode: soft-light;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--motion-base) var(--ease-out-expo),
+    visibility var(--motion-base) var(--ease-out-expo);
+  -webkit-mask-image: radial-gradient(
+    ellipse 58% 52% at 50% 48%,
+    rgba(0, 0, 0, 0.28) 30%,
+    rgba(0, 0, 0, 0.6) 65%,
+    black 95%
+  );
+  mask-image: radial-gradient(
+    ellipse 58% 52% at 50% 48%,
+    rgba(0, 0, 0, 0.28) 30%,
+    rgba(0, 0, 0, 0.6) 65%,
+    black 95%
+  );
 }
 
+.employer-name__overlay .wash__canvas {
+  z-index: 0;
+}
+
+html.is-employer-active .employer-name__backdrop,
 html.is-employer-active .employer-name__overlay {
   opacity: 1;
   visibility: visible;

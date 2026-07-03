@@ -16,6 +16,7 @@ feedback.emit({ sound: "tap", haptic: "light", source: "dock.email" });
 - `audio/` — AudioEngine
 - `hotkeys/` — HotkeysManager, hotkeys.config
 - `motion/` — reduced motion helpers (`prefersReducedMotion`; используется, например, в `components/ui/tooltip.client.ts`)
+- `wash/` — canvas gradient wash + grain ([`wash/README.md`](wash/README.md))
 - `preferences/` — UserPreferences (localStorage)
 
 ## Правила

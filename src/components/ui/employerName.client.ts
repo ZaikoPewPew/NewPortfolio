@@ -1,4 +1,5 @@
 import { isMobileViewport, prefersReducedMotion } from "../../experience/motion/prefersReducedMotion";
+import { createWash, readWashTint, type WashController } from "../../experience/wash/wash.client";
 
 const MAX_FRAME_DT = 0.032;
 const SETTLE_POSITION = 0.35;
@@ -22,10 +23,20 @@ type EmployerPortal = {
   overlay: HTMLElement;
   block: HTMLElement;
   video: HTMLVideoElement | null;
+  wash: WashController | null;
 };
 
 let sharedPortal: EmployerPortal | null = null;
 let sharedFloat: HTMLElement | null = null;
+let sharedPrefixFloat: HTMLElement | null = null;
+const washByRoot = new WeakMap<HTMLElement, WashController>();
+
+function destroyPortal(portal: EmployerPortal) {
+  portal.wash?.destroy();
+  washByRoot.delete(portal.root);
+  portal.root.remove();
+  portal.block.remove();
+}
 
 function readToken(name: string, fallback: number) {
   const raw = Number.parseFloat(
@@ -69,7 +80,11 @@ function findPortalInDom(): EmployerPortal | null {
 
   const roots = document.querySelectorAll<HTMLElement>("[data-employer-focus-root]");
   roots.forEach((root, index) => {
-    if (index < roots.length - 1) root.remove();
+    if (index < roots.length - 1) {
+      washByRoot.get(root)?.destroy();
+      washByRoot.delete(root);
+      root.remove();
+    }
   });
 
   const root = document.querySelector<HTMLElement>("[data-employer-focus-root]");
@@ -82,9 +97,15 @@ function findPortalInDom(): EmployerPortal | null {
 
   const overlay = root.querySelector<HTMLElement>("[data-employer-overlay]");
   if (!overlay) {
-    root.remove();
-    block.remove();
+    destroyPortal({ root, overlay: root, block, video: null, wash: null });
     return null;
+  }
+
+  let wash = washByRoot.get(root) ?? null;
+  const canvas = overlay.querySelector<HTMLCanvasElement>("[data-wash-canvas]");
+  if (!wash && canvas && !prefersReducedMotion()) {
+    wash = createWash(canvas);
+    washByRoot.set(root, wash);
   }
 
   return {
@@ -92,6 +113,7 @@ function findPortalInDom(): EmployerPortal | null {
     overlay,
     block,
     video: block.querySelector<HTMLVideoElement>(".currently-block__video"),
+    wash,
   };
 }
 
@@ -105,6 +127,18 @@ function createPortal(videoSrc?: string): EmployerPortal {
   overlay.className = "employer-name__overlay";
   overlay.setAttribute("data-employer-overlay", "");
   overlay.setAttribute("aria-hidden", "true");
+
+  const backdrop = document.createElement("div");
+  backdrop.className = "employer-name__backdrop";
+  backdrop.setAttribute("aria-hidden", "true");
+
+  const washCanvas = document.createElement("canvas");
+  washCanvas.className = "wash__canvas";
+  washCanvas.setAttribute("data-wash-canvas", "");
+  washCanvas.setAttribute("aria-hidden", "true");
+
+  overlay.append(washCanvas);
+  root.append(backdrop, overlay);
 
   const block = document.createElement("div");
   block.className = "currently-block";
@@ -134,9 +168,16 @@ function createPortal(videoSrc?: string): EmployerPortal {
 
   frame.append(media);
   block.append(frame);
-  root.append(overlay);
+  root.append(backdrop, overlay);
   document.body.append(root, block);
-  return { root, overlay, block, video };
+
+  let wash: WashController | null = null;
+  if (!prefersReducedMotion()) {
+    wash = createWash(washCanvas);
+    washByRoot.set(root, wash);
+  }
+
+  return { root, overlay, block, video, wash };
 }
 
 function getSharedPortal(videoSrc?: string): EmployerPortal {
@@ -152,7 +193,8 @@ function getSharedPortal(videoSrc?: string): EmployerPortal {
  *
  * position: sticky у header всегда создаёт stacking context (браузерная спека),
  * поэтому z-index внутри header не может превысить его уровень.
- * Float живёт вне header, в stacking context body → z-index: 250.
+ * Float рендерится вне header, в stacking context body → z-index: 250.
+ * Prefix float — тот же слой, чтобы «currently at» не уходил под wash.
  * Currently-block — отдельный слой body → z-index: 255, выше float.
  */
 function getSharedFloat(): HTMLElement {
@@ -173,14 +215,52 @@ function getSharedFloat(): HTMLElement {
   return el;
 }
 
+function getSharedPrefixFloat(): HTMLElement {
+  if (sharedPrefixFloat && document.body.contains(sharedPrefixFloat)) return sharedPrefixFloat;
+
+  const existing = document.querySelector<HTMLElement>("[data-employer-prefix-float]");
+  if (existing) {
+    sharedPrefixFloat = existing;
+    return existing;
+  }
+
+  const el = document.createElement("span");
+  el.className = "employer-prefix__float";
+  el.setAttribute("data-employer-prefix-float", "");
+  el.setAttribute("aria-hidden", "true");
+  document.body.append(el);
+  sharedPrefixFloat = el;
+  return el;
+}
+
+function syncFloatElement(floatEl: HTMLElement, source: HTMLElement) {
+  const rect = source.getBoundingClientRect();
+  const s = window.getComputedStyle(source);
+  const dpr = window.devicePixelRatio || 1;
+  const snap = (v: number) => Math.round(v * dpr) / dpr;
+  floatEl.style.top = `${snap(rect.top)}px`;
+  floatEl.style.left = `${snap(rect.left)}px`;
+  floatEl.style.fontFamily = s.fontFamily;
+  floatEl.style.fontSize = s.fontSize;
+  floatEl.style.fontWeight = s.fontWeight;
+  floatEl.style.fontStyle = s.fontStyle;
+  floatEl.style.lineHeight = `${rect.height}px`;
+  floatEl.style.letterSpacing = s.letterSpacing;
+  floatEl.style.color = s.color;
+  floatEl.textContent = source.textContent;
+}
+
 function bindEmployerHost(host: HTMLElement) {
   if (host.hasAttribute("data-employer-bound")) return;
 
   const label = host.querySelector<HTMLElement>(".employer-name__label");
   if (!label) return;
 
-  const { block, video } = getSharedPortal(host.dataset.employerVideo);
+  const prefix = host.parentElement?.querySelector<HTMLElement>("[data-employer-prefix]") ?? null;
+  const { block, video, wash } = getSharedPortal(host.dataset.employerVideo);
   const floatEl = getSharedFloat();
+  const prefixFloatEl = prefix ? getSharedPrefixFloat() : null;
+  const washTintId = host.dataset.washTint ?? "employer";
   host.setAttribute("data-employer-bound", "true");
 
   const reducedMotion = prefersReducedMotion();
@@ -205,40 +285,28 @@ function bindEmployerHost(host: HTMLElement) {
   let lastPointerX = 0;
   let lastPointerTime = 0;
 
-  /**
-   * Позиционируем float через transform (субпиксельная точность композитора,
-   * не layout-round как top/left) и копируем все типографические свойства.
-   * Все мутации стилей — синхронно, до следующего paint.
-   */
   const syncFloat = () => {
-    const rect = label.getBoundingClientRect();
-    const s = window.getComputedStyle(label);
-    // Снэппим к device-pixel grid чтобы совпасть с layout-позицией оригинала
-    const dpr = window.devicePixelRatio || 1;
-    const snap = (v: number) => Math.round(v * dpr) / dpr;
-    floatEl.style.top = `${snap(rect.top)}px`;
-    floatEl.style.left = `${snap(rect.left)}px`;
-    floatEl.style.fontFamily = s.fontFamily;
-    floatEl.style.fontSize = s.fontSize;
-    floatEl.style.fontWeight = s.fontWeight;
-    floatEl.style.fontStyle = s.fontStyle;
-    // rect.height = em-box высота (то что реально рендерит Chrome для inline),
-    // а не line-height. Используем её чтобы не добавлять half-leading смещение.
-    floatEl.style.lineHeight = `${rect.height}px`;
-    floatEl.style.letterSpacing = s.letterSpacing;
-    floatEl.style.color = s.color;
-    floatEl.textContent = label.textContent;
+    syncFloatElement(floatEl, label);
+    if (prefix && prefixFloatEl) syncFloatElement(prefixFloatEl, prefix);
   };
 
   const showFloat = () => {
     syncFloat();
     label.style.visibility = "hidden";
     floatEl.style.visibility = "visible";
+    if (prefix && prefixFloatEl) {
+      prefix.style.visibility = "hidden";
+      prefixFloatEl.style.visibility = "visible";
+    }
   };
 
   const hideFloat = () => {
     floatEl.style.visibility = "hidden";
     label.style.visibility = "";
+    if (prefix && prefixFloatEl) {
+      prefixFloatEl.style.visibility = "hidden";
+      prefix.style.visibility = "";
+    }
   };
 
   const onScrollWhileActive = () => {
@@ -374,6 +442,7 @@ function bindEmployerHost(host: HTMLElement) {
     }
     isActive = true;
     host.setAttribute("data-employer-active", "");
+    wash?.setTintId(washTintId);
     showFloat();
     document.documentElement.classList.add("is-employer-active");
     window.addEventListener("scroll", onScrollWhileActive, { passive: true });
@@ -440,7 +509,10 @@ export function resetEmployerName() {
     host.removeAttribute("data-employer-active");
     const lbl = host.querySelector<HTMLElement>(".employer-name__label");
     if (lbl) lbl.style.visibility = "";
+    const prefix = host.parentElement?.querySelector<HTMLElement>("[data-employer-prefix]");
+    if (prefix) prefix.style.visibility = "";
   });
   if (sharedFloat) sharedFloat.style.visibility = "hidden";
+  if (sharedPrefixFloat) sharedPrefixFloat.style.visibility = "hidden";
   sharedPortal?.video?.pause();
 }

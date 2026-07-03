@@ -18,4 +18,20 @@ html:not([data-theme]),
   --shadow-link-hover: inset 0 0 10px 0 rgba(255, 91, 80, 0.15);
   --shadow-bento-script: rgba(255, 91, 80, 0.25);
   --shadow-tooltip: 0 8px 16px -2px rgba(27, 33, 44, 0.12);
+
+  --wash-bg: #000000;
+  --wash-grain-opacity: 0.08;
+  --wash-grain-overlay: 0.12;
+  --wash-grain-mixer: 0.2;
+  --wash-palette-employer-bg: #000000;
+  --wash-palette-employer-1: #692020;
+  --wash-palette-employer-2: #634040;
+  --wash-palette-employer-3: #000000;
+  --wash-tint-employer: #692020;
+  --wash-tint-email: #5b8def;
+  --wash-tint-linkedin: #0a66c2;
+  --wash-tint-telegram: #2aabee;
+  --wash-tint-github: #8b949e;
+  --wash-tint-x: #e7e9ea;
+  --wash-tint-cv: #6e6e73;
 }

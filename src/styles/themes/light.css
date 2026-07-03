@@ -27,5 +27,20 @@ html[data-theme="light"],
   --color-overlay-glass: rgba(49, 49, 51, 0.2);
   --color-photo-indicator: #ffffff;
   --color-photo-indicator-progress: #000000;
-  --employer-grain-opacity: 0.14;
+  --wash-grain-opacity: 0.1;
+  --wash-grain-overlay: 0.1;
+  --wash-grain-mixer: 0.18;
+
+  --wash-bg: #ffffff;
+  --wash-palette-employer-bg: #ffffff;
+  --wash-palette-employer-1: #945757;
+  --wash-palette-employer-2: #ffffff;
+  --wash-palette-employer-3: #ffffff;
+  --wash-tint-employer: #945757;
+  --wash-tint-email: #3d6fd9;
+  --wash-tint-linkedin: #004182;
+  --wash-tint-telegram: #229ed9;
+  --wash-tint-github: #57606a;
+  --wash-tint-x: #0f1419;
+  --wash-tint-cv: #6e6e73;
 }

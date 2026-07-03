@@ -205,10 +205,23 @@
   --case-card-min-height: 280px;
   --case-card-media-width: 320px;
 
+  /* Wash — animated gradient + grain (employer hover и др.) */
+  --wash-blur: 40px;
+  --wash-saturate: 1.3;
+  --wash-speed: 0.25;
+  --wash-distortion: 0.8;
+  --wash-swirl: 0.2;
+  --wash-grain-mixer: 0.15;
+  --wash-grain-overlay: 0.08;
+  --wash-grain-opacity: 0.06;
+  --wash-grain-size: 200px;
+  --wash-grain-cycle: 8s;
+  --wash-grain-shift: 200px;
+
   /* Employer currently block */
   --employer-blur-amount: 3px;
-  --employer-grain-opacity: 0.22;
-  --employer-grain-size: 180px;
+  --employer-grain-opacity: var(--wash-grain-opacity);
+  --employer-grain-size: var(--wash-grain-size);
   --currently-block-radius: var(--radius-widget);
   --currently-block-inner-radius: var(--radius-control);
   --currently-block-inner-width: 297px;

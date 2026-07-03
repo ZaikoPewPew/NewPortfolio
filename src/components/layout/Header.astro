@@ -11,7 +11,9 @@ const m = getMessages();
   <div class="header__inner">
     <div class="header__row">
       <p class="header__employer">
-        {m.header.employerPrefix}{" "}
+        <span class="employer-prefix" data-employer-prefix>
+          {m.header.employerPrefix}{" "}
+        </span>
         <EmployerName label={siteConfig.employer.label} />
       </p>
       <LiveClock />
