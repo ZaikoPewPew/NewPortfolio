@@ -8,7 +8,7 @@
 |------|------------|
 | `site.config.ts` | Имя, employer, location, social links |
 | `dock.config.ts` | Элементы ActionDock (email, social, theme, music) |
-| `env.config.ts` | Режимы mock/api виджетов (`PUBLIC_*_MODE`) |
+| `env.config.ts` | Режимы mock/api виджетов (`PUBLIC_*_MODE`: `book`, `github`, `photo`, `bento`, `me`) |
 | `cases.config.ts` | `homeLimit` — сколько кейсов на главной |
 
 ## `site.config.ts`

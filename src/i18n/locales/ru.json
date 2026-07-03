@@ -46,6 +46,10 @@
     "openProfile": "Открыть профиль на GitHub",
     "commitsPerYear": "{count} коммитов в год"
   },
+  "book": {
+    "ariaLabel": "Сейчас читаю",
+    "label": "сейчас я читаю"
+  },
   "bento": {
     "ariaLabel": "Ссылки и каналы",
     "tiles": {

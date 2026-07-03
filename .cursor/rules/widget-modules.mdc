@@ -22,7 +22,7 @@ alwaysApply: false
 - Mock и API — только через `data/*.source.ts`, не в `.astro`
 - Виджет **не** управляет фоном страницы, кейсами, dock
 - Звук/вибро — через `experience/feedback/FeedbackBus`
-- GSAP допустим только внутри конкретного виджета (например spotify)
+- Тяжёлые animation-библиотеки — только внутри конкретного виджета, если без них нельзя
 
 ## Shared
 

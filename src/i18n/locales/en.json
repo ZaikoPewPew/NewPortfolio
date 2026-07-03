@@ -46,6 +46,10 @@
     "openProfile": "Open GitHub profile",
     "commitsPerYear": "{count} commits this year"
   },
+  "book": {
+    "ariaLabel": "Currently reading",
+    "label": "currently reading"
+  },
   "bento": {
     "ariaLabel": "Links and channels",
     "tiles": {

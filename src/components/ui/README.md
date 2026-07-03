@@ -75,7 +75,7 @@
 | `--tooltip-balloon-damping` | `0.82` | Затухание spring угла |
 | `--tooltip-velocity-to-angle` | `0.065` | Скорость мыши → градусы |
 
-Цвета: `--color-tooltip-bg`, `--color-tooltip-text`, `--shadow-tooltip`.
+Цвета и тень: `--color-tooltip-bg`, `--color-tooltip-text`, `--shadow-tooltip` (`box-shadow` на `.tooltip__content`).
 
 ### Где используется
 

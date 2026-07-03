@@ -1,0 +1,23 @@
+---
+import { getMessages } from "../../i18n";
+import { bookAssets } from "./config";
+import "./book.styles.css";
+import "./book.animations.css";
+
+const m = getMessages();
+---
+
+<article class="book-widget" aria-label={m.book.ariaLabel}>
+  <div class="book-widget__bottom">
+    <div
+      class="book-widget__barcode"
+      style={`--book-barcode-mask: url('${bookAssets.barcode}');`}
+      aria-hidden="true"
+    >
+    </div>
+  </div>
+
+  <div class="book-widget__top">
+    <p class="book-widget__label">{m.book.label}</p>
+  </div>
+</article>

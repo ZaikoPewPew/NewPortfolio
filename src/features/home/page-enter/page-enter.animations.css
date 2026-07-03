@@ -43,8 +43,8 @@ html[data-home-entering] .home__widget-item--git {
   --page-enter-delay: var(--page-enter-delay-git);
 }
 
-html[data-home-entering] [data-contact-item="spotify"] {
-  --page-enter-delay: var(--page-enter-delay-spotify);
+html[data-home-entering] [data-contact-item="book"] {
+  --page-enter-delay: var(--page-enter-delay-book);
 }
 
 html[data-home-entering] [data-contact-item="bento"] {

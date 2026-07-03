@@ -43,4 +43,9 @@ html[data-theme="light"],
   --wash-tint-github: #57606a;
   --wash-tint-x: #0f1419;
   --wash-tint-cv: #6e6e73;
+
+  --book-ticket-bg-top: url("/images/widgets/book/Card-2-surface.svg");
+  --book-ticket-bg-bottom: url("/images/widgets/book/Card-1-surface.svg");
+  --color-book-ticket-text: var(--color-text-primary);
+  --color-book-barcode: #242426;
 }

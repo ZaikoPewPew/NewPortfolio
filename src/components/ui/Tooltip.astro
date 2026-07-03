@@ -48,7 +48,6 @@ const { lines, class: className } = Astro.props;
     translate: 0 var(--tooltip-enter-offset, var(--space-2xs));
     scale: var(--tooltip-enter-scale, var(--tooltip-enter-scale-from));
     rotate: var(--tooltip-tilt, 0deg);
-    filter: drop-shadow(var(--shadow-tooltip));
     transition:
       translate var(--motion-tooltip-enter) var(--ease-spring-soft),
       scale var(--motion-tooltip-enter) var(--ease-spring-soft);
@@ -69,6 +68,7 @@ const { lines, class: className } = Astro.props;
     padding: var(--space-control);
     border-radius: var(--radius-tooltip);
     background: var(--color-tooltip-bg);
+    box-shadow: var(--shadow-tooltip);
   }
 
   .tooltip__line {
@@ -100,7 +100,6 @@ const { lines, class: className } = Astro.props;
       translate: 0 0;
       scale: 1;
       rotate: 0deg;
-      filter: drop-shadow(var(--shadow-tooltip));
       transition:
         opacity var(--motion-tooltip-enter) var(--ease-spring-soft),
         visibility var(--motion-tooltip-enter) var(--ease-spring-soft);

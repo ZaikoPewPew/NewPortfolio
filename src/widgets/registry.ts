@@ -1,6 +1,6 @@
 import MeWidget from "./me/MeWidget.astro";
 import GitWidget from "./git/GitWidget.astro";
-import SpotifyWidget from "./spotify/SpotifyWidget.astro";
+import BookWidget from "./book/BookWidget.astro";
 import PhotoWidget from "./photo/PhotoWidget.astro";
 import BentoWidget from "./bento/BentoWidget.astro";
 import type { WidgetGridSpan } from "./_shared/types";
@@ -23,8 +23,8 @@ export const widgetRegistry: WidgetRegistryEntry[] = [
     grid: { col: 2, row: 1 },
   },
   {
-    id: "spotify",
-    component: SpotifyWidget,
+    id: "book",
+    component: BookWidget,
     grid: { col: 1, row: 1 },
   },
   {

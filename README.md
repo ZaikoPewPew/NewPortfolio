@@ -71,7 +71,7 @@ npm run preview  # предпросмотр сборки
 │  features/home/             сквозная логика главной         │
 │  (hover, contact panel, orchestrator, transitions)          │
 ├─────────────────────────────────────────────────────────────┤
-│  widgets/                   бенто-модули (me, git, spotify…) │
+│  widgets/                   бенто-модули (me, git, book…) │
 │  components/                dumb UI (layout, cases, atoms)    │
 ├─────────────────────────────────────────────────────────────┤
 │  experience/                звук, вибро, хоткеи, preferences │
@@ -122,7 +122,7 @@ npm run preview  # предпросмотр сборки
 |--------|--------|------------|
 | **me** | wide | Профиль: аватар, имя, роль, bio, contact/about |
 | **git** | wide | GitHub heatmap |
-| **spotify** | 142×142 | «Сейчас играет» (mock) |
+| **book** | 142×142 | «Сейчас читаю» — билет с tear-hover (mock) |
 | **photo** | 142×142 | Фотогалерея со слайдами |
 | **bento** | 142× tall | Плитки-ссылки (канал, IES, YouTube) + тултипы |
 
@@ -210,7 +210,7 @@ widgets/<id>/
 |----|--------|--------|
 | `me` | mock | `PUBLIC_ME_MODE` |
 | `git` | mock | `PUBLIC_GITHUB_MODE` |
-| `spotify` | mock | `PUBLIC_SPOTIFY_MODE` |
+| `book` | mock | `PUBLIC_BOOK_MODE` |
 | `photo` | mock | `PUBLIC_PHOTO_MODE` |
 | `bento` | mock | `PUBLIC_BENTO_MODE` |
 
@@ -396,7 +396,7 @@ feedback.emit({ sound: "tap", haptic: "light", source: "dock.email" });
 |------------|----------|--------|
 | `PUBLIC_ME_MODE` | `mock` \| `api` | me |
 | `PUBLIC_GITHUB_MODE` | `mock` \| `api` | git |
-| `PUBLIC_SPOTIFY_MODE` | `mock` \| `api` | spotify |
+| `PUBLIC_BOOK_MODE` | `mock` \| `api` | book |
 | `PUBLIC_PHOTO_MODE` | `mock` \| `api` | photo |
 | `PUBLIC_BENTO_MODE` | `mock` \| `api` | bento |
 
@@ -434,7 +434,7 @@ kurguzov/
 │   ├── layouts/            # BaseLayout
 │   ├── pages/              # index, cases/[slug]
 │   ├── styles/             # tokens, themes, global, reset, typography
-│   └── widgets/            # me, git, spotify, photo, bento + registry
+│   └── widgets/            # me, git, book, photo, bento + registry
 ├── AGENTS.md               # краткий индекс для AI
 ├── astro.config.mjs
 ├── content.config.ts       # Zod-схема кейсов
@@ -469,7 +469,7 @@ kurguzov/
 | Виджеты | [`src/widgets/README.md`](src/widgets/README.md) |
 | Experience layer | [`src/experience/README.md`](src/experience/README.md) |
 | Главная (hover, dock) | [`src/features/home/README.md`](src/features/home/README.md) |
-| Виджеты по отдельности | `src/widgets/{me,git,spotify,photo,bento}/README.md` |
+| Виджеты по отдельности | `src/widgets/{me,git,book,photo,bento}/README.md` |
 
 ---
 

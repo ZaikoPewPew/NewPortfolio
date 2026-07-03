@@ -1,0 +1,26 @@
+.book-widget {
+  overflow: visible;
+}
+
+.book-widget__top {
+  transition: transform var(--motion-base) var(--ease-out-expo);
+}
+
+.book-widget:hover .book-widget__top {
+  transform: translate3d(var(--book-tear-shift-x), calc(var(--book-tear-distance) * -1), 0)
+    rotate(var(--book-tear-rotate));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-widget__top {
+    transition: none;
+  }
+
+  .book-widget:hover .book-widget__top {
+    transform: none;
+  }
+
+  .book-widget {
+    overflow: hidden;
+  }
+}

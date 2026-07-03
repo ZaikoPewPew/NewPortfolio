@@ -20,7 +20,7 @@
 }
 
 .home__widget-item--git,
-[data-contact-item="spotify"],
+[data-contact-item="book"],
 [data-contact-item="photo"],
 [data-contact-item="bento"],
 .home__contact-slot {
@@ -28,7 +28,7 @@
 }
 
 .home__widgets[data-contact-nav-lock="open"] .home__widget-item--git,
-.home__widgets[data-contact-nav-lock="open"] [data-contact-item="spotify"],
+.home__widgets[data-contact-nav-lock="open"] [data-contact-item="book"],
 .home__widgets[data-contact-nav-lock="open"] [data-contact-item="photo"],
 .home__widgets[data-contact-nav-lock="open"] [data-contact-item="bento"] {
   transform: translate3d(var(--contact-slide-distance), 0, 0) !important;
@@ -43,7 +43,7 @@
 }
 
 .home__widgets[data-contact-nav-lock="closed"] .home__widget-item--git,
-.home__widgets[data-contact-nav-lock="closed"] [data-contact-item="spotify"],
+.home__widgets[data-contact-nav-lock="closed"] [data-contact-item="book"],
 .home__widgets[data-contact-nav-lock="closed"] [data-contact-item="photo"],
 .home__widgets[data-contact-nav-lock="closed"] [data-contact-item="bento"] {
   transform: translate3d(0, 0, 0) !important;
@@ -58,7 +58,7 @@
 }
 
 html[data-contact-panel-nav="open"] .home__widget-item--git,
-html[data-contact-panel-nav="open"] [data-contact-item="spotify"],
+html[data-contact-panel-nav="open"] [data-contact-item="book"],
 html[data-contact-panel-nav="open"] [data-contact-item="photo"],
 html[data-contact-panel-nav="open"] [data-contact-item="bento"] {
   transform: translate3d(var(--contact-slide-distance), 0, 0) !important;
@@ -73,7 +73,7 @@ html[data-contact-panel-nav="open"] .home__contact-slot {
 }
 
 html[data-contact-panel-nav="closed"] .home__widget-item--git,
-html[data-contact-panel-nav="closed"] [data-contact-item="spotify"],
+html[data-contact-panel-nav="closed"] [data-contact-item="book"],
 html[data-contact-panel-nav="closed"] [data-contact-item="photo"],
 html[data-contact-panel-nav="closed"] [data-contact-item="bento"] {
   transform: translate3d(0, 0, 0) !important;
@@ -88,14 +88,14 @@ html[data-contact-panel-nav="closed"] .home__contact-slot {
 }
 
 .home__widgets[data-contact-open="true"]:not([data-contact-animating]) .home__widget-item--git,
-.home__widgets[data-contact-open="true"]:not([data-contact-animating]) [data-contact-item="spotify"],
+.home__widgets[data-contact-open="true"]:not([data-contact-animating]) [data-contact-item="book"],
 .home__widgets[data-contact-open="true"]:not([data-contact-animating]) [data-contact-item="photo"],
 .home__widgets[data-contact-open="true"]:not([data-contact-animating]) [data-contact-item="bento"] {
   transform: translate3d(var(--contact-slide-distance), 0, 0);
 }
 
 .home__widgets:not([data-contact-open="true"]):not([data-contact-animating]) .home__widget-item--git,
-.home__widgets:not([data-contact-open="true"]):not([data-contact-animating]) [data-contact-item="spotify"],
+.home__widgets:not([data-contact-open="true"]):not([data-contact-animating]) [data-contact-item="book"],
 .home__widgets:not([data-contact-open="true"]):not([data-contact-animating]) [data-contact-item="photo"],
 .home__widgets:not([data-contact-open="true"]):not([data-contact-animating]) [data-contact-item="bento"] {
   transform: translate3d(0, 0, 0);
@@ -110,7 +110,7 @@ html[data-contact-panel-nav="closed"] .home__contact-slot {
 }
 
 .home__widgets[data-contact-animating="opening"] .home__widget-item--git,
-.home__widgets[data-contact-animating="opening"] [data-contact-item="spotify"],
+.home__widgets[data-contact-animating="opening"] [data-contact-item="book"],
 .home__widgets[data-contact-animating="opening"] [data-contact-item="photo"],
 .home__widgets[data-contact-animating="opening"] [data-contact-item="bento"] {
   transform: translate3d(0, 0, 0);
@@ -121,7 +121,7 @@ html[data-contact-panel-nav="closed"] .home__contact-slot {
 }
 
 .home__widgets[data-contact-animating="closing"] .home__widget-item--git,
-.home__widgets[data-contact-animating="closing"] [data-contact-item="spotify"],
+.home__widgets[data-contact-animating="closing"] [data-contact-item="book"],
 .home__widgets[data-contact-animating="closing"] [data-contact-item="photo"],
 .home__widgets[data-contact-animating="closing"] [data-contact-item="bento"] {
   transform: translate3d(var(--contact-slide-distance), 0, 0);
@@ -135,8 +135,8 @@ html[data-contact-panel-nav="closed"] .home__contact-slot {
   animation: contactSlideOutLeft var(--motion-contact-fast) var(--ease-contact-exit) var(--contact-stagger-git-open) both;
 }
 
-.home__widgets[data-contact-animating="opening"] [data-contact-item="spotify"] {
-  animation: contactSlideOutLeft var(--motion-contact-medium) var(--ease-contact-exit) var(--contact-stagger-spotify-open) both;
+.home__widgets[data-contact-animating="opening"] [data-contact-item="book"] {
+  animation: contactSlideOutLeft var(--motion-contact-medium) var(--ease-contact-exit) var(--contact-stagger-book-open) both;
 }
 
 .home__widgets[data-contact-animating="opening"] [data-contact-item="bento"] {
@@ -159,8 +159,8 @@ html[data-contact-panel-nav="closed"] .home__contact-slot {
   animation: contactSlideInFromLeft var(--motion-contact-fast) var(--ease-contact-enter) var(--contact-stagger-git-close) both;
 }
 
-.home__widgets[data-contact-animating="closing"] [data-contact-item="spotify"] {
-  animation: contactSlideInFromLeft var(--motion-contact-medium) var(--ease-contact-enter) var(--contact-stagger-spotify-close) both;
+.home__widgets[data-contact-animating="closing"] [data-contact-item="book"] {
+  animation: contactSlideInFromLeft var(--motion-contact-medium) var(--ease-contact-enter) var(--contact-stagger-book-close) both;
 }
 
 .home__widgets[data-contact-animating="closing"] [data-contact-item="bento"] {
@@ -173,7 +173,7 @@ html[data-contact-panel-nav="closed"] .home__contact-slot {
 
 @media (prefers-reduced-motion: reduce) {
   .home__widget-item--git,
-  [data-contact-item="spotify"],
+  [data-contact-item="book"],
   [data-contact-item="photo"],
   [data-contact-item="bento"],
   .home__contact-slot {
@@ -183,14 +183,14 @@ html[data-contact-panel-nav="closed"] .home__contact-slot {
   }
 
   .home__widgets[data-contact-open="true"] .home__widget-item--git,
-  .home__widgets[data-contact-open="true"] [data-contact-item="spotify"],
+  .home__widgets[data-contact-open="true"] [data-contact-item="book"],
   .home__widgets[data-contact-open="true"] [data-contact-item="photo"],
   .home__widgets[data-contact-open="true"] [data-contact-item="bento"] {
     transform: translate3d(var(--contact-slide-distance), 0, 0);
   }
 
   .home__widgets:not([data-contact-open="true"]) .home__widget-item--git,
-  .home__widgets:not([data-contact-open="true"]) [data-contact-item="spotify"],
+  .home__widgets:not([data-contact-open="true"]) [data-contact-item="book"],
   .home__widgets:not([data-contact-open="true"]) [data-contact-item="photo"],
   .home__widgets:not([data-contact-open="true"]) [data-contact-item="bento"] {
     transform: translate3d(0, 0, 0);
