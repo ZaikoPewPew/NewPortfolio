@@ -34,8 +34,13 @@ export function finishPageEnter() {
   delete document.documentElement.dataset.homeEntering;
 }
 
+function hasPageEnter(): boolean {
+  const page = document.body.dataset.page;
+  return page === "home" || page === "case";
+}
+
 export function syncPageEnterOnLoad() {
-  if (document.body.dataset.page !== "home") return;
+  if (!hasPageEnter()) return;
 
   clearEnterTimer();
 

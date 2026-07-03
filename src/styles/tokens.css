@@ -164,6 +164,7 @@
   --page-enter-delay-bento: calc(var(--page-enter-stagger) * 3.75);
   --page-enter-delay-photo: calc(var(--page-enter-stagger) * 4.5);
   --page-enter-delay-contact-mobile: calc(var(--page-enter-stagger) * 2);
+  --page-enter-delay-contact-desktop: var(--page-enter-delay-git);
   --page-enter-delay-cases-base: calc(var(--page-enter-stagger) * 5.25);
   --page-enter-delay-cases-base-mobile: calc(var(--page-enter-stagger) * 3);
   --page-enter-delay-cases-step: 240ms;
@@ -199,10 +200,8 @@
   --header-row-height-mobile: 19px;
   --header-employer-size-desktop: var(--font-size-2xl);
   --header-employer-size-mobile: var(--font-size-base);
-  --header-divider-gap: var(--space-md);
   --layout-header-block-height: calc(
-    var(--header-padding-top-desktop) + var(--header-row-height-desktop) +
-      var(--header-divider-gap) + 1px
+    var(--header-padding-top-desktop) + var(--header-row-height-desktop)
   );
   --layout-header-widget-gap-desktop: var(--space-md);
   --layout-header-widget-gap-mobile: var(--space-sm);

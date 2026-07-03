@@ -27,7 +27,7 @@ const { title, summary } = caseEntry.data;
     <Grid>
       <HomeWidgets slot="widgets" />
 
-      <article slot="cases" class="home__cases case-content" data-case-content>
+      <article slot="cases" class="home__cases case-content" data-case-content data-page-enter>
         <CaseHero caseEntry={caseEntry} />
         <div class="case-content__body" data-case-content-body>
           <Content />
@@ -35,6 +35,6 @@ const { title, summary } = caseEntry.data;
       </article>
     </Grid>
 
-    <p class="home__copyright">krgzv.com © 2026</p>
+    <p class="home__copyright" data-page-enter>krgzv.com © 2026</p>
   </main>
 </BaseLayout>

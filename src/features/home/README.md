@@ -8,6 +8,8 @@
 - `case-hover/` — CaseHoverController, CasePreviewPanel
 - `header/` — SiteHeader (employer, location/time)
 - `dock/` — ActionDock (email, social, theme)
+- `contact/` — say hi / vibe check, sessionStorage, slide-анимации
+- `page-enter/` — каскадное появление блоков при первой загрузке / reload
 - `HomeOrchestrator.client.ts` — инициализация hover-оркестрации
 
 Employer hover (`EmployerName`, currently-block) живёт в `src/components/ui/`, но инициализируется оркестратором — см. [`src/components/ui/README.md`](../components/ui/README.md).
@@ -35,3 +37,21 @@ Employer hover (`EmployerName`, currently-block) живёт в `src/components/u
 Hover-blur кейсов отключён; tap — overlay preview.
 
 Employer hover и currently-block — **только desktop** (`max-width: 639px` и `prefers-reduced-motion` отключают портал).
+
+## Contact panel (say hi / vibe check)
+
+1. Кнопка в `MeWidget` переключает `data-contact-open` на `[data-contact-layout]`
+2. Состояние пишется в `sessionStorage` (`contact-panel.storage.ts`, ключ `contact-panel-open`)
+3. **Reload / case-страница:** inline-скрипт в `HomeWidgets.astro` восстанавливает `data-contact-open` до парсинга bento/git — без FOUC
+4. `ContactPanelController.client.ts` синхронизирует кнопку и `aria-hidden` слота после `astro:page-load`
+5. При View Transitions между `/` и `/cases/*` — `beginWidgetsNavigationLock()` фиксирует transform без анимации
+
+Slide-анимации: `contact-panel.animations.css`. Только desktop (`min-width: 640px`).
+
+## Page enter
+
+1. `BaseLayout` ставит `html[data-home-enter]` на `home` и `case` до гидрации (если нет `prefers-reduced-motion`)
+2. `PageEnterController` включает `data-home-entering` и снимает флаги по таймеру `--motion-page-enter-total`
+3. Задержки — токены `--page-enter-delay-*` в `tokens.css`
+
+**Контакты открыты при reload:** виджеты vibe check подавляются на время page-enter (`page-enter.animations.css`), contact-slot входит в каскад с `--page-enter-delay-contact-desktop` (как git). Иначе `pageEnterReveal` перебивает `transform` слайда и bento мелькает под контактами.

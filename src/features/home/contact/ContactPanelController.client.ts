@@ -1,10 +1,13 @@
 import { getMessages } from "../../../i18n";
+import {
+  CONTACT_PANEL_OPEN_KEY,
+  CONTACT_WIDGETS_NAV_KEY,
+  readSavedContactPanelOpen,
+  resolveContactPanelOpen,
+} from "./contact-panel.storage";
 
 const CONTACT_ANIMATION_MS = 700;
 const MOBILE_MEDIA_QUERY = "(max-width: 639px)";
-const CONTACT_PANEL_OPEN_KEY = "contact-panel-open";
-const CONTACT_WIDGETS_NAV_KEY = "contact-widgets-nav";
-const DEFAULT_CONTACT_PANEL_OPEN = false;
 
 const contactButtonLabels = getMessages().me.contactButton;
 
@@ -112,18 +115,6 @@ function writeContactPanelOpen(open: boolean) {
   sessionStorage.setItem(CONTACT_PANEL_OPEN_KEY, open ? "1" : "0");
 }
 
-function readSavedContactPanelOpen(): boolean | null {
-  const value = sessionStorage.getItem(CONTACT_PANEL_OPEN_KEY);
-  if (value === null) return null;
-  if (value === "1" || value === "true") return true;
-  if (value === "0" || value === "false") return false;
-  return null;
-}
-
-function resolveContactPanelOpen(): boolean {
-  return readSavedContactPanelOpen() ?? DEFAULT_CONTACT_PANEL_OPEN;
-}
-
 function saveContactPanelState() {
   writeContactPanelOpen(isContactPanelOpen());
 }
@@ -210,14 +201,15 @@ function syncContactPanelOnLoad() {
   const layout = getLayout();
   if (!layout) return;
 
+  const button = document.querySelector<HTMLButtonElement>("[data-contact-button]");
+  const label = document.querySelector<HTMLElement>("[data-contact-button-label]");
+  const keycap = document.querySelector<HTMLElement>("[data-contact-button-keycap-char]");
+  const slot = document.querySelector<HTMLElement>("[data-contact-slot]");
+
   if (sessionStorage.getItem(CONTACT_WIDGETS_NAV_KEY) === "1") {
     sessionStorage.removeItem(CONTACT_WIDGETS_NAV_KEY);
     unlockContactPanelVisual(layout);
 
-    const button = document.querySelector<HTMLButtonElement>("[data-contact-button]");
-    const label = document.querySelector<HTMLElement>("[data-contact-button-label]");
-    const keycap = document.querySelector<HTMLElement>("[data-contact-button-keycap-char]");
-    const slot = document.querySelector<HTMLElement>("[data-contact-slot]");
     if (button && label && keycap && slot) {
       updateContactUi(button, label, keycap, slot, getContactButtonMode(readLayoutOpen(layout)));
     }
@@ -227,9 +219,16 @@ function syncContactPanelOnLoad() {
   ensureContactPanelStateTracked();
 
   const targetOpen = resolveContactPanelOpen();
-  if (readLayoutOpen(layout) === targetOpen && !isAnimating(layout)) return;
+  unlockContactPanelVisual(layout);
 
-  setContactState(targetOpen, { animate: false });
+  if (readLayoutOpen(layout) !== targetOpen && !isAnimating(layout)) {
+    setContactState(targetOpen, { animate: false });
+    return;
+  }
+
+  if (button && label && keycap && slot) {
+    updateContactUi(button, label, keycap, slot, getContactButtonMode(targetOpen));
+  }
 }
 
 export function bindContactPanel() {

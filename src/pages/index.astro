@@ -13,14 +13,6 @@ const m = getMessages();
 ---
 
 <BaseLayout title={m.meta.homeTitle} page="home">
-  <script is:inline>
-    (function () {
-      if (window.__pageEnterSkip) return;
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      document.documentElement.dataset.homeEnter = "true";
-    })();
-  </script>
-
   <Header slot="header" />
 
   <main class="home" data-home-page aria-label={m.home.ariaLabel}>
