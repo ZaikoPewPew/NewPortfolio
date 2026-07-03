@@ -34,7 +34,17 @@
     "openX": "Open X"
   },
   "theme": {
-    "toggleAriaLabel": "Toggle theme"
+    "toggleAriaLabel": "Toggle theme",
+    "names": {
+      "dark": "dark",
+      "light": "light",
+      "avocado": "avocado"
+    }
+  },
+  "git": {
+    "ariaLabel": "GitHub activity",
+    "openProfile": "Open GitHub profile",
+    "follow": "Follow"
   },
   "bento": {
     "ariaLabel": "Links and channels",

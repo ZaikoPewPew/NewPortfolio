@@ -7,7 +7,7 @@ const GALLERY_PUBLIC_DIR = join(
   "public/images/widgets/photo-gallery",
 );
 const GALLERY_URL_PREFIX = "/images/widgets/photo-gallery";
-const IMAGE_PATTERN = /\.(avif|gif|jpe?g|png|webp)$/i;
+const MEDIA_PATTERN = /\.(avif|gif|jpe?g|png|webm|mp4|mov|m4v|webp)$/i;
 
 const ALT_BY_FILE: Record<string, string> = {
   "1.jpg": "На лодке",
@@ -19,10 +19,16 @@ const ALT_BY_FILE: Record<string, string> = {
 
 function getGalleryImageFiles(): string[] {
   return readdirSync(GALLERY_PUBLIC_DIR)
-    .filter((file: string) => IMAGE_PATTERN.test(file))
-    .sort((a: string, b: string) =>
-      a.localeCompare(b, undefined, { numeric: true }),
-    );
+    .filter((file: string) => MEDIA_PATTERN.test(file))
+    .sort((a: string, b: string) => {
+      const nameA = a.replace(/\.[^.]+$/, "");
+      const nameB = b.replace(/\.[^.]+$/, "");
+      return nameA.localeCompare(nameB, undefined, { numeric: true });
+    });
+}
+
+function getMediaType(fileName: string): "image" | "video" {
+  return /\.(webm|mp4|mov|m4v)$/i.test(fileName) ? "video" : "image";
 }
 
 export function getMockPhotoGallery(): PhotoGallery {
@@ -31,7 +37,8 @@ export function getMockPhotoGallery(): PhotoGallery {
   return {
     slides: files.map((file, index) => ({
       id: String(index + 1),
-      imageUrl: `${GALLERY_URL_PREFIX}/${file}`,
+      mediaUrl: `${GALLERY_URL_PREFIX}/${file}`,
+      mediaType: getMediaType(file),
       alt: ALT_BY_FILE[file] ?? `Фото ${index + 1}`,
     })),
   };

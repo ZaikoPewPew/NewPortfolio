@@ -32,6 +32,10 @@
     z-index: var(--z-content);
   }
 
+  [data-case-page] .grid__widgets:has([data-tooltip-visible]) {
+    z-index: var(--z-tooltip);
+  }
+
   [data-case-page] .home__widgets,
   [data-case-page] .home__cases {
     margin-top: 0;

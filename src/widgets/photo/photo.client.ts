@@ -1,6 +1,5 @@
 import { prefersReducedMotion } from "../../experience/motion/prefersReducedMotion";
-
-const SLIDE_DURATION_MS = 5000;
+import { PHOTO_SLIDE_DURATION_MS } from "./config";
 
 export function initPhotoWidget(root: HTMLElement) {
   if (root.hasAttribute("data-bound")) return;
@@ -34,6 +33,14 @@ export function initPhotoWidget(root: HTMLElement) {
     track.setAttribute("data-infinite-ready", "true");
   }
 
+  const mediaVideos = Array.from(track.querySelectorAll<HTMLVideoElement>("video"));
+  for (const video of mediaVideos) {
+    video.muted = true;
+    video.volume = 0;
+    video.pause();
+    video.currentTime = 0;
+  }
+
   let trackIndex = slideCount > 1 ? 1 : 0;
   let progress = 0;
   let isDragging = false;
@@ -65,6 +72,28 @@ export function initPhotoWidget(root: HTMLElement) {
   const updateProgressFill = () => {
     const fill = indicator.querySelector<HTMLElement>("[data-photo-progress]");
     if (fill) fill.style.width = `${progress * 100}%`;
+  };
+
+  const syncActiveSlideVideo = () => {
+    const activeSlide = track.children.item(trackIndex) as HTMLElement | null;
+
+    for (const video of mediaVideos) {
+      const parentSlide = video.closest<HTMLElement>(".photo-widget__slide");
+      const isActive = parentSlide === activeSlide;
+
+      if (isActive) {
+        video.currentTime = 0;
+        void video.play().catch(() => {});
+      } else {
+        video.pause();
+        video.currentTime = 0;
+      }
+    }
+  };
+
+  const getActiveSlideVideo = () => {
+    const activeSlide = track.children.item(trackIndex) as HTMLElement | null;
+    return activeSlide?.querySelector<HTMLVideoElement>("video") ?? null;
   };
 
   const createDotItem = () => {
@@ -116,6 +145,7 @@ export function initPhotoWidget(root: HTMLElement) {
     setTranslate(-trackIndex * getSlideWidth(), animate);
     renderIndicator();
     root.dataset.currentIndex = String(getLogicalIndex());
+    syncActiveSlideVideo();
 
     if (!animate || reducedMotion) {
       normalizeTrackIndex();
@@ -157,7 +187,7 @@ export function initPhotoWidget(root: HTMLElement) {
 
     if (!isDragging && !reducedMotion && slideCount > 1) {
       const elapsed = timestamp - lastTick;
-      progress += elapsed / SLIDE_DURATION_MS;
+      progress += elapsed / PHOTO_SLIDE_DURATION_MS;
 
       if (progress >= 1) {
         snapToTrackIndex(trackIndex + 1);
@@ -182,6 +212,7 @@ export function initPhotoWidget(root: HTMLElement) {
     dragOffset = 0;
     root.classList.add("is-dragging");
     root.setPointerCapture(event.pointerId);
+    getActiveSlideVideo()?.pause();
   };
 
   const onPointerMove = (event: PointerEvent) => {
@@ -199,6 +230,11 @@ export function initPhotoWidget(root: HTMLElement) {
     const slideWidth = getSlideWidth();
     const movedSlides = Math.round(-dragOffset / slideWidth);
     moveSlides(movedSlides);
+    if (movedSlides === 0) {
+      void getActiveSlideVideo()
+        ?.play()
+        .catch(() => {});
+    }
 
     lastTick = performance.now();
   };
@@ -212,6 +248,9 @@ export function initPhotoWidget(root: HTMLElement) {
   root.addEventListener("pointermove", onPointerMove);
   root.addEventListener("pointerup", onPointerUp);
   root.addEventListener("pointercancel", onPointerUp);
+  root.addEventListener("dragstart", (event) => {
+    event.preventDefault();
+  });
 
   window.addEventListener("resize", () => {
     setTranslate(-trackIndex * getSlideWidth(), false);

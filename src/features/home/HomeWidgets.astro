@@ -15,25 +15,30 @@ import "../home/contact/contact-panel.animations.css";
   transition:persist="home-widgets"
 >
   <MeWidget />
-  <div class="home__contact-mobile">
+  <div class="home__contact-mobile" data-page-enter>
     <ContactWidget />
   </div>
 
   <div class="home__widgets-body">
     <div class="home__widgets-default" data-contact-default>
-      <div class="home__widget-item home__widget-item--git" data-contact-item="git">
+      <div
+        class="home__widget-item home__widget-item--git"
+        data-contact-item="git"
+        data-tooltip-layer
+        data-page-enter
+      >
         <GitWidget />
       </div>
       <div class="home__widget-row" data-contact-item="row">
         <div class="home__widget-stack">
-          <div data-contact-item="spotify">
+          <div data-contact-item="spotify" data-page-enter>
             <SpotifyWidget />
           </div>
-          <div data-contact-item="bento" data-tooltip-layer>
+          <div data-contact-item="bento" data-tooltip-layer data-page-enter>
             <BentoWidget />
           </div>
         </div>
-        <div data-contact-item="photo">
+        <div data-contact-item="photo" data-page-enter>
           <PhotoWidget />
         </div>
       </div>

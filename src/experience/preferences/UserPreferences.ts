@@ -1,4 +1,6 @@
-export type ThemeMode = "dark" | "light";
+export const THEME_SEQUENCE = ["dark", "light"] as const;
+
+export type ThemeMode = (typeof THEME_SEQUENCE)[number];
 
 export interface UserPrefs {
   sound: boolean;
@@ -14,12 +16,30 @@ const defaults: UserPrefs = {
   theme: "dark",
 };
 
+function normalizeTheme(value: unknown): ThemeMode {
+  if (
+    typeof value === "string" &&
+    (THEME_SEQUENCE as readonly string[]).includes(value)
+  ) {
+    return value as ThemeMode;
+  }
+
+  return defaults.theme;
+}
+
+export function getNextTheme(theme: ThemeMode): ThemeMode {
+  const currentIndex = THEME_SEQUENCE.indexOf(theme);
+  const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % THEME_SEQUENCE.length;
+  return THEME_SEQUENCE[nextIndex];
+}
+
 function load(): UserPrefs {
   if (typeof localStorage === "undefined") return { ...defaults };
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return { ...defaults };
-    return { ...defaults, ...JSON.parse(raw) };
+    const parsed = { ...defaults, ...JSON.parse(raw) };
+    return { ...parsed, theme: normalizeTheme(parsed.theme) };
   } catch {
     return { ...defaults };
   }
@@ -51,7 +71,7 @@ export const userPreferences = {
   },
 
   toggleTheme() {
-    const theme: ThemeMode = prefs.theme === "dark" ? "light" : "dark";
+    const theme = getNextTheme(prefs.theme);
     this.set({ theme });
     return theme;
   },

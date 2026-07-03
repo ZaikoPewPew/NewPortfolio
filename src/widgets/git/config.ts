@@ -5,5 +5,5 @@ export const gitConfig: WidgetConfig = {
   ariaLabel: "GitHub активность",
   layout: "wide",
   grid: { col: 2, row: 1 },
-  status: "mock",
+  status: "live",
 };

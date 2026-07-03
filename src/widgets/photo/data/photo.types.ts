@@ -1,6 +1,7 @@
 export interface PhotoSlide {
   id: string;
-  imageUrl: string;
+  mediaUrl: string;
+  mediaType: "image" | "video";
   alt: string;
 }
 

@@ -10,6 +10,7 @@ export const siteConfig = {
     timezone: "Asia/Almaty",
   },
   social: {
+    github: "https://github.com/ZaikoPewPew",
     instagram: "https://instagram.com/",
     email: "kvneasyy@gmail.com",
     linkedin: "https://www.linkedin.com/in/kvneasy/",

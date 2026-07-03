@@ -1,0 +1,3 @@
+export const GIT_HEATMAP_COLS = 18;
+export const GIT_HEATMAP_ROWS = 6;
+export const GIT_HEATMAP_SIZE = GIT_HEATMAP_COLS * GIT_HEATMAP_ROWS;

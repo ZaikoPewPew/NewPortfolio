@@ -8,7 +8,16 @@
 
 @media (prefers-reduced-motion: reduce) {
   .git-widget,
-  .git-widget__cell {
+  .git-widget__cell,
+  .git-widget__username-layer {
     transition: none;
+  }
+
+  .git-widget__username-layer--follow {
+    transform: none;
+  }
+
+  .git-widget:hover .git-widget__username-layer--default {
+    transform: none;
   }
 }

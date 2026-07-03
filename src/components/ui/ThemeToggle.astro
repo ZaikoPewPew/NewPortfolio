@@ -1,5 +1,6 @@
 ---
 import { getMessages } from "../../i18n";
+import Tooltip from "./Tooltip.astro";
 
 interface Props {
   class?: string;
@@ -7,33 +8,47 @@ interface Props {
 
 const { class: className } = Astro.props;
 const m = getMessages();
+const themeNames = m.theme.names;
 ---
 
-<button
-  type="button"
-  class:list={["theme-toggle", className]}
-  aria-label={m.theme.toggleAriaLabel}
-  data-theme-toggle
-  data-feedback="tap"
+<div
+  class="theme-toggle__host"
+  data-tooltip-host
+  data-theme-toggle-host
+  data-theme-names={JSON.stringify(themeNames)}
 >
-  <svg
-    class="theme-toggle__icon"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    aria-hidden="true"
+  <button
+    type="button"
+    class:list={["theme-toggle", className]}
+    aria-label={m.theme.toggleAriaLabel}
+    data-theme-toggle
+    data-feedback="tap"
   >
-    <path
-      d="M5 12H3M12 5V3M21 12H19M12 21V19M16.9496 16.9498L18.3638 18.364M5.63602 5.63608L7.05023 7.05029M16.9496 7.0502L18.3638 5.63599M5.63602 18.3639L7.05023 16.9497M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
-      stroke="currentColor"
-      stroke-width="1.3"
-      stroke-linecap="round"
-      stroke-linejoin="round"></path>
-  </svg>
-</button>
+    <svg
+      class="theme-toggle__icon"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M5 12H3M12 5V3M21 12H19M12 21V19M16.9496 16.9498L18.3638 18.364M5.63602 5.63608L7.05023 7.05029M16.9496 7.0502L18.3638 5.63599M5.63602 18.3639L7.05023 16.9497M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
+        stroke="currentColor"
+        stroke-width="1.3"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path>
+    </svg>
+  </button>
+  <Tooltip class="theme-toggle__tooltip" lines={[themeNames.dark]} />
+</div>
 
 <style>
+  .theme-toggle__host {
+    position: relative;
+    display: inline-flex;
+  }
+
   .theme-toggle {
     display: flex;
     flex-shrink: 0;
@@ -47,11 +62,11 @@ const m = getMessages();
     background: var(--color-bg-control);
     color: var(--color-text-primary);
     cursor: pointer;
-    transition: transform var(--motion-fast) var(--ease-out-expo);
+    transition: color var(--motion-base) var(--ease-out-expo);
   }
 
   .theme-toggle:hover {
-    transform: scale(1.04);
+    color: var(--color-link-hover);
   }
 
   .theme-toggle__icon {
@@ -68,6 +83,41 @@ const m = getMessages();
 
 <script>
   import { toggleThemeWithTransition } from "../../experience/preferences/themeTransition";
+  import { getNextTheme, userPreferences } from "../../experience/preferences/UserPreferences";
+  import { initDragTooltips } from "./tooltip.client";
+
+  type ThemeNamesMap = Record<string, string>;
+
+  function readThemeNames(host: Element): ThemeNamesMap {
+    const raw = host.getAttribute("data-theme-names");
+    if (!raw) return {};
+
+    try {
+      const parsed = JSON.parse(raw) as unknown;
+      if (!parsed || typeof parsed !== "object") return {};
+      return parsed as ThemeNamesMap;
+    } catch {
+      return {};
+    }
+  }
+
+  function updateThemeToggleTooltip(root: ParentNode = document) {
+    const hosts: Element[] = [];
+    if (root instanceof Element && root.matches("[data-theme-toggle-host]")) {
+      hosts.push(root);
+    }
+    root.querySelectorAll("[data-theme-toggle-host]").forEach((host) => hosts.push(host));
+
+    hosts.forEach((host) => {
+      const line = host.querySelector<HTMLElement>(".theme-toggle__tooltip .tooltip__line");
+      if (!line) return;
+
+      const currentTheme = userPreferences.get().theme;
+      const nextTheme = getNextTheme(currentTheme);
+      const themeNames = readThemeNames(host);
+      line.textContent = themeNames[nextTheme] ?? nextTheme;
+    });
+  }
 
   function bindThemeToggle(root: ParentNode = document) {
     root.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
@@ -75,15 +125,27 @@ const m = getMessages();
       btn.setAttribute("data-bound", "true");
       btn.addEventListener("click", (e) => {
         const target = e.currentTarget as HTMLElement;
+        const host = target.closest<HTMLElement>("[data-theme-toggle-host]");
+        if (host) {
+          host.removeAttribute("data-tooltip-visible");
+          host.setAttribute("data-tooltip-dismissed", "");
+        }
+
         const rect = target.getBoundingClientRect();
         toggleThemeWithTransition({
           x: rect.left + rect.width / 2,
           y: rect.top + rect.height / 2,
         });
+
+        if (host) updateThemeToggleTooltip(host);
       });
     });
   }
 
   bindThemeToggle();
+  initDragTooltips();
+  updateThemeToggleTooltip();
   document.addEventListener("astro:page-load", () => bindThemeToggle());
+  document.addEventListener("astro:page-load", () => initDragTooltips());
+  document.addEventListener("astro:page-load", () => updateThemeToggleTooltip());
 </script>

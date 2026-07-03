@@ -1,5 +1,5 @@
 import { prefersReducedMotion } from "../motion/prefersReducedMotion";
-import { userPreferences, type ThemeMode } from "./UserPreferences";
+import { getNextTheme, userPreferences, type ThemeMode } from "./UserPreferences";
 
 export interface ThemeTransitionOrigin {
   x: number;
@@ -63,7 +63,7 @@ function runCircleReveal(
 
 export function toggleThemeWithTransition(origin?: ThemeTransitionOrigin): ThemeMode {
   const oldTheme = userPreferences.get().theme;
-  const nextTheme: ThemeMode = oldTheme === "dark" ? "light" : "dark";
+  const nextTheme = getNextTheme(oldTheme);
 
   if (prefersReducedMotion()) {
     userPreferences.set({ theme: nextTheme });

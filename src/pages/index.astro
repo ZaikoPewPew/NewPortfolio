@@ -13,6 +13,14 @@ const m = getMessages();
 ---
 
 <BaseLayout title={m.meta.homeTitle} page="home">
+  <script is:inline>
+    (function () {
+      if (window.__pageEnterSkip) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      document.documentElement.dataset.homeEnter = "true";
+    })();
+  </script>
+
   <Header slot="header" />
 
   <main class="home" data-home-page aria-label={m.home.ariaLabel}>
@@ -24,6 +32,6 @@ const m = getMessages();
       </div>
     </Grid>
 
-    <p class="home__copyright">krgzv.com © 2026</p>
+    <p class="home__copyright" data-page-enter>krgzv.com © 2026</p>
   </main>
 </BaseLayout>

@@ -11,6 +11,7 @@ import {
   resetCaseTransition,
   syncCaseTransitionOnLoad,
 } from "./case-transition/CaseTransitionController.client";
+import { bindPageEnter, syncPageEnterOnLoad } from "./page-enter/PageEnterController.client";
 import { resetEmployerName, initEmployerName } from "../../components/ui/employerName.client";
 
 let feedbackBound = false;
@@ -47,6 +48,7 @@ function initExperience() {
   bindFeedback();
   bindContactPanelPersistence();
   bindCaseTransition();
+  bindPageEnter();
 
   if (!hotkeysBound) {
     hotkeysBound = true;
@@ -65,6 +67,7 @@ document.addEventListener("astro:page-load", () => {
   const isHome = document.body.dataset.page === "home";
   initExperience();
   syncCaseTransitionOnLoad();
+  syncPageEnterOnLoad();
 
   if (!isHome) {
     feedback.emit({ sound: "pageTransition", source: "navigation" });

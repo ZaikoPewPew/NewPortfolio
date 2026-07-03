@@ -6,6 +6,7 @@
 @import "../experience/motion/motion.tokens.css";
 @import "../features/transitions/view-transitions.css";
 @import "../features/home/case-transition/case-transition.css";
+@import "../features/home/page-enter/page-enter.animations.css";
 @import "../experience/preferences/theme-transition.css";
 
 html {

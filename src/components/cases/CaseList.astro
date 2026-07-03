@@ -65,8 +65,12 @@ ${reducedMotionRules}
 
 <ul class="case-list">
   {
-    cases.map((caseEntry) => (
-      <li class="case-list__item">
+    cases.map((caseEntry, index) => (
+      <li
+        class="case-list__item"
+        data-page-enter
+        style={`--page-enter-delay: calc(var(--page-enter-cases-base-active) + ${index} * var(--page-enter-delay-cases-step))`}
+      >
         <CaseCard caseEntry={caseEntry} />
       </li>
     ))

@@ -145,6 +145,24 @@
   --ease-case-exit: var(--ease-contact-exit);
   --ease-case-enter: var(--ease-contact-enter);
 
+  /* Home page enter — first load / reload */
+  --page-enter-offset: var(--space-sm);
+  --page-enter-stagger: 320ms;
+  --motion-page-enter-duration: 720ms;
+  --motion-page-enter-total: 2800ms;
+  --ease-page-enter: var(--ease-out-expo);
+  --page-enter-delay-header: 0ms;
+  --page-enter-delay-me: calc(var(--page-enter-stagger) * 1);
+  --page-enter-delay-git: calc(var(--page-enter-stagger) * 2);
+  --page-enter-delay-spotify: calc(var(--page-enter-stagger) * 3);
+  --page-enter-delay-bento: calc(var(--page-enter-stagger) * 3.75);
+  --page-enter-delay-photo: calc(var(--page-enter-stagger) * 4.5);
+  --page-enter-delay-contact-mobile: calc(var(--page-enter-stagger) * 2);
+  --page-enter-delay-cases-base: calc(var(--page-enter-stagger) * 5.25);
+  --page-enter-delay-cases-base-mobile: calc(var(--page-enter-stagger) * 3);
+  --page-enter-delay-cases-step: 240ms;
+  --page-enter-delay-copyright: calc(var(--page-enter-delay-cases-base) + var(--page-enter-delay-cases-step) * 2 + 120ms);
+
   /* Z-index */
   --z-background: 0;
   --z-content: 10;
@@ -153,7 +171,7 @@
   --z-preview: 200;
   --z-employer-backdrop: 240;
   --z-employer-focus: 250;
-  --z-tooltip: 1000;
+  --z-tooltip: 2147483647;
 
   /* Layout */
   --layout-content-width: 1248px;

@@ -1,4 +1,9 @@
+.git-widget-shell {
+  position: relative;
+}
+
 .git-widget {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
@@ -8,7 +13,6 @@
   border-radius: var(--radius-widget);
   background: var(--color-bg-surface);
   color: var(--color-text-primary);
-  text-decoration: none;
   overflow: hidden;
 }
 
@@ -16,6 +20,9 @@
   display: flex;
   align-items: center;
   gap: var(--space-sm);
+  flex-shrink: 0;
+  color: inherit;
+  text-decoration: none;
 }
 
 .git-widget__icon {
@@ -26,6 +33,11 @@
 }
 
 .git-widget__username {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  overflow: hidden;
+  min-height: 1em;
   font-family: var(--font-family);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-regular);
@@ -33,10 +45,37 @@
   color: var(--color-text-primary);
 }
 
+.git-widget__username-layer {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+  transition:
+    transform var(--motion-base) var(--ease-out-expo),
+    opacity var(--motion-base) var(--ease-out-expo);
+}
+
+.git-widget__username-layer--follow {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.git-widget:hover .git-widget__username-layer--default {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+.git-widget:hover .git-widget__username-layer--follow {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .git-widget__heatmap {
   display: grid;
   grid-template-columns: repeat(18, var(--git-cell-size));
   gap: var(--git-cell-gap);
+  flex-shrink: 0;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .git-widget__cell {
@@ -44,47 +83,34 @@
   height: var(--git-cell-size);
   border-radius: var(--radius-keycap);
   background: var(--color-git-cell-empty);
+  cursor: pointer;
 }
 
-.git-widget:not([data-fog-active]):hover .git-widget__cell--l1,
-.git-widget[data-git-hover-all]:hover .git-widget__cell--l1 {
+.git-widget__tooltip-host {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: var(--z-tooltip);
+}
+
+.git-widget__tooltip {
+  --tooltip-shift-x: 0px;
+  --tooltip-tilt: 0deg;
+}
+
+.git-widget__cell--l1 {
   background: var(--color-git-cell-l1);
 }
 
-.git-widget:not([data-fog-active]):hover .git-widget__cell--l2,
-.git-widget[data-git-hover-all]:hover .git-widget__cell--l2 {
+.git-widget__cell--l2 {
   background: var(--color-git-cell-l2);
 }
 
-.git-widget:not([data-fog-active]):hover .git-widget__cell--l3,
-.git-widget[data-git-hover-all]:hover .git-widget__cell--l3 {
+.git-widget__cell--l3 {
   background: var(--color-git-cell-l3);
 }
 
-.git-widget:not([data-fog-active]):hover .git-widget__cell--l4,
-.git-widget[data-git-hover-all]:hover .git-widget__cell--l4 {
-  background: var(--color-git-cell-l4);
-}
-
-.git-widget[data-fog-active] .git-widget__cell--l1,
-.git-widget[data-fog-active] .git-widget__cell--l2,
-.git-widget[data-fog-active] .git-widget__cell--l3,
-.git-widget[data-fog-active] .git-widget__cell--l4 {
-  background: var(--color-git-cell-empty);
-}
-
-.git-widget[data-fog-active] .git-widget__cell--revealed.git-widget__cell--l1 {
-  background: var(--color-git-cell-l1);
-}
-
-.git-widget[data-fog-active] .git-widget__cell--revealed.git-widget__cell--l2 {
-  background: var(--color-git-cell-l2);
-}
-
-.git-widget[data-fog-active] .git-widget__cell--revealed.git-widget__cell--l3 {
-  background: var(--color-git-cell-l3);
-}
-
-.git-widget[data-fog-active] .git-widget__cell--revealed.git-widget__cell--l4 {
+.git-widget__cell--l4 {
   background: var(--color-git-cell-l4);
 }

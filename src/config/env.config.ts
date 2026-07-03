@@ -5,7 +5,7 @@ export const env = {
     mode: (import.meta.env.PUBLIC_SPOTIFY_MODE ?? "mock") as DataSourceMode,
   },
   github: {
-    mode: (import.meta.env.PUBLIC_GITHUB_MODE ?? "mock") as DataSourceMode,
+    mode: (import.meta.env.PUBLIC_GITHUB_MODE ?? "api") as DataSourceMode,
   },
   me: {
     mode: (import.meta.env.PUBLIC_ME_MODE ?? "mock") as DataSourceMode,
