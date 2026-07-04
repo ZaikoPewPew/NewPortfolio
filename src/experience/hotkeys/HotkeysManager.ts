@@ -57,7 +57,6 @@ function runAction(action: HotkeyAction, key: string) {
     case "contactMe": {
       const shouldToggle = key === "h" || (key === "c" && isContactPanelOpen());
       if (!shouldToggle) return;
-      feedback.emit({ sound: "tap", haptic: "light", source: "hotkey.contact" });
       toggleContactPanel();
       break;
     }

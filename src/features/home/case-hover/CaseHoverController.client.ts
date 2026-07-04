@@ -9,7 +9,7 @@ interface HoverData {
   title: string;
 }
 
-let hoverBound = false;
+let boundPage: HTMLElement | null = null;
 
 function readHoverData(el: HTMLElement): HoverData {
   return {
@@ -74,11 +74,10 @@ export function deactivateCaseHover() {
 }
 
 export function initCaseHover() {
-  if (hoverBound) return;
   const page = document.querySelector<HTMLElement>("[data-home-page]");
-  if (!page) return;
+  if (!page || boundPage === page) return;
 
-  hoverBound = true;
+  boundPage = page;
   const reducedMotion = prefersReducedMotion();
   const mobile = isMobileViewport();
   let activeCard: HTMLElement | null = null;
@@ -93,7 +92,7 @@ export function initCaseHover() {
     card.classList.add("is-active");
     setGradient(data.gradientFrom, data.gradientTo, data.gradientAngle);
     showPanel(data);
-    feedback.emit({ sound: "hoverSoft", source: "case.hover" });
+    feedback.emit({ sound: "hover", source: "case.hover" });
   };
 
   const deactivate = () => {
@@ -119,7 +118,7 @@ export function initCaseHover() {
 }
 
 export function resetCaseHover() {
-  hoverBound = false;
+  boundPage = null;
   document.documentElement.classList.remove("is-case-active");
   hideCasePreview();
 }

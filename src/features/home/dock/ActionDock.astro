@@ -44,7 +44,6 @@ import { dockItems } from "../../../config/dock.config";
           x: rect.left + rect.width / 2,
           y: rect.top + rect.height / 2,
         });
-        feedback.emit({ sound: "tap", haptic: "light", source: "dock.theme" });
       }
       if (action === "toggleMusic") {
         userPreferences.toggleSound();

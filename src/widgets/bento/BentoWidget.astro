@@ -27,6 +27,8 @@ const youtubeTile = data.tiles.find((tile) => tile.variant === "youtube");
             rel="noopener noreferrer"
             aria-label={tile.label}
             data-bento-tile={tile.id}
+            data-feedback="tap hover"
+            data-feedback-source={`widget.bento.${tile.id}`}
           >
           {tile.variant === "mychannel" && (
             <svg
@@ -91,6 +93,8 @@ const youtubeTile = data.tiles.find((tile) => tile.variant === "youtube");
             rel="noopener noreferrer"
             aria-label={youtubeTile.label}
             data-bento-tile={youtubeTile.id}
+            data-feedback="tap hover"
+            data-feedback-source={`widget.bento.${youtubeTile.id}`}
           >
           <svg
             class="bento-widget__icon bento-widget__icon--youtube"
@@ -122,22 +126,9 @@ const youtubeTile = data.tiles.find((tile) => tile.variant === "youtube");
 
 <script>
   import { initDragTooltips } from "../../components/ui/tooltip.client";
-  import { feedback } from "../../experience/feedback/FeedbackBus";
 
   function bindBentoTiles() {
     initDragTooltips();
-
-    document.querySelectorAll("[data-bento-tile]").forEach((tile) => {
-      if (tile.hasAttribute("data-bound")) return;
-      tile.setAttribute("data-bound", "true");
-      tile.addEventListener("click", () => {
-        feedback.emit({
-          sound: "tap",
-          haptic: "light",
-          source: `widget.bento.${(tile as HTMLElement).dataset.bentoTile}`,
-        });
-      });
-    });
   }
 
   bindBentoTiles();

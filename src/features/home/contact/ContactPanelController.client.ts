@@ -1,4 +1,5 @@
 import { getMessages } from "../../../i18n";
+import { feedback } from "../../../experience/feedback/FeedbackBus";
 import {
   CONTACT_PANEL_OPEN_KEY,
   CONTACT_WIDGETS_NAV_KEY,
@@ -165,6 +166,10 @@ function setContactState(nextOpen: boolean, options: { animate?: boolean } = {})
 
   const wasOpen = readLayoutOpen(layout);
   if (wasOpen === nextOpen) return;
+
+  if (animate) {
+    feedback.emit({ sound: "swipe", haptic: "light", source: "contact.panel" });
+  }
 
   delete layout.dataset.contactNavLock;
   layout.style.removeProperty("view-transition-name");

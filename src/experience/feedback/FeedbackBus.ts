@@ -22,7 +22,7 @@ function vibrate(pattern: number | number[]) {
 export const feedback = {
   emit(event: FeedbackEvent) {
     if (event.sound && userPreferences.get().sound) {
-      if (event.sound === "hoverSoft") {
+      if (event.sound === "hover") {
         if (hoverDebounceTimer) return;
         hoverDebounceTimer = setTimeout(() => {
           hoverDebounceTimer = null;
