@@ -167,7 +167,7 @@
   --page-enter-delay-cases-base: calc(var(--page-enter-stagger) * 5.25);
   --page-enter-delay-cases-base-mobile: calc(var(--page-enter-stagger) * 3);
   --page-enter-delay-cases-step: 240ms;
-  --page-enter-delay-copyright: calc(var(--page-enter-delay-cases-base) + var(--page-enter-delay-cases-step) * 2 + 120ms);
+  --page-enter-delay-copyright: calc(var(--page-enter-delay-cases-base) + var(--page-enter-delay-cases-step) * 5 + 120ms);
 
   /* Z-index */
   --z-background: 0;
@@ -206,8 +206,10 @@
   --layout-header-widget-gap-mobile: var(--space-sm);
 
   /* Case cards */
-  --case-card-min-height: 280px;
-  --case-card-media-width: 320px;
+  --case-card-width: 458px;
+  --case-card-height: 340px;
+  --case-card-logo-size: 48px;
+  --radius-pill: 500px;
 
   /* Wash — animated gradient + grain (employer hover и др.) */
   --wash-blur: 40px;

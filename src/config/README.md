@@ -9,7 +9,14 @@
 | `site.config.ts` | Имя, employer, location, social links |
 | `dock.config.ts` | Элементы ActionDock (email, social, theme, music) |
 | `env.config.ts` | Режимы mock/api виджетов (`PUBLIC_*_MODE`: `book`, `github`, `photo`, `bento`, `me`) |
-| `cases.config.ts` | `homeLimit` — сколько кейсов на главной |
+| `cases.config.ts` | `homeLimit`, `cardLogoPlaceholder` — кейсы на главной |
+
+### `cases.config.ts`
+
+| Поле | Описание |
+|------|----------|
+| `homeLimit` | Сколько кейсов показывать на `/` (по `order`; `undefined` — все) |
+| `cardLogoPlaceholder` | URL лого на карточке, пока нет `card.logo` в frontmatter |
 
 ## `site.config.ts`
 

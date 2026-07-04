@@ -1,12 +1,13 @@
 ---
 interface Props {
   label: string;
+  variant?: "default" | "pill";
 }
 
-const { label } = Astro.props;
+const { label, variant = "default" } = Astro.props;
 ---
 
-<span class="tag">{label}</span>
+<span class:list={["tag", variant === "pill" && "tag--pill"]}>{label}</span>
 
 <style>
   .tag {
@@ -16,5 +17,13 @@ const { label } = Astro.props;
     border-radius: var(--radius-sm);
     background: var(--color-border);
     color: var(--color-text-on-bg);
+  }
+
+  .tag.tag--pill {
+    font-size: var(--font-size-xs);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-control);
+    color: var(--color-text-primary);
   }
 </style>

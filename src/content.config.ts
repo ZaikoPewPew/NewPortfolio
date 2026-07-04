@@ -11,6 +11,7 @@ const hoverSchema = z.object({
 const cardSchema = z.object({
   layout: z.enum(["horizontal", "compact"]).default("horizontal"),
   subtitle: z.string().optional(),
+  logo: z.string().optional(),
 });
 
 const cases = defineCollection({

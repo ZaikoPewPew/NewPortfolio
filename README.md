@@ -132,16 +132,27 @@ npm run preview  # предпросмотр сборки
 
 ### Правая колонка — кейсы
 
-Список карточек `CaseList` → `CaseCard`. При hover (desktop):
+Список карточек `CaseList` → `CaseCard`. На desktop — сетка **2×N** (`minmax(0, 1fr)`), карточки до `--case-card-width` × `--case-card-height` (458×340px).
+
+**Карточка (home):**
+
+- Фон `--color-bg-surface` (как у виджетов)
+- Лого 48×48 + `title` (14px); `summary` на карточке не показывается
+- Теги (`Tag variant="pill"`) — только при hover / `:focus-visible`
+- `cover` — для hover-preview и morph-перехода; фоновое фото на карточке пока скрыто
+- Лого по умолчанию — `casesConfig.cardLogoPlaceholder`; per-case — `card.logo` в frontmatter
+
+При hover (desktop):
 
 1. Градиент фона из frontmatter кейса (`--page-gradient` на `:root`)
-2. Blur неактивных карточек (`is-case-active` на `html`)
-3. Preview-панель с изображением
-4. Звук `hoverSoft` (debounced)
+2. Preview-панель с изображением
+3. Звук `hoverSoft` (debounced)
 
 На mobile и при `prefers-reduced-motion` hover-blur отключён.
 
-Количество кейсов на главной — `casesConfig.homeLimit` (сейчас `1`).
+**Скролл (desktop):** header и левая колонка виджетов — `sticky`; кейсы прокручиваются вместе со страницей (без внутреннего scroll-контейнера). Верхний ряд карточек выровнен с отступом `--layout-header-widget-gap-desktop` от хедера.
+
+Количество кейсов на главной — `casesConfig.homeLimit` (сейчас `6`).
 
 ### Dock (планируется)
 
@@ -244,8 +255,9 @@ hover:
   gradientAngle: 160
   previewImage: "/images/cases/preview.svg"  # optional
 card:
-  layout: horizontal   # horizontal | compact
+  layout: horizontal   # legacy; на home не используется
   subtitle: "Подзаголовок"                   # optional
+  logo: "/images/cases/logo.svg"               # optional; иначе cardLogoPlaceholder
 ```
 
 Градиенты hover — **только** в frontmatter (исключение из правила design-tokens). Оркестратор читает их через `data-hover-*` на `CaseCard`.
@@ -293,7 +305,7 @@ interpolate(m.header.employerAriaLabel, { employer: "alfa-bank" });
 | `src/config/site.config.ts` | Имя, employer (label, url, video), location, social links — см. [`src/config/README.md`](src/config/README.md) |
 | `src/config/dock.config.ts` | Элементы ActionDock |
 | `src/config/env.config.ts` | Режимы mock/api виджетов (`PUBLIC_*_MODE`) |
-| `src/config/cases.config.ts` | `homeLimit` — сколько кейсов на главной |
+| `src/config/cases.config.ts` | `homeLimit`, `cardLogoPlaceholder` — кейсы на главной |
 
 **Один факт — одно место:** email и social URL не дублировать в dock и site — импортировать из `site.config` где возможно.
 

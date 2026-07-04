@@ -14,7 +14,7 @@ alwaysApply: false
 
 - `title`, `cover`, `order`, `summary`, `year`, `tags`
 - `hover` — gradientFrom, gradientTo, gradientAngle, previewImage (optional)
-- `card` — layout (horizontal|compact), subtitle (optional)
+- `card` — layout (legacy), subtitle (optional), logo (optional)
 
 ## Пример
 
@@ -27,6 +27,7 @@ hover:
 card:
   layout: horizontal
   subtitle: "Подзаголовок карточки"
+  logo: "/images/cases/logo.svg"
 ```
 
 ## Правила
