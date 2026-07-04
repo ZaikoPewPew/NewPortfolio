@@ -12,7 +12,7 @@
 - `page-enter/` — каскадное появление блоков при первой загрузке / reload
 - `HomeOrchestrator.client.ts` — инициализация hover-оркестрации
 
-Employer hover (`EmployerName`, currently-block) живёт в `src/components/ui/`, но инициализируется оркестратором — см. [`src/components/ui/README.md`](../components/ui/README.md).
+Employer hover (`EmployerName`, currently-block) и contact button hover живут в `src/components/ui/`, но инициализируются оркестратором — см. [`src/components/ui/README.md`](../components/ui/README.md).
 
 ## Поток hover кейса
 
@@ -47,6 +47,14 @@ Employer hover и currently-block — **только desktop** (`max-width: 639p
 5. При View Transitions между `/` и `/cases/*` — `beginWidgetsNavigationLock()` фиксирует transform без анимации
 
 Slide-анимации: `contact-panel.animations.css`. Только desktop (`min-width: 640px`).
+
+### Contact button (say hi / vibe check)
+
+1. `ContactButton.astro` — разметка, clip-path fill, цвета hover
+2. `contactButton.client.ts` — origin заливки от точки входа/выхода курсора; `initContactButton()` из оркестратора
+3. Hover: звук `bubble` (`data-feedback="bubble"`), заливка `--color-contact-button-hover-bg`, текст/keycap → `--color-contact-button-hover-text`
+4. Click / hotkey `h`: только `swipe` при toggle панели — tap на кнопке отключён
+5. `prefers-reduced-motion`: мгновенная смена фона без clip-path
 
 ## Page enter
 

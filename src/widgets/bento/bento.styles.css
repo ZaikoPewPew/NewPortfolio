@@ -87,7 +87,6 @@
   line-height: 0.63;
   color: var(--color-text-primary);
   text-align: center;
-  text-shadow: 0 0 10px var(--shadow-bento-script);
   letter-spacing: var(--bento-youtube-text-tracking);
   text-transform: lowercase;
   white-space: nowrap;

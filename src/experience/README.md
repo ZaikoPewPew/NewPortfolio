@@ -25,3 +25,27 @@ feedback.emit({ sound: "tap", haptic: "light", source: "dock.email" });
 - Хоткеи регистрируются только в `hotkeys.config.ts`
 - Подписи хоткеев в help — `messageKey` → [`src/i18n/locales/*.json`](../i18n/locales/en.json) (`hotkeys.*`)
 - Уважать `prefers-reduced-motion` и UserPreferences
+
+## Звуки (`sounds.config.ts`)
+
+| Id | Файл | Когда |
+|----|------|-------|
+| `tap` | `tap_new.mp3` | Клик (`data-feedback="tap"`) |
+| `hover` | `hover_new.mp3` | Hover (`data-feedback="tap hover"`) |
+| `hoverEmployer` | `8bit_hover_new.mp3` | Hover employer name (`employerName.client.ts`) |
+| `paper` | `paper_new.mp3` | Hover book widget (`data-feedback="paper"`) |
+| `bubble` | `buble_hover_new.mp3` | Hover contact button (`data-feedback="bubble"`) |
+| `swipe` | `swipe_new.mp3` | Открытие/закрытие contact panel (`ContactPanelController`) |
+
+### `data-feedback` на главной
+
+Декларативный hover/tap через `HomeOrchestrator.client.ts`:
+
+| Значение | Tap | Hover-звук |
+|----------|-----|------------|
+| `tap` | ✓ | — |
+| `tap hover` | ✓ | `hover` |
+| `paper` | — | `paper` |
+| `bubble` | — | `bubble` |
+
+`paper` и `bubble` — hover-only: tap по умолчанию не проигрывается. Спец-звуки employer — напрямую из `employerName.client.ts`.

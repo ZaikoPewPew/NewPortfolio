@@ -1,4 +1,5 @@
 import { isMobileViewport, prefersReducedMotion } from "../../experience/motion/prefersReducedMotion";
+import { feedback } from "../../experience/feedback/FeedbackBus";
 import { createWash, readWashTint, type WashController } from "../../experience/wash/wash.client";
 
 const MAX_FRAME_DT = 0.032;
@@ -445,6 +446,7 @@ function bindEmployerHost(host: HTMLElement) {
     wash?.setTintId(washTintId);
     showFloat();
     document.documentElement.classList.add("is-employer-active");
+    feedback.emit({ sound: "hoverEmployer", source: "employer.name" });
     window.addEventListener("scroll", onScrollWhileActive, { passive: true });
     lastPointerX = clientX;
     lastPointerTime = performance.now();

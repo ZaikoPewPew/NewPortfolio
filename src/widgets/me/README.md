@@ -6,8 +6,8 @@
 
 - Hover: лёгкий scale аватара
 - Click theme toggle: смена темы + feedback tap
-- Click contact me: mailto + feedback tap
-- Hotkey `c`: открыть contact (desktop)
+- Click contact button (desktop): toggle contact panel + swipe; hover — clip-path fill + bubble
+- Hotkey `h` / `c`: toggle contact panel (desktop)
 
 ## Данные
 
@@ -23,4 +23,7 @@
 
 ## Hotkeys
 
-- `c` — contact me (home)
+- `h` — say hi / toggle contact panel (home)
+- `c` — vibe check / toggle contact panel (home)
+
+Contact button: см. [`ContactButton`](../../components/ui/ContactButton.astro) и [`components/ui/README.md`](../../components/ui/README.md).

@@ -196,3 +196,63 @@
 - Не дублировать портал/float-логику — только `initEmployerName()`.
 - Путь к видео — только `site.config.ts` → `employer.video`.
 - Новые z-index слои employer — в `tokens.css`, не магические числа в CSS.
+
+---
+
+## Contact button — hover fill
+
+Кнопка say hi / vibe check в `MeWidget`: заливка `--color-link-hover` через `clip-path: circle()`, origin — точка входа/выхода курсора.
+
+### Файлы
+
+| Файл | Назначение |
+|------|------------|
+| `ContactButton.astro` | Разметка, слой `.contact-button__fill`, цвета hover |
+| `contactButton.client.ts` | `mouseenter` / `mouseleave`: origin fill; focus — из центра |
+
+Инициализация — `initContactButton()` из `HomeOrchestrator.client.ts`; сброс — `resetContactButton()` при навигации и bfcache.
+
+### Feedback
+
+| Событие | Звук | Источник |
+|---------|------|----------|
+| Hover | `bubble` | `data-feedback="bubble"` → `HomeOrchestrator` |
+| Click / hotkey | `swipe` | `ContactPanelController.client.ts` |
+
+Tap на кнопке **не** проигрывается (`bubble` — hover-only).
+
+### Data-атрибуты
+
+| Атрибут | Где | Роль |
+|---------|-----|------|
+| `data-contact-button` | `<button>` | Триггер panel + hover fill |
+| `data-contact-hover` | Кнопка (JS) | Активный hover/focus — цвет текста и keycap |
+| `data-contact-button-bound` | Кнопка (JS) | Защита от двойной инициализации |
+| `data-contact-button-label` | Label | Текст say hi / vibe check (обновляет panel controller) |
+| `data-contact-button-keycap` | Keycap | Hint `h` / `c` |
+
+### Поведение
+
+**Fill in** — `circle(0% at x% y%)` → `circle(150% at x% y%)` на следующем кадре; `x/y` — позиция курсора относительно кнопки.
+
+**Fill out** — схлопывание в `circle(0% at x% y%)` из точки выхода.
+
+**Focus** — origin `50% 50%`. При `:focus-visible` mouseleave не гасит заливку; при `:hover` focusout не сбрасывает.
+
+**Reduced motion** — fill скрыт, мгновенная смена `background` через `data-contact-hover`.
+
+### Токены
+
+| Токен | Смысл |
+|-------|-------|
+| `--color-contact-button-hover-bg` | Фон заливки (`--color-link-hover`) |
+| `--color-contact-button-hover-text` | Текст и keycap на hover |
+| `--motion-contact-button-fill` | Длительность clip-path (160ms) |
+| `--motion-contact-button-text` | Длительность цвета (140ms) |
+| `--ease-contact-button-fill` | Easing заливки |
+| `--contact-button-fill-radius-hover` | Радиус circle при hover (150%) |
+
+### Где используется
+
+- [`src/widgets/me/MeWidget.astro`](../widgets/me/MeWidget.astro)
+- [`src/features/home/contact/ContactPanelController.client.ts`](../features/home/contact/ContactPanelController.client.ts)

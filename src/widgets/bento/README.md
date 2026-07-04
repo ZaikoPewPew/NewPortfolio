@@ -15,6 +15,6 @@
 
 ## UX
 
-- Hover: иконки и текст YouTube → `--color-link-hover`
-- Tap feedback через `FeedbackBus`
+- Hover: иконки и текст YouTube → `--color-link-hover` (без text-shadow)
+- Tap feedback через `FeedbackBus` (`data-feedback="tap hover"`)
 - Тултипы на плитках: balloon-on-string (`Tooltip` + `initDragTooltips`) — см. [`src/components/ui/README.md`](../../components/ui/README.md)

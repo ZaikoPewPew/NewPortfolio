@@ -26,10 +26,12 @@ const keycapByMode: Record<ContactButtonMode, string> = {
 <button
   type="button"
   class:list={["contact-button", className]}
-  data-feedback="hover"
+  data-feedback="bubble"
+  data-feedback-source="contact.button"
   data-contact-button
   aria-expanded={mode === "about" ? "true" : "false"}
 >
+  <span class="contact-button__fill" aria-hidden="true"></span>
   <span class="contact-button__label" data-contact-button-label>
     {labelByMode[mode]}
   </span>
@@ -62,21 +64,36 @@ const keycapByMode: Record<ContactButtonMode, string> = {
     line-height: var(--line-height-normal);
     text-align: center;
     cursor: pointer;
-    transition: opacity var(--motion-fast) var(--ease-out-expo);
+    overflow: hidden;
+    isolation: isolate;
   }
 
-  .contact-button:hover {
-    opacity: 0.92;
+  .contact-button__fill {
+    position: absolute;
+    inset: 0;
+    background: var(--color-contact-button-hover-bg);
+    clip-path: circle(0% at 50% 50%);
+    transition: clip-path var(--motion-contact-button-fill) var(--ease-contact-button-fill);
+    z-index: 0;
+    pointer-events: none;
   }
 
   .contact-button__label {
+    position: relative;
+    z-index: 1;
     white-space: nowrap;
+    transition: color var(--motion-contact-button-text) ease;
+  }
+
+  .contact-button[data-contact-hover] .contact-button__label {
+    color: var(--color-contact-button-hover-text);
   }
 
   .contact-button__keycap {
     position: absolute;
     top: var(--space-md);
     right: var(--space-md);
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -86,11 +103,44 @@ const keycapByMode: Record<ContactButtonMode, string> = {
     border-bottom-width: var(--keycap-border-bottom);
     border-radius: var(--radius-keycap);
     opacity: 0.15;
+    transition:
+      border-color var(--motion-contact-button-text) ease,
+      opacity var(--motion-contact-button-text) ease;
+  }
+
+  .contact-button[data-contact-hover] .contact-button__keycap {
+    border-color: var(--color-contact-button-hover-text);
+    opacity: 0.35;
   }
 
   .contact-button__keycap-char {
     font-size: var(--font-size-sm);
     line-height: 1;
     color: var(--color-text-on-contrast);
+    transition: color var(--motion-contact-button-text) ease;
+  }
+
+  .contact-button[data-contact-hover] .contact-button__keycap-char {
+    color: var(--color-contact-button-hover-text);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact-button__fill {
+      display: none;
+    }
+
+    .contact-button[data-contact-hover] {
+      background: var(--color-contact-button-hover-bg);
+    }
+
+    .contact-button[data-contact-hover] .contact-button__label,
+    .contact-button[data-contact-hover] .contact-button__keycap-char {
+      color: var(--color-contact-button-hover-text);
+    }
+
+    .contact-button[data-contact-hover] .contact-button__keycap {
+      border-color: var(--color-contact-button-hover-text);
+      opacity: 0.35;
+    }
   }
 </style>

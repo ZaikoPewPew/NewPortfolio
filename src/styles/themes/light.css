@@ -22,7 +22,6 @@ html[data-theme="light"],
   --color-git-cell-l4: #216435;
   --color-link-hover: #ff5b50;
   --shadow-link-hover: inset 0 0 10px 0 rgba(255, 91, 80, 0.12);
-  --shadow-bento-script: rgba(255, 91, 80, 0.2);
   --shadow-tooltip: 0 8px 16px -2px rgba(0, 0, 0, 0.16);
   --color-overlay-glass: rgba(49, 49, 51, 0.2);
   --color-photo-indicator: #ffffff;

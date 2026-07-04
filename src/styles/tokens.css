@@ -75,7 +75,6 @@
   --book-tear-rotate: -4deg;
   --book-tear-shift-x: 3px;
   --color-link-hover: #ff5b50;
-  --shadow-bento-script: rgba(255, 91, 80, 0.25);
   --color-overlay-glass: rgba(255, 255, 255, 0.25);
   --blur-control: 4px;
   --bento-youtube-icon-left: 17px;
@@ -238,6 +237,14 @@
   --employer-balloon-force: 0.09;
   --employer-balloon-damping: 0.82;
   --employer-velocity-to-angle: 0.065;
+
+  /* Contact button — hover fill */
+  --color-contact-button-hover-bg: var(--color-link-hover);
+  --color-contact-button-hover-text: #ffffff;
+  --motion-contact-button-fill: 160ms;
+  --motion-contact-button-text: 140ms;
+  --ease-contact-button-fill: var(--ease-spring-snappy);
+  --contact-button-fill-radius-hover: 150%;
 
   /* Keycap hint */
   --keycap-size: 19px;

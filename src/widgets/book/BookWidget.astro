@@ -7,7 +7,12 @@ import "./book.animations.css";
 const m = getMessages();
 ---
 
-<article class="book-widget" aria-label={m.book.ariaLabel} data-feedback-hover="off">
+<article
+  class="book-widget"
+  aria-label={m.book.ariaLabel}
+  data-feedback="paper"
+  data-feedback-source="widget.book"
+>
   <div class="book-widget__bottom">
     <div
       class="book-widget__barcode"
