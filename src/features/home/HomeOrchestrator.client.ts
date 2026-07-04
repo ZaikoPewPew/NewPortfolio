@@ -111,6 +111,7 @@ function initExperience() {
 }
 
 document.addEventListener("astro:page-load", () => {
+  resetContactButton();
   initExperience();
   syncCaseTransitionOnLoad();
   syncPageEnterOnLoad();
@@ -118,9 +119,9 @@ document.addEventListener("astro:page-load", () => {
 
 window.addEventListener("pageshow", (event) => {
   if (!event.persisted) return;
-  initExperience();
-  resetEmployerName();
   resetContactButton();
+  resetEmployerName();
+  initExperience();
 });
 
 type AstroTransitionEvent = Event & { to?: URL };

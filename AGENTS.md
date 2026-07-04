@@ -43,7 +43,7 @@
 | Страница 404 | `src/pages/404.astro`, `src/features/not-found/` |
 | Сетка главной | `.cursor/rules/layout-grid.mdc`, `components/layout/Grid.astro` |
 | Тултип (balloon) | `src/components/ui/Tooltip.astro`, `tooltip.client.ts` — см. `components/ui/README.md` |
-| Employer hover / currently-block | `src/components/ui/EmployerName.astro`, `employerName.client.ts` — см. `components/ui/README.md` |
+| Employer hover / currently-block | `EmployerName.astro`, `CurrentlyBlockTrigger.astro`, `currentlyBlock.client.ts` — см. `components/ui/README.md` |
 | Contact button hover | `src/components/ui/ContactButton.astro`, `contactButton.client.ts` — см. `components/ui/README.md` |
 | Конфиг сайта | `src/config/` — см. `config/README.md` |
 | UI-тексты / переводы | `src/i18n/locales/*.json`, `locale.config.ts` — см. `i18n.mdc` |

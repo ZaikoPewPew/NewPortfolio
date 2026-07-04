@@ -1,0 +1,65 @@
+.currently-block {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-employer-block);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  translate: var(--currently-block-x, 0px) var(--currently-block-y, 0px);
+  rotate: var(--currently-block-tilt, 0deg);
+  transform-origin: center center;
+  will-change: translate, rotate;
+  transition:
+    opacity var(--motion-base) var(--ease-spring-soft),
+    visibility var(--motion-base) var(--ease-spring-soft);
+}
+
+.currently-block.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.currently-block__frame {
+  position: relative;
+  padding: var(--currently-block-padding);
+  border-radius: var(--currently-block-radius);
+  background: var(--color-glass-bg);
+  border: 1px solid var(--color-glass-border);
+  box-shadow: var(--shadow-glass);
+  backdrop-filter: blur(var(--blur-glass)) saturate(1.4);
+  -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(1.4);
+  overflow: hidden;
+}
+
+.currently-block__frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    145deg,
+    var(--color-glass-shine) 0%,
+    transparent 42%
+  );
+  opacity: 0.35;
+}
+
+.currently-block__media {
+  position: relative;
+  z-index: 1;
+  width: var(--currently-block-inner-width);
+  height: var(--currently-block-inner-height);
+  border-radius: var(--currently-block-inner-radius);
+  background: var(--color-bg-elevated);
+  overflow: hidden;
+}
+
+.currently-block__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}

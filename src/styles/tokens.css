@@ -67,8 +67,8 @@
   --widget-photo-size: 142px;
   --widget-bento-width: 142px;
   --bento-tile-size: 63px;
-  --book-barcode-width: 100px;
-  --book-barcode-height: 25px;
+  --book-barcode-width: 76px;
+  --book-barcode-height: 26px;
   --book-card-top-height: 99px;
   --book-card-bottom-height: 43px;
   --book-tear-distance: 12px;
@@ -77,6 +77,13 @@
   --color-link-hover: #ff5b50;
   --color-overlay-glass: rgba(255, 255, 255, 0.25);
   --blur-control: 4px;
+  --blur-glass: 24px;
+  --color-glass-bg: rgba(255, 255, 255, 0.12);
+  --color-glass-border: rgba(255, 255, 255, 0.22);
+  --color-glass-shine: rgba(255, 255, 255, 0.32);
+  --shadow-glass:
+    0 8px 40px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 0 var(--color-glass-shine);
   --bento-youtube-icon-left: 17px;
   --bento-youtube-text-offset-x: 30.16px;
   --bento-youtube-text-offset-y: 36.5px;

@@ -89,6 +89,59 @@
 
 ---
 
+## Currently-block
+
+Плавающий виджет с видео: следует за курсором с инерцией и наклоном. Один shared-инстанс на `body`; при активации другого хоста подставляется его ролик.
+
+### Файлы
+
+| Файл | Назначение |
+|------|------------|
+| `currentlyBlock.client.ts` | DOM, физика, `bindCurrentlyBlockHost`, `initCurrentlyBlock` |
+| `currently-block.css` | Liquid-glass рамка, медиа, видео |
+| `CurrentlyBlockTrigger.astro` | Обёртка-хост с data-атрибутами |
+
+Инициализация — `initCurrentlyBlock()` (вызывается из `initEmployerName()` на главной) или напрямую из оркестратора. Сброс — `resetCurrentlyBlock()`.
+
+### Подключение
+
+**Astro-обёртка:**
+
+```astro
+---
+import CurrentlyBlockTrigger from "./CurrentlyBlockTrigger.astro";
+---
+<CurrentlyBlockTrigger video="/images/widgets/currently-block/hitman.mp4" sound="hover">
+  <button type="button">Смотреть</button>
+</CurrentlyBlockTrigger>
+```
+
+**Data-атрибуты напрямую:**
+
+```html
+<span
+  data-currently-block-host
+  data-currently-block-video="/images/widgets/currently-block/fantech.mp4"
+>
+  Hover me
+</span>
+```
+
+| Атрибут | Роль |
+|---------|------|
+| `data-currently-block-host` | Хост hover/focus |
+| `data-currently-block-video` | URL ролика (обязателен) |
+| `data-currently-block-offset-x` / `-y` | Смещение от курсора, px (default 24) |
+| `data-currently-block-sound` | `hover` или `hoverEmployer` — звук через FeedbackBus |
+| `data-currently-block-sound-source` | `source` для feedback (default `currently-block`) |
+| `data-currently-block-focus` | Элемент для позиции при keyboard focus (default — хост) |
+
+Видимость блока — класс `.currently-block.is-active` на элементе (не зависит от employer overlay).
+
+Employer hover использует тот же контроллер через `getCurrentlyBlock()`; overlay/wash/float остаются в `employerName.client.ts`.
+
+---
+
 ## Employer hover — currently-block
 
 Интерактив при наведении на имя работодателя в хедере: blur-оверлей, «всплывший» текст и плавающий виджет с видео, следующий за курсором с инерцией и наклоном.
@@ -98,8 +151,8 @@
 | Файл | Назначение |
 |------|------------|
 | `EmployerName.astro` | Ссылка на работодателя, `data-employer-video` из `site.config`, `data-wash-tint="employer"` |
-| `employerName.client.ts` | Портал на `body`, физика, float-label, видео, wash |
-| `employer-name.css` | Overlay (backdrop + wash + grain), float, currently-block |
+| `employerName.client.ts` | Портал overlay на `body`, float-label, wash; блок — через `currentlyBlock.client.ts` |
+| `employer-name.css` | Overlay (backdrop + wash + grain), float; импорт `currently-block.css` |
 | `experience/wash/wash.client.ts` | Canvas wash, `readWashTint()` |
 | `experience/wash/wash.css` | `.wash__canvas`, `.wash__grain` |
 
@@ -146,7 +199,7 @@
 | `data-employer-prefix-float` | Float prefix | Копия префикса над overlay |
 | `data-currently-block` | Видео-блок | Плавающий виджет |
 
-Глобальный класс `html.is-employer-active` включает видимость overlay и блока.
+Глобальный класс `html.is-employer-active` включает видимость overlay. Блок — `.currently-block.is-active`.
 
 ### Поведение
 

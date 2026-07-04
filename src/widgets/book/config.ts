@@ -7,7 +7,6 @@ export const bookConfig: WidgetConfig = {
   status: "mock",
 };
 
-/** Маска штрихкода — цвет через --color-book-barcode */
 export const bookAssets = {
-  barcode: "/images/widgets/book/barcode.svg",
+  barcode: "/images/widgets/book/barcode.png",
 } as const;

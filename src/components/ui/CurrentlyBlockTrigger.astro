@@ -1,0 +1,26 @@
+---
+import "./currently-block.css";
+
+interface Props {
+  video: string;
+  class?: string;
+  sound?: "hover" | "hoverEmployer";
+  soundSource?: string;
+  offsetX?: number;
+  offsetY?: number;
+}
+
+const { video, class: className, sound, soundSource, offsetX, offsetY } = Astro.props;
+---
+
+<span
+  class:list={["currently-block-trigger", className]}
+  data-currently-block-host
+  data-currently-block-video={video}
+  {...(sound ? { "data-currently-block-sound": sound } : {})}
+  {...(soundSource ? { "data-currently-block-sound-source": soundSource } : {})}
+  {...(offsetX !== undefined ? { "data-currently-block-offset-x": String(offsetX) } : {})}
+  {...(offsetY !== undefined ? { "data-currently-block-offset-y": String(offsetY) } : {})}
+>
+  <slot />
+</span>

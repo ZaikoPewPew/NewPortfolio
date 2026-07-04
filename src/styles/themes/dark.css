@@ -34,6 +34,13 @@ html:not([data-theme]),
   --wash-tint-x: #e7e9ea;
   --wash-tint-cv: #6e6e73;
 
+  --color-glass-bg: rgba(255, 255, 255, 0.14);
+  --color-glass-border: rgba(255, 255, 255, 0.24);
+  --color-glass-shine: rgba(255, 255, 255, 0.36);
+  --shadow-glass:
+    0 8px 40px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 0 var(--color-glass-shine);
+
   --book-ticket-bg-top: url("/images/widgets/book/Card-2.svg");
   --book-ticket-bg-bottom: url("/images/widgets/book/Card-1.svg");
   --color-book-ticket-text: #242426;

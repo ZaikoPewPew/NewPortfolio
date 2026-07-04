@@ -19,11 +19,33 @@ function setFillClipPath(fill: HTMLElement, radius: string, x: number, y: number
   fill.style.clipPath = `circle(${radius} at ${x}% ${y}%)`;
 }
 
-function bindContactButton(button: HTMLButtonElement) {
-  if (button.hasAttribute("data-contact-button-bound")) return;
+function clearContactButtonHover(button: HTMLButtonElement) {
+  button.removeAttribute("data-contact-hover");
 
   const fill = button.querySelector<HTMLElement>(".contact-button__fill");
+  fill?.style.removeProperty("clip-path");
+}
+
+function syncContactButtonVisualState(button: HTMLButtonElement) {
+  requestAnimationFrame(() => {
+    if (button.matches(":hover")) return;
+
+    clearContactButtonHover(button);
+
+    if (document.activeElement === button) {
+      button.blur();
+    }
+  });
+}
+
+function bindContactButton(button: HTMLButtonElement) {
+  const fill = button.querySelector<HTMLElement>(".contact-button__fill");
   if (!fill) return;
+
+  if (button.hasAttribute("data-contact-button-bound")) {
+    syncContactButtonVisualState(button);
+    return;
+  }
 
   button.setAttribute("data-contact-button-bound", "true");
 
@@ -74,6 +96,8 @@ function bindContactButton(button: HTMLButtonElement) {
     if (button.matches(":hover")) return;
     fillOut(50, 50);
   });
+
+  syncContactButtonVisualState(button);
 }
 
 export function initContactButton(root: ParentNode = document) {
@@ -82,10 +106,10 @@ export function initContactButton(root: ParentNode = document) {
 
 export function resetContactButton(root: ParentNode = document) {
   root.querySelectorAll<HTMLButtonElement>("[data-contact-button]").forEach((button) => {
-    button.removeAttribute("data-contact-button-bound");
-    button.removeAttribute("data-contact-hover");
+    clearContactButtonHover(button);
 
-    const fill = button.querySelector<HTMLElement>(".contact-button__fill");
-    fill?.style.removeProperty("clip-path");
+    if (document.activeElement === button) {
+      button.blur();
+    }
   });
 }

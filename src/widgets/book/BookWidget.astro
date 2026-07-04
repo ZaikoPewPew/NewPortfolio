@@ -14,12 +14,15 @@ const m = getMessages();
   data-feedback-source="widget.book"
 >
   <div class="book-widget__bottom">
-    <div
+    <img
       class="book-widget__barcode"
-      style={`--book-barcode-mask: url('${bookAssets.barcode}');`}
+      src={bookAssets.barcode}
+      alt=""
+      width="76"
+      height="26"
+      decoding="async"
       aria-hidden="true"
-    >
-    </div>
+    />
   </div>
 
   <div class="book-widget__top">
