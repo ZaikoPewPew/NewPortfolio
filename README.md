@@ -100,10 +100,13 @@ npm run preview  # предпросмотр сборки
 |-----|------|----------|
 | `/` | `src/pages/index.astro` | Главная: виджеты + список кейсов |
 | `/cases/[slug]` | `src/pages/cases/[slug].astro` | Детальная страница кейса (MDX) |
+| *(404)* | `src/pages/404.astro` | Страница «не найдено» → `404.html` при сборке |
 
-Обе страницы используют `BaseLayout` + `Header` + `Grid`. На странице кейса слева остаются те же виджеты (`HomeWidgets` с `transition:persist`), справа — контент кейса.
+Главная и кейсы используют `BaseLayout` + `Header` + `Grid`. На странице кейса слева остаются те же виджеты (`HomeWidgets` с `transition:persist`), справа — контент кейса.
 
-`data-page` на `<body>`: `home` | `case` | `default` — влияет на scope хоткеев.
+404 — отдельный минимальный layout: текст и кнопка на главную (`src/features/not-found/`).
+
+`data-page` на `<body>`: `home` | `case` | `not-found` | `default` — влияет на scope хоткеев.
 
 ---
 

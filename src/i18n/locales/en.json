@@ -2,7 +2,14 @@
   "meta": {
     "defaultTitle": "Portfolio",
     "defaultDescription": "Product designer portfolio",
-    "homeTitle": "Portfolio — Product Designer"
+    "homeTitle": "Portfolio — Product Designer",
+    "notFoundTitle": "Page not found — Portfolio"
+  },
+  "notFound": {
+    "ariaLabel": "Page not found",
+    "title": "404",
+    "description": "This page doesn't exist.",
+    "backToHome": "Back to home"
   },
   "home": {
     "ariaLabel": "Home"

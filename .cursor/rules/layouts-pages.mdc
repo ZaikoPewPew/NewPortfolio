@@ -15,6 +15,7 @@ alwaysApply: false
 
 - `pages/index.astro` — главная: виджеты + кейсы + HomeOrchestrator
 - `pages/cases/[slug].astro` — детальный кейс из Content Collection
+- `pages/404.astro` — страница «не найдено» (базовая; стили в `features/not-found/`)
 
 ## Сетка
 
@@ -25,4 +26,4 @@ alwaysApply: false
 - Новые маршруты — только в `src/pages/`, не в components
 - View Transitions — через `astro:transitions` в BaseLayout, стили в `features/transitions/`
 - Страницы собирают layout + features; бизнес-логику hover/dock не класть в pages
-- `page` prop BaseLayout: `home` | `case` | `default` — для page-scoped стилей
+- `page` prop BaseLayout: `home` | `case` | `not-found` | `default` — для page-scoped стилей

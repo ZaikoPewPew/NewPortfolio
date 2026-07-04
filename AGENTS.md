@@ -40,6 +40,7 @@
 | Dock actions | `src/config/dock.config.ts` |
 | Mock / API режим | `src/config/env.config.ts`, `widgets/*/data/*.source.ts` |
 | Layout / маршруты | `src/layouts/`, `src/pages/` |
+| Страница 404 | `src/pages/404.astro`, `src/features/not-found/` |
 | Сетка главной | `.cursor/rules/layout-grid.mdc`, `components/layout/Grid.astro` |
 | Тултип (balloon) | `src/components/ui/Tooltip.astro`, `tooltip.client.ts` — см. `components/ui/README.md` |
 | Employer hover / currently-block | `src/components/ui/EmployerName.astro`, `employerName.client.ts` — см. `components/ui/README.md` |
@@ -54,4 +55,5 @@
 - [`src/widgets/README.md`](src/widgets/README.md)
 - [`src/experience/README.md`](src/experience/README.md)
 - [`src/features/home/README.md`](src/features/home/README.md)
+- [`src/features/not-found/README.md`](src/features/not-found/README.md)
 - [`src/config/README.md`](src/config/README.md)

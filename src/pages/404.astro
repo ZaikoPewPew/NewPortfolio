@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Link from "../components/ui/Link.astro";
+import { getMessages } from "../i18n";
+import "../features/not-found/not-found.css";
+
+const m = getMessages();
+---
+
+<BaseLayout title={m.meta.notFoundTitle} page="not-found">
+  <main class="not-found" aria-label={m.notFound.ariaLabel}>
+    <h1 class="not-found__title">{m.notFound.title}</h1>
+    <p class="not-found__text">{m.notFound.description}</p>
+    <Link href="/" class="not-found__cta">{m.notFound.backToHome}</Link>
+  </main>
+</BaseLayout>

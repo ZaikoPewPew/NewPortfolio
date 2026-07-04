@@ -2,7 +2,14 @@
   "meta": {
     "defaultTitle": "Портфолио",
     "defaultDescription": "Портфолио продуктового дизайнера",
-    "homeTitle": "Портфолио — Продуктовый дизайнер"
+    "homeTitle": "Портфолио — Продуктовый дизайнер",
+    "notFoundTitle": "Страница не найдена — Портфолио"
+  },
+  "notFound": {
+    "ariaLabel": "Страница не найдена",
+    "title": "404",
+    "description": "Такой страницы нет.",
+    "backToHome": "На главную"
   },
   "home": {
     "ariaLabel": "Главная"
