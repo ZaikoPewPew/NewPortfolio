@@ -154,6 +154,9 @@
   --motion-case-meta-duration: var(--motion-contact-fast);
   --motion-case-meta-delay: 0ms;
   --motion-case-back: 360ms;
+  --motion-case-tag-duration: var(--motion-base);
+  --motion-case-tag-stagger: 45ms;
+  --case-tag-enter-offset: var(--space-xs);
   --ease-case-exit: var(--ease-contact-exit);
   --ease-case-enter: var(--ease-contact-enter);
 
@@ -174,7 +177,11 @@
   --page-enter-delay-cases-base: calc(var(--page-enter-stagger) * 5.25);
   --page-enter-delay-cases-base-mobile: calc(var(--page-enter-stagger) * 3);
   --page-enter-delay-cases-step: 240ms;
-  --page-enter-delay-copyright: calc(var(--page-enter-delay-cases-base) + var(--page-enter-delay-cases-step) * 5 + 120ms);
+  --page-enter-delay-concepts-step: 180ms;
+  --page-enter-delay-copyright: calc(
+    var(--page-enter-delay-cases-base) + var(--page-enter-delay-cases-step) * 4 +
+      var(--page-enter-delay-concepts-step) * 3 + 120ms
+  );
 
   /* Z-index */
   --z-background: 0;
@@ -207,15 +214,20 @@
   --header-employer-size-desktop: var(--font-size-2xl);
   --header-employer-size-mobile: var(--font-size-base);
   --layout-header-block-height: calc(
-    var(--header-padding-top-desktop) + var(--header-row-height-desktop)
+    var(--header-padding-top-desktop) + var(--header-row-height-desktop) +
+      var(--layout-header-widget-gap-desktop)
   );
   --layout-header-widget-gap-desktop: var(--space-md);
   --layout-header-widget-gap-mobile: var(--space-sm);
+  --blur-header-glass: 20px;
 
   /* Case cards */
   --case-card-width: 458px;
   --case-card-height: 340px;
   --case-card-logo-size: 48px;
+
+  /* Concept showcase — витрина под кейсами */
+  --concept-row-height: calc((var(--case-card-height) - var(--layout-column-gap)) / 2);
   --radius-pill: 500px;
 
   /* Wash — animated gradient + grain (employer hover и др.) */
@@ -240,6 +252,22 @@
   --currently-block-inner-width: 297px;
   --currently-block-inner-height: 152px;
   --currently-block-padding: var(--space-sm);
+  --currently-block-case-scale: 1.5;
+  --currently-block-case-inner-width: calc(
+    var(--currently-block-inner-width) * var(--currently-block-case-scale)
+  );
+  --currently-block-case-inner-height: calc(
+    var(--currently-block-inner-height) * var(--currently-block-case-scale)
+  );
+  --currently-block-case-padding: calc(
+    var(--currently-block-padding) * var(--currently-block-case-scale)
+  );
+  --currently-block-case-radius: calc(
+    var(--currently-block-radius) * var(--currently-block-case-scale)
+  );
+  --currently-block-case-inner-radius: calc(
+    var(--currently-block-inner-radius) * var(--currently-block-case-scale)
+  );
   --employer-follow-force: 0.14;
   --employer-follow-damping: 0.78;
   --employer-tilt-max: 12;

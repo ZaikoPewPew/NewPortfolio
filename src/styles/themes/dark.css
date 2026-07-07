@@ -33,6 +33,11 @@ html:not([data-theme]),
   --wash-tint-github: #8b949e;
   --wash-tint-x: #e7e9ea;
   --wash-tint-cv: #6e6e73;
+  --wash-palette-case-bg: #000000;
+  --wash-palette-case-1: #4a1a3a;
+  --wash-palette-case-2: #692040;
+  --wash-palette-case-3: #000000;
+  --wash-tint-case: #692040;
 
   --color-glass-bg: rgba(255, 255, 255, 0.14);
   --color-glass-border: rgba(255, 255, 255, 0.24);

@@ -14,6 +14,9 @@
   "home": {
     "ariaLabel": "Home"
   },
+  "concepts": {
+    "ariaLabel": "Concept showcase"
+  },
   "header": {
     "employerPrefix": "currently at",
     "employerAriaLabel": "Working at {employer}"
@@ -73,6 +76,14 @@
         "caption": ["Design", "Lead"],
         "tooltip": ["my youtube", "22k subs"]
       }
+    }
+  },
+  "cases": {
+    "titles": {
+      "project-alpha": "Merchant Acquiring Calculator Redesign",
+      "project-beta": "Terminal Showcase",
+      "project-gamma": "Customer Self-Service Portal",
+      "project-delta": "QR Transport Payments"
     }
   },
   "hotkeys": {

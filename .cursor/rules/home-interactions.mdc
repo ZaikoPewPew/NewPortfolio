@@ -10,7 +10,9 @@ alwaysApply: false
 
 - Градиент фона — `CaseHoverController`, не в `CaseCard`
 - Данные градиента — из frontmatter кейса (`hover.*`), через `data-hover-*` атрибуты
-- Blur неактивных карточек — CSS класс `is-case-active` на `html` и `[data-home-page]`
+- Blur + wash фона — CSS класс `is-case-active` на `html` и `[data-home-page]`
+- Активная карточка поднимается в fixed-слой на `body` (не клон!), рядом — currently-block с видео
+- Логика выхода, порталы, elevate, scale блока — `case-hover/README.md`
 - Preview — `CasePreviewPanel.astro`
 
 ## Ограничения

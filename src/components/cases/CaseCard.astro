@@ -2,14 +2,17 @@
 import type { CollectionEntry } from "astro:content";
 import Tag from "../ui/Tag.astro";
 import { casesConfig } from "../../config/cases.config";
+import { siteConfig } from "../../config/site.config";
+import { getCaseTitle } from "../../features/cases/getCaseTitle";
 
 interface Props {
   caseEntry: CollectionEntry<"cases">;
 }
 
 const { caseEntry } = Astro.props;
-const { title, cover, tags, hover, card } = caseEntry.data;
+const { cover, tags, hover, card } = caseEntry.data;
 const slug = caseEntry.slug;
+const title = getCaseTitle(slug);
 const logo = card?.logo ?? casesConfig.cardLogoPlaceholder;
 ---
 
@@ -23,6 +26,7 @@ const logo = card?.logo ?? casesConfig.cardLogoPlaceholder;
   data-hover-to={hover.gradientTo}
   data-hover-angle={hover.gradientAngle}
   data-hover-preview={hover.previewImage ?? cover}
+  data-hover-video={hover.previewVideo ?? siteConfig.employer.video}
   data-hover-title={title}
   tabindex="0"
 >
@@ -35,8 +39,10 @@ const logo = card?.logo ?? casesConfig.cardLogoPlaceholder;
 
     <div class="case-card__content">
       <div class="case-card__tags">
-        {tags.map((tag) => (
-          <Tag label={tag} variant="pill" />
+        {tags.map((tag, index) => (
+          <span class="case-card__tag" style={`--case-tag-index: ${index}`}>
+            <Tag label={tag} variant="pill" />
+          </span>
         ))}
       </div>
 
@@ -112,13 +118,27 @@ const logo = card?.logo ?? casesConfig.cardLogoPlaceholder;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    opacity: 0;
-    transition: opacity var(--motion-base) var(--ease-out-expo);
+    gap: var(--space-xs);
   }
 
-  .case-card.is-active .case-card__tags,
-  .case-card:focus-visible .case-card__tags {
+  .case-card__tag {
+    display: inline-flex;
+    opacity: 0;
+    transform: translate3d(var(--case-tag-enter-offset), calc(-1 * var(--case-tag-enter-offset)), 0)
+      scale(0.88);
+    transition:
+      opacity var(--motion-fast) var(--ease-out-expo),
+      transform var(--motion-fast) var(--ease-out-expo);
+    transition-delay: 0ms;
+  }
+
+  .case-card.is-active .case-card__tag,
+  .case-card:focus-visible .case-card__tag {
     opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    transition-duration: var(--motion-case-tag-duration);
+    transition-timing-function: var(--ease-spring-snappy);
+    transition-delay: calc(var(--case-tag-index, 0) * var(--motion-case-tag-stagger));
   }
 
   .case-card__footer {
@@ -151,8 +171,14 @@ const logo = card?.logo ?? casesConfig.cardLogoPlaceholder;
 
   @media (prefers-reduced-motion: reduce) {
     .case-card__inner,
-    .case-card__tags {
+    .case-card__tag {
       transition: none;
+    }
+
+    .case-card.is-active .case-card__tag,
+    .case-card:focus-visible .case-card__tag {
+      opacity: 1;
+      transform: none;
     }
   }
 </style>

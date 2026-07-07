@@ -23,12 +23,19 @@ const m = getMessages();
 
 <style>
   .header {
+    position: relative;
+    isolation: isolate;
     width: 100%;
-    background: var(--color-bg-page);
+    background: transparent;
+    backdrop-filter: blur(var(--blur-header-glass)) saturate(1.4);
+    -webkit-backdrop-filter: blur(var(--blur-header-glass)) saturate(1.4);
     padding-top: var(--header-padding-top-desktop);
+    padding-bottom: var(--layout-header-widget-gap-desktop);
   }
 
   .header__inner {
+    position: relative;
+    z-index: 1;
     width: 100%;
     max-width: var(--layout-content-width);
     margin-inline: auto;
@@ -56,6 +63,7 @@ const m = getMessages();
   @media (max-width: 639px) {
     .header {
       padding-top: var(--header-padding-top-mobile);
+      padding-bottom: var(--layout-header-widget-gap-mobile);
     }
 
     .header__inner {
@@ -71,5 +79,13 @@ const m = getMessages();
       line-height: var(--line-height-normal);
     }
 
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .header {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: var(--color-bg-page);
+    }
   }
 </style>

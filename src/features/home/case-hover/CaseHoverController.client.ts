@@ -1,5 +1,10 @@
-import { feedback } from "../../../experience/feedback/FeedbackBus";
 import { isMobileViewport, prefersReducedMotion } from "../../../experience/motion/prefersReducedMotion";
+import {
+  activateCaseFocus,
+  deactivateCaseFocus,
+  initCaseFocus,
+  resetCaseFocus,
+} from "./caseFocus.client";
 
 interface HoverData {
   gradientFrom: string;
@@ -10,6 +15,24 @@ interface HoverData {
 }
 
 let boundPage: HTMLElement | null = null;
+let boundCasesRegion: HTMLElement | null = null;
+let activeHoverCard: HTMLAnchorElement | null = null;
+
+function onDocumentPointerMove(e: PointerEvent) {
+  const activeCard = activeHoverCard;
+  if (!activeCard) return;
+
+  const rect = activeCard.getBoundingClientRect();
+  const inside =
+    e.clientX >= rect.left &&
+    e.clientX <= rect.right &&
+    e.clientY >= rect.top &&
+    e.clientY <= rect.bottom;
+
+  if (inside) return;
+
+  deactivateCaseHover();
+}
 
 function readHoverData(el: HTMLElement): HoverData {
   return {
@@ -60,17 +83,24 @@ export function hideCasePreview() {
 }
 
 export function deactivateCaseHover() {
-  const page = document.querySelector<HTMLElement>("[data-home-page]");
-  const activeCard = page?.querySelector<HTMLElement>(".case-card.is-active");
+  const activeCard = activeHoverCard;
 
   if (activeCard) {
     activeCard.classList.remove("is-active");
   }
 
+  activeHoverCard = null;
+  deactivateCaseFocus();
+  const page = document.querySelector<HTMLElement>("[data-home-page]");
   document.documentElement.classList.remove("is-case-active");
   page?.classList.remove("is-case-active");
   document.documentElement.style.removeProperty("--page-gradient");
   hideCasePreview();
+}
+
+function resolveCard(target: EventTarget | null): HTMLAnchorElement | null {
+  if (!(target instanceof HTMLElement)) return null;
+  return target.closest<HTMLAnchorElement>("[data-case-card]");
 }
 
 export function initCaseHover() {
@@ -78,47 +108,55 @@ export function initCaseHover() {
   if (!page || boundPage === page) return;
 
   boundPage = page;
+  boundCasesRegion = page.querySelector<HTMLElement>(".home__cases");
+  initCaseFocus();
+
   const reducedMotion = prefersReducedMotion();
   const mobile = isMobileViewport();
-  let activeCard: HTMLElement | null = null;
+  const casesRegion = boundCasesRegion;
+  if (!casesRegion) return;
 
-  const activate = (card: HTMLElement) => {
+  const activate = (card: HTMLAnchorElement, clientX: number, clientY: number) => {
     if (mobile || reducedMotion) return;
 
-    activeCard = card;
+    activeHoverCard = card;
     const data = readHoverData(card);
     document.documentElement.classList.add("is-case-active");
     page.classList.add("is-case-active");
     card.classList.add("is-active");
     setGradient(data.gradientFrom, data.gradientTo, data.gradientAngle);
     showPanel(data);
-    feedback.emit({ sound: "hover", source: "case.hover" });
+    activateCaseFocus(card, clientX, clientY);
   };
 
-  const deactivate = () => {
-    if (!activeCard) return;
-    activeCard.classList.remove("is-active");
-    activeCard = null;
-    document.documentElement.classList.remove("is-case-active");
-    page.classList.remove("is-case-active");
-    setGradient("", "", "135");
-    hideCasePreview();
-  };
+  document.removeEventListener("pointermove", onDocumentPointerMove);
+  document.addEventListener("pointermove", onDocumentPointerMove, { passive: true });
 
-  page.addEventListener("mouseover", (e) => {
-    const card = (e.target as HTMLElement).closest<HTMLElement>("[data-case-card]");
-    if (!card || card === activeCard) return;
-    deactivate();
-    activate(card);
+  casesRegion.addEventListener("pointerover", (e) => {
+    if (mobile || reducedMotion) return;
+
+    const card = resolveCard(e.target);
+    if (!card || card === activeHoverCard) return;
+
+    deactivateCaseHover();
+    activate(card, e.clientX, e.clientY);
   });
 
-  page.addEventListener("mouseleave", () => {
-    deactivate();
+  page.addEventListener("pointerleave", (e) => {
+    if (mobile || reducedMotion || !activeHoverCard) return;
+
+    const related = e.relatedTarget;
+    if (related instanceof Node && activeHoverCard.contains(related)) return;
+    deactivateCaseHover();
   });
 }
 
 export function resetCaseHover() {
+  document.removeEventListener("pointermove", onDocumentPointerMove);
   boundPage = null;
+  boundCasesRegion = null;
+  activeHoverCard = null;
+  resetCaseFocus();
   document.documentElement.classList.remove("is-case-active");
   hideCasePreview();
 }

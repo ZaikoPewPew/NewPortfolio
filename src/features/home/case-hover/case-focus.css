@@ -1,0 +1,114 @@
+@import "../../../experience/wash/wash.css";
+@import "../../../components/ui/currently-block.css";
+
+.case-focus-root {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-employer-backdrop);
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.case-focus__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  backdrop-filter: blur(var(--employer-blur-amount));
+  -webkit-backdrop-filter: blur(var(--employer-blur-amount));
+  transition:
+    opacity var(--motion-base) var(--ease-out-expo),
+    visibility var(--motion-base) var(--ease-out-expo);
+}
+
+.case-focus__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--motion-base) var(--ease-out-expo),
+    visibility var(--motion-base) var(--ease-out-expo);
+  -webkit-mask-image: radial-gradient(
+    ellipse 72% 68% at 50% 48%,
+    rgba(0, 0, 0, 0.22) 28%,
+    rgba(0, 0, 0, 0.55) 62%,
+    black 96%
+  );
+  mask-image: radial-gradient(
+    ellipse 72% 68% at 50% 48%,
+    rgba(0, 0, 0, 0.22) 28%,
+    rgba(0, 0, 0, 0.55) 62%,
+    black 96%
+  );
+}
+
+.case-focus__overlay .wash__canvas {
+  z-index: 0;
+}
+
+html.is-case-active .case-focus__backdrop,
+html.is-case-active .case-focus__overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+html.is-case-active .case-card.is-active .case-card__tag {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  transition: none;
+}
+
+html.is-case-active .currently-block {
+  --currently-block-inner-width: var(--currently-block-case-inner-width);
+  --currently-block-inner-height: var(--currently-block-case-inner-height);
+  --currently-block-padding: var(--currently-block-case-padding);
+  --currently-block-radius: var(--currently-block-case-radius);
+  --currently-block-inner-radius: var(--currently-block-case-inner-radius);
+}
+
+.case-card-placeholder {
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.case-card-elevate {
+  position: fixed;
+  z-index: var(--z-employer-focus);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.case-card-elevate.is-visible {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.case-card-elevate > .case-card {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+.case-card--elevated .case-card__inner {
+  transition: none;
+}
+
+@media (max-width: 639px) {
+  .case-focus-root,
+  .case-card-elevate {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-focus-root,
+  .case-card-elevate {
+    display: none;
+  }
+}

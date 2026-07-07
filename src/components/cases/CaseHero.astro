@@ -1,14 +1,16 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import Tag from "../ui/Tag.astro";
+import { getCaseTitle } from "../../features/cases/getCaseTitle";
 
 interface Props {
   caseEntry: CollectionEntry<"cases">;
 }
 
 const { caseEntry } = Astro.props;
-const { title, year, tags, cover } = caseEntry.data;
+const { year, tags, cover } = caseEntry.data;
 const slug = caseEntry.slug;
+const title = getCaseTitle(slug);
 ---
 
 <header class="case-hero">

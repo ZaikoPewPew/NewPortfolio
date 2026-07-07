@@ -14,6 +14,9 @@
   "home": {
     "ariaLabel": "Главная"
   },
+  "concepts": {
+    "ariaLabel": "Витрина концептов"
+  },
   "header": {
     "employerPrefix": "сейчас в",
     "employerAriaLabel": "Работаю в {employer}"
@@ -73,6 +76,14 @@
         "caption": ["Design", "Lead"],
         "tooltip": ["my youtube", "22k subs"]
       }
+    }
+  },
+  "cases": {
+    "titles": {
+      "project-alpha": "Редизайн калькулятора торгового эквайринга",
+      "project-beta": "Витрина терминалов",
+      "project-gamma": "Портал самообслуживания клиентов",
+      "project-delta": "Оплата транспорта с помощью QR-кода"
     }
   },
   "hotkeys": {

@@ -48,6 +48,11 @@ html[data-theme="light"],
   --wash-tint-github: #57606a;
   --wash-tint-x: #0f1419;
   --wash-tint-cv: #6e6e73;
+  --wash-palette-case-bg: #ffffff;
+  --wash-palette-case-1: #c73e5e;
+  --wash-palette-case-2: #ffffff;
+  --wash-palette-case-3: #ffffff;
+  --wash-tint-case: #c73e5e;
 
   --book-ticket-bg-top: url("/images/widgets/book/Card-2-surface.svg");
   --book-ticket-bg-bottom: url("/images/widgets/book/Card-1-surface.svg");
