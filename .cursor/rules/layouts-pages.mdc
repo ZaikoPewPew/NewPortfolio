@@ -8,7 +8,7 @@ alwaysApply: false
 
 ## Layouts
 
-- `BaseLayout.astro` — HTML-оболочка, meta, View Transitions, `data-page` на body, `PageBackground` (hover-градиент кейсов)
+- `BaseLayout.astro` — HTML-оболочка, meta, View Transitions, `data-page` на body, `PageBackground`
 - `CaseLayout.astro` — разметка детальной страницы кейса (hero slot + content)
 
 ## Pages

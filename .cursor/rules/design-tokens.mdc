@@ -35,4 +35,4 @@ transition: var(--motion-base) var(--ease-out-expo);
 
 ## Исключение
 
-Градиенты кейсов при hover задаются в MDX frontmatter (`hover.gradientFrom/To`) — оркестратор применяет их через CSS vars.
+Градиенты в MDX frontmatter кейсов (`hover.gradientFrom/To`) — допустимые hex в контенте; на hover карточки сейчас не применяются (only currently-block + курсор).

@@ -6,12 +6,6 @@ import {
   resetCaseFocus,
 } from "./caseFocus.client";
 
-interface HoverGradient {
-  from: string;
-  to: string;
-  angle: string;
-}
-
 let boundPage: HTMLElement | null = null;
 let boundCasesRegion: HTMLElement | null = null;
 let activeHoverCard: HTMLAnchorElement | null = null;
@@ -32,27 +26,6 @@ function onDocumentPointerMove(e: PointerEvent) {
   deactivateCaseHover();
 }
 
-function readHoverGradient(el: HTMLElement): HoverGradient {
-  return {
-    from: el.dataset.hoverFrom ?? "",
-    to: el.dataset.hoverTo ?? "",
-    angle: el.dataset.hoverAngle ?? "135",
-  };
-}
-
-function setPageGradient(from: string, to: string, angle: string) {
-  const root = document.documentElement;
-  if (!from || !to) {
-    root.style.removeProperty("--page-gradient");
-    return;
-  }
-  root.style.setProperty("--page-gradient", `linear-gradient(${angle}deg, ${from}, ${to})`);
-}
-
-function clearPageGradient() {
-  document.documentElement.style.removeProperty("--page-gradient");
-}
-
 export function deactivateCaseHover() {
   const activeCard = activeHoverCard;
 
@@ -65,7 +38,6 @@ export function deactivateCaseHover() {
   const page = document.querySelector<HTMLElement>("[data-home-page]");
   document.documentElement.classList.remove("is-case-active");
   page?.classList.remove("is-case-active");
-  // Keep --page-gradient so ::before/::after can fade out; cleared on reset / next set.
 }
 
 function resolveCard(target: EventTarget | null): HTMLAnchorElement | null {
@@ -90,11 +62,9 @@ export function initCaseHover() {
     if (mobile || reducedMotion) return;
 
     activeHoverCard = card;
-    const gradient = readHoverGradient(card);
     document.documentElement.classList.add("is-case-active");
     page.classList.add("is-case-active");
     card.classList.add("is-active");
-    setPageGradient(gradient.from, gradient.to, gradient.angle);
     activateCaseFocus(card, clientX, clientY);
   };
 
@@ -127,5 +97,4 @@ export function resetCaseHover() {
   activeHoverCard = null;
   resetCaseFocus();
   document.documentElement.classList.remove("is-case-active");
-  clearPageGradient();
 }

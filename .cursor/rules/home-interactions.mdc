@@ -8,19 +8,18 @@ alwaysApply: false
 
 ## Hover кейсов
 
-- Currently-block с видео у курсора + кастомный курсор «open» (`CaseHoverController` + `caseFocus.client.ts` + `caseCursor.client.ts`)
-- Фон страницы — градиент кейса (`--page-gradient` из frontmatter) + noise на `PageBackground`
+- Единственный эффект — currently-block с видео у курсора + кастомный курсор «open» (`CaseHoverController` + `caseFocus.client.ts` + `caseCursor.client.ts`)
 - Видео карточки — `data-hover-video` (frontmatter `hover.previewVideo`, fallback `siteConfig.employer.video`)
 - Каждый вход курсора на плитку — видео **с начала** (`CurrentlyBlockActivateOptions.restart`); employer hover без restart
-- Класс `is-case-active` на `html` / `[data-home-page]` — градиент/noise, размер блока (`--currently-block-case-*`), кастомный курсор
+- Класс `is-case-active` на `html` / `[data-home-page]` — увеличивает размер блока (`--currently-block-case-*`) и включает кастомный курсор
 - Карточка получает `.is-active` (показ тегов)
-- Никаких blur / wash / preview-панели / подъёма карточки
+- Никаких blur / wash / градиента фона / preview-панели / подъёма карточки
 - Логика выхода, scale блока — `case-hover/README.md`
 
 ## Ограничения
 
 - Hover-блок отключён на mobile и `prefers-reduced-motion`
-- Фон — `PageBackground.astro` в `BaseLayout` (`--color-bg-page` + hover-градиент/noise); без монтирования в разметку градиент не виден
+- Фон — `PageBackground.astro` (сплошной `--color-bg-page`)
 
 ## Оркестрация
 
