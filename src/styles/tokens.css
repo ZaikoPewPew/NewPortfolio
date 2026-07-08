@@ -192,7 +192,12 @@
   --z-employer-backdrop: 240;
   --z-employer-focus: 250;
   --z-employer-block: 255;
+  --z-case-cursor: 260;
   --z-tooltip: 2147483647;
+
+  /* Case hover cursor */
+  --case-cursor-size: 64px;
+  --case-cursor-radius: 40px;
 
   /* Layout */
   --layout-content-width: 1248px;
@@ -204,7 +209,6 @@
   --layout-max-width: var(--layout-content-width);
   --layout-gap: var(--space-xl);
   --layout-padding: var(--space-lg);
-  --page-gradient: transparent;
 
   /* Header */
   --header-padding-top-desktop: var(--space-md);

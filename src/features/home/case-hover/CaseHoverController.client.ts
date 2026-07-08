@@ -6,14 +6,6 @@ import {
   resetCaseFocus,
 } from "./caseFocus.client";
 
-interface HoverData {
-  gradientFrom: string;
-  gradientTo: string;
-  gradientAngle: string;
-  previewImage: string;
-  title: string;
-}
-
 let boundPage: HTMLElement | null = null;
 let boundCasesRegion: HTMLElement | null = null;
 let activeHoverCard: HTMLAnchorElement | null = null;
@@ -34,54 +26,6 @@ function onDocumentPointerMove(e: PointerEvent) {
   deactivateCaseHover();
 }
 
-function readHoverData(el: HTMLElement): HoverData {
-  return {
-    gradientFrom: el.dataset.hoverFrom ?? "",
-    gradientTo: el.dataset.hoverTo ?? "",
-    gradientAngle: el.dataset.hoverAngle ?? "135",
-    previewImage: el.dataset.hoverPreview ?? "",
-    title: el.dataset.hoverTitle ?? "",
-  };
-}
-
-function setGradient(from: string, to: string, angle: string) {
-  const root = document.documentElement;
-  if (!from || !to) {
-    root.style.removeProperty("--page-gradient");
-    return;
-  }
-  root.style.setProperty(
-    "--page-gradient",
-    `linear-gradient(${angle}deg, ${from}, ${to})`
-  );
-}
-
-function getPanel(): HTMLElement | null {
-  return document.getElementById("case-preview-panel");
-}
-
-function showPanel(data: HoverData) {
-  const panel = getPanel();
-  if (!panel) return;
-
-  const img = panel.querySelector<HTMLImageElement>("[data-preview-image]");
-  const title = panel.querySelector<HTMLElement>("[data-preview-title]");
-
-  if (img && data.previewImage) {
-    img.src = data.previewImage;
-    img.hidden = false;
-  } else if (img) {
-    img.hidden = true;
-  }
-
-  if (title) title.textContent = data.title;
-  panel.classList.add("is-visible");
-}
-
-export function hideCasePreview() {
-  getPanel()?.classList.remove("is-visible");
-}
-
 export function deactivateCaseHover() {
   const activeCard = activeHoverCard;
 
@@ -94,8 +38,6 @@ export function deactivateCaseHover() {
   const page = document.querySelector<HTMLElement>("[data-home-page]");
   document.documentElement.classList.remove("is-case-active");
   page?.classList.remove("is-case-active");
-  document.documentElement.style.removeProperty("--page-gradient");
-  hideCasePreview();
 }
 
 function resolveCard(target: EventTarget | null): HTMLAnchorElement | null {
@@ -120,12 +62,9 @@ export function initCaseHover() {
     if (mobile || reducedMotion) return;
 
     activeHoverCard = card;
-    const data = readHoverData(card);
     document.documentElement.classList.add("is-case-active");
     page.classList.add("is-case-active");
     card.classList.add("is-active");
-    setGradient(data.gradientFrom, data.gradientTo, data.gradientAngle);
-    showPanel(data);
     activateCaseFocus(card, clientX, clientY);
   };
 
@@ -158,5 +97,4 @@ export function resetCaseHover() {
   activeHoverCard = null;
   resetCaseFocus();
   document.documentElement.classList.remove("is-case-active");
-  hideCasePreview();
 }

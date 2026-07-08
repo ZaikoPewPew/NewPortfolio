@@ -22,6 +22,8 @@ export type CurrentlyBlockActivateOptions = {
   videoSrc?: string;
   offsetX?: number;
   offsetY?: number;
+  /** Start playback from the beginning on each activate. */
+  restart?: boolean;
 };
 
 function readToken(name: string, fallback: number) {
@@ -157,6 +159,7 @@ export class CurrentlyBlockController {
 
     if (this.active) {
       this.setTargetFromPointer(clientX, clientY, performance.now());
+      if (options.restart) this.restartVideo();
       return;
     }
 
@@ -165,7 +168,18 @@ export class CurrentlyBlockController {
     this.lastPointerX = clientX;
     this.lastPointerTime = performance.now();
     this.setTargetFromPointer(clientX, clientY, this.lastPointerTime);
-    this.video?.play().catch(() => {});
+    if (options.restart) this.restartVideo();
+    else this.video?.play().catch(() => {});
+  }
+
+  private restartVideo() {
+    if (!this.video) return;
+    try {
+      this.video.currentTime = 0;
+    } catch {
+      // Ignore seek errors before metadata is ready.
+    }
+    this.video.play().catch(() => {});
   }
 
   deactivate() {

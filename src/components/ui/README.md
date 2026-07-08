@@ -97,11 +97,13 @@
 
 | Файл | Назначение |
 |------|------------|
-| `currentlyBlock.client.ts` | DOM, физика, `bindCurrentlyBlockHost`, `initCurrentlyBlock` |
+| `currentlyBlock.client.ts` | DOM, физика, `bindCurrentlyBlockHost`, `initCurrentlyBlock`, опция `restart` |
 | `currently-block.css` | Liquid-glass рамка, медиа, видео |
 | `CurrentlyBlockTrigger.astro` | Обёртка-хост с data-атрибутами |
 
 Инициализация — `initCurrentlyBlock()` (вызывается из `initEmployerName()` на главной) или напрямую из оркестратора. Сброс — `resetCurrentlyBlock()`.
+
+`CurrentlyBlockActivateOptions.restart: true` — при `activate()` ставить `currentTime = 0` и играть с начала. Используют карточки кейсов (`caseFocus.client.ts`); employer / `bindCurrentlyBlockHost` — без restart (продолжение с паузы).
 
 ### Подключение
 
@@ -111,7 +113,7 @@
 ---
 import CurrentlyBlockTrigger from "./CurrentlyBlockTrigger.astro";
 ---
-<CurrentlyBlockTrigger video="/images/widgets/currently-block/hitman.mp4" sound="hover">
+<CurrentlyBlockTrigger video="/images/widgets/currently-block/fantech.mp4" sound="hover">
   <button type="button">Смотреть</button>
 </CurrentlyBlockTrigger>
 ```

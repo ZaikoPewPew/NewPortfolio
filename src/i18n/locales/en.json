@@ -79,6 +79,7 @@
     }
   },
   "cases": {
+    "hoverCursor": "open",
     "titles": {
       "project-alpha": "Merchant Acquiring Calculator Redesign",
       "project-beta": "Terminal Showcase",

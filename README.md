@@ -142,16 +142,17 @@ npm run preview  # предпросмотр сборки
 - Фон `--color-bg-surface` (как у виджетов)
 - Лого 48×48 + `title` (14px); `summary` на карточке не показывается
 - Теги (`Tag variant="pill"`) — только при hover / `:focus-visible`
-- `cover` — для hover-preview и morph-перехода; фоновое фото на карточке пока скрыто
+- `cover` — для morph-перехода; фоновое фото на карточке пока скрыто
 - Лого по умолчанию — `casesConfig.cardLogoPlaceholder`; per-case — `card.logo` в frontmatter
 
 При hover (desktop):
 
-1. Градиент фона из frontmatter кейса (`--page-gradient` на `:root`)
-2. Preview-панель с изображением
-3. Звук `hoverSoft` (debounced)
+1. Currently-block с видео кейса (`hover.previewVideo`, fallback — employer video) следует за курсором; при каждом входе на плитку ролик стартует с начала
+2. Кастомный курсор «open» (`cases.hoverCursor`)
+3. Теги карточки появляются (`.is-active`)
+4. Звук `hoverCard`
 
-На mobile и при `prefers-reduced-motion` hover-blur отключён.
+На mobile и при `prefers-reduced-motion` hover-эффект отключён.
 
 **Скролл (desktop):** header и левая колонка виджетов — `sticky`; кейсы прокручиваются вместе со страницей (без внутреннего scroll-контейнера). Верхний ряд карточек выровнен с отступом `--layout-header-widget-gap-desktop` от хедера.
 
@@ -257,6 +258,7 @@ hover:
   gradientTo: "#e94560"
   gradientAngle: 160
   previewImage: "/images/cases/preview.svg"  # optional
+  previewVideo: "/images/widgets/currently-block/terminal.mp4"  # optional; currently-block
 card:
   layout: horizontal   # legacy; на home не используется
   subtitle: "Подзаголовок"                   # optional

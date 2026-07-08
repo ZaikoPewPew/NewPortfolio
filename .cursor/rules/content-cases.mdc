@@ -13,7 +13,7 @@ alwaysApply: false
 ## Обязательные поля frontmatter
 
 - `title`, `cover`, `order`, `summary`, `year`, `tags`
-- `hover` — gradientFrom, gradientTo, gradientAngle, previewImage (optional)
+- `hover` — gradientFrom, gradientTo, gradientAngle, previewImage (optional), previewVideo (optional)
 - `card` — layout (legacy), subtitle (optional), logo (optional)
 
 ## Пример
@@ -24,6 +24,7 @@ hover:
   gradientTo: "#e94560"
   gradientAngle: 160
   previewImage: "/images/cases/preview.svg"
+  previewVideo: "/images/widgets/currently-block/terminal.mp4"
 card:
   layout: horizontal
   subtitle: "Подзаголовок карточки"
@@ -35,4 +36,5 @@ card:
 - Тексты кейсов не хардкодить в `.astro`
 - Схема — `src/content.config.ts`
 - Градиенты hover — в frontmatter, не в CSS компонентов
+- `hover.previewVideo` — ролик currently-block при hover карточки; без поля — `siteConfig.employer.video`
 - Переводы карточки и body — стратегия в `i18n.mdc` (пока один MDX на slug)

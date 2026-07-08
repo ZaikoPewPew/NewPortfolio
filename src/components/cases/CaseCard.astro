@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { caseEntry } = Astro.props;
-const { cover, tags, hover, card } = caseEntry.data;
+const { tags, hover, card } = caseEntry.data;
 const slug = caseEntry.slug;
 const title = getCaseTitle(slug);
 const logo = card?.logo ?? casesConfig.cardLogoPlaceholder;
@@ -22,12 +22,7 @@ const logo = card?.logo ?? casesConfig.cardLogoPlaceholder;
   data-case-card
   data-case-nav
   data-case-slug={slug}
-  data-hover-from={hover.gradientFrom}
-  data-hover-to={hover.gradientTo}
-  data-hover-angle={hover.gradientAngle}
-  data-hover-preview={hover.previewImage ?? cover}
   data-hover-video={hover.previewVideo ?? siteConfig.employer.video}
-  data-hover-title={title}
   tabindex="0"
 >
   <article

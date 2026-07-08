@@ -23,7 +23,7 @@
 
 - Hover: верхняя карточка сдвигается вверх и слегка поворачивается (`--book-tear-*` токены)
 - Hover-звук: `paper` (`data-feedback="paper"`, hover-only, без tap)
-- Штрихкод — SVG-маска (`barcode.svg`), цвет через `--color-book-barcode`
+- Штрихкод — PNG (`barcode.png`)
 - Фоны карточек — theme-aware SVG через `--book-ticket-bg-top` / `--book-ticket-bg-bottom`
 - `prefers-reduced-motion` отключает tear-анимацию
 

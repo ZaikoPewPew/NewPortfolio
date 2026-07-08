@@ -7,10 +7,7 @@
 | `Card-2.svg` | dark (default) | 142×99 | верхний билет |
 | `Card-1.svg` | dark (default) | 142×43 | нижний билет |
 | `Card-2-surface.svg` / `Card-1-surface.svg` | light | 142×99 / 142×43 | фоны для светлой темы |
-| `Card-2-light.svg` / `Card-2-dark.svg` | — | 142×99 | исходники верхней карточки |
-| `Card-1-light.svg` / `Card-1-dark.svg` | — | 142×43 | исходники нижней карточки |
-| `barcode.svg` | — | 100×25 | маска штрихкода |
-| `ticket-texture.png` | — | — | текстура (референс / экспорт) |
+| `barcode.png` | — | 76×26 | штрихкод для нижней карточки |
 
 ## Токены
 
@@ -19,6 +16,6 @@
 - `--book-ticket-bg-top` — фон верхней карточки
 - `--book-ticket-bg-bottom` — фон нижней
 - `--color-book-ticket-text` — цвет подписи
-- `--color-book-barcode` — цвет штрихкода (через CSS mask)
+- `--color-book-barcode` — цвет штрихкода
 
 Размеры и motion — `--widget-book-size`, `--book-card-*-height`, `--book-tear-*` в `tokens.css`.

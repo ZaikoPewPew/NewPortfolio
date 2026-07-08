@@ -5,22 +5,3 @@
   background: var(--color-bg-page);
   pointer-events: none;
 }
-
-.page-background::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--page-gradient, transparent);
-  opacity: 0;
-  transition: opacity var(--motion-slow) var(--ease-out-expo);
-}
-
-html.is-case-active .page-background::after {
-  opacity: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .page-background::after {
-    transition: none;
-  }
-}

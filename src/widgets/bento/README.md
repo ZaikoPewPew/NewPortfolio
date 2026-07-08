@@ -18,3 +18,7 @@
 - Hover: иконки и текст YouTube → `--color-link-hover` (без text-shadow)
 - Tap feedback через `FeedbackBus` (`data-feedback="tap hover"`)
 - Тултипы на плитках: balloon-on-string (`Tooltip` + `initDragTooltips`) — см. [`src/components/ui/README.md`](../../components/ui/README.md)
+
+## Ассеты
+
+Исходники иконок плиток: [`public/images/widgets/bento-button/`](../../../public/images/widgets/bento-button/) (`bento-mychannel.svg`, `bento-ies.svg`, `bento-youtube.svg`). В разметке виджета SVG сейчас inline.
