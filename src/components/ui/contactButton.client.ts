@@ -1,5 +1,7 @@
 import { prefersReducedMotion } from "../../experience/motion/prefersReducedMotion";
 
+let visibilityBound = false;
+
 function getRelativePoint(clientX: number, clientY: number, el: HTMLElement) {
   const rect = el.getBoundingClientRect();
   return {
@@ -100,7 +102,19 @@ function bindContactButton(button: HTMLButtonElement) {
   syncContactButtonVisualState(button);
 }
 
+function bindVisibilityReset() {
+  if (visibilityBound) return;
+  visibilityBound = true;
+
+  // Cmd+Tab / app switch: mouseleave often does not fire, hover fill sticks.
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "hidden") return;
+    resetContactButton();
+  });
+}
+
 export function initContactButton(root: ParentNode = document) {
+  bindVisibilityReset();
   root.querySelectorAll<HTMLButtonElement>("[data-contact-button]").forEach(bindContactButton);
 }
 

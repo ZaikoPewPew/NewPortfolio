@@ -1,6 +1,7 @@
 ---
 import { ViewTransitions } from "astro:transitions";
 import { defaultLocale, getMessages } from "../i18n";
+import PageBackground from "../features/home/background/PageBackground.astro";
 
 interface Props {
   title?: string;
@@ -40,6 +41,7 @@ const enablePageEnter = page === "home" || page === "case";
     </style>
   </head>
   <body data-page={page}>
+    <PageBackground />
     {
       enablePageEnter && (
         <script is:inline>

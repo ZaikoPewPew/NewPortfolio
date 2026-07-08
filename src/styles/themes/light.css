@@ -35,6 +35,7 @@ html[data-theme="light"],
   --wash-grain-opacity: 0.1;
   --wash-grain-overlay: 0.1;
   --wash-grain-mixer: 0.18;
+  --page-background-noise-opacity: 0.22;
 
   --wash-bg: #ffffff;
   --wash-palette-employer-bg: #ffffff;

@@ -18,7 +18,7 @@ alwaysApply: true
 
 - **Header:** employer + location/time
 - **Слева:** bento-виджеты 300px (`src/widgets/`, registry.ts)
-- **Справа:** кейсы; hover — currently-block + курсор «open» (референс интеракции: lamanoujaim.com)
+- **Справа:** кейсы; hover — градиент+noise на фоне, currently-block + курсор «open» (референс: lamanoujaim.com)
 - **Dock:** email, social, theme toggle
 - **Сетка:** desktop 1248px (300 + 16 + 932), mobile stack — детали в `layout-grid.mdc`
 
@@ -26,7 +26,7 @@ alwaysApply: true
 
 - `widgets/<id>/` — модульные виджеты (mock/api через `*.source.ts`)
 - `experience/` — звук, вибро, хоткеи (FeedbackBus)
-- `features/home/` — case hover (currently-block), contact, orchestrator
+- `features/home/` — case hover (фон + currently-block), contact, orchestrator
 - `components/` — dumb UI
 
 ## Страницы

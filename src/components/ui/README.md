@@ -265,7 +265,7 @@ Employer hover использует тот же контроллер через 
 | `ContactButton.astro` | Разметка, слой `.contact-button__fill`, цвета hover |
 | `contactButton.client.ts` | `mouseenter` / `mouseleave`: origin fill; focus — из центра |
 
-Инициализация — `initContactButton()` из `HomeOrchestrator.client.ts`; сброс — `resetContactButton()` при навигации и bfcache.
+Инициализация — `initContactButton()` из `HomeOrchestrator.client.ts`; сброс — `resetContactButton()` при навигации, bfcache и `document.visibilitychange` → hidden (Cmd+Tab / уход в другое окно — `mouseleave` часто не срабатывает).
 
 ### Feedback
 
@@ -295,6 +295,8 @@ Tap на кнопке **не** проигрывается (`bubble` — hover-on
 **Focus** — origin `50% 50%`. При `:focus-visible` mouseleave не гасит заливку; при `:hover` focusout не сбрасывает.
 
 **Reduced motion** — fill скрыт, мгновенная смена `background` через `data-contact-hover`.
+
+**Visibility** — при `document.visibilitychange` → hidden сбрасывает hover fill (как у employer), иначе заливка залипает после Cmd+Tab.
 
 ### Токены
 
