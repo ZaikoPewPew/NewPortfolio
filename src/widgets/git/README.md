@@ -14,5 +14,6 @@ GitHub: username, contribution heatmap.
 
 - Активные дни heatmap всегда зелёные (уровни l1–l4)
 - Hover ячейки: тултип с датой (`Tooltip` + `formatContributionDate`), кроме последнего ряда
-- Heatmap: `cursor: pointer`, клик → GitHub profile
+- Клик по всей карточке → GitHub profile (`data-git-profile-url` + `initWholeWidgetLink`); `header` и `heatmap` остаются нативными `<a>`
+- `cursor: pointer` на `.git-widget` — кликабельная зона без «мёртвых» пикселей между header и heatmap
 - Hover блока: `@username` → кол-во коммитов за год (slide целиком)

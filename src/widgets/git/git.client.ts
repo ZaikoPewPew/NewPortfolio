@@ -77,6 +77,21 @@ function initGitCellTooltips(root: HTMLElement, heatmap: HTMLElement) {
   resizeObserver.observe(shell);
 }
 
+function initWholeWidgetLink(root: HTMLElement) {
+  const profileUrl = root.dataset.gitProfileUrl;
+  if (!profileUrl) return;
+
+  root.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement | null;
+    if (!target) return;
+
+    // Keep native link behavior for explicit anchors.
+    if (target.closest("a")) return;
+
+    window.open(profileUrl, "_blank", "noopener,noreferrer");
+  });
+}
+
 export function initGitWidget(root: HTMLElement) {
   if (root.hasAttribute("data-bound")) return;
   root.setAttribute("data-bound", "true");
@@ -86,5 +101,6 @@ export function initGitWidget(root: HTMLElement) {
 
   if (heatmap.querySelectorAll(".git-widget__cell").length === 0) return;
 
+  initWholeWidgetLink(root);
   initGitCellTooltips(root, heatmap);
 }

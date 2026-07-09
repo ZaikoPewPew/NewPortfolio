@@ -19,7 +19,13 @@ const levelClass = (level: number) =>
 ---
 
 <div class="git-widget-shell">
-  <div class="git-widget" data-git-widget data-feedback="hover" data-feedback-source="widget.git">
+  <div
+    class="git-widget"
+    data-git-widget
+    data-git-profile-url={profile.profileUrl}
+    data-feedback="hover"
+    data-feedback-source="widget.git"
+  >
     <a
       class="git-widget__header"
       href={profile.profileUrl}
