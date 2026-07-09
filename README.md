@@ -147,7 +147,7 @@ npm run preview  # предпросмотр сборки
 
 При hover (desktop):
 
-1. Currently-block с видео кейса (`hover.previewVideo`, fallback — employer video) следует за курсором; при каждом входе на плитку ролик стартует с начала
+1. Currently-block с медиа кейса (`hover.previewVideo` → видео; иначе `hover.previewImage` → картинка; иначе employer video) следует за курсором; при каждом входе на плитку ролик стартует с начала
 2. Кастомный курсор «open» (`cases.hoverCursor`)
 3. Теги карточки появляются (`.is-active`)
 4. Звук `hoverCard`
@@ -257,8 +257,8 @@ hover:
   gradientFrom: "#1a0a2e"
   gradientTo: "#e94560"
   gradientAngle: 160
-  previewImage: "/images/cases/preview.svg"  # optional
-  previewVideo: "/images/widgets/currently-block/terminal.mp4"  # optional; currently-block
+  previewImage: "/images/widgets/currently-block/qr_code.jpg"  # optional; currently-block (без previewVideo)
+  previewVideo: "/images/widgets/currently-block/terminal.mp4"  # optional; currently-block (приоритет над previewImage)
 card:
   layout: horizontal   # legacy; на home не используется
   subtitle: "Подзаголовок"                   # optional

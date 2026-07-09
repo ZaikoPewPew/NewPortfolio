@@ -20,6 +20,7 @@ const MAX_TILT_DEG = 12;
 
 export type CurrentlyBlockActivateOptions = {
   videoSrc?: string;
+  imageSrc?: string;
   offsetX?: number;
   offsetY?: number;
   /** Start playback from the beginning on each activate. */
@@ -61,7 +62,11 @@ function isDisabled() {
   return prefersReducedMotion() || isMobileViewport();
 }
 
-function createBlockElement(): { block: HTMLElement; video: HTMLVideoElement | null } {
+function createBlockElement(): {
+  block: HTMLElement;
+  video: HTMLVideoElement | null;
+  image: HTMLImageElement | null;
+} {
   const block = document.createElement("div");
   block.className = "currently-block";
   block.setAttribute("data-currently-block", "");
@@ -82,16 +87,28 @@ function createBlockElement(): { block: HTMLElement; video: HTMLVideoElement | n
   video.preload = "metadata";
   video.setAttribute("muted", "");
   video.setAttribute("aria-hidden", "true");
-  media.append(video);
+  video.hidden = true;
 
+  const image = document.createElement("img");
+  image.className = "currently-block__image";
+  image.alt = "";
+  image.decoding = "async";
+  image.hidden = true;
+  image.setAttribute("aria-hidden", "true");
+
+  media.append(video, image);
   frame.append(media);
   block.append(frame);
   document.body.append(block);
 
-  return { block, video };
+  return { block, video, image };
 }
 
-function findBlockInDom(): { block: HTMLElement; video: HTMLVideoElement | null } | null {
+function findBlockInDom(): {
+  block: HTMLElement;
+  video: HTMLVideoElement | null;
+  image: HTMLImageElement | null;
+} | null {
   const blocks = document.querySelectorAll<HTMLElement>("[data-currently-block]");
   blocks.forEach((node, index) => {
     if (index < blocks.length - 1) node.remove();
@@ -103,14 +120,17 @@ function findBlockInDom(): { block: HTMLElement; video: HTMLVideoElement | null 
   return {
     block,
     video: block.querySelector<HTMLVideoElement>(".currently-block__video"),
+    image: block.querySelector<HTMLImageElement>(".currently-block__image"),
   };
 }
 
 export class CurrentlyBlockController {
   readonly element: HTMLElement;
   readonly video: HTMLVideoElement | null;
+  readonly image: HTMLImageElement | null;
 
   private active = false;
+  private mediaMode: "video" | "image" | null = null;
   private rafId = 0;
   private lastTimestamp = 0;
 
@@ -132,10 +152,30 @@ export class CurrentlyBlockController {
   private lastPointerX = 0;
   private lastPointerTime = 0;
 
-  constructor(existing?: { block: HTMLElement; video: HTMLVideoElement | null }) {
+  constructor(existing?: {
+    block: HTMLElement;
+    video: HTMLVideoElement | null;
+    image: HTMLImageElement | null;
+  }) {
     const created = existing ?? createBlockElement();
     this.element = created.block;
     this.video = created.video;
+    this.image = created.image ?? this.ensureImageElement();
+    this.applyMediaMode("video");
+  }
+
+  private ensureImageElement(): HTMLImageElement | null {
+    const media = this.element.querySelector<HTMLElement>(".currently-block__media");
+    if (!media) return null;
+
+    const image = document.createElement("img");
+    image.className = "currently-block__image";
+    image.alt = "";
+    image.decoding = "async";
+    image.hidden = true;
+    image.setAttribute("aria-hidden", "true");
+    media.append(image);
+    return image;
   }
 
   isActive() {
@@ -150,16 +190,41 @@ export class CurrentlyBlockController {
     this.video.load();
   }
 
+  setImageSrc(src?: string) {
+    if (!this.image || !src) return;
+    const next = resolveVideoUrl(src);
+    if (this.image.src === next) return;
+    this.image.src = src;
+  }
+
+  private applyMediaMode(mode: "video" | "image") {
+    this.mediaMode = mode;
+    if (this.video) {
+      this.video.hidden = mode !== "video";
+    }
+    if (this.image) {
+      this.image.hidden = mode !== "image";
+    }
+  }
+
   activate(clientX: number, clientY: number, options: CurrentlyBlockActivateOptions = {}) {
     if (isDisabled()) return;
 
     this.offsetX = options.offsetX ?? DEFAULT_OFFSET_X;
     this.offsetY = options.offsetY ?? DEFAULT_OFFSET_Y;
-    this.setVideoSrc(options.videoSrc);
+
+    if (options.videoSrc) {
+      this.setVideoSrc(options.videoSrc);
+      this.applyMediaMode("video");
+    } else if (options.imageSrc) {
+      this.setImageSrc(options.imageSrc);
+      this.applyMediaMode("image");
+      this.video?.pause();
+    }
 
     if (this.active) {
       this.setTargetFromPointer(clientX, clientY, performance.now());
-      if (options.restart) this.restartVideo();
+      if (options.restart && this.mediaMode === "video") this.restartVideo();
       return;
     }
 
@@ -168,8 +233,8 @@ export class CurrentlyBlockController {
     this.lastPointerX = clientX;
     this.lastPointerTime = performance.now();
     this.setTargetFromPointer(clientX, clientY, this.lastPointerTime);
-    if (options.restart) this.restartVideo();
-    else this.video?.play().catch(() => {});
+    if (options.restart && this.mediaMode === "video") this.restartVideo();
+    else if (this.mediaMode === "video") this.video?.play().catch(() => {});
   }
 
   private restartVideo() {

@@ -91,19 +91,27 @@
 
 ## Currently-block
 
-Плавающий виджет с видео: следует за курсором с инерцией и наклоном. Один shared-инстанс на `body`; при активации другого хоста подставляется его ролик.
+Плавающий виджет с видео или изображением: следует за курсором с инерцией и наклоном. Один shared-инстанс на `body`; при активации другого хоста подставляется его медиа.
 
 ### Файлы
 
 | Файл | Назначение |
 |------|------------|
-| `currentlyBlock.client.ts` | DOM, физика, `bindCurrentlyBlockHost`, `initCurrentlyBlock`, опция `restart` |
-| `currently-block.css` | Liquid-glass рамка, медиа, видео |
+| `currentlyBlock.client.ts` | DOM, физика, видео + изображение, `bindCurrentlyBlockHost`, `initCurrentlyBlock`, опция `restart` |
+| `currently-block.css` | Liquid-glass рамка, `.currently-block__video` / `__image` |
 | `CurrentlyBlockTrigger.astro` | Обёртка-хост с data-атрибутами |
 
 Инициализация — `initCurrentlyBlock()` (вызывается из `initEmployerName()` на главной) или напрямую из оркестратора. Сброс — `resetCurrentlyBlock()`.
 
-`CurrentlyBlockActivateOptions.restart: true` — при `activate()` ставить `currentTime = 0` и играть с начала. Используют карточки кейсов (`caseFocus.client.ts`); employer / `bindCurrentlyBlockHost` — без restart (продолжение с паузы).
+`CurrentlyBlockActivateOptions`:
+
+| Поле | Роль |
+|------|------|
+| `videoSrc` | URL ролика; приоритет над `imageSrc` |
+| `imageSrc` | URL статичного изображения (если видео нет) |
+| `restart` | При `activate()` — `currentTime = 0` и `play()` (только для видео) |
+
+Карточки кейсов (`caseFocus.client.ts`) — `restart: true`; employer / `bindCurrentlyBlockHost` — без restart (продолжение с паузы).
 
 ### Подключение
 

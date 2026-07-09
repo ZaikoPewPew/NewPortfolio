@@ -36,5 +36,6 @@ card:
 - Тексты кейсов не хардкодить в `.astro`
 - Схема — `src/content.config.ts`
 - Градиенты hover — в frontmatter, не в CSS компонентов
-- `hover.previewVideo` — ролик currently-block при hover карточки; без поля — `siteConfig.employer.video`
+- `hover.previewVideo` — ролик currently-block при hover карточки
+- `hover.previewImage` — статичное изображение в currently-block, **только если нет** `previewVideo`; без обоих — `siteConfig.employer.video`
 - Переводы карточки и body — стратегия в `i18n.mdc` (пока один MDX на slug)

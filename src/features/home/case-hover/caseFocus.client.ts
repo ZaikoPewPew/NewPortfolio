@@ -24,6 +24,7 @@ function isDisabled() {
 function readBlockOptions(card: HTMLAnchorElement): CurrentlyBlockActivateOptions {
   return {
     videoSrc: card.dataset.hoverVideo,
+    imageSrc: card.dataset.hoverImage,
     restart: true,
   };
 }

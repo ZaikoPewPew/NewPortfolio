@@ -56,10 +56,16 @@
   overflow: hidden;
 }
 
-.currently-block__video {
+.currently-block__video,
+.currently-block__image {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: inherit;
+}
+
+.currently-block__video[hidden],
+.currently-block__image[hidden] {
+  display: none;
 }

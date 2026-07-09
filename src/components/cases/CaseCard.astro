@@ -22,7 +22,8 @@ const logo = card?.logo ?? casesConfig.cardLogoPlaceholder;
   data-case-card
   data-case-nav
   data-case-slug={slug}
-  data-hover-video={hover.previewVideo ?? siteConfig.employer.video}
+  data-hover-video={hover.previewVideo ?? (!hover.previewImage ? siteConfig.employer.video : undefined)}
+  data-hover-image={!hover.previewVideo ? hover.previewImage : undefined}
   tabindex="0"
 >
   <article

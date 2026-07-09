@@ -1,6 +1,6 @@
 # Case Hover — currently-block карточки кейса
 
-Интерактив при наведении на карточку кейса на главной: рядом с курсором летит **currently-block** с видео и кастомный курсор «open». Никаких оверлеев (blur / wash / затемнение), смены фона или подъёма карточки — только видео-блок и курсор. Контроллер физики блока — общий с employer hover (`src/components/ui/currentlyBlock.client.ts`).
+Интерактив при наведении на карточку кейса на главной: рядом с курсором летит **currently-block** с видео или изображением и кастомный курсор «open». Никаких оверлеев (blur / wash / затемнение), смены фона или подъёма карточки — только медиа-блок и курсор. Контроллер физики блока — общий с employer hover (`src/components/ui/currentlyBlock.client.ts`).
 
 ## Файлы
 
@@ -20,7 +20,7 @@
 2. `activate(card, x, y)`:
    - `html` + `[data-home-page]` получают класс `is-case-active` (увеличивает размер блока)
    - карточка → `.is-active` (показывает теги)
-   - `activateCaseFocus()` — currently-block с видео **с начала** (`restart: true`) + курсор «open» + звук `hoverCard`
+   - `activateCaseFocus()` — currently-block с медиа **с начала** (видео: `restart: true`) + курсор «open» + звук `hoverCard`
 3. `onDocumentPointerMove` — как только курсор выходит **за bounding-box активной карточки**, вызывается `deactivateCaseHover()` (см. «Логика выхода»)
 4. Переход на другую карточку — `pointerover` деактивирует текущую и активирует новую (видео новой карточки тоже с `currentTime = 0`)
 
@@ -33,8 +33,16 @@
 
 ## currently-block для кейсов
 
-- Видео: `data-hover-video` карточки (frontmatter `hover.previewVideo`, fallback — `siteConfig.employer.video`), проставляется в `CaseCard.astro`
-- При каждой активации (вход на плитку, повторный hover) — `CurrentlyBlockActivateOptions.restart: true` → `currentTime = 0` + `play()`
+Медиа на карточке — приоритет **видео → изображение → employer fallback**:
+
+| Frontmatter | `data-*` на карточке | Поведение |
+|-------------|----------------------|-----------|
+| `hover.previewVideo` | `data-hover-video` | Ролик; при каждом входе `currentTime = 0` + `play()` |
+| `hover.previewImage` (без видео) | `data-hover-image` | Статичное изображение (`object-fit: cover`) |
+| ничего | `data-hover-video` = `employer.video` | Fallback-ролик employer |
+
+`CaseCard.astro` передаёт `data-hover-image` **только** если `previewVideo` не задан — иначе legacy `previewImage` (cover SVG) не перекрывает ролик.
+
 - Employer hover **без** `restart` — ролик продолжает с места паузы
 - Размер блока **×1.5** относительно employer: класс `html.is-case-active` переопределяет `--currently-block-inner-*`, `--padding`, `--radius` на `--currently-block-case-*`. Масштаб — токен `--currently-block-case-scale`
 
@@ -46,6 +54,7 @@
 |-----------------|-----|------|
 | `data-case-card` | `<a>` карточки | Хост hover |
 | `data-hover-video` | Карточка | Видео currently-block |
+| `data-hover-image` | Карточка | Изображение (только без `previewVideo`) |
 | `is-case-active` | `html`, `[data-home-page]` | Увеличенный размер currently-block + скрытие системного курсора |
 | `is-active` | Карточка | Показ тегов |
 
