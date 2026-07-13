@@ -9,51 +9,119 @@ const profile = await getMeProfile(locale);
 const m = getMessages(locale);
 ---
 
-<article class="me-widget" aria-label={m.me.ariaLabel} data-page-enter>
-  <div class="me-widget__header">
-    <img
-      class="me-widget__avatar"
-      src={profile.avatarUrl}
-      alt=""
-      width="48"
-      height="48"
-      loading="eager"
-    />
-    <div class="me-widget__identity">
-      <p class="me-widget__name">{profile.name}</p>
-      <p class="me-widget__role">{profile.role}</p>
-    </div>
-    <button
-      type="button"
-      class="me-widget__action"
-      aria-hidden="true"
-      tabindex="-1"
-      data-me-widget-action
-    >
-      <svg
-        class="me-widget__action-icon"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
+<article
+  class="me-widget"
+  aria-label={m.me.ariaLabel}
+  data-me-widget
+  data-me-flipped="false"
+  data-page-enter
+>
+  <div class="me-widget__scene">
+    <div class="me-widget__flipper">
+      <div class="me-widget__face me-widget__face--front" data-me-face="front">
+        <div class="me-widget__header">
+          <img
+            class="me-widget__avatar"
+            src={profile.avatarUrl}
+            alt=""
+            width="48"
+            height="48"
+            loading="eager"
+          />
+          <div class="me-widget__identity">
+            <p class="me-widget__name">{profile.name}</p>
+            <p class="me-widget__role">{profile.role}</p>
+          </div>
+          <button
+            type="button"
+            class="me-widget__action"
+            aria-label={m.me.flipAriaLabel}
+            data-me-flip-trigger
+          >
+            <svg
+              class="me-widget__action-icon"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M6 13L3 16L6 19M3 16H11C12.6569 16 14 14.6569 14 13V12M10 12V11C10 9.34315 11.3431 8 13 8H21M18 5L21 8L18 11"
+                stroke="currentColor"
+                stroke-width="1.3"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </button>
+        </div>
+
+        <p class="me-widget__bio me-widget__desktop-only">
+          <span class="me-widget__bio-line">{profile.bioLine1}</span>
+          <span class="me-widget__bio-line">{profile.bioLine2}</span>
+        </p>
+
+        <div class="me-widget__desktop-only">
+          <ContactButton />
+        </div>
+      </div>
+
+      <div
+        class="me-widget__face me-widget__face--back"
+        data-me-face="back"
         aria-hidden="true"
+        inert
       >
-        <path
-          d="M5 12H3M12 5V3M21 12H19M12 21V19M16.9496 16.9498L18.3638 18.364M5.63602 5.63608L7.05023 7.05029M16.9496 7.0502L18.3638 5.63599M5.63602 18.3639L7.05023 16.9497M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
-          stroke="currentColor"
-          stroke-width="1.3"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-      </svg>
-    </button>
-  </div>
+        <div class="me-widget__header">
+          <span class="me-widget__avatar me-widget__avatar--ghost" aria-hidden="true"></span>
+          <div class="me-widget__identity">
+            <!-- back-side content TBD -->
+          </div>
+          <button
+            type="button"
+            class="me-widget__action"
+            aria-label={m.me.flipAriaLabel}
+            data-me-flip-trigger
+          >
+            <svg
+              class="me-widget__action-icon"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M6 13L3 16L6 19M3 16H11C12.6569 16 14 14.6569 14 13V12M10 12V11C10 9.34315 11.3431 8 13 8H21M18 5L21 8L18 11"
+                stroke="currentColor"
+                stroke-width="1.3"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </button>
+        </div>
 
-  <p class="me-widget__bio me-widget__desktop-only">
-    <span class="me-widget__bio-line">{profile.bioLine1}</span>
-    <span class="me-widget__bio-line">{profile.bioLine2}</span>
-  </p>
+        <div class="me-widget__back-body me-widget__desktop-only">
+          <!-- back-side content TBD -->
+        </div>
 
-  <div class="me-widget__desktop-only">
-    <ContactButton />
+        <div class="me-widget__desktop-only">
+          <ContactButton />
+        </div>
+      </div>
+    </div>
   </div>
 </article>
+
+<script>
+  import { initMeWidget } from "./me.client";
+
+  function bindMeWidgets() {
+    document.querySelectorAll("[data-me-widget]").forEach((widget) => {
+      initMeWidget(widget as HTMLElement);
+    });
+  }
+
+  bindMeWidgets();
+  document.addEventListener("astro:page-load", bindMeWidgets);
+</script>

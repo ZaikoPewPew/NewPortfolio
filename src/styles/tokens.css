@@ -123,12 +123,15 @@
   --motion-fast: 150ms;
   --motion-base: 300ms;
   --motion-slow: 500ms;
+  --motion-me-flip: 960ms;
+  --perspective-me-flip: 1000px;
   --motion-photo-slide: 650ms;
   --motion-contact-fast: 480ms;
   --motion-contact-medium: 520ms;
   --motion-contact-slow: 560ms;
   --motion-contact-contact: 540ms;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-me-flip: var(--ease-out-expo);
   --ease-spring-soft: cubic-bezier(0.32, 0.72, 0, 1);
   --ease-spring-snappy: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-contact-exit: cubic-bezier(0.4, 0, 0.8, 0.2);

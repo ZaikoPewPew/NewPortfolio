@@ -1,4 +1,27 @@
 .me-widget {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  border-radius: var(--radius-widget);
+}
+
+.me-widget__scene {
+  perspective: var(--perspective-me-flip);
+}
+
+.me-widget__flipper {
+  position: relative;
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform var(--motion-me-flip) var(--ease-me-flip);
+}
+
+.me-widget[data-me-flipped="true"] .me-widget__flipper {
+  transform: rotateY(180deg);
+}
+
+.me-widget__face {
+  grid-area: 1 / 1;
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
@@ -6,6 +29,12 @@
   padding: var(--space-sm);
   border-radius: var(--radius-widget);
   background: var(--color-bg-surface);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.me-widget__face--back {
+  transform: rotateY(180deg);
 }
 
 .me-widget__header {
@@ -21,6 +50,11 @@
   height: var(--space-2xl);
   border-radius: var(--radius-control);
   object-fit: cover;
+}
+
+.me-widget__avatar--ghost {
+  display: block;
+  background: transparent;
 }
 
 .me-widget__identity {
@@ -63,8 +97,7 @@
   border-radius: var(--radius-control);
   background: var(--color-bg-control);
   color: var(--color-text-primary);
-  cursor: default;
-  pointer-events: none;
+  cursor: pointer;
 }
 
 .me-widget__action-icon {
@@ -79,6 +112,12 @@
 
 .me-widget__bio-line {
   display: block;
+}
+
+.me-widget__back-body {
+  flex: 1;
+  width: 100%;
+  min-height: calc(var(--font-size-sm) * var(--line-height-normal) * 2);
 }
 
 .me-widget__desktop-only {
@@ -191,6 +230,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .me-widget__flipper {
+    transition: none;
+  }
+
   .contact-widget__icon,
   .contact-widget__external,
   .contact-widget__label {

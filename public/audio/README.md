@@ -6,6 +6,7 @@
 - `paper_new.mp3` — hover на book widget (currently reading)
 - `buble_hover_new.mp3` — hover на contact button (say hi / vibe check)
 - `swipe_new.mp3` — переключение say hi / vibe check (contact panel)
+- `flip.mp3` — переворот MeWidget (profile card)
 
 Пути заданы в `src/experience/feedback/sounds.config.ts`.
 

@@ -65,18 +65,21 @@ function getContactButtonMode(open: boolean): ContactButtonMode {
   return open ? "about" : "contact";
 }
 
-function updateContactUi(
-  button: HTMLButtonElement,
-  label: HTMLElement,
-  keycap: HTMLElement,
-  slot: HTMLElement,
-  mode: ContactButtonMode
-) {
-  button.setAttribute("aria-expanded", String(mode === "about"));
+function updateContactButtons(root: ParentNode, mode: ContactButtonMode) {
   const labels = contactButtonLabels();
-  label.textContent = mode === "about" ? labels.about : labels.contact;
-  keycap.textContent = mode === "about" ? "c" : "h";
-  slot.setAttribute("aria-hidden", String(mode === "contact"));
+
+  root.querySelectorAll<HTMLButtonElement>("[data-contact-button]").forEach((button) => {
+    const label = button.querySelector<HTMLElement>("[data-contact-button-label]");
+    const keycap = button.querySelector<HTMLElement>("[data-contact-button-keycap-char]");
+    if (!label || !keycap) return;
+
+    button.setAttribute("aria-expanded", String(mode === "about"));
+    label.textContent = mode === "about" ? labels.about : labels.contact;
+    keycap.textContent = mode === "about" ? "c" : "h";
+  });
+
+  const slot = root.querySelector<HTMLElement>("[data-contact-slot]");
+  if (slot) slot.setAttribute("aria-hidden", String(mode === "contact"));
 }
 
 function readLayoutOpen(layout: HTMLElement): boolean {
@@ -92,12 +95,8 @@ function lockContactPanelVisual(layout: HTMLElement, open: boolean) {
   delete layout.dataset.contactAnimating;
   layout.style.viewTransitionName = "none";
 
-  const button = root.querySelector<HTMLButtonElement>("[data-contact-button]");
-  const label = root.querySelector<HTMLElement>("[data-contact-button-label]");
-  const keycap = root.querySelector<HTMLElement>("[data-contact-button-keycap-char]");
-  const ariaSlot = root.querySelector<HTMLElement>("[data-contact-slot]");
-  if (button && label && keycap && ariaSlot) {
-    updateContactUi(button, label, keycap, ariaSlot, getContactButtonMode(open));
+  if (root.querySelector("[data-contact-button]") && root.querySelector("[data-contact-slot]")) {
+    updateContactButtons(root, getContactButtonMode(open));
   }
 }
 
@@ -109,16 +108,14 @@ function unlockContactPanelVisual(layout: HTMLElement) {
 
 function applyContactStateToDocument(doc: Document, open: boolean) {
   const layout = getLayout(doc);
-  const button = doc.querySelector<HTMLButtonElement>("[data-contact-button]");
-  const label = doc.querySelector<HTMLElement>("[data-contact-button-label]");
-  const keycap = doc.querySelector<HTMLElement>("[data-contact-button-keycap-char]");
-  const slot = doc.querySelector<HTMLElement>("[data-contact-slot]");
-  if (!layout || !button || !label || !keycap || !slot) return;
+  if (!layout || !doc.querySelector("[data-contact-button]") || !doc.querySelector("[data-contact-slot]")) {
+    return;
+  }
 
   clearContactAnimation(layout);
   doc.documentElement.dataset.contactPanelNav = open ? "open" : "closed";
   lockContactPanelVisual(layout, open);
-  updateContactUi(button, label, keycap, slot, getContactButtonMode(open));
+  updateContactButtons(doc, getContactButtonMode(open));
 }
 
 function writeContactPanelOpen(open: boolean) {
@@ -165,12 +162,14 @@ function startContactAnimation(layout: HTMLElement, nextOpen: boolean) {
 function setContactState(nextOpen: boolean, options: { animate?: boolean } = {}) {
   const { animate = true } = options;
   const layout = getLayout();
-  const button = document.querySelector<HTMLButtonElement>("[data-contact-button]");
-  const label = document.querySelector<HTMLElement>("[data-contact-button-label]");
-  const keycap = document.querySelector<HTMLElement>("[data-contact-button-keycap-char]");
-  const slot = document.querySelector<HTMLElement>("[data-contact-slot]");
 
-  if (!layout || !button || !label || !keycap || !slot) return;
+  if (
+    !layout ||
+    !document.querySelector("[data-contact-button]") ||
+    !document.querySelector("[data-contact-slot]")
+  ) {
+    return;
+  }
   if (isAnimating(layout)) return;
 
   const wasOpen = readLayoutOpen(layout);
@@ -182,7 +181,7 @@ function setContactState(nextOpen: boolean, options: { animate?: boolean } = {})
 
   delete layout.dataset.contactNavLock;
   layout.style.removeProperty("view-transition-name");
-  updateContactUi(button, label, keycap, slot, getContactButtonMode(nextOpen));
+  updateContactButtons(document, getContactButtonMode(nextOpen));
 
   if (animate) {
     startContactAnimation(layout, nextOpen);
@@ -215,17 +214,16 @@ function syncContactPanelOnLoad() {
   const layout = getLayout();
   if (!layout) return;
 
-  const button = document.querySelector<HTMLButtonElement>("[data-contact-button]");
-  const label = document.querySelector<HTMLElement>("[data-contact-button-label]");
-  const keycap = document.querySelector<HTMLElement>("[data-contact-button-keycap-char]");
-  const slot = document.querySelector<HTMLElement>("[data-contact-slot]");
+  const hasContactUi =
+    Boolean(document.querySelector("[data-contact-button]")) &&
+    Boolean(document.querySelector("[data-contact-slot]"));
 
   if (sessionStorage.getItem(CONTACT_WIDGETS_NAV_KEY) === "1") {
     sessionStorage.removeItem(CONTACT_WIDGETS_NAV_KEY);
     unlockContactPanelVisual(layout);
 
-    if (button && label && keycap && slot) {
-      updateContactUi(button, label, keycap, slot, getContactButtonMode(readLayoutOpen(layout)));
+    if (hasContactUi) {
+      updateContactButtons(document, getContactButtonMode(readLayoutOpen(layout)));
     }
     return;
   }
@@ -240,8 +238,8 @@ function syncContactPanelOnLoad() {
     return;
   }
 
-  if (button && label && keycap && slot) {
-    updateContactUi(button, label, keycap, slot, getContactButtonMode(targetOpen));
+  if (hasContactUi) {
+    updateContactButtons(document, getContactButtonMode(targetOpen));
   }
 }
 
