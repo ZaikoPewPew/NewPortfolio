@@ -51,6 +51,27 @@
   color: var(--color-text-subdued);
 }
 
+.me-widget__action {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-2xl);
+  height: var(--space-2xl);
+  padding: var(--space-control);
+  border: none;
+  border-radius: var(--radius-control);
+  background: var(--color-bg-control);
+  color: var(--color-text-primary);
+  cursor: default;
+  pointer-events: none;
+}
+
+.me-widget__action-icon {
+  width: var(--space-lg);
+  height: var(--space-lg);
+}
+
 .me-widget__bio {
   width: 100%;
   line-height: var(--line-height-normal);

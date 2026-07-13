@@ -1,8 +1,8 @@
-import { defaultLocale } from "../../i18n/locale.config";
+import { resolveLocale, type Locale } from "../../i18n/locale.config";
 
-const localeTag = defaultLocale === "ru" ? "ru-RU" : "en-US";
-
-export function formatContributionDate(isoDate: string): string {
+export function formatContributionDate(isoDate: string, locale?: Locale): string {
+  const resolved = resolveLocale(locale);
+  const localeTag = resolved === "ru" ? "ru-RU" : "en-US";
   const [year, month, day] = isoDate.split("-").map(Number);
   const date = new Date(year, month - 1, day);
 

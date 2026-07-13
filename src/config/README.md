@@ -32,7 +32,11 @@
 
 ### `location`
 
-Город и IANA timezone для `LiveClock` в хедере.
+| Поле | Тип | Описание |
+|------|-----|----------|
+| `city` | string | Город (proper noun) |
+| `cityCode` | string | Короткий код для ThemeWidget (`ala`) |
+| `timezone` | string | IANA timezone для live-времени |
 
 ### `social`
 

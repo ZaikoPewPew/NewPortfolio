@@ -1,9 +1,9 @@
 ---
 import { siteConfig } from "../../config/site.config";
-import { getMessages } from "../../i18n";
+import { getMessages, resolveLocale } from "../../i18n";
 
 const { email, linkedin, telegram, x, cv } = siteConfig.social;
-const m = getMessages();
+const m = getMessages(resolveLocale(Astro.currentLocale));
 
 type ContactItem = {
   label: string;

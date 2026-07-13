@@ -398,7 +398,7 @@ feedback.emit({ sound: "tap", haptic: "light", source: "dock.email" });
 
 - **View Transitions** — `astro:transitions` в `BaseLayout`, стили в `features/transitions/view-transitions.css`
 - **Case transition** — морфинг обложки карточки в hero кейса (`CaseTransitionController`)
-- **Persist widgets** — `transition:persist="home-widgets"` на `HomeWidgets` — виджеты не перерисовываются при переходе home ↔ case
+- **Persist widgets** — `transition:persist={`home-widgets-${locale}`}` на `HomeWidgets` — виджеты не перерисовываются при переходе home ↔ case в рамках одной локали; смена языка подставляет другой persist-ключ и обновляет тексты
 - **Contact state** — сохраняется при навигации между home и case
 
 При входе на страницу кейса — звук `pageTransition`.

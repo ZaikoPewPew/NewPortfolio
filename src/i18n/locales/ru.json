@@ -19,19 +19,21 @@
   },
   "header": {
     "employerPrefix": "сейчас в",
+    "employerLabel": "альфа-банк",
     "employerAriaLabel": "Работаю в {employer}"
   },
   "me": {
     "ariaLabel": "Профиль",
-    "role": "design engineer",
+    "name": "Владислав Кургузов",
+    "role": "дизайн инженер",
     "bio": {
-      "line1": "senior product designer in fintech.",
-      "line2": "I also ship what I design"
+      "line1": "сеньор продакт-дизайнер в финтехе.",
+      "line2": "и сам реализую то, что проектирую"
     },
     "contactButton": {
-      "contact": "say hi",
-      "about": "vibe check",
-      "backToHome": "back to home"
+      "contact": "сказать привет",
+      "about": "вайб-чек",
+      "backToHome": "на главную"
     }
   },
   "contact": {
@@ -51,6 +53,13 @@
       "avocado": "avocado"
     }
   },
+  "themeWidget": {
+    "ariaLabel": "Настройки сайта",
+    "locationAriaLabel": "Местное время в {city}",
+    "languageAriaLabel": "Сменить язык, сейчас: {locale}",
+    "soundOnAriaLabel": "Выключить звуки сайта",
+    "soundOffAriaLabel": "Включить звуки сайта"
+  },
   "git": {
     "ariaLabel": "Активность на GitHub",
     "openProfile": "Открыть профиль на GitHub",
@@ -64,17 +73,17 @@
     "ariaLabel": "Ссылки и каналы",
     "tiles": {
       "mychannel": {
-        "label": "My blog",
-        "tooltip": ["my blog", "1.1k subs"]
+        "label": "Мой блог",
+        "tooltip": ["мой блог", "1.1k подп."]
       },
       "ies": {
         "label": "IES",
-        "tooltip": ["my pet project", "1.8k users"]
+        "tooltip": ["мой пет-проект", "1.8k юзеров"]
       },
       "youtube": {
         "label": "YouTube — Design Lead",
         "caption": ["Design", "Lead"],
-        "tooltip": ["my youtube", "22k subs"]
+        "tooltip": ["мой ютуб", "22k подп."]
       }
     }
   },
@@ -91,8 +100,8 @@
     "toggleSound": "Вкл/выкл звук",
     "toggleTheme": "Сменить тему",
     "focusCases": "Фокус на кейсы",
-    "contactMe": "say hi",
-    "contactAbout": "vibe check",
+    "contactMe": "сказать привет",
+    "contactAbout": "вайб-чек",
     "backToHome": "На главную",
     "showShortcutsHelp": "Показать хоткеи"
   }

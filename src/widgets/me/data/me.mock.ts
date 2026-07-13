@@ -1,12 +1,11 @@
 import type { MeProfile } from "./me.types";
-import { siteConfig } from "../../../config/site.config";
-import { getMessages } from "../../../i18n";
+import { getMessages, type Locale } from "../../../i18n";
 
-export function getMockMeProfile(): MeProfile {
-  const m = getMessages();
+export function getMockMeProfile(locale?: Locale): MeProfile {
+  const m = getMessages(locale);
 
   return {
-    name: siteConfig.name,
+    name: m.me.name,
     role: m.me.role,
     bioLine1: m.me.bio.line1,
     bioLine2: m.me.bio.line2,

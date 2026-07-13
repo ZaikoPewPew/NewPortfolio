@@ -19,10 +19,12 @@
   },
   "header": {
     "employerPrefix": "currently at",
+    "employerLabel": "alfa-bank",
     "employerAriaLabel": "Working at {employer}"
   },
   "me": {
     "ariaLabel": "Profile",
+    "name": "Vladislav Kurguzov",
     "role": "design engineer",
     "bio": {
       "line1": "senior product designer in fintech.",
@@ -50,6 +52,13 @@
       "light": "light",
       "avocado": "avocado"
     }
+  },
+  "themeWidget": {
+    "ariaLabel": "Site preferences",
+    "locationAriaLabel": "Local time in {city}",
+    "languageAriaLabel": "Switch language, current: {locale}",
+    "soundOnAriaLabel": "Mute site sounds",
+    "soundOffAriaLabel": "Unmute site sounds"
   },
   "git": {
     "ariaLabel": "GitHub activity",

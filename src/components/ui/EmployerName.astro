@@ -1,7 +1,7 @@
 ---
 import "./employer-name.css";
 import { siteConfig } from "../../config/site.config";
-import { getMessages, interpolate } from "../../i18n";
+import { getMessages, interpolate, resolveLocale } from "../../i18n";
 
 interface Props {
   label: string;
@@ -9,7 +9,7 @@ interface Props {
 
 const { label } = Astro.props;
 const { video: videoSrc, url: employerUrl } = siteConfig.employer;
-const m = getMessages();
+const m = getMessages(resolveLocale(Astro.currentLocale));
 ---
 
 <span

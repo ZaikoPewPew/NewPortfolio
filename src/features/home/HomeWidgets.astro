@@ -5,15 +5,18 @@ import GitWidget from "../../widgets/git/GitWidget.astro";
 import BookWidget from "../../widgets/book/BookWidget.astro";
 import PhotoWidget from "../../widgets/photo/PhotoWidget.astro";
 import BentoWidget from "../../widgets/bento/BentoWidget.astro";
+import { resolveLocale } from "../../i18n";
 import { CONTACT_PANEL_OPEN_KEY } from "./contact/contact-panel.storage";
 import "../home/contact/contact-panel.animations.css";
+
+const locale = resolveLocale(Astro.currentLocale);
 ---
 
 <div
   class="home__widgets"
   data-contact-layout
   data-contact-open="false"
-  transition:persist="home-widgets"
+  transition:persist={`home-widgets-${locale}`}
 >
   <script is:inline define:vars={{ contactPanelOpenKey: CONTACT_PANEL_OPEN_KEY }}>
     (function () {

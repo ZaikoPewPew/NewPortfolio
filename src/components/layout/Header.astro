@@ -1,10 +1,9 @@
 ---
-import LiveClock from "../ui/LiveClock.astro";
+import ThemeWidget from "../ui/ThemeWidget.astro";
 import EmployerName from "../ui/EmployerName.astro";
-import { siteConfig } from "../../config/site.config";
-import { getMessages } from "../../i18n";
+import { getMessages, resolveLocale } from "../../i18n";
 
-const m = getMessages();
+const m = getMessages(resolveLocale(Astro.currentLocale));
 ---
 
 <header class="header" data-page-enter>
@@ -14,9 +13,9 @@ const m = getMessages();
         <span class="employer-prefix" data-employer-prefix>
           {m.header.employerPrefix}{" "}
         </span>
-        <EmployerName label={siteConfig.employer.label} />
+        <EmployerName label={m.header.employerLabel} />
       </p>
-      <LiveClock />
+      <ThemeWidget />
     </div>
   </div>
 </header>
@@ -26,7 +25,7 @@ const m = getMessages();
     position: relative;
     isolation: isolate;
     width: 100%;
-    background: transparent;
+    background: color-mix(in srgb, var(--color-bg-page) 78%, transparent);
     backdrop-filter: blur(var(--blur-header-glass)) saturate(1.4);
     -webkit-backdrop-filter: blur(var(--blur-header-glass)) saturate(1.4);
     padding-top: var(--header-padding-top-desktop);
@@ -72,13 +71,14 @@ const m = getMessages();
 
     .header__row {
       min-height: var(--header-row-height-mobile);
+      align-items: center;
+      flex-wrap: wrap;
     }
 
     .header__employer {
       font-size: var(--header-employer-size-mobile);
       line-height: var(--line-height-normal);
     }
-
   }
 
   @media (prefers-reduced-motion: reduce) {

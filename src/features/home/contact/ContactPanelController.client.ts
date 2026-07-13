@@ -10,7 +10,9 @@ import {
 const CONTACT_ANIMATION_MS = 700;
 const MOBILE_MEDIA_QUERY = "(max-width: 639px)";
 
-const contactButtonLabels = getMessages().me.contactButton;
+function contactButtonLabels() {
+  return getMessages().me.contactButton;
+}
 
 type AstroTransitionEvent = Event & { to?: URL; newDocument?: Document };
 
@@ -29,12 +31,18 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+function stripLocalePrefix(pathname: string): string {
+  const stripped = pathname.replace(/^\/ru(?=\/|$)/, "");
+  return stripped.length > 0 ? stripped : "/";
+}
+
 function isCasePath(pathname: string): boolean {
-  return /\/cases\/[^/]+\/?$/.test(pathname);
+  return /\/cases\/[^/]+\/?$/.test(stripLocalePrefix(pathname));
 }
 
 function isWidgetsPath(pathname: string): boolean {
-  return pathname === "/" || isCasePath(pathname);
+  const path = stripLocalePrefix(pathname);
+  return path === "/" || isCasePath(pathname);
 }
 
 function getLayout(root: ParentNode = document): HTMLElement | null {
@@ -65,7 +73,8 @@ function updateContactUi(
   mode: ContactButtonMode
 ) {
   button.setAttribute("aria-expanded", String(mode === "about"));
-  label.textContent = mode === "about" ? contactButtonLabels.about : contactButtonLabels.contact;
+  const labels = contactButtonLabels();
+  label.textContent = mode === "about" ? labels.about : labels.contact;
   keycap.textContent = mode === "about" ? "c" : "h";
   slot.setAttribute("aria-hidden", String(mode === "contact"));
 }

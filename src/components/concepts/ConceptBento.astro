@@ -1,8 +1,8 @@
 ---
 import { conceptItems } from "../../features/home/concepts/concepts.mock";
-import { getMessages } from "../../i18n";
+import { getMessages, resolveLocale } from "../../i18n";
 
-const m = getMessages();
+const m = getMessages(resolveLocale(Astro.currentLocale));
 
 function getTileHeight(rowSpan: 1 | 2 | undefined): string {
   return rowSpan === 2 ? "var(--case-card-height)" : "var(--concept-row-height)";

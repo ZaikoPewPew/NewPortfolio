@@ -1,11 +1,10 @@
 # Me Widget
 
-Профиль: аватар, имя, роль, bio, contact me, переключатель темы.
+Профиль: аватар, имя, роль, bio, contact me. Кнопка справа в шапке — placeholder под будущий функционал (тема переехала в ThemeWidget в хедере).
 
 ## UX-сценарии
 
 - Hover: лёгкий scale аватара
-- Click theme toggle: смена темы + feedback tap
 - Click contact button (desktop): toggle contact panel + swipe; hover — clip-path fill + bubble
 - Hotkey `h` / `c`: toggle contact panel (desktop)
 

@@ -1,6 +1,6 @@
 ---
 import { ViewTransitions } from "astro:transitions";
-import { defaultLocale, getMessages } from "../i18n";
+import { getMessages, resolveLocale } from "../i18n";
 import PageBackground from "../features/home/background/PageBackground.astro";
 
 interface Props {
@@ -9,7 +9,8 @@ interface Props {
   page?: "home" | "case" | "not-found" | "default";
 }
 
-const m = getMessages();
+const locale = resolveLocale(Astro.currentLocale);
+const m = getMessages(locale);
 
 const {
   title = m.meta.defaultTitle,
@@ -21,7 +22,7 @@ const enablePageEnter = page === "home" || page === "case";
 ---
 
 <!doctype html>
-<html lang={defaultLocale} data-theme="dark">
+<html lang={locale} data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

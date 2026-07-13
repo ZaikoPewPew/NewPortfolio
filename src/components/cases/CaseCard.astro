@@ -1,9 +1,11 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import Tag from "../ui/Tag.astro";
 import { casesConfig } from "../../config/cases.config";
 import { siteConfig } from "../../config/site.config";
 import { getCaseTitle } from "../../features/cases/getCaseTitle";
+import { resolveLocale } from "../../i18n";
 
 interface Props {
   caseEntry: CollectionEntry<"cases">;
@@ -12,12 +14,14 @@ interface Props {
 const { caseEntry } = Astro.props;
 const { tags, hover, card } = caseEntry.data;
 const slug = caseEntry.slug;
-const title = getCaseTitle(slug);
+const locale = resolveLocale(Astro.currentLocale);
+const title = getCaseTitle(slug, locale);
 const logo = card?.logo ?? casesConfig.cardLogoPlaceholder;
+const href = getRelativeLocaleUrl(locale, `/cases/${slug}`);
 ---
 
 <a
-  href={`/cases/${slug}`}
+  href={href}
   class="case-card"
   data-case-card
   data-case-nav

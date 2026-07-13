@@ -34,6 +34,7 @@ interpolate(m.header.employerAriaLabel, { employer: "alfa-bank" });
 | `me` | `MeWidget`, `ContactButton`, contact panel |
 | `contact` | `ContactWidget` — aria, подписи ссылок |
 | `theme` | `ThemeToggle.astro` |
+| `themeWidget` | `ThemeWidget.astro` — aria location / language / sound |
 | `bento` | `bento.mock.ts`, `BentoWidget.astro` |
 | `hotkeys` | `HotkeysManager`, `hotkeys.config.ts` (`messageKey`) |
 
@@ -51,4 +52,6 @@ interpolate(m.header.employerAriaLabel, { employer: "alfa-bank" });
 
 ## Смена локали
 
-Сейчас активна одна локаль — `defaultLocale` в `locale.config.ts`. Роутинг `/en/`, cookie или toggle — отдельная задача; каталоги уже готовы.
+Astro i18n routing: `en` на `/`, `ru` на `/ru/…`. Кнопка языка в `ThemeWidget` ведёт на `getRelativeLocaleUrl` другой локали. В `.astro` — `getMessages(resolveLocale(Astro.currentLocale))`; в браузере `getMessages()` читает `<html lang>`.
+
+Кейсы MDX пока без дубля по локали — переключается UI chrome / виджеты / заголовки из JSON.

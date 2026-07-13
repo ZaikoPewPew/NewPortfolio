@@ -39,6 +39,10 @@ function getCaseSlugFromPath(pathname: string): string | undefined {
   return match?.[1];
 }
 
+function isHomePath(pathname: string): boolean {
+  return pathname === "/" || pathname === "/ru" || pathname === "/ru/";
+}
+
 function resetViewTransitionNames(root: ParentNode = document) {
   root.querySelectorAll<HTMLElement>("[data-case-morph], [data-case-list-shell]").forEach((el) => {
     el.style.removeProperty("view-transition-name");
@@ -177,7 +181,7 @@ export function bindCaseTransition() {
     if (document.body.dataset.page !== "case") return;
 
     const transitionEvent = event as AstroTransitionEvent;
-    if (transitionEvent.to?.pathname !== "/") return;
+    if (!isHomePath(transitionEvent.to?.pathname ?? "")) return;
 
     beginCaseTransitionBack();
   });

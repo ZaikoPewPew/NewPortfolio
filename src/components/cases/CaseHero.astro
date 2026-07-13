@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import Tag from "../ui/Tag.astro";
 import { getCaseTitle } from "../../features/cases/getCaseTitle";
+import { resolveLocale } from "../../i18n";
 
 interface Props {
   caseEntry: CollectionEntry<"cases">;
@@ -10,7 +11,7 @@ interface Props {
 const { caseEntry } = Astro.props;
 const { year, tags, cover } = caseEntry.data;
 const slug = caseEntry.slug;
-const title = getCaseTitle(slug);
+const title = getCaseTitle(slug, resolveLocale(Astro.currentLocale));
 ---
 
 <header class="case-hero">

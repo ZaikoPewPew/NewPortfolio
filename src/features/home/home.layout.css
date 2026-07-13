@@ -33,7 +33,8 @@
 
   body[data-page="home"] .grid__widgets:has([data-tooltip-visible]),
   [data-case-page] .grid__widgets:has([data-tooltip-visible]) {
-    z-index: var(--z-tooltip);
+    /* Keep below sticky header; tooltips use their own --z-tooltip inside */
+    z-index: var(--z-content);
   }
 
   body[data-page="home"] .home__cases {

@@ -1,10 +1,10 @@
 ---
-import { getMessages } from "../../i18n";
+import { getMessages, resolveLocale } from "../../i18n";
 import { bookAssets } from "./config";
 import "./book.styles.css";
 import "./book.animations.css";
 
-const m = getMessages();
+const m = getMessages(resolveLocale(Astro.currentLocale));
 ---
 
 <article

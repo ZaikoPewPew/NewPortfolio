@@ -1,6 +1,6 @@
-import { getMessages } from "../../i18n";
+import { getMessages, type Locale } from "../../i18n";
 
-export function getCaseTitle(slug: string): string {
-  const titles = getMessages().cases.titles;
+export function getCaseTitle(slug: string, locale?: Locale): string {
+  const titles = getMessages(locale).cases.titles;
   return titles[slug as keyof typeof titles] ?? slug;
 }

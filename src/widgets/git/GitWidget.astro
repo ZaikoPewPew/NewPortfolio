@@ -1,16 +1,17 @@
 ---
 import Tooltip from "../../components/ui/Tooltip.astro";
-import { defaultLocale, getMessages, interpolate } from "../../i18n";
+import { getMessages, interpolate, resolveLocale } from "../../i18n";
 import { GIT_HEATMAP_COLS, GIT_HEATMAP_SIZE } from "./data/git.constants";
 import { getGitProfile } from "./data/git.source";
 import { formatContributionDate } from "./formatContributionDate";
 import "./git.styles.css";
 import "./git.animations.css";
 
+const locale = resolveLocale(Astro.currentLocale);
 const profile = await getGitProfile();
-const m = getMessages();
+const m = getMessages(locale);
 const commitsPerYearLabel = interpolate(m.git.commitsPerYear, {
-  count: new Intl.NumberFormat(defaultLocale).format(profile.commitsPerYear),
+  count: new Intl.NumberFormat(locale).format(profile.commitsPerYear),
 });
 const lastRowStartIndex = GIT_HEATMAP_SIZE - GIT_HEATMAP_COLS;
 
@@ -74,7 +75,7 @@ const levelClass = (level: number) =>
             data-git-cell
             data-tooltip-label={
               index < lastRowStartIndex
-                ? formatContributionDate(day.date)
+                ? formatContributionDate(day.date, locale)
                 : undefined
             }
           />

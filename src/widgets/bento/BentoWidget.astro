@@ -1,12 +1,13 @@
 ---
 import Tooltip from "../../components/ui/Tooltip.astro";
-import { getMessages } from "../../i18n";
+import { getMessages, resolveLocale } from "../../i18n";
 import { getBentoData } from "./data/bento.source";
 import "./bento.styles.css";
 import "./bento.animations.css";
 
-const data = await getBentoData();
-const m = getMessages();
+const locale = resolveLocale(Astro.currentLocale);
+const data = await getBentoData(locale);
+const m = getMessages(locale);
 const topTiles = data.tiles.filter((tile) => tile.variant !== "youtube");
 const youtubeTile = data.tiles.find((tile) => tile.variant === "youtube");
 ---

@@ -7,6 +7,7 @@ export const siteConfig = {
   },
   location: {
     city: "Almaty",
+    cityCode: "ala",
     timezone: "Asia/Almaty",
   },
   social: {

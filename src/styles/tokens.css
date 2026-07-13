@@ -213,7 +213,8 @@
   /* Header */
   --header-padding-top-desktop: var(--space-md);
   --header-padding-top-mobile: 40px;
-  --header-row-height-desktop: 48px;
+  /* Matches ThemeWidget: padding sm + control 48 + padding sm */
+  --header-row-height-desktop: 64px;
   --header-row-height-mobile: 19px;
   --header-employer-size-desktop: var(--font-size-2xl);
   --header-employer-size-mobile: var(--font-size-base);

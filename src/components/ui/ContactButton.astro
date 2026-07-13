@@ -1,5 +1,5 @@
 ---
-import { getMessages } from "../../i18n";
+import { getMessages, resolveLocale } from "../../i18n";
 
 type ContactButtonMode = "contact" | "about";
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { hotkey = "h", class: className, mode = "contact" } = Astro.props;
-const m = getMessages();
+const m = getMessages(resolveLocale(Astro.currentLocale));
 
 const labelByMode: Record<ContactButtonMode, string> = {
   contact: m.me.contactButton.contact,

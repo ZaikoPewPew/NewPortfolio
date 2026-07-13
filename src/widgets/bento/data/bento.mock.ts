@@ -1,4 +1,4 @@
-import { getMessages } from "../../../i18n";
+import { getMessages, type Locale } from "../../../i18n";
 import type { BentoData } from "./bento.types";
 
 const TILE_HREFS = {
@@ -7,8 +7,8 @@ const TILE_HREFS = {
   youtube: "https://www.youtube.com/@DesignLeadd",
 } as const;
 
-export function getMockBentoData(): BentoData {
-  const { bento } = getMessages();
+export function getMockBentoData(locale?: Locale): BentoData {
+  const { bento } = getMessages(locale);
 
   return {
     tiles: [
