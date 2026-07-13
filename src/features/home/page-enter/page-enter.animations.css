@@ -12,11 +12,15 @@
 
 html[data-home-enter] {
   --page-enter-cases-base-active: var(--page-enter-delay-cases-base);
+  --page-enter-delay-concepts-base-active: var(--page-enter-delay-concepts-base);
 }
 
 @media (max-width: 639px) {
   html[data-home-enter] {
     --page-enter-cases-base-active: var(--page-enter-delay-cases-base-mobile);
+    --page-enter-delay-concepts-base-active: var(
+      --page-enter-delay-concepts-base-mobile
+    );
   }
 }
 

@@ -37,10 +37,14 @@ function clamp(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value));
 }
 
-function clampFollowShift(raw: number, hostWidth: number) {
+function clampFollowShift(raw: number, hostSize: number) {
   const ratio = readToken("--tooltip-follow-clamp", 0.4);
-  const max = hostWidth * (ratio > 0 ? ratio : 0.4);
+  const max = hostSize * (ratio > 0 ? ratio : 0.4);
   return clamp(raw, -max, max);
+}
+
+function isSidePlacement(placement: string | null) {
+  return placement === "left" || placement === "right";
 }
 
 function stepInertial(
@@ -67,6 +71,7 @@ function bindTooltipHost(host: HTMLElement) {
 
   host.setAttribute("data-tooltip-bound", "true");
 
+  const sideFollow = isSidePlacement(tooltip.getAttribute("data-tooltip-placement"));
   const reducedMotion = prefersReducedMotion();
   let isActive = false;
   let rafId = 0;
@@ -79,13 +84,14 @@ function bindTooltipHost(host: HTMLElement) {
   let angleCurrent = 0;
   let angleTarget = 0;
   let angleVelocity = 0;
-  let mouseVelocityX = 0;
+  let mouseVelocity = 0;
 
-  let lastPointerX = 0;
+  let lastPointerCoord = 0;
   let lastPointerTime = 0;
 
   const applyMotion = () => {
-    tooltip.style.setProperty("--tooltip-shift-x", `${shiftCurrent}px`);
+    const shiftVar = sideFollow ? "--tooltip-shift-y" : "--tooltip-shift-x";
+    tooltip.style.setProperty(shiftVar, `${shiftCurrent}px`);
     tooltip.style.setProperty("--tooltip-tilt", `${angleCurrent}deg`);
   };
 
@@ -94,7 +100,7 @@ function bindTooltipHost(host: HTMLElement) {
     Math.abs(shiftVelocity) <= SETTLE_VELOCITY &&
     Math.abs(angleTarget - angleCurrent) <= SETTLE_ANGLE &&
     Math.abs(angleVelocity) <= SETTLE_VELOCITY &&
-    Math.abs(mouseVelocityX) <= SETTLE_VELOCITY;
+    Math.abs(mouseVelocity) <= SETTLE_VELOCITY;
 
   const tick = (timestamp: number) => {
     if (!lastTimestamp) lastTimestamp = timestamp;
@@ -106,8 +112,8 @@ function bindTooltipHost(host: HTMLElement) {
     const angleForce = readToken("--tooltip-balloon-force", ANGLE_FORCE);
     const angleDamping = readToken("--tooltip-balloon-damping", ANGLE_DAMPING);
 
-    mouseVelocityX *= VELOCITY_DECAY ** (dt * 60);
-    angleTarget = clamp(-mouseVelocityX * velocityToAngle, -maxTilt, maxTilt);
+    mouseVelocity *= VELOCITY_DECAY ** (dt * 60);
+    angleTarget = clamp(-mouseVelocity * velocityToAngle, -maxTilt, maxTilt);
 
     const shiftStep = stepInertial(
       shiftCurrent,
@@ -138,7 +144,7 @@ function bindTooltipHost(host: HTMLElement) {
       shiftVelocity = 0;
       angleCurrent = angleTarget;
       angleVelocity = 0;
-      mouseVelocityX = 0;
+      mouseVelocity = 0;
       applyMotion();
       rafId = 0;
       lastTimestamp = 0;
@@ -161,23 +167,28 @@ function bindTooltipHost(host: HTMLElement) {
     shiftVelocity = 0;
     angleCurrent = angleTarget;
     angleVelocity = 0;
-    mouseVelocityX = 0;
+    mouseVelocity = 0;
     applyMotion();
   };
 
-  const setTargetFromPointer = (clientX: number, timestamp: number) => {
+  const setTargetFromPointer = (clientX: number, clientY: number, timestamp: number) => {
     const rect = host.getBoundingClientRect();
-    shiftTarget = clampFollowShift(clientX - rect.left - rect.width / 2, rect.width);
+    const pointerCoord = sideFollow ? clientY : clientX;
+    const origin = sideFollow
+      ? rect.top + rect.height / 2
+      : rect.left + rect.width / 2;
+    const hostSize = sideFollow ? rect.height : rect.width;
+    shiftTarget = clampFollowShift(pointerCoord - origin, hostSize);
 
     if (lastPointerTime > 0) {
       const dt = (timestamp - lastPointerTime) / 1000;
       if (dt > 0 && dt < 0.2) {
-        const instantVelocity = (clientX - lastPointerX) / dt;
-        mouseVelocityX = mouseVelocityX * 0.35 + instantVelocity * 0.65;
+        const instantVelocity = (pointerCoord - lastPointerCoord) / dt;
+        mouseVelocity = mouseVelocity * 0.35 + instantVelocity * 0.65;
       }
     }
 
-    lastPointerX = clientX;
+    lastPointerCoord = pointerCoord;
     lastPointerTime = timestamp;
 
     if (reducedMotion) {
@@ -230,14 +241,14 @@ function bindTooltipHost(host: HTMLElement) {
     isActive = true;
     host.setAttribute("data-tooltip-visible", "");
     setTooltipLayerActive(host, true);
-    lastPointerX = event.clientX;
+    lastPointerCoord = sideFollow ? event.clientY : event.clientX;
     lastPointerTime = performance.now();
-    setTargetFromPointer(event.clientX, lastPointerTime);
+    setTargetFromPointer(event.clientX, event.clientY, lastPointerTime);
   });
 
   host.addEventListener("mousemove", (event) => {
     if (!isActive) return;
-    setTargetFromPointer(event.clientX, performance.now());
+    setTargetFromPointer(event.clientX, event.clientY, performance.now());
   });
 
   host.addEventListener("mouseleave", () => {
@@ -253,7 +264,7 @@ function bindTooltipHost(host: HTMLElement) {
     isActive = true;
     host.setAttribute("data-tooltip-visible", "");
     setTooltipLayerActive(host, true);
-    mouseVelocityX = 0;
+    mouseVelocity = 0;
     resetMotion();
   });
 

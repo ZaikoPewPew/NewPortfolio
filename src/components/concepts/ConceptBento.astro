@@ -12,14 +12,11 @@ function getTileHeight(rowSpan: 1 | 2 | undefined): string {
 <section class="concept-bento" aria-label={m.concepts.ariaLabel}>
   <ul class="concept-bento__grid">
     {
-      conceptItems.map((item) => (
+      conceptItems.map((item, index) => (
         <li
           class="concept-bento__item"
-          style={`
-            --concept-col-span: ${item.colSpan ?? 1};
-            --concept-row-span: ${item.rowSpan ?? 1};
-            height: ${getTileHeight(item.rowSpan)};
-          `}
+          data-page-enter=""
+          style={`--page-enter-delay: calc(var(--page-enter-delay-concepts-base-active) + ${index} * var(--page-enter-delay-concepts-step)); --concept-col-span: ${item.colSpan ?? 1}; --concept-row-span: ${item.rowSpan ?? 1}; height: ${getTileHeight(item.rowSpan)};`}
         >
           <div class="concept-bento__surface"></div>
         </li>

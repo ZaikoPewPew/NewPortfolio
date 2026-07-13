@@ -16,9 +16,16 @@ function shouldAnimatePageEnter(): boolean {
 }
 
 function readMotionMs(token: string, fallback: number): number {
-  const raw = getComputedStyle(document.documentElement).getPropertyValue(token).trim();
-  const parsed = parseInt(raw, 10);
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+  const probe = document.createElement("div");
+  probe.style.cssText =
+    "position:absolute;visibility:hidden;pointer-events:none;transition-duration:var(" +
+    token +
+    ")";
+  document.documentElement.appendChild(probe);
+  const seconds = parseFloat(getComputedStyle(probe).transitionDuration);
+  probe.remove();
+  const ms = seconds * 1000;
+  return Number.isFinite(ms) && ms > 0 ? ms : fallback;
 }
 
 function clearEnterTimer() {
@@ -60,7 +67,7 @@ export function syncPageEnterOnLoad() {
 
   document.documentElement.dataset.homeEntering = "true";
 
-  const totalMs = readMotionMs("--motion-page-enter-total", 2800);
+  const totalMs = readMotionMs("--motion-page-enter-total", 4100);
 
   enterTimer = window.setTimeout(() => {
     finishPageEnter();

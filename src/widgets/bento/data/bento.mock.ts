@@ -18,6 +18,7 @@ export function getMockBentoData(locale?: Locale): BentoData {
         href: TILE_HREFS.mychannel,
         variant: "mychannel",
         tooltip: [...bento.tiles.mychannel.tooltip],
+        tooltipPlacement: "left",
       },
       {
         id: "ies",
@@ -25,6 +26,7 @@ export function getMockBentoData(locale?: Locale): BentoData {
         href: TILE_HREFS.ies,
         variant: "ies",
         tooltip: [...bento.tiles.ies.tooltip],
+        tooltipPlacement: "right",
       },
       {
         id: "youtube",

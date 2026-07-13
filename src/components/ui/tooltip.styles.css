@@ -1,0 +1,158 @@
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + var(--tooltip-offset));
+  left: calc(50% + var(--tooltip-shift-x, 0px));
+  z-index: var(--z-tooltip);
+  width: max-content;
+  max-width: 240px;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%);
+  transition:
+    opacity var(--motion-tooltip-enter) var(--ease-spring-soft),
+    visibility var(--motion-tooltip-enter) var(--ease-spring-soft);
+  will-change: left;
+}
+
+.tooltip--bottom {
+  top: calc(100% + var(--tooltip-offset));
+  bottom: auto;
+}
+
+.tooltip--left,
+.tooltip--right {
+  top: calc(50% + var(--tooltip-shift-y, 0px));
+  bottom: auto;
+  transform: translateY(-50%);
+  will-change: top;
+}
+
+.tooltip--left {
+  right: calc(100% + var(--tooltip-offset));
+  left: auto;
+}
+
+.tooltip--right {
+  left: calc(100% + var(--tooltip-offset));
+}
+
+[data-tooltip-visible] .tooltip,
+[data-tooltip-host]:focus-within:not([data-tooltip-dismissed]) .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip__balloon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: bottom center;
+  translate: 0 var(--tooltip-enter-offset, var(--space-2xs));
+  scale: var(--tooltip-enter-scale, var(--tooltip-enter-scale-from));
+  rotate: var(--tooltip-tilt, 0deg);
+  transition:
+    translate var(--motion-tooltip-enter) var(--ease-spring-soft),
+    scale var(--motion-tooltip-enter) var(--ease-spring-soft);
+  will-change: rotate, translate, scale;
+}
+
+.tooltip--bottom .tooltip__balloon {
+  transform-origin: top center;
+  translate: 0 calc(-1 * var(--tooltip-enter-offset, var(--space-2xs)));
+}
+
+.tooltip--left .tooltip__balloon,
+.tooltip--right .tooltip__balloon {
+  flex-direction: row;
+}
+
+.tooltip--left .tooltip__balloon {
+  transform-origin: right center;
+  translate: var(--tooltip-enter-offset, var(--space-2xs)) 0;
+}
+
+.tooltip--right .tooltip__balloon {
+  transform-origin: left center;
+  translate: calc(-1 * var(--tooltip-enter-offset, var(--space-2xs))) 0;
+}
+
+[data-tooltip-visible] .tooltip__balloon,
+[data-tooltip-host]:focus-within:not([data-tooltip-dismissed]) .tooltip__balloon {
+  --tooltip-enter-offset: 0px;
+  --tooltip-enter-scale: 1;
+}
+
+.tooltip__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--tooltip-line-gap);
+  padding: var(--space-control);
+  border-radius: var(--radius-tooltip);
+  background: var(--color-tooltip-bg);
+  box-shadow: var(--shadow-tooltip);
+}
+
+.tooltip__line {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-tooltip);
+  color: var(--color-tooltip-text);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.tooltip__caret {
+  flex-shrink: 0;
+  width: 16px;
+  height: calc(var(--space-sm) + var(--space-2xs));
+  margin-top: calc(-1 * var(--space-2xs));
+  background: var(--color-tooltip-bg);
+  /* Tip down — toward host when tooltip is above */
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+
+.tooltip__caret--up {
+  margin-top: 0;
+  margin-bottom: calc(-1 * var(--space-2xs));
+  /* Tip up — toward host when tooltip is below */
+  clip-path: polygon(50% 0, 0 100%, 100% 100%);
+}
+
+.tooltip__caret--side {
+  width: calc(var(--space-sm) + var(--space-2xs));
+  height: 16px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.tooltip__caret--left {
+  margin-right: calc(-1 * var(--space-2xs));
+  /* Tip left — toward host when tooltip is on the right */
+  clip-path: polygon(0 50%, 100% 0, 100% 100%);
+}
+
+.tooltip__caret--right {
+  margin-left: calc(-1 * var(--space-2xs));
+  /* Tip right — toward host when tooltip is on the left */
+  clip-path: polygon(100% 50%, 0 0, 0 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tooltip {
+    will-change: auto;
+  }
+
+  .tooltip__balloon {
+    translate: 0 0;
+    scale: 1;
+    rotate: 0deg;
+    transition:
+      opacity var(--motion-tooltip-enter) var(--ease-spring-soft),
+      visibility var(--motion-tooltip-enter) var(--ease-spring-soft);
+    will-change: auto;
+  }
+}

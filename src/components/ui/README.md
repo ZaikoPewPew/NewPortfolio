@@ -10,7 +10,8 @@
 
 | Файл | Назначение |
 |------|------------|
-| `Tooltip.astro` | Разметка, enter-анимация (fade + scale), стили |
+| `Tooltip.astro` | Разметка |
+| `tooltip.styles.css` | Позиции (`top`/`bottom`/`left`/`right`), caret, enter |
 | `tooltip.client.ts` | rAF spring: позиция, наклон, инициализация хостов |
 
 Токены — `src/styles/tokens.css` (секция tooltip). Z-index слоя — `global.css` (`[data-tooltip-layer-active]`).
@@ -25,7 +26,7 @@
 ```astro
 <div class="my-host" data-tooltip-host>
   <a href="..." aria-label="Канал">...</a>
-  <Tooltip lines={["telegram", "1.1k subs"]} />
+  <Tooltip lines={["telegram", "1.1k subs"]} placement="left" />
 </div>
 
 <script>
@@ -34,6 +35,8 @@
 </script>
 ```
 
+`placement`: `top` (default) | `bottom` | `left` | `right`.
+
 Повторный вызов `initDragTooltips()` безопасен: хосты помечаются `data-tooltip-bound`.
 
 ### Data-атрибуты
@@ -41,6 +44,7 @@
 | Атрибут | Где | Роль |
 |---------|-----|------|
 | `data-tooltip-host` | Обёртка триггера | Слушает pointer/focus, показывает тултип |
+| `data-tooltip-placement` | Корень `.tooltip` | `top` / `bottom` / `left` / `right` — сторона attachment |
 | `data-tooltip-visible` | Хост (ставит JS) | Видимость тултипа |
 | `data-tooltip-layer` | Предок (опционально) | Поднимает z-index при активном тултипе внутри |
 | `data-tooltip-layer-active` | Слой (ставит JS) | `position: relative; z-index: var(--z-tooltip)` |
@@ -48,15 +52,15 @@
 
 ### Поведение
 
-**Позиция** — горизонтальный сдвиг `--tooltip-shift-x` от центра хоста к курсору. Inertial spring (`force 0.14`, `damping 0.78`), clamp ±`--tooltip-follow-clamp` от ширины хоста.
+**Позиция** — сдвиг вдоль оси, перпендикулярной placement: `--tooltip-shift-x` для `top`/`bottom`, `--tooltip-shift-y` для `left`/`right`. Inertial spring (`force 0.14`, `damping 0.78`), clamp ±`--tooltip-follow-clamp` от размера хоста по этой оси.
 
-**Наклон** — `--tooltip-tilt` на `.tooltip__balloon`. Целевой угол зеркален скорости мыши по X (инерция шарика): резко вправо → наклон влево. Диапазон ±`--tooltip-tilt-max` (30°).
+**Наклон** — `--tooltip-tilt` на `.tooltip__balloon`. Целевой угол зеркален скорости мыши по оси follow (инерция шарика). Диапазон ±`--tooltip-tilt-max` (30°).
 
-**Spring угла** — `force 0.09`, `damping 0.82`: при остановке 1–2 колебания вокруг 0°, затем строго вертикально.
+**Spring угла** — `force 0.09`, `damping 0.82`: при остановке 1–2 колебания вокруг 0°, затем строго к attachment.
 
-**Точка вращения** — `transform-origin: bottom center` (низ у носика / «нитка»).
+**Точка вращения** — у носика / «нитки»: `bottom center` (`top`), `top center` (`bottom`), `right center` (`left`), `left center` (`right`).
 
-**Enter** — opacity + лёгкий scale/translateY на `.tooltip__balloon` через CSS (`--motion-tooltip-enter`, `--ease-spring-soft`). `rotate` и сдвиг позиции — только через rAF, без CSS-transition.
+**Enter** — opacity + лёгкий scale/translate к хосту на `.tooltip__balloon` через CSS (`--motion-tooltip-enter`, `--ease-spring-soft`). `rotate` и сдвиг позиции — только через rAF, без CSS-transition.
 
 **Keyboard** — `focus-within` на хосте показывает тултип по центру, без follow и наклона.
 
@@ -79,7 +83,7 @@
 
 ### Где используется
 
-- [`src/widgets/bento/`](../widgets/bento/) — тултипы на плитках (`tooltip?: string[]` в mock)
+- [`src/widgets/bento/`](../widgets/bento/) — тултипы на плитках (`tooltip?: string[]`, `tooltipPlacement?: left|right|…` в mock)
 
 ### Правила
 
@@ -271,9 +275,9 @@ Employer hover использует тот же контроллер через 
 | Файл | Назначение |
 |------|------------|
 | `ContactButton.astro` | Разметка, слой `.contact-button__fill`, цвета hover |
-| `contactButton.client.ts` | `mouseenter` / `mouseleave`: origin fill; focus — из центра |
+| `contactButton.client.ts` | fill on enter/leave; `resetContactButton` / `resumeContactButtonHover` |
 
-Инициализация — `initContactButton()` из `HomeOrchestrator.client.ts`; сброс — `resetContactButton()` при навигации, bfcache и `document.visibilitychange` → hidden (Cmd+Tab / уход в другое окно — `mouseleave` часто не срабатывает).
+Инициализация — `initContactButton()` из `HomeOrchestrator.client.ts`; сброс — `resetContactButton()` при навигации, bfcache и `document.visibilitychange` → hidden (Cmd+Tab / уход в другое окно — `mouseleave` часто не срабатывает). Во время me-flip enter/leave игнорируются (`[data-me-flipping]`); после flip — `resumeContactButtonHover()`.
 
 ### Feedback
 

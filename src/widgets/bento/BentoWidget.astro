@@ -75,7 +75,9 @@ const youtubeTile = data.tiles.find((tile) => tile.variant === "youtube");
             </svg>
           )}
           </a>
-          {tile.tooltip && <Tooltip lines={tile.tooltip} />}
+          {tile.tooltip && (
+            <Tooltip lines={tile.tooltip} placement={tile.tooltipPlacement} />
+          )}
         </div>
       ))
     }

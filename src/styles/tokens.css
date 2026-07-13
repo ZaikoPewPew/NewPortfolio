@@ -163,11 +163,14 @@
   --ease-case-exit: var(--ease-contact-exit);
   --ease-case-enter: var(--ease-contact-enter);
 
-  /* Home page enter — first load / reload */
+  /* Home page enter — first load / reload
+   * Cascade order: header (whole row: employer + ThemeWidget) → left widgets →
+   * cases → blocks under cases (concepts / future) → copyright.
+   * New right-column blocks: data-page-enter + delay after previous cascade end;
+   * then bump copyright / total. */
   --page-enter-offset: var(--space-sm);
   --page-enter-stagger: 320ms;
   --motion-page-enter-duration: 720ms;
-  --motion-page-enter-total: 2800ms;
   --ease-page-enter: var(--ease-out-expo);
   --page-enter-delay-header: 0ms;
   --page-enter-delay-me: calc(var(--page-enter-stagger) * 1);
@@ -180,10 +183,20 @@
   --page-enter-delay-cases-base: calc(var(--page-enter-stagger) * 5.25);
   --page-enter-delay-cases-base-mobile: calc(var(--page-enter-stagger) * 3);
   --page-enter-delay-cases-step: 240ms;
+  /* After homeLimit cases (4 → last index 3): next slot = base + 4 * step */
+  --page-enter-delay-concepts-base: calc(
+    var(--page-enter-delay-cases-base) + var(--page-enter-delay-cases-step) * 4
+  );
+  --page-enter-delay-concepts-base-mobile: calc(
+    var(--page-enter-delay-cases-base-mobile) + var(--page-enter-delay-cases-step) * 4
+  );
   --page-enter-delay-concepts-step: 180ms;
   --page-enter-delay-copyright: calc(
-    var(--page-enter-delay-cases-base) + var(--page-enter-delay-cases-step) * 4 +
-      var(--page-enter-delay-concepts-step) * 3 + 120ms
+    var(--page-enter-delay-concepts-base) + var(--page-enter-delay-concepts-step) * 3 +
+      120ms
+  );
+  --motion-page-enter-total: calc(
+    var(--page-enter-delay-copyright) + var(--motion-page-enter-duration) + 80ms
   );
 
   /* Z-index */

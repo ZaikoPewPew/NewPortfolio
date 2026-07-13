@@ -37,6 +37,12 @@
     z-index: var(--z-content);
   }
 
+  /* Me card 3D flip expands into header gap — lift widgets above header glass */
+  body[data-page="home"] .grid__widgets:has([data-me-flipping]),
+  [data-case-page] .grid__widgets:has([data-me-flipping]) {
+    z-index: calc(var(--z-header) + 1);
+  }
+
   body[data-page="home"] .home__cases {
     margin-top: 0;
     isolation: isolate;

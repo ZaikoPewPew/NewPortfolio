@@ -13,11 +13,8 @@
   position: relative;
   display: grid;
   transform-style: preserve-3d;
+  transform: rotateY(0deg);
   transition: transform var(--motion-me-flip) var(--ease-me-flip);
-}
-
-.me-widget[data-me-flipped="true"] .me-widget__flipper {
-  transform: rotateY(180deg);
 }
 
 .me-widget__face {
@@ -83,26 +80,6 @@
 
 .me-widget__role {
   color: var(--color-text-subdued);
-}
-
-.me-widget__action {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  width: var(--space-2xl);
-  height: var(--space-2xl);
-  padding: var(--space-control);
-  border: none;
-  border-radius: var(--radius-control);
-  background: var(--color-bg-control);
-  color: var(--color-text-primary);
-  cursor: pointer;
-}
-
-.me-widget__action-icon {
-  width: var(--space-lg);
-  height: var(--space-lg);
 }
 
 .me-widget__bio {

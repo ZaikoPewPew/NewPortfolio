@@ -28,6 +28,20 @@ function clearContactButtonHover(button: HTMLButtonElement) {
   fill?.style.removeProperty("clip-path");
 }
 
+function isInsideMeFlip(button: HTMLElement): boolean {
+  return Boolean(button.closest("[data-me-flipping]"));
+}
+
+function applyContactButtonHover(button: HTMLButtonElement, x: number, y: number) {
+  const fill = button.querySelector<HTMLElement>(".contact-button__fill");
+  if (!fill) return;
+
+  button.setAttribute("data-contact-hover", "");
+  if (prefersReducedMotion()) return;
+
+  setFillClipPath(fill, readFillRadiusHover(), x, y);
+}
+
 function syncContactButtonVisualState(button: HTMLButtonElement) {
   requestAnimationFrame(() => {
     if (button.matches(":hover")) return;
@@ -77,11 +91,15 @@ function bindContactButton(button: HTMLButtonElement) {
   };
 
   button.addEventListener("mouseenter", (event) => {
+    // Me flip moves faces under a still cursor — ignore enter/leave thrash.
+    if (isInsideMeFlip(button)) return;
+
     const { x, y } = getRelativePoint(event.clientX, event.clientY, button);
     fillIn(x, y);
   });
 
   button.addEventListener("mouseleave", (event) => {
+    if (isInsideMeFlip(button)) return;
     if (button.matches(":focus-visible")) return;
 
     const { x, y } = getRelativePoint(event.clientX, event.clientY, button);
@@ -125,5 +143,22 @@ export function resetContactButton(root: ParentNode = document) {
     if (document.activeElement === button) {
       button.blur();
     }
+  });
+}
+
+/** After me-widget flip: one hover restore if the cursor is still on the button. */
+export function resumeContactButtonHover(root: ParentNode = document) {
+  root.querySelectorAll<HTMLButtonElement>("[data-contact-button]").forEach((button) => {
+    if (button.closest("[inert]")) {
+      clearContactButtonHover(button);
+      return;
+    }
+
+    if (!button.matches(":hover")) {
+      clearContactButtonHover(button);
+      return;
+    }
+
+    applyContactButtonHover(button, 50, 50);
   });
 }
