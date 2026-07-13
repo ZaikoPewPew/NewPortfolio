@@ -2,17 +2,26 @@
 interface Props {
   lines: string[];
   class?: string;
+  /** Default: above the host. Theme toggle uses `bottom`. */
+  placement?: "top" | "bottom";
 }
 
-const { lines, class: className } = Astro.props;
+const { lines, class: className, placement = "top" } = Astro.props;
+const isBottom = placement === "bottom";
 ---
 
-<div class:list={["tooltip", className]} role="tooltip" aria-hidden="true">
+<div
+  class:list={["tooltip", isBottom && "tooltip--bottom", className]}
+  data-tooltip-placement={placement}
+  role="tooltip"
+  aria-hidden="true"
+>
   <div class="tooltip__balloon">
+    {isBottom && <div class="tooltip__caret tooltip__caret--up" aria-hidden="true" />}
     <div class="tooltip__content">
       {lines.map((line) => <p class="tooltip__line">{line}</p>)}
     </div>
-    <div class="tooltip__caret" aria-hidden="true"></div>
+    {!isBottom && <div class="tooltip__caret" aria-hidden="true" />}
   </div>
 </div>
 
@@ -34,6 +43,11 @@ const { lines, class: className } = Astro.props;
     will-change: left;
   }
 
+  .tooltip--bottom {
+    top: calc(100% + var(--tooltip-offset));
+    bottom: auto;
+  }
+
   :global([data-tooltip-visible]) .tooltip,
   :global([data-tooltip-host]:focus-within:not([data-tooltip-dismissed])) .tooltip {
     opacity: 1;
@@ -52,6 +66,11 @@ const { lines, class: className } = Astro.props;
       translate var(--motion-tooltip-enter) var(--ease-spring-soft),
       scale var(--motion-tooltip-enter) var(--ease-spring-soft);
     will-change: rotate, translate, scale;
+  }
+
+  .tooltip--bottom .tooltip__balloon {
+    transform-origin: top center;
+    translate: 0 calc(-1 * var(--tooltip-enter-offset, var(--space-2xs)));
   }
 
   :global([data-tooltip-visible]) .tooltip__balloon,
@@ -89,6 +108,12 @@ const { lines, class: className } = Astro.props;
     margin-top: calc(-1 * var(--space-2xs));
     background: var(--color-tooltip-bg);
     clip-path: polygon(50% 100%, 0 0, 100% 0);
+  }
+
+  .tooltip__caret--up {
+    margin-top: 0;
+    margin-bottom: calc(-1 * var(--space-2xs));
+    clip-path: polygon(50% 0, 0 100%, 100% 100%);
   }
 
   @media (prefers-reduced-motion: reduce) {

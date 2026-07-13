@@ -40,7 +40,7 @@ const otherLocaleHref = getRelativeLocaleUrl(otherLocale, pathWithoutLocale);
     aria-label={interpolate(m.themeWidget.locationAriaLabel, { city })}
   >
     <span class="theme-widget__city">{cityCode}</span>
-    <span class="theme-widget__sep" aria-hidden="true">\</span>
+    <span class="theme-widget__sep" aria-hidden="true">·</span>
     <span class="theme-widget__time" data-clock-time>--:--</span>
   </p>
 
@@ -124,7 +124,7 @@ const otherLocaleHref = getRelativeLocaleUrl(otherLocale, pathWithoutLocale);
   }
 
   .theme-widget__location {
-    gap: var(--space-2xs);
+    gap: var(--space-sm);
     padding: var(--space-control) var(--space-md);
   }
 
@@ -135,8 +135,9 @@ const otherLocaleHref = getRelativeLocaleUrl(otherLocale, pathWithoutLocale);
   }
 
   .theme-widget__language {
-    min-width: var(--space-2xl);
-    padding: var(--space-control) var(--space-md);
+    width: var(--space-2xl);
+    padding: var(--space-control) 0;
+    font-variant-numeric: tabular-nums;
   }
 
   .theme-widget__icon-btn {
