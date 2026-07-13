@@ -19,7 +19,7 @@
   },
   "header": {
     "employerPrefix": "сейчас в",
-    "employerLabel": "альфа-банк",
+    "employerLabel": "альфа-банке",
     "employerAriaLabel": "Работаю в {employer}"
   },
   "me": {
@@ -28,7 +28,7 @@
     "role": "дизайн инженер",
     "bio": {
       "line1": "сеньор продакт-дизайнер в финтехе.",
-      "line2": "и сам реализую то, что проектирую"
+      "line2": "разрабатываю то, что проектирую"
     },
     "contactButton": {
       "contact": "сказать привет",
@@ -83,7 +83,7 @@
       "youtube": {
         "label": "YouTube — Design Lead",
         "caption": ["Design", "Lead"],
-        "tooltip": ["мой ютуб", "22k подп."]
+        "tooltip": ["мой ютуб", "22k сабов"]
       }
     }
   },
