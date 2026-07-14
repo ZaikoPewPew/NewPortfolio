@@ -1,96 +1,66 @@
 @media (min-width: 640px) {
-  @keyframes caseCollapseOut {
-    from {
-      opacity: 1;
-      transform: scaleY(1);
-      filter: blur(0);
-    }
-
-    to {
-      opacity: 0;
-      transform: scaleY(0.92);
-      filter: blur(var(--blur-control));
-    }
+  /*
+   * Instant case layout — no slide / fade choreography.
+   * Widgets parked off-screen; cases fill header__row width.
+   */
+  main.home .grid {
+    position: relative;
   }
 
-  @keyframes caseMorphOldFade {
-    from {
-      opacity: 1;
-    }
-
-    to {
-      opacity: 1;
-    }
+  body[data-page="home"] .home__widgets,
+  body[data-page="case"] .home__widgets {
+    width: var(--layout-widgets-width);
+    min-width: var(--layout-widgets-width);
+    max-width: var(--layout-widgets-width);
+    box-sizing: border-box;
   }
 
-  @keyframes caseMorphNewFade {
-    from {
-      opacity: 0.92;
-    }
-
-    to {
-      opacity: 1;
-    }
+  body[data-page="home"] main.home .grid {
+    grid-template-columns: var(--layout-widgets-width) minmax(0, 1fr);
+    column-gap: var(--layout-column-gap);
   }
 
-  @keyframes caseTextReveal {
-    from {
-      opacity: 0;
-      transform: translateY(var(--space-md));
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  body[data-page="home"] .grid__cases {
+    max-width: none;
+    width: 100%;
+    margin-inline: 0;
   }
 
-  @keyframes caseMetaReveal {
-    from {
-      opacity: 0;
-      transform: translateY(var(--space-sm));
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  body[data-page="case"] {
+    overflow-x: clip;
   }
 
-  html.is-case-navigating .case-card:not(.is-case-nav-target) {
+  body[data-page="case"] main.home .grid {
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 0;
+  }
+
+  body[data-page="case"] .grid__widgets {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--layout-widgets-width);
+    min-width: var(--layout-widgets-width);
+    max-width: var(--layout-widgets-width);
+    visibility: hidden;
+    pointer-events: none;
+    z-index: var(--z-content);
+  }
+
+  body[data-page="case"] .home__widgets {
+    visibility: hidden;
     pointer-events: none;
   }
 
-  html.is-case-navigating .case-card.is-case-nav-target {
+  body[data-page="case"] .home__copyright {
+    visibility: hidden;
     pointer-events: none;
   }
 
-  html.is-case-returning [data-case-content-body],
-  html.is-case-returning .case-hero__meta {
-    opacity: 0;
-    transition: opacity calc(var(--motion-case-back) * 0.5) var(--ease-case-exit);
-  }
-
-  [data-case-page][data-case-entering] .case-hero__meta {
-    animation: caseMetaReveal var(--motion-case-meta-duration) var(--ease-case-enter)
-      var(--motion-case-meta-delay) both;
-  }
-
-  [data-case-page][data-case-entering] .case-content__body {
-    animation: caseTextReveal var(--motion-case-text-duration) var(--ease-case-enter)
-      var(--motion-case-text-delay) both;
-  }
-
-  [data-case-page]:not([data-case-entering]) .case-content__body,
-  [data-case-page]:not([data-case-entering]) .case-hero__meta {
-    opacity: 1;
-    transform: none;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    [data-case-page][data-case-entering] .case-content__body,
-    [data-case-page][data-case-entering] .case-hero__meta {
-      animation: none;
-    }
+  body[data-page="case"] .grid__cases {
+    grid-column: 1;
+    max-width: none;
+    width: 100%;
+    margin-inline: 0;
   }
 }

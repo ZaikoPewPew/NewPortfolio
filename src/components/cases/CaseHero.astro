@@ -15,7 +15,7 @@ const title = getCaseTitle(slug, resolveLocale(Astro.currentLocale));
 ---
 
 <header class="case-hero">
-  <div class="case-hero__morph" data-case-morph transition:name={`case-${slug}`}>
+  <div class="case-hero__morph" data-case-morph>
     <div class="case-hero__media">
       <img class="case-hero__cover" src={cover} alt="" decoding="async" />
     </div>
@@ -39,14 +39,16 @@ const title = getCaseTitle(slug, resolveLocale(Astro.currentLocale));
     overflow: hidden;
     border-radius: var(--radius-card);
     background: var(--color-bg-elevated);
-    aspect-ratio: 16 / 9;
     width: 100%;
+    height: var(--layout-case-cover-height);
   }
 
   .case-hero__cover {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
   }
 
   .case-hero__meta {

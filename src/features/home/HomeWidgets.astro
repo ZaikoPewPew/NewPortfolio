@@ -77,7 +77,9 @@ const locale = resolveLocale(Astro.currentLocale);
     display: flex;
     flex-direction: column;
     gap: var(--bento-gap);
-    width: 100%;
+    width: var(--layout-widgets-width);
+    max-width: var(--layout-widgets-width);
+    box-sizing: border-box;
   }
 
   .home__widgets > .me-widget {

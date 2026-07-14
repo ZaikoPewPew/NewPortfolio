@@ -4,16 +4,13 @@
   animation-timing-function: var(--ease-out-expo);
 }
 
+/* Instant swap for home ↔ case */
 html.is-case-navigating ::view-transition-old(root),
-html.is-case-navigating ::view-transition-new(root) {
-  animation-duration: var(--motion-case-back);
-  animation-timing-function: var(--ease-case-exit);
-}
-
+html.is-case-navigating ::view-transition-new(root),
 html.is-case-returning ::view-transition-old(root),
 html.is-case-returning ::view-transition-new(root) {
-  animation-duration: var(--motion-case-back);
-  animation-timing-function: var(--ease-case-exit);
+  animation-duration: 0.01ms;
+  animation-timing-function: linear;
 }
 
 @media (prefers-reduced-motion: reduce) {

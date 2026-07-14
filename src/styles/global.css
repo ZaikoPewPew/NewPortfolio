@@ -56,7 +56,7 @@ body {
 }
 
 .case-content {
-  max-width: 720px;
+  max-width: var(--layout-case-reading-width);
 }
 
 .case-content h2 {

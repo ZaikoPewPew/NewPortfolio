@@ -148,18 +148,28 @@
   --contact-stagger-photo-close: 65ms;
   --contact-stagger-contact-close: 0ms;
 
-  /* Case transition — aligned with contact panel swap */
-  --motion-case-total: var(--motion-contact-slow);
+  /* Case transition — soft fades, no scale morph */
+  --motion-case-total: 560ms;
   --motion-case-morph: var(--motion-contact-fast);
   --motion-case-collapse: 360ms;
-  --motion-case-text-delay: var(--contact-stagger-bento-open);
-  --motion-case-text-duration: var(--motion-contact-medium);
-  --motion-case-meta-duration: var(--motion-contact-fast);
-  --motion-case-meta-delay: 0ms;
-  --motion-case-back: 360ms;
+  --motion-case-cover: 360ms;
+  --motion-case-text-delay: 80ms;
+  --motion-case-text-duration: 400ms;
+  --motion-case-meta-duration: 360ms;
+  --motion-case-meta-delay: 60ms;
+  --motion-case-back: 320ms;
+  --motion-case-widgets: 420ms;
+  --motion-case-widgets-return: 480ms;
   --motion-case-tag-duration: var(--motion-base);
   --motion-case-tag-stagger: 45ms;
   --case-tag-enter-offset: var(--space-xs);
+  /* Clear widgets past left viewport edge (column + side gutter of centered 1248) */
+  --case-widgets-exit-x: calc(
+    -1 * (
+      var(--layout-widgets-width) + max(0px, (100vw - var(--layout-content-width)) / 2) +
+        var(--layout-gutter-desktop)
+    )
+  );
   --ease-case-exit: var(--ease-contact-exit);
   --ease-case-enter: var(--ease-contact-enter);
 
@@ -219,6 +229,8 @@
   --layout-content-width: 1248px;
   --layout-widgets-width: 300px;
   --layout-cases-width: 932px;
+  --layout-case-reading-width: 751px;
+  --layout-case-cover-height: 340px;
   --layout-column-gap: var(--space-md);
   --layout-gutter-desktop: var(--space-md);
   --layout-gutter-mobile: var(--space-sm);
