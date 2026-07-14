@@ -114,6 +114,7 @@
   --font-size-xl: 28px;
   --font-size-2xl: 32px;
   --font-size-3xl: 36px;
+  --font-size-4xl: 40px;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --line-height-tight: 1.2;
@@ -245,7 +246,7 @@
   /* Matches ThemeWidget: padding sm + control 48 + padding sm */
   --header-row-height-desktop: 64px;
   --header-row-height-mobile: 19px;
-  --header-employer-size-desktop: var(--font-size-2xl);
+  --header-employer-size-desktop: var(--font-size-4xl);
   --header-employer-size-mobile: var(--font-size-base);
   --layout-header-block-height: calc(
     var(--header-padding-top-desktop) + var(--header-row-height-desktop) +

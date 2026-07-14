@@ -35,6 +35,7 @@ export function getMockBentoData(locale?: Locale): BentoData {
         variant: "youtube",
         caption: [...bento.tiles.youtube.caption],
         tooltip: [...bento.tiles.youtube.tooltip],
+        tooltipPlacement: "right",
       },
     ],
   };

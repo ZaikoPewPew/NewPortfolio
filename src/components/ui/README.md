@@ -330,23 +330,10 @@ Tap на кнопке **не** проигрывается (`bubble` — hover-on
 
 ## ThemeWidget
 
-Пилюля настроек в хедере: локация/время, язык, звук, тема.
+Перенесён в [`src/widgets/theme/`](../../widgets/theme/) — header-меню настроек (не bento registry).
 
-### Файлы
+См. [`widgets/theme/README.md`](../../widgets/theme/README.md).
 
-| Файл | Назначение |
-|------|------------|
-| `ThemeWidget.astro` | Разметка 4 контролов |
-| `themeWidget.client.ts` | Live time + sound toggle |
-| `ThemeToggle.astro` | Кнопка темы внутри виджета |
+---
 
-### Поведение
-
-- Location — display-only (`ala \ 12:30 pm`), время из `site.config.location`
-- Language — ссылка на другую локаль (`/` ↔ `/ru/…`)
-- Sound — `userPreferences.toggleSound()` + FeedbackBus
-- Theme — существующий `ThemeToggle` (circle reveal)
-
-### Где используется
-
-- [`src/components/layout/Header.astro`](../layout/Header.astro)
+## ContactButton

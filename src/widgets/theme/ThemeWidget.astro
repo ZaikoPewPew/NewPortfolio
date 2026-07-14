@@ -1,0 +1,189 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import ThemeToggle from "../../components/ui/ThemeToggle.astro";
+import Tooltip from "../../components/ui/Tooltip.astro";
+import { siteConfig } from "../../config/site.config";
+import {
+  getMessages,
+  getOtherLocale,
+  interpolate,
+  resolveLocale,
+} from "../../i18n";
+import "./theme.styles.css";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const locale = resolveLocale(Astro.currentLocale);
+const otherLocale = getOtherLocale(locale);
+const m = getMessages(locale);
+const { cityCode, city, timezone } = siteConfig.location;
+
+const pathWithoutLocale =
+  locale === "en"
+    ? Astro.url.pathname
+    : Astro.url.pathname.replace(new RegExp(`^/${locale}`), "") || "/";
+
+const otherLocaleHref = getRelativeLocaleUrl(otherLocale, pathWithoutLocale);
+const panelId = "theme-widget-panel";
+---
+
+<div
+  class:list={["theme-widget", className]}
+  role="group"
+  aria-label={m.themeWidget.ariaLabel}
+  data-theme-widget
+  data-open-label={m.themeWidget.openMenuAriaLabel}
+  data-close-label={m.themeWidget.closeMenuAriaLabel}
+>
+  <div class="theme-widget__shell">
+    <div
+      class="theme-widget__tray"
+      id={panelId}
+      data-theme-widget-panel
+      aria-hidden="true"
+      inert
+    >
+      <div class="theme-widget__tray-clip">
+        <div class="theme-widget__tray-inner">
+          <p
+            class="theme-widget__chip theme-widget__location theme-widget__stone"
+            data-stone="1"
+            data-live-clock
+            data-timezone={timezone}
+            aria-label={interpolate(m.themeWidget.locationAriaLabel, { city })}
+          >
+            <span class="theme-widget__pulse" aria-hidden="true"></span>
+            <span class="theme-widget__city">{cityCode}</span>
+            <span class="theme-widget__sep" aria-hidden="true">/</span>
+            <span class="theme-widget__time" data-clock-time>--:--</span>
+          </p>
+
+          <div
+            class="theme-widget__control theme-widget__stone"
+            data-stone="2"
+            data-tooltip-host
+          >
+            <a
+              class="theme-widget__chip theme-widget__language"
+              href={otherLocaleHref}
+              data-feedback="tap hover"
+              aria-label={interpolate(m.themeWidget.languageAriaLabel, {
+                locale,
+              })}
+            >
+              {locale}
+            </a>
+            <Tooltip
+              class="theme-widget__tooltip"
+              placement="bottom"
+              lines={[m.themeWidget.languageTooltip]}
+            />
+          </div>
+
+          <div
+            class="theme-widget__control theme-widget__stone"
+            data-stone="3"
+            data-tooltip-host
+          >
+            <button
+              type="button"
+              class="theme-widget__chip theme-widget__icon-btn"
+              data-theme-widget-sound
+              data-feedback="tap hover"
+              aria-pressed="true"
+              aria-label={m.themeWidget.soundOnAriaLabel}
+            >
+              <svg
+                class="theme-widget__icon"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M9 18V5L19 3V16"
+                  stroke="currentColor"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <circle
+                  cx="7"
+                  cy="18"
+                  r="2"
+                  stroke="currentColor"
+                  stroke-width="1.3"></circle>
+                <circle
+                  cx="17"
+                  cy="16"
+                  r="2"
+                  stroke="currentColor"
+                  stroke-width="1.3"></circle>
+              </svg>
+            </button>
+            <Tooltip
+              class="theme-widget__tooltip"
+              placement="bottom"
+              lines={[m.themeWidget.soundTooltip]}
+            />
+          </div>
+
+          <div class="theme-widget__stone" data-stone="4">
+            <ThemeToggle class="theme-widget__theme" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="theme-widget__anchor"
+      data-theme-widget-trigger
+      data-feedback="tap hover"
+      aria-expanded="false"
+      aria-controls={panelId}
+      aria-label={m.themeWidget.openMenuAriaLabel}
+    >
+      <span class="theme-widget__anchor-chip">
+        <svg
+          class="theme-widget__icon theme-widget__icon--menu"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M5 7h14M5 12h14M5 17h14"
+            stroke="currentColor"
+            stroke-width="1.3"
+            stroke-linecap="round"></path>
+        </svg>
+        <svg
+          class="theme-widget__icon theme-widget__icon--close"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M7 7l10 10M17 7 7 17"
+            stroke="currentColor"
+            stroke-width="1.3"
+            stroke-linecap="round"></path>
+        </svg>
+      </span>
+    </button>
+  </div>
+</div>
+
+<script>
+  import { initThemeWidget } from "./theme.client";
+
+  initThemeWidget();
+  document.addEventListener("astro:page-load", () => initThemeWidget());
+</script>

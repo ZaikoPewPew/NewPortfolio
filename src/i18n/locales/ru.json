@@ -55,8 +55,12 @@
   },
   "themeWidget": {
     "ariaLabel": "Настройки сайта",
+    "openMenuAriaLabel": "Открыть настройки сайта",
+    "closeMenuAriaLabel": "Закрыть настройки сайта",
     "locationAriaLabel": "Местное время в {city}",
     "languageAriaLabel": "Сменить язык, сейчас: {locale}",
+    "languageTooltip": "язык",
+    "soundTooltip": "звуки",
     "soundOnAriaLabel": "Выключить звуки сайта",
     "soundOffAriaLabel": "Включить звуки сайта"
   },

@@ -120,7 +120,9 @@ const youtubeTile = data.tiles.find((tile) => tile.variant === "youtube");
             </span>
           )}
           </a>
-          {youtubeTile.tooltip && <Tooltip lines={youtubeTile.tooltip} />}
+          {youtubeTile.tooltip && (
+            <Tooltip lines={youtubeTile.tooltip} placement={youtubeTile.tooltipPlacement} />
+          )}
         </div>
       )
     }
