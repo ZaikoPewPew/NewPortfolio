@@ -39,9 +39,14 @@ const otherLocaleHref = getRelativeLocaleUrl(otherLocale, pathWithoutLocale);
     data-timezone={timezone}
     aria-label={interpolate(m.themeWidget.locationAriaLabel, { city })}
   >
-    <span class="theme-widget__city">{cityCode}</span>
-    <span class="theme-widget__sep" aria-hidden="true">·</span>
-    <span class="theme-widget__time" data-clock-time>--:--</span>
+    <span class="theme-widget__location-sizer" aria-hidden="true"
+      ><span>{cityCode}</span><span>·</span><span>00:00 pm</span></span
+    >
+    <span class="theme-widget__location-content"
+      ><span class="theme-widget__city">{cityCode}</span
+      ><span class="theme-widget__sep" aria-hidden="true">·</span
+      ><span class="theme-widget__time" data-clock-time>--:--</span></span
+    >
   </p>
 
   <a
@@ -124,8 +129,31 @@ const otherLocaleHref = getRelativeLocaleUrl(otherLocale, pathWithoutLocale);
   }
 
   .theme-widget__location {
-    gap: var(--space-sm);
+    display: inline-grid;
+    justify-items: start;
+    align-items: center;
     padding: var(--space-control) var(--space-md);
+  }
+
+  .theme-widget__location-sizer,
+  .theme-widget__location-content {
+    grid-area: 1 / 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    min-width: 0;
+  }
+
+  .theme-widget__location-sizer {
+    visibility: hidden;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .theme-widget__location-sizer > :last-child,
+  .theme-widget__time {
+    font-variant-numeric: tabular-nums;
+    text-align: left;
   }
 
   .theme-widget__language,
