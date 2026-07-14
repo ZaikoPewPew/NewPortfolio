@@ -1,0 +1,75 @@
+/* Clay & Signal — warm clay neutrals + smoky teal accent (dark) */
+
+html[data-theme="clay"],
+.theme-switch-veil[data-theme="clay"] {
+  --color-bg-page: #0a0a0b;
+  --color-bg: #0a0a0b;
+  --color-bg-surface: #18181b;
+  --color-bg-elevated: #212124;
+  --color-surface: #18181b;
+
+  --color-text-primary: #fafafa;
+  --color-text-muted: #a1a1aa;
+  --color-text-secondary: #a1a1aa;
+  --color-text-subdued: rgba(250, 250, 250, 0.5);
+  --color-text-on-bg: #fafafa;
+
+  --color-border: #27272a;
+  --color-border-subtle: #212124;
+  --color-bg-control: #212124;
+
+  --color-git-cell-empty: #212124;
+  --color-git-cell-l1: #6fd9cc;
+  --color-git-cell-l2: #26b3a3;
+  --color-git-cell-l3: #0e8f88;
+  --color-git-cell-l4: #075c56;
+
+  --color-accent: #2dd4bf;
+  --color-accent-green: #2dd4bf;
+
+  --color-link-hover: #2dd4bf;
+  --color-contact-button-hover-text: #0a0a0b;
+  --shadow-link-hover: inset 0 0 10px 0 rgba(45, 212, 191, 0.2);
+  --shadow-tooltip: 0 8px 20px -2px rgba(0, 0, 0, 0.4);
+
+  --wash-bg: #0a0a0b;
+  --wash-grain-opacity: 0.08;
+  --wash-grain-overlay: 0.12;
+  --wash-grain-mixer: 0.2;
+  --wash-palette-employer-bg: #0a0a0b;
+  --wash-palette-employer-1: #7a3324;
+  --wash-palette-employer-2: #4a2c22;
+  --wash-palette-employer-3: #0a0a0b;
+  --wash-tint-employer: #7a3324;
+
+  --wash-tint-email: #5b8def;
+  --wash-tint-linkedin: #0a66c2;
+  --wash-tint-telegram: #2aabee;
+  --wash-tint-github: #8b949e;
+  --wash-tint-x: #e7e9ea;
+  --wash-tint-cv: #a1a1aa;
+
+  --wash-palette-case-bg: #0a0a0b;
+  --wash-palette-case-1: #4a1530;
+  --wash-palette-case-2: #6b1f3a;
+  --wash-palette-case-3: #0a0a0b;
+  --wash-tint-case: #6b1f3a;
+
+  --color-glass-bg: rgba(250, 250, 250, 0.13);
+  --color-glass-border: rgba(250, 250, 250, 0.22);
+  --color-glass-shine: rgba(255, 255, 255, 0.32);
+  --shadow-glass:
+    0 8px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 0 var(--color-glass-shine);
+
+  --book-ticket-bg-top: url("/images/widgets/book/Card-2.svg");
+  --book-ticket-bg-bottom: url("/images/widgets/book/Card-1.svg");
+  --color-book-ticket-text: #18181b;
+  --color-book-barcode: #18181b;
+
+  --color-photo-indicator: #ffffff;
+  --color-photo-indicator-progress: #0a0a0b;
+
+  --color-case-cursor-bg: color-mix(in srgb, var(--color-bg-surface) 50%, transparent);
+  --color-case-cursor-text: var(--color-text-primary);
+}

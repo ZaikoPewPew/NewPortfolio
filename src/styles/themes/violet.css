@@ -1,0 +1,75 @@
+/* Violet Ember — dark plum + electric violet + acid lime */
+
+html[data-theme="violet"],
+.theme-switch-veil[data-theme="violet"] {
+  --color-bg-page: #0d0b12;
+  --color-bg: #0d0b12;
+  --color-bg-surface: #1c1826;
+  --color-bg-elevated: #262030;
+  --color-surface: #1c1826;
+  --color-text-primary: #f5f2fa;
+  --color-text-muted: #a79cbd;
+  --color-text-secondary: #a79cbd;
+  --color-text-subdued: rgba(245, 242, 250, 0.5);
+  --color-text-on-bg: #f5f2fa;
+  --color-border: #332b42;
+  --color-border-subtle: #262030;
+  --color-bg-control: #2b2438;
+  --color-bg-contrast: #f5f2fa;
+  --color-text-on-contrast: #0d0b12;
+
+  --color-git-cell-empty: #2a2436;
+  --color-git-cell-l1: #c4a8f2;
+  --color-git-cell-l2: #a374ec;
+  --color-git-cell-l3: #8b5cf6;
+  --color-git-cell-l4: #6d28d9;
+
+  --color-accent: #8b5cf6;
+  --color-accent-green: #baff29;
+
+  --color-link-hover: #baff29;
+  --color-contact-button-hover-text: #1a1625;
+  --shadow-link-hover: inset 0 0 10px 0 rgba(139, 92, 246, 0.18);
+  --shadow-tooltip: 0 8px 16px -2px rgba(0, 0, 0, 0.28);
+
+  --wash-bg: #0d0b12;
+  --wash-grain-opacity: 0.08;
+  --wash-grain-overlay: 0.12;
+  --wash-grain-mixer: 0.2;
+  --wash-palette-employer-bg: #0d0b12;
+  --wash-palette-employer-1: #4c1d95;
+  --wash-palette-employer-2: #3b2e5c;
+  --wash-palette-employer-3: #0d0b12;
+  --wash-tint-employer: #4c1d95;
+
+  --wash-tint-email: #5b8def;
+  --wash-tint-linkedin: #0a66c2;
+  --wash-tint-telegram: #2aabee;
+  --wash-tint-github: #8b949e;
+  --wash-tint-x: #e7e9ea;
+  --wash-tint-cv: #a79cbd;
+
+  --wash-palette-case-bg: #0d0b12;
+  --wash-palette-case-1: #581c87;
+  --wash-palette-case-2: #86198f;
+  --wash-palette-case-3: #0d0b12;
+  --wash-tint-case: #86198f;
+
+  --color-glass-bg: rgba(245, 242, 250, 0.14);
+  --color-glass-border: rgba(245, 242, 250, 0.24);
+  --color-glass-shine: rgba(255, 255, 255, 0.36);
+  --shadow-glass:
+    0 8px 40px rgba(76, 29, 149, 0.32),
+    inset 0 1px 0 0 var(--color-glass-shine);
+
+  --book-ticket-bg-top: url("/images/widgets/book/Card-2.svg");
+  --book-ticket-bg-bottom: url("/images/widgets/book/Card-1.svg");
+  --color-book-ticket-text: #1c1826;
+  --color-book-barcode: #1c1826;
+
+  --color-photo-indicator: #ffffff;
+  --color-photo-indicator-progress: #0d0b12;
+
+  --color-case-cursor-bg: color-mix(in srgb, var(--color-bg-surface) 50%, transparent);
+  --color-case-cursor-text: var(--color-text-primary);
+}

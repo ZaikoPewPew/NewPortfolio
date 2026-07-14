@@ -7,6 +7,10 @@
   overflow: hidden;
 }
 
+html[data-theme="light"] .book-widget {
+  filter: sepia(6%) saturate(108%) brightness(0.995);
+}
+
 .book-widget__bottom,
 .book-widget__top {
   position: absolute;

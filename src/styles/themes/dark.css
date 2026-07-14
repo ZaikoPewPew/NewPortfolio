@@ -1,55 +1,65 @@
+/* Тёплый рефреш — warm near-black вместо чистого #000 */
+
 html[data-theme="dark"],
 html:not([data-theme]),
 .theme-switch-veil[data-theme="dark"] {
-  --color-bg-page: #000000;
-  --color-bg: #000000;
-  --color-bg-surface: #242426;
-  --color-bg-elevated: #2c2c2e;
-  --color-surface: #242426;
-  --color-text-primary: #ffffff;
-  --color-text-muted: #a1a1a6;
-  --color-text-secondary: #a1a1a6;
-  --color-text-subdued: rgba(255, 255, 255, 0.5);
-  --color-text-on-bg: #ffffff;
-  --color-border: #3a3a3c;
-  --color-border-subtle: #2c2c2e;
-  --color-bg-control: #313133;
+  --color-bg-page: #121110;
+  --color-bg: #121110;
+  --color-bg-surface: #1d1b18;
+  --color-bg-elevated: #262320;
+  --color-surface: #1d1b18;
+
+  --color-text-primary: #f6f4f1;
+  --color-text-muted: #a39c90;
+  --color-text-secondary: #a39c90;
+  --color-text-subdued: rgba(246, 244, 241, 0.5);
+  --color-text-on-bg: #f6f4f1;
+
+  --color-border: #363129;
+  --color-border-subtle: #262320;
+  --color-bg-control: #2a2723;
+
   --color-link-hover: #ff5b50;
   --shadow-link-hover: inset 0 0 10px 0 rgba(255, 91, 80, 0.15);
-  --shadow-tooltip: 0 8px 16px -2px rgba(27, 33, 44, 0.12);
+  --shadow-tooltip: 0 8px 20px -2px rgba(0, 0, 0, 0.35);
 
-  --wash-bg: #000000;
+  --wash-bg: #121110;
   --wash-grain-opacity: 0.08;
   --wash-grain-overlay: 0.12;
   --wash-grain-mixer: 0.2;
-  --wash-palette-employer-bg: #000000;
+  --wash-palette-employer-bg: #121110;
   --wash-palette-employer-1: #692020;
   --wash-palette-employer-2: #634040;
-  --wash-palette-employer-3: #000000;
+  --wash-palette-employer-3: #121110;
   --wash-tint-employer: #692020;
+
   --wash-tint-email: #5b8def;
   --wash-tint-linkedin: #0a66c2;
   --wash-tint-telegram: #2aabee;
   --wash-tint-github: #8b949e;
   --wash-tint-x: #e7e9ea;
-  --wash-tint-cv: #6e6e73;
-  --wash-palette-case-bg: #000000;
+  --wash-tint-cv: #a39c90;
+
+  --wash-palette-case-bg: #121110;
   --wash-palette-case-1: #4a1a3a;
   --wash-palette-case-2: #692040;
-  --wash-palette-case-3: #000000;
+  --wash-palette-case-3: #121110;
   --wash-tint-case: #692040;
 
-  --color-glass-bg: rgba(255, 255, 255, 0.14);
-  --color-glass-border: rgba(255, 255, 255, 0.24);
-  --color-glass-shine: rgba(255, 255, 255, 0.36);
+  --color-glass-bg: rgba(246, 244, 241, 0.14);
+  --color-glass-border: rgba(246, 244, 241, 0.22);
+  --color-glass-shine: rgba(255, 255, 255, 0.34);
   --shadow-glass:
-    0 8px 40px rgba(0, 0, 0, 0.32),
+    0 8px 40px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 0 var(--color-glass-shine);
 
   --book-ticket-bg-top: url("/images/widgets/book/Card-2.svg");
   --book-ticket-bg-bottom: url("/images/widgets/book/Card-1.svg");
-  --color-book-ticket-text: #242426;
-  --color-book-barcode: #242426;
+  --color-book-ticket-text: #1d1b18;
+  --color-book-barcode: #1d1b18;
+
+  --color-photo-indicator: #ffffff;
+  --color-photo-indicator-progress: #121110;
 
   --color-case-cursor-bg: color-mix(in srgb, var(--color-bg-surface) 50%, transparent);
   --color-case-cursor-text: var(--color-text-primary);

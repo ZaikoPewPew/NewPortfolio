@@ -35,7 +35,7 @@ wash.destroy();
 
 ## Токены
 
-Семантика в `tokens.css`, значения цветов — в `themes/dark.css` и `themes/light.css`.
+Семантика в `tokens.css`, значения цветов — в `themes/dark.css`, `themes/light.css`, `themes/violet.css` и `themes/clay.css`.
 
 | Токен | Смысл |
 |-------|-------|

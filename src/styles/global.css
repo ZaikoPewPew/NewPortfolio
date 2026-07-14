@@ -1,6 +1,8 @@
 @import "./tokens.css";
 @import "./themes/dark.css";
 @import "./themes/light.css";
+@import "./themes/violet.css";
+@import "./themes/clay.css";
 @import "./reset.css";
 @import "./typography.css";
 @import "../experience/motion/motion.tokens.css";
@@ -21,6 +23,11 @@ html:not([data-theme]) {
 
 html[data-theme="light"] {
   color-scheme: light;
+}
+
+html[data-theme="violet"],
+html[data-theme="clay"] {
+  color-scheme: dark;
 }
 
 body {

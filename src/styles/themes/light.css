@@ -1,63 +1,74 @@
+/* Тёплый рефреш — warm neutrals вместо стерильного серого */
+
 html[data-theme="light"],
 .theme-switch-veil[data-theme="light"] {
-  --color-bg-page: #ffffff;
-  --color-bg: #ffffff;
-  --color-bg-surface: #f0f0f2;
-  --color-bg-elevated: #e8e8ed;
-  --color-surface: #f0f0f2;
-  --color-text-primary: #313133;
-  --color-text-muted: #6e6e73;
-  --color-text-secondary: #6e6e73;
-  --color-text-subdued: rgba(49, 49, 51, 0.5);
-  --color-text-on-bg: #313133;
-  --color-border: #d2d2d7;
-  --color-border-subtle: #e8e8ed;
-  --color-bg-control: #e8e8ed;
-  --color-bg-contrast: #313133;
-  --color-text-on-contrast: #ffffff;
-  --color-git-cell-empty: #e8e8ed;
+  --color-bg-page: #faf8f6;
+  --color-bg: #faf8f6;
+  --color-bg-surface: #eee9e0;
+  --color-bg-elevated: #e4ddd0;
+  --color-surface: #eee9e0;
+
+  --color-text-primary: #2b2723;
+  --color-text-muted: #756e63;
+  --color-text-secondary: #756e63;
+  --color-text-subdued: rgba(29, 27, 24, 0.5);
+  --color-text-on-bg: #2b2723;
+
+  --color-border: #d8cfc0;
+  --color-border-subtle: #e9e5de;
+  --color-bg-control: #e9e5de;
+  --color-bg-contrast: #1d1b18;
+  --color-text-on-contrast: #faf8f6;
+
+  --color-git-cell-empty: #e9e5de;
   --color-git-cell-l1: #93e7a2;
   --color-git-cell-l2: #3ebe5e;
   --color-git-cell-l3: #2f984a;
   --color-git-cell-l4: #216435;
+
   --color-link-hover: #ff5b50;
   --shadow-link-hover: inset 0 0 10px 0 rgba(255, 91, 80, 0.12);
-  --shadow-tooltip: 0 8px 16px -2px rgba(0, 0, 0, 0.16);
-  --color-overlay-glass: rgba(49, 49, 51, 0.2);
-  --color-glass-bg: rgba(49, 49, 51, 0.14);
-  --color-glass-border: rgba(49, 49, 51, 0.2);
-  --color-glass-shine: rgba(255, 255, 255, 0.55);
+  --shadow-tooltip: 0 8px 20px -2px rgba(29, 27, 24, 0.14);
+
+  --color-overlay-glass: rgba(29, 27, 24, 0.18);
+  --color-glass-bg: rgba(29, 27, 24, 0.12);
+  --color-glass-border: rgba(29, 27, 24, 0.18);
+  --color-glass-shine: rgba(255, 255, 255, 0.6);
   --shadow-glass:
-    0 8px 40px rgba(0, 0, 0, 0.1),
+    0 8px 40px rgba(60, 45, 30, 0.1),
     inset 0 1px 0 0 var(--color-glass-shine);
+
   --color-photo-indicator: #ffffff;
-  --color-photo-indicator-progress: #000000;
+  --color-photo-indicator-progress: #1d1b18;
+
   --wash-grain-opacity: 0.1;
   --wash-grain-overlay: 0.1;
   --wash-grain-mixer: 0.18;
 
-  --wash-bg: #ffffff;
-  --wash-palette-employer-bg: #ffffff;
+  --wash-bg: #faf8f6;
+  --wash-palette-employer-bg: #faf8f6;
   --wash-palette-employer-1: #945757;
-  --wash-palette-employer-2: #ffffff;
-  --wash-palette-employer-3: #ffffff;
+  --wash-palette-employer-2: #faf8f6;
+  --wash-palette-employer-3: #faf8f6;
   --wash-tint-employer: #945757;
+
   --wash-tint-email: #3d6fd9;
   --wash-tint-linkedin: #004182;
   --wash-tint-telegram: #229ed9;
   --wash-tint-github: #57606a;
   --wash-tint-x: #0f1419;
-  --wash-tint-cv: #6e6e73;
-  --wash-palette-case-bg: #ffffff;
+  --wash-tint-cv: #756e63;
+
+  --wash-palette-case-bg: #faf8f6;
   --wash-palette-case-1: #c73e5e;
-  --wash-palette-case-2: #ffffff;
-  --wash-palette-case-3: #ffffff;
+  --wash-palette-case-2: #faf8f6;
+  --wash-palette-case-3: #faf8f6;
   --wash-tint-case: #c73e5e;
 
   --book-ticket-bg-top: url("/images/widgets/book/Card-2-surface.svg");
   --book-ticket-bg-bottom: url("/images/widgets/book/Card-1-surface.svg");
   --color-book-ticket-text: var(--color-text-primary);
-  --color-book-barcode: #242426;
+  --color-book-barcode: #242220;
 
   --color-case-cursor-bg: color-mix(in srgb, var(--color-bg-surface) 72%, transparent);
   --color-case-cursor-text: var(--color-text-primary);
