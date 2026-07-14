@@ -53,7 +53,9 @@ const href = getRelativeLocaleUrl(locale, `/cases/${slug}`);
           loading="lazy"
           decoding="async"
         />
-        <p class="case-card__title">{title}</p>
+        <p class="case-card__title">
+          <span class="case-card__title-text">{title}</span>
+        </p>
       </div>
     </div>
   </article>
@@ -63,7 +65,7 @@ const href = getRelativeLocaleUrl(locale, `/cases/${slug}`);
   .case-card {
     display: block;
     width: 100%;
-    max-width: var(--case-card-width);
+    max-width: 100%;
     height: var(--case-card-height);
     text-decoration: none;
     color: inherit;
@@ -142,10 +144,11 @@ const href = getRelativeLocaleUrl(locale, `/cases/${slug}`);
 
   .case-card__footer {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: var(--space-control);
     width: 100%;
     min-width: 0;
+    margin-top: auto;
   }
 
   .case-card__logo {
@@ -156,15 +159,25 @@ const href = getRelativeLocaleUrl(locale, `/cases/${slug}`);
     object-fit: cover;
   }
 
+  /*
+   * 1–2 lines (~42px) fit in logo height → text centered vs logo.
+   * 3+ lines grow past logo → footer flex-end sticks both bottoms.
+   */
   .case-card__title {
+    display: flex;
+    align-items: center;
     margin: 0;
     flex: 1;
     min-width: 0;
+    min-height: var(--case-card-logo-size);
     font-family: var(--font-family);
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-normal);
     color: var(--color-text-primary);
+  }
+
+  .case-card__title-text {
     overflow-wrap: anywhere;
   }
 

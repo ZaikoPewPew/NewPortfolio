@@ -46,6 +46,13 @@ body {
   margin: 0 auto;
 }
 
+@media (max-width: 639px) {
+  .page-grid,
+  .grid {
+    gap: var(--layout-gutter-mobile);
+  }
+}
+
 @media (min-width: 640px) {
   .page-grid,
   .grid {

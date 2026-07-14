@@ -79,6 +79,10 @@ const m = getMessages(resolveLocale(Astro.currentLocale));
       font-size: var(--header-employer-size-mobile);
       line-height: var(--line-height-normal);
     }
+
+    .header__row :global(.theme-widget) {
+      display: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -135,6 +135,61 @@
 
   .home__cases {
     width: 100%;
+    max-width: 100%;
+  }
+
+  .home__cases .case-card {
+    max-width: 100%;
+  }
+
+  /*
+   * Case page mobile: same structure as desktop — cover then text,
+   * no widgets column. Gutters = --layout-gutter-mobile (8px).
+   */
+  body[data-page="case"] .grid__widgets {
+    display: none;
+  }
+
+  main[data-case-page] .grid__cases,
+  main[data-case-page] .case-content {
+    max-width: none;
+    width: 100%;
+    margin-inline: 0;
+  }
+
+  main[data-case-page] .case-hero__title,
+  main[data-case-page] .case-hero__meta,
+  main[data-case-page] .case-content__body {
+    max-width: none;
+    width: 100%;
+  }
+
+  main[data-case-page] .case-hero__morph {
+    gap: var(--layout-gutter-mobile);
+    margin-bottom: var(--layout-gutter-mobile);
+  }
+
+  main[data-case-page] .case-hero__meta {
+    margin-bottom: var(--layout-gutter-mobile);
+  }
+
+  main[data-case-page] .case-content__body h2 {
+    font-size: var(--font-size-lg);
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-sm);
+  }
+
+  main[data-case-page] .case-content__body h3 {
+    font-size: var(--font-size-base);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+  }
+
+  main[data-case-page] .case-content__body p,
+  main[data-case-page] .case-content__body li {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-normal);
+    overflow-wrap: anywhere;
   }
 }
 

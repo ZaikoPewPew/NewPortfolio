@@ -19,6 +19,12 @@
     align-items: start;
   }
 
+  @media (max-width: 639px) {
+    .grid {
+      gap: var(--layout-gutter-mobile);
+    }
+  }
+
   @media (min-width: 640px) {
     .grid {
       grid-template-columns: var(--layout-widgets-width) minmax(0, 1fr);

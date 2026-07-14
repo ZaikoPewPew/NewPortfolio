@@ -155,13 +155,21 @@ const locale = resolveLocale(Astro.currentLocale);
   @media (max-width: 639px) {
     .home__widgets {
       width: 100%;
+      max-width: 100%;
+      gap: var(--layout-gutter-mobile);
     }
 
     .home__contact-mobile {
       display: block;
+      width: 100%;
     }
 
     .home__widgets-body {
+      display: none;
+    }
+
+    /* Case page: contacts stay off (widgets column hidden in home.layout.css) */
+    :global(body[data-page="case"]) .home__contact-mobile {
       display: none;
     }
   }

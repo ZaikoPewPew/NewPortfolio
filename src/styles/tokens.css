@@ -210,7 +210,8 @@
   );
 
   /* Z-index */
-  --z-background: 0;
+  /* Behind in-flow content; 0 would paint over main (see page-background) */
+  --z-background: -1;
   --z-content: 10;
   --z-header: 15;
   --z-dock: 100;

@@ -96,7 +96,14 @@ ${reducedMotionRules}
     min-width: 0;
   }
 
-  @media (min-width: 640px) {
+  @media (max-width: 639px) {
+    .case-list {
+      gap: var(--layout-gutter-mobile);
+    }
+  }
+
+  /* 2 cols only when cases column is wide enough (desktop); tablet stays 1 col */
+  @media (min-width: 1024px) {
     .case-list {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -68,5 +68,26 @@ const title = getCaseTitle(slug, resolveLocale(Astro.currentLocale));
     font-size: var(--font-size-2xl);
     line-height: var(--line-height-tight);
     font-weight: var(--font-weight-medium);
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 639px) {
+    .case-hero__morph {
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+    }
+
+    .case-hero__media {
+      height: auto;
+      aspect-ratio: var(--case-card-width) / var(--layout-case-cover-height);
+    }
+
+    .case-hero__title {
+      font-size: var(--font-size-xl);
+    }
+
+    .case-hero__meta {
+      margin-bottom: var(--space-sm);
+    }
   }
 </style>
