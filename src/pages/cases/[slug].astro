@@ -1,9 +1,9 @@
 ---
 import CasePage from "../../features/cases/CasePage.astro";
-import { getCollection } from "astro:content";
+import { getPublishedCases } from "../../features/cases/getPublishedCases";
 
 export async function getStaticPaths() {
-  const cases = await getCollection("cases");
+  const cases = await getPublishedCases();
   return cases.map((caseEntry) => ({
     params: { slug: caseEntry.slug },
     props: { caseEntry },

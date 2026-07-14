@@ -1,0 +1,37 @@
+.case-media {
+  display: block;
+  margin-block: var(--space-xl);
+  margin-inline: 0;
+  padding: 0;
+  border: none;
+}
+
+.case-media__media {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-surface);
+}
+
+.case-media__caption {
+  margin-top: var(--space-sm);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-muted);
+}
+
+.case-media--content {
+  width: 100%;
+  max-width: 100%;
+}
+
+.case-media--full {
+  width: min(100%, var(--layout-cases-width));
+  max-width: none;
+}
+
+.case-media video.case-media__media {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}

@@ -1,0 +1,25 @@
+---
+import "./case-media.css";
+
+interface Props {
+  src: string;
+  poster?: string;
+  caption?: string;
+  width?: "content" | "full";
+}
+
+const { src, poster, caption, width = "content" } = Astro.props;
+---
+
+<figure class:list={["case-media", `case-media--${width}`]}>
+  <video
+    class="case-media__media"
+    src={src}
+    poster={poster}
+    controls
+    playsinline
+    preload="metadata"
+  >
+  </video>
+  {caption && <figcaption class="case-media__caption">{caption}</figcaption>}
+</figure>

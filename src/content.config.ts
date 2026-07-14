@@ -23,6 +23,8 @@ const cases = defineCollection({
     summary: z.string(),
     year: z.number(),
     tags: z.array(z.string()),
+    /** demo — всегда в билде; live — только при PUBLIC_CASES_SHOW_LIVE=true */
+    visibility: z.enum(["demo", "live"]).default("demo"),
     hover: hoverSchema,
     card: cardSchema.optional(),
   }),

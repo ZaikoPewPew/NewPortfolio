@@ -10,6 +10,11 @@ dist/
 .env.*
 !.env.example
 
+# Боевые медиа кейсов (не коммитить чувствительные ассеты)
+public/images/cases/live/**
+!public/images/cases/live/.gitkeep
+!public/images/cases/live/README.md
+
 # OS / editor
 .DS_Store
 *.log

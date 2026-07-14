@@ -16,4 +16,8 @@ export const env = {
   bento: {
     mode: (import.meta.env.PUBLIC_BENTO_MODE ?? "mock") as DataSourceMode,
   },
+  cases: {
+    /** Включает кейсы с visibility: live в home и статичных путях. Default: false. */
+    showLive: import.meta.env.PUBLIC_CASES_SHOW_LIVE === "true",
+  },
 } as const;

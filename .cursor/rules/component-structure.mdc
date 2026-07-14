@@ -9,7 +9,7 @@ alwaysApply: false
 ## Размещение
 
 - `components/layout/` — Grid (см. `layout-grid.mdc`), PageShell, WidgetGrid (читает registry)
-- `components/cases/` — CaseCard, CaseList, CaseHero (dumb UI)
+- `components/cases/` — CaseCard, CaseList, CaseHero; `blocks/` — CaseImage, CaseVideo, CaseGif (MDX body)
 - `components/ui/` — атомы (Button, Tag, Link, Tooltip — см. `ui/README.md`)
 - `widgets/` — **интерактивные виджеты** (не в components/widgets/)
 

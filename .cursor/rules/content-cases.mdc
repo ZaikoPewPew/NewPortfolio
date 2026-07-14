@@ -13,12 +13,14 @@ alwaysApply: false
 ## Обязательные поля frontmatter
 
 - `title`, `cover`, `order`, `summary`, `year`, `tags`
+- `visibility` — `demo` (default) | `live` (только при `PUBLIC_CASES_SHOW_LIVE=true`)
 - `hover` — gradientFrom, gradientTo, gradientAngle, previewImage (optional), previewVideo (optional)
 - `card` — layout (legacy), subtitle (optional), logo (optional)
 
 ## Пример
 
 ```yaml
+visibility: demo
 hover:
   gradientFrom: "#1a0a2e"
   gradientTo: "#e94560"
@@ -30,6 +32,35 @@ card:
   subtitle: "Подзаголовок карточки"
   logo: "/images/cases/logo.svg"
 ```
+
+## Тело кейса (MDX-блоки)
+
+Свободный порядок markdown + компоненты (прокидываются из `CasePage`):
+
+```mdx
+## Проблема
+Текст…
+
+<CaseImage src="/images/cases/alpha/flow.png" alt="Flow" caption="Подпись" />
+<CaseVideo src="/images/cases/alpha/demo.mp4" poster="…" caption="…" />
+<CaseGif src="/images/cases/alpha/tap.gif" alt="Анимация" />
+```
+
+| Компонент | Props |
+|-----------|--------|
+| `CaseImage` | `src`, `alt`, `caption?`, `width?` (`content` \| `full`) |
+| `CaseVideo` | `src`, `poster?`, `caption?`, `width?` — без autoplay, с controls |
+| `CaseGif` | `src`, `alt`, `caption?`, `width?` |
+
+Компоненты: `src/components/cases/blocks/`.
+
+## Visibility (рубильник)
+
+- `demo` — всегда в home и статических путях
+- `live` — только если `PUBLIC_CASES_SHOW_LIVE=true` (см. `env.config.ts`)
+- Фильтр: `getPublishedCases()` — использовать вместо сырого `getCollection("cases")`
+- Скрытый live → страница не генерируется → 404
+- Боевые медиа: `public/images/cases/live/` (gitignore)
 
 ## Правила
 

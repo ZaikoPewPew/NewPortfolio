@@ -1,10 +1,13 @@
-import { getCollection, type CollectionEntry } from "astro:content";
 import { casesConfig } from "../../../config/cases.config";
+import {
+  getPublishedCases,
+  type CaseEntry,
+} from "../../cases/getPublishedCases";
 
-export type HomeCaseEntry = CollectionEntry<"cases">;
+export type HomeCaseEntry = CaseEntry;
 
 export async function getHomeCases(): Promise<HomeCaseEntry[]> {
-  const sorted = (await getCollection("cases")).sort(
+  const sorted = (await getPublishedCases()).sort(
     (a, b) => a.data.order - b.data.order
   );
 

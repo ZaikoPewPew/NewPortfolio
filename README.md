@@ -416,13 +416,15 @@ feedback.emit({ sound: "tap", haptic: "light", source: "dock.email" });
 | `PUBLIC_BOOK_MODE` | `mock` \| `api` | book |
 | `PUBLIC_PHOTO_MODE` | `mock` \| `api` | photo |
 | `PUBLIC_BENTO_MODE` | `mock` \| `api` | bento |
+| `PUBLIC_CASES_SHOW_LIVE` | `true` \| `false` | кейсы с `visibility: live` (default: скрыты) |
 
-По умолчанию везде `mock`. Задать в `.env` в корне (файл не коммитится).
+По умолчанию виджеты — `mock`, live-кейсы выключены. Задать в `.env` в корне (файл не коммитится).
 
 Пример:
 
 ```env
 PUBLIC_GITHUB_MODE=api
+PUBLIC_CASES_SHOW_LIVE=true
 ```
 
 ---
