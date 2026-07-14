@@ -76,11 +76,13 @@ Slide-анимации: `contact-panel.animations.css`. Только desktop (`m
 ## Page enter
 
 1. `BaseLayout` ставит `html[data-home-enter]` на `home` и `case` до гидрации (если нет `prefers-reduced-motion`)
-2. `PageEnterController` включает `data-home-entering` и снимает флаги по таймеру `--motion-page-enter-total`
+2. `PageEnterController` включает `data-home-entering` и снимает флаги по таймеру (`--motion-page-enter-total` / `--motion-page-enter-total-case`)
 3. Задержки — токены `--page-enter-delay-*` в `tokens.css`
 
-**Порядок каскада:** header целиком (employer + ThemeWidget) → me / git / book / bento / photo → cases (stagger) → блоки под кейсами (ConceptBento и следующие) → copyright.
+**Home:** header → me / git → book+bento (пара) / photo → cases (парами: `floor(i/2)`) → concepts (парами) → copyright. Кейсы стартуют с overlap относительно левой колонки. Total ~1.8s.
 
-**Новый блок справа под кейсами:** `data-page-enter` + `--page-enter-delay` от конца предыдущего сегмента (сейчас `concepts-base` / `concepts-step`); обновить `--page-enter-delay-copyright` и не трогать total вручную — он считается от copyright.
+**Case (reload / прямой заход):** header → hero (cover+title) → meta → MDX body (`> *` парами, max 5 волн) → copyright. Виджеты скрыты; total — `--motion-page-enter-total-case` (~1.5s). Без `data-page-enter` на body — CSS по селекторам, без FOUC.
+
+**Новый блок справа под кейсами (home):** `data-page-enter` + `--page-enter-delay` от конца предыдущего сегмента (сейчас `concepts-base` / `concepts-step`); обновить `--page-enter-delay-copyright` и не трогать total вручную — он считается от copyright.
 
 **Контакты открыты при reload:** виджеты vibe check подавляются на время page-enter (`page-enter.animations.css`), contact-slot входит в каскад с `--page-enter-delay-contact-desktop` (как git). Иначе `pageEnterReveal` перебивает `transform` слайда и bento мелькает под контактами.

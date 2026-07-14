@@ -67,7 +67,11 @@ export function syncPageEnterOnLoad() {
 
   document.documentElement.dataset.homeEntering = "true";
 
-  const totalMs = readMotionMs("--motion-page-enter-total", 4100);
+  const isCase = document.body.dataset.page === "case";
+  const totalMs = readMotionMs(
+    isCase ? "--motion-page-enter-total-case" : "--motion-page-enter-total",
+    isCase ? 1500 : 1900,
+  );
 
   enterTimer = window.setTimeout(() => {
     finishPageEnter();

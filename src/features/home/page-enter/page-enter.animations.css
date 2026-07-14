@@ -1,12 +1,12 @@
 @keyframes pageEnterReveal {
   from {
     opacity: 0;
-    transform: translate3d(0, var(--page-enter-offset), 0);
+    transform: translate3d(0, var(--page-enter-offset), 0) scale(0.985);
   }
 
   to {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
@@ -26,7 +26,7 @@ html[data-home-enter] {
 
 html[data-home-enter] [data-page-enter] {
   opacity: 0;
-  transform: translate3d(0, var(--page-enter-offset), 0);
+  transform: translate3d(0, var(--page-enter-offset), 0) scale(0.985);
 }
 
 html[data-home-entering] [data-page-enter] {
@@ -89,11 +89,73 @@ html[data-home-entering] .home__copyright {
   --page-enter-delay: var(--page-enter-delay-copyright);
 }
 
-html[data-home-entering] .case-content {
-  --page-enter-delay: var(--page-enter-delay-cases-base);
+html[data-home-entering] body[data-page="case"] .home__copyright {
+  --page-enter-delay: var(--page-enter-delay-case-copyright);
 }
 
-html[data-home-entering]:not([data-home-enter]) [data-page-enter] {
+/* Case page: hero + MDX body (no data-page-enter — avoid FOUC before hydrate) */
+html[data-home-enter] body[data-page="case"] .case-hero__morph,
+html[data-home-enter] body[data-page="case"] .case-hero__meta,
+html[data-home-enter] body[data-page="case"] .case-content__body > * {
+  opacity: 0;
+  transform: translate3d(0, var(--page-enter-offset), 0) scale(0.985);
+}
+
+html[data-home-entering] body[data-page="case"] .case-hero__morph,
+html[data-home-entering] body[data-page="case"] .case-hero__meta,
+html[data-home-entering] body[data-page="case"] .case-content__body > * {
+  animation: pageEnterReveal var(--motion-page-enter-duration) var(--ease-page-enter)
+    var(--page-enter-delay, 0ms) both;
+  will-change: opacity, transform;
+}
+
+html[data-home-entering] body[data-page="case"] .case-hero__morph {
+  --page-enter-delay: var(--page-enter-delay-case-hero);
+}
+
+html[data-home-entering] body[data-page="case"] .case-hero__meta {
+  --page-enter-delay: var(--page-enter-delay-case-meta);
+}
+
+html[data-home-entering] body[data-page="case"] .case-content__body > *:nth-child(1),
+html[data-home-entering] body[data-page="case"] .case-content__body > *:nth-child(2) {
+  --page-enter-delay: calc(
+    var(--page-enter-delay-case-body-base) + 0 * var(--page-enter-delay-case-body-step)
+  );
+}
+
+html[data-home-entering] body[data-page="case"] .case-content__body > *:nth-child(3),
+html[data-home-entering] body[data-page="case"] .case-content__body > *:nth-child(4) {
+  --page-enter-delay: calc(
+    var(--page-enter-delay-case-body-base) + 1 * var(--page-enter-delay-case-body-step)
+  );
+}
+
+html[data-home-entering] body[data-page="case"] .case-content__body > *:nth-child(5),
+html[data-home-entering] body[data-page="case"] .case-content__body > *:nth-child(6) {
+  --page-enter-delay: calc(
+    var(--page-enter-delay-case-body-base) + 2 * var(--page-enter-delay-case-body-step)
+  );
+}
+
+html[data-home-entering] body[data-page="case"] .case-content__body > *:nth-child(7),
+html[data-home-entering] body[data-page="case"] .case-content__body > *:nth-child(8) {
+  --page-enter-delay: calc(
+    var(--page-enter-delay-case-body-base) + 3 * var(--page-enter-delay-case-body-step)
+  );
+}
+
+html[data-home-entering] body[data-page="case"] .case-content__body > *:nth-child(n + 9) {
+  --page-enter-delay: calc(
+    var(--page-enter-delay-case-body-base) +
+      var(--page-enter-case-body-max-pair) * var(--page-enter-delay-case-body-step)
+  );
+}
+
+html[data-home-entering]:not([data-home-enter]) [data-page-enter],
+html[data-home-entering]:not([data-home-enter]) body[data-page="case"] .case-hero__morph,
+html[data-home-entering]:not([data-home-enter]) body[data-page="case"] .case-hero__meta,
+html[data-home-entering]:not([data-home-enter]) body[data-page="case"] .case-content__body > * {
   opacity: 1;
   transform: none;
   animation: none;
@@ -101,7 +163,13 @@ html[data-home-entering]:not([data-home-enter]) [data-page-enter] {
 
 @media (prefers-reduced-motion: reduce) {
   html[data-home-enter] [data-page-enter],
-  html[data-home-entering] [data-page-enter] {
+  html[data-home-entering] [data-page-enter],
+  html[data-home-enter] body[data-page="case"] .case-hero__morph,
+  html[data-home-enter] body[data-page="case"] .case-hero__meta,
+  html[data-home-enter] body[data-page="case"] .case-content__body > *,
+  html[data-home-entering] body[data-page="case"] .case-hero__morph,
+  html[data-home-entering] body[data-page="case"] .case-hero__meta,
+  html[data-home-entering] body[data-page="case"] .case-content__body > * {
     opacity: 1;
     transform: none;
     animation: none;

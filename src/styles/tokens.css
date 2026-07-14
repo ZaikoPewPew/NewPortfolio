@@ -175,39 +175,55 @@
   --ease-case-enter: var(--ease-contact-enter);
 
   /* Home page enter — first load / reload
-   * Cascade order: header (whole row: employer + ThemeWidget) → left widgets →
-   * cases → blocks under cases (concepts / future) → copyright.
-   * New right-column blocks: data-page-enter + delay after previous cascade end;
+   * Soft overlapping waves (~1.8s total): header → left widgets (book+bento
+   * paired) → cases in pairs → concepts in pairs → copyright.
+   * Cases / concepts: delay step = pair index = floor(i / 2).
+   * New right-column blocks: data-page-enter + delay after previous end;
    * then bump copyright / total. */
-  --page-enter-offset: var(--space-sm);
-  --page-enter-stagger: 320ms;
-  --motion-page-enter-duration: 720ms;
-  --ease-page-enter: var(--ease-out-expo);
+  --page-enter-offset: var(--space-md);
+  --page-enter-stagger: 140ms;
+  --motion-page-enter-duration: 780ms;
+  --ease-page-enter: var(--ease-spring-soft);
   --page-enter-delay-header: 0ms;
   --page-enter-delay-me: calc(var(--page-enter-stagger) * 1);
   --page-enter-delay-git: calc(var(--page-enter-stagger) * 2);
   --page-enter-delay-book: calc(var(--page-enter-stagger) * 3);
-  --page-enter-delay-bento: calc(var(--page-enter-stagger) * 3.75);
-  --page-enter-delay-photo: calc(var(--page-enter-stagger) * 4.5);
-  --page-enter-delay-contact-mobile: calc(var(--page-enter-stagger) * 2);
+  --page-enter-delay-bento: var(--page-enter-delay-book);
+  --page-enter-delay-photo: calc(var(--page-enter-stagger) * 3.75);
+  --page-enter-delay-contact-mobile: var(--page-enter-delay-git);
   --page-enter-delay-contact-desktop: var(--page-enter-delay-git);
-  --page-enter-delay-cases-base: calc(var(--page-enter-stagger) * 5.25);
-  --page-enter-delay-cases-base-mobile: calc(var(--page-enter-stagger) * 3);
-  --page-enter-delay-cases-step: 240ms;
-  /* After homeLimit cases (4 → last index 3): next slot = base + 4 * step */
+  /* Overlap with left column — main content starts while widgets still reveal */
+  --page-enter-delay-cases-base: calc(var(--page-enter-stagger) * 3.5);
+  --page-enter-delay-cases-base-mobile: calc(var(--page-enter-stagger) * 2.25);
+  --page-enter-delay-cases-step: 160ms;
+  /* After homeLimit cases (4 → 2 pairs): next slot = base + 2 * step */
   --page-enter-delay-concepts-base: calc(
-    var(--page-enter-delay-cases-base) + var(--page-enter-delay-cases-step) * 4
+    var(--page-enter-delay-cases-base) + var(--page-enter-delay-cases-step) * 2
   );
   --page-enter-delay-concepts-base-mobile: calc(
-    var(--page-enter-delay-cases-base-mobile) + var(--page-enter-delay-cases-step) * 4
+    var(--page-enter-delay-cases-base-mobile) + var(--page-enter-delay-cases-step) * 2
   );
-  --page-enter-delay-concepts-step: 180ms;
+  --page-enter-delay-concepts-step: 140ms;
+  /* Concepts (3 → 2 pairs, last pair index 1) */
   --page-enter-delay-copyright: calc(
-    var(--page-enter-delay-concepts-base) + var(--page-enter-delay-concepts-step) * 3 +
-      120ms
+    var(--page-enter-delay-concepts-base) + var(--page-enter-delay-concepts-step) * 1 +
+      60ms
   );
   --motion-page-enter-total: calc(
-    var(--page-enter-delay-copyright) + var(--motion-page-enter-duration) + 80ms
+    var(--page-enter-delay-copyright) + var(--motion-page-enter-duration) + 40ms
+  );
+
+  /* Case page enter — content-first (widgets hidden); body blocks pair up to max */
+  --page-enter-delay-case-hero: 40ms;
+  --page-enter-delay-case-meta: calc(var(--page-enter-stagger) * 1.1);
+  --page-enter-delay-case-body-base: calc(var(--page-enter-stagger) * 1.85);
+  --page-enter-delay-case-body-step: 90ms;
+  --page-enter-case-body-max-pair: 4;
+  --page-enter-delay-case-copyright: calc(var(--page-enter-stagger) * 1.4);
+  --motion-page-enter-total-case: calc(
+    var(--page-enter-delay-case-body-base) +
+      var(--page-enter-delay-case-body-step) * var(--page-enter-case-body-max-pair) +
+      var(--motion-page-enter-duration) + 40ms
   );
 
   /* Z-index */

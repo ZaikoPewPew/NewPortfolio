@@ -16,7 +16,7 @@ function getTileHeight(rowSpan: 1 | 2 | undefined): string {
         <li
           class="concept-bento__item"
           data-page-enter=""
-          style={`--page-enter-delay: calc(var(--page-enter-delay-concepts-base-active) + ${index} * var(--page-enter-delay-concepts-step)); --concept-col-span: ${item.colSpan ?? 1}; --concept-row-span: ${item.rowSpan ?? 1}; height: ${getTileHeight(item.rowSpan)};`}
+          style={`--page-enter-delay: calc(var(--page-enter-delay-concepts-base-active) + ${Math.floor(index / 2)} * var(--page-enter-delay-concepts-step)); --concept-col-span: ${item.colSpan ?? 1}; --concept-row-span: ${item.rowSpan ?? 1}; height: ${getTileHeight(item.rowSpan)};`}
         >
           <div class="concept-bento__surface"></div>
         </li>
