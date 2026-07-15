@@ -191,15 +191,22 @@
   color: var(--color-link-hover);
 }
 
-.theme-widget__icon-btn[data-sound-muted],
-.theme-widget[data-open] .theme-widget__icon-btn[data-sound-muted] {
-  opacity: 0.45;
-}
-
 .theme-widget__icon {
   display: block;
   width: var(--space-lg);
   height: var(--space-lg);
+}
+
+.theme-widget__icon--sound-off {
+  display: none;
+}
+
+.theme-widget__icon-btn[data-sound-muted] .theme-widget__icon--sound-on {
+  display: none;
+}
+
+.theme-widget__icon-btn[data-sound-muted] .theme-widget__icon--sound-off {
+  display: block;
 }
 
 .theme-widget .theme-toggle__host.theme-widget__theme,

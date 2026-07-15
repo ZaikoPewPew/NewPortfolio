@@ -97,7 +97,7 @@ const panelId = "theme-widget-panel";
               aria-label={m.themeWidget.soundOnAriaLabel}
             >
               <svg
-                class="theme-widget__icon"
+                class="theme-widget__icon theme-widget__icon--sound-on"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -105,23 +105,32 @@ const panelId = "theme-widget-panel";
                 aria-hidden="true"
               >
                 <path
-                  d="M9 18V5L19 3V16"
+                  d="M13 17C13 18.6569 11.6569 20 10 20C8.34315 20 7 18.6569 7 17C7 15.3431 8.34315 14 10 14C11.6569 14 13 15.3431 13 17ZM13 17V6M13 6V4H17V6H13Z"
                   stroke="currentColor"
                   stroke-width="1.3"
                   stroke-linecap="round"
                   stroke-linejoin="round"></path>
-                <circle
-                  cx="7"
-                  cy="18"
-                  r="2"
+              </svg>
+              <svg
+                class="theme-widget__icon theme-widget__icon--sound-off"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M13 17C13 18.6569 11.6569 20 10 20C8.34315 20 7 18.6569 7 17C7 15.3431 8.34315 14 10 14C11.6569 14 13 15.3431 13 17ZM13 17V13M13 6V4H17V6H13ZM13 6V9.5"
                   stroke="currentColor"
-                  stroke-width="1.3"></circle>
-                <circle
-                  cx="17"
-                  cy="16"
-                  r="2"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <path
+                  d="M5 5L19 19"
                   stroke="currentColor"
-                  stroke-width="1.3"></circle>
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
               </svg>
             </button>
             <Tooltip

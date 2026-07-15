@@ -1,13 +1,18 @@
 import { prefersReducedMotion } from "../../experience/motion/prefersReducedMotion";
 import { PHOTO_SLIDE_DURATION_MS } from "./config";
 
+const MAX_TICK_ELAPSED_MS = 100;
+const HAVE_CURRENT_DATA = 2;
+
 export function initPhotoWidget(root: HTMLElement) {
   if (root.hasAttribute("data-bound")) return;
   root.setAttribute("data-bound", "true");
 
   const track = root.querySelector<HTMLElement>("[data-photo-track]");
   const indicator = root.querySelector<HTMLElement>("[data-photo-indicator]");
-  const indicatorTrack = root.querySelector<HTMLElement>("[data-photo-indicator-track]");
+  const indicatorTrack = root.querySelector<HTMLElement>(
+    "[data-photo-indicator-track]",
+  );
 
   if (!track || !indicator || !indicatorTrack) return;
 
@@ -19,7 +24,9 @@ export function initPhotoWidget(root: HTMLElement) {
 
   if (slideCount > 1 && !track.hasAttribute("data-infinite-ready")) {
     const firstClone = originalSlides[0].cloneNode(true) as HTMLElement;
-    const lastClone = originalSlides[slideCount - 1].cloneNode(true) as HTMLElement;
+    const lastClone = originalSlides[slideCount - 1].cloneNode(
+      true,
+    ) as HTMLElement;
 
     firstClone.removeAttribute("data-photo-slide");
     lastClone.removeAttribute("data-photo-slide");
@@ -33,12 +40,23 @@ export function initPhotoWidget(root: HTMLElement) {
     track.setAttribute("data-infinite-ready", "true");
   }
 
-  const mediaVideos = Array.from(track.querySelectorAll<HTMLVideoElement>("video"));
+  const mediaVideos = Array.from(
+    track.querySelectorAll<HTMLVideoElement>("video"),
+  );
   for (const video of mediaVideos) {
     video.muted = true;
+    video.defaultMuted = true;
     video.volume = 0;
+    video.playsInline = true;
+    video.setAttribute("playsinline", "");
+    video.setAttribute("webkit-playsinline", "");
+    video.preload = "auto";
     video.pause();
-    video.currentTime = 0;
+    try {
+      video.currentTime = 0;
+    } catch {
+      // Metadata may not be ready yet.
+    }
   }
 
   let trackIndex = slideCount > 1 ? 1 : 0;
@@ -47,8 +65,10 @@ export function initPhotoWidget(root: HTMLElement) {
   let dragStartX = 0;
   let dragStartTranslate = 0;
   let dragOffset = 0;
-  let rafId = 0;
   let lastTick = 0;
+  let playGeneration = 0;
+  let playInFlight = false;
+  let isVisible = !document.hidden;
   const reducedMotion = prefersReducedMotion();
 
   const getSlideWidth = () => root.clientWidth;
@@ -74,26 +94,93 @@ export function initPhotoWidget(root: HTMLElement) {
     if (fill) fill.style.width = `${progress * 100}%`;
   };
 
-  const syncActiveSlideVideo = () => {
-    const activeSlide = track.children.item(trackIndex) as HTMLElement | null;
+  const getActiveSlide = () =>
+    track.children.item(trackIndex) as HTMLElement | null;
+
+  const getActiveSlideVideo = () =>
+    getActiveSlide()?.querySelector<HTMLVideoElement>("video") ?? null;
+
+  const waitForCanPlay = (video: HTMLVideoElement) =>
+    new Promise<void>((resolve) => {
+      if (video.readyState >= HAVE_CURRENT_DATA) {
+        resolve();
+        return;
+      }
+
+      const finish = () => {
+        video.removeEventListener("canplay", finish);
+        video.removeEventListener("loadeddata", finish);
+        video.removeEventListener("error", finish);
+        resolve();
+      };
+
+      video.addEventListener("canplay", finish, { once: true });
+      video.addEventListener("loadeddata", finish, { once: true });
+      video.addEventListener("error", finish, { once: true });
+    });
+
+  const playVideo = async (video: HTMLVideoElement, restart: boolean) => {
+    if (playInFlight && !restart) return;
+
+    const generation = ++playGeneration;
+    playInFlight = true;
+    video.muted = true;
+    video.volume = 0;
+    video.playsInline = true;
+
+    if (video.preload !== "auto") {
+      video.preload = "auto";
+    }
+
+    try {
+      await waitForCanPlay(video);
+      if (generation !== playGeneration) return;
+
+      if (restart) {
+        try {
+          video.currentTime = 0;
+        } catch {
+          // Ignore until seekable.
+        }
+      }
+
+      try {
+        await video.play();
+      } catch {
+        if (generation !== playGeneration) return;
+        await waitForCanPlay(video);
+        if (generation !== playGeneration) return;
+        try {
+          await video.play();
+        } catch {
+          // Autoplay may still be blocked; tick will retry while slide is active.
+        }
+      }
+    } finally {
+      if (generation === playGeneration) {
+        playInFlight = false;
+      }
+    }
+  };
+
+  const syncActiveSlideVideo = (restart = true) => {
+    const activeSlide = getActiveSlide();
 
     for (const video of mediaVideos) {
       const parentSlide = video.closest<HTMLElement>(".photo-widget__slide");
       const isActive = parentSlide === activeSlide;
 
       if (isActive) {
-        video.currentTime = 0;
-        void video.play().catch(() => {});
+        void playVideo(video, restart);
       } else {
         video.pause();
-        video.currentTime = 0;
+        try {
+          video.currentTime = 0;
+        } catch {
+          // Ignore until seekable.
+        }
       }
     }
-  };
-
-  const getActiveSlideVideo = () => {
-    const activeSlide = track.children.item(trackIndex) as HTMLElement | null;
-    return activeSlide?.querySelector<HTMLVideoElement>("video") ?? null;
   };
 
   const createDotItem = () => {
@@ -145,7 +232,7 @@ export function initPhotoWidget(root: HTMLElement) {
     setTranslate(-trackIndex * getSlideWidth(), animate);
     renderIndicator();
     root.dataset.currentIndex = String(getLogicalIndex());
-    syncActiveSlideVideo();
+    syncActiveSlideVideo(true);
 
     if (!animate || reducedMotion) {
       normalizeTrackIndex();
@@ -182,26 +269,79 @@ export function initPhotoWidget(root: HTMLElement) {
     }
   };
 
+  const advanceSlide = () => {
+    snapToTrackIndex(trackIndex + 1);
+  };
+
   const tick = (timestamp: number) => {
     if (!lastTick) lastTick = timestamp;
 
-    if (!isDragging && !reducedMotion && slideCount > 1) {
-      const elapsed = timestamp - lastTick;
-      progress += elapsed / PHOTO_SLIDE_DURATION_MS;
+    const elapsed = Math.min(
+      Math.max(0, timestamp - lastTick),
+      MAX_TICK_ELAPSED_MS,
+    );
 
-      if (progress >= 1) {
-        snapToTrackIndex(trackIndex + 1);
-        lastTick = timestamp;
+    if (
+      !isDragging &&
+      !reducedMotion &&
+      !document.hidden &&
+      isVisible &&
+      slideCount > 1
+    ) {
+      const activeVideo = getActiveSlideVideo();
+
+      if (activeVideo) {
+        if (
+          activeVideo.paused &&
+          !activeVideo.ended &&
+          !playInFlight
+        ) {
+          void playVideo(activeVideo, false);
+        }
+
+        const duration = activeVideo.duration;
+        if (Number.isFinite(duration) && duration > 0) {
+          if (
+            activeVideo.paused &&
+            !activeVideo.ended &&
+            activeVideo.currentTime < 0.05
+          ) {
+            // Play hasn't started (buffering / autoplay) — don't soft-lock the carousel.
+            progress += elapsed / PHOTO_SLIDE_DURATION_MS;
+          } else {
+            progress = Math.min(1, activeVideo.currentTime / duration);
+          }
+
+          if (activeVideo.ended || progress >= 1) {
+            advanceSlide();
+          } else {
+            updateProgressFill();
+          }
+        } else {
+          // Metadata still loading — keep gallery moving, keep trying to play.
+          progress += elapsed / PHOTO_SLIDE_DURATION_MS;
+          if (progress >= 1) {
+            advanceSlide();
+          } else {
+            updateProgressFill();
+          }
+        }
       } else {
-        updateProgressFill();
+        progress += elapsed / PHOTO_SLIDE_DURATION_MS;
+
+        if (progress >= 1) {
+          advanceSlide();
+        } else {
+          updateProgressFill();
+        }
       }
     }
 
-    if (!isDragging) {
+    if (!isDragging && !document.hidden && isVisible) {
       lastTick = timestamp;
     }
 
-    rafId = window.requestAnimationFrame(tick);
+    window.requestAnimationFrame(tick);
   };
 
   const onPointerDown = (event: PointerEvent) => {
@@ -231,12 +371,22 @@ export function initPhotoWidget(root: HTMLElement) {
     const movedSlides = Math.round(-dragOffset / slideWidth);
     moveSlides(movedSlides);
     if (movedSlides === 0) {
-      void getActiveSlideVideo()
-        ?.play()
-        .catch(() => {});
+      const activeVideo = getActiveSlideVideo();
+      if (activeVideo) void playVideo(activeVideo, false);
     }
 
     lastTick = performance.now();
+  };
+
+  const onVisibilityChange = () => {
+    lastTick = performance.now();
+    if (document.hidden) {
+      isVisible = false;
+      getActiveSlideVideo()?.pause();
+      return;
+    }
+    isVisible = true;
+    syncActiveSlideVideo(false);
   };
 
   track.addEventListener("transitionend", (event) => {
@@ -252,11 +402,31 @@ export function initPhotoWidget(root: HTMLElement) {
     event.preventDefault();
   });
 
+  document.addEventListener("visibilitychange", onVisibilityChange);
+
+  const intersectionObserver = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0];
+      if (!entry) return;
+      lastTick = performance.now();
+      isVisible = entry.isIntersecting && !document.hidden;
+      if (!entry.isIntersecting) {
+        getActiveSlideVideo()?.pause();
+        return;
+      }
+      if (!document.hidden) {
+        syncActiveSlideVideo(false);
+      }
+    },
+    { threshold: 0.4 },
+  );
+  intersectionObserver.observe(root);
+
   window.addEventListener("resize", () => {
     setTranslate(-trackIndex * getSlideWidth(), false);
   });
 
   snapToTrackIndex(trackIndex, false);
   lastTick = performance.now();
-  rafId = window.requestAnimationFrame(tick);
+  window.requestAnimationFrame(tick);
 }
