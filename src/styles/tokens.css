@@ -8,9 +8,9 @@
   --color-accent: #ef3124;
   --color-accent-green: #30d158;
   /* Theme toggle: bright swatches per theme (always available for next-theme preview) */
-  --theme-swatch-dark-1: #f0c27a;
-  --theme-swatch-dark-2: #30d158;
-  --theme-swatch-dark-3: #ff5b50;
+  --theme-swatch-chocolate-1: #f0c27a;
+  --theme-swatch-chocolate-2: #30d158;
+  --theme-swatch-chocolate-3: #ff5b50;
   --theme-swatch-violet-1: #baff29;
   --theme-swatch-violet-2: #f472b6;
   --theme-swatch-violet-3: #8b5cf6;
@@ -23,6 +23,12 @@
   --theme-swatch-merlot-1: #e8ecef;
   --theme-swatch-merlot-2: #c9ced2;
   --theme-swatch-merlot-3: #7c2d42;
+  --theme-swatch-sage-1: #d4b483;
+  --theme-swatch-sage-2: #7fb894;
+  --theme-swatch-sage-3: #4a9268;
+  --theme-swatch-graphite-1: #e8e8ea;
+  --theme-swatch-graphite-2: #9a9a9e;
+  --theme-swatch-graphite-3: #55555c;
   --theme-swatch-light-1: #e89b3c;
   --theme-swatch-light-2: #2f984a;
   --theme-swatch-light-3: #ff5b50;

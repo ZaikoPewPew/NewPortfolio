@@ -1,8 +1,8 @@
-/* Тёплый рефреш — warm near-black вместо чистого #000 */
+/* Chocolate — тёплый near-black / шоколадный фон вместо чистого #000 */
 
-html[data-theme="dark"],
+html[data-theme="chocolate"],
 html:not([data-theme]),
-.theme-switch-veil[data-theme="dark"] {
+.theme-switch-veil[data-theme="chocolate"] {
   --color-bg-page: #121110;
   --color-bg: #121110;
   --color-bg-surface: #1d1b18;

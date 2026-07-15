@@ -170,7 +170,7 @@ Employer hover использует тот же контроллер через 
 | `experience/wash/wash.client.ts` | Canvas wash, `readWashTint()` |
 | `experience/wash/wash.css` | `.wash__canvas`, `.wash__grain` |
 
-Спека wash: [`src/experience/wash/`](../experience/wash/). Цвета — `--wash-tint-*` в `src/styles/themes/dark.css` / `light.css`. Видео-ассет — `public/images/widgets/currently-block/` (см. README в папке). Инициализация — `initEmployerName()` из `HomeOrchestrator.client.ts`; сброс при навигации — `resetEmployerName()`.
+Спека wash: [`src/experience/wash/`](../experience/wash/). Цвета — `--wash-tint-*` в `src/styles/themes/chocolate.css` / `light.css`. Видео-ассет — `public/images/widgets/currently-block/` (см. README в папке). Инициализация — `initEmployerName()` из `HomeOrchestrator.client.ts`; сброс при навигации — `resetEmployerName()`.
 
 ### Подключение
 

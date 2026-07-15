@@ -326,7 +326,7 @@ interpolate(m.header.employerAriaLabel, { employer: "alfa-bank" });
 
 ### Темы
 
-- `src/styles/themes/dark.css` — default (`data-theme="dark"` на `<html>`)
+- `src/styles/themes/chocolate.css` — default (`data-theme="chocolate"` на `<html>`)
 - `src/styles/themes/light.css` — светлая тема
 
 Переключение — `ThemeToggle` / хоткей `t` / dock. Анимация — `themeTransition.ts` (круговой reveal от точки клика).

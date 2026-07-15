@@ -48,12 +48,14 @@
   "theme": {
     "toggleAriaLabel": "Toggle theme",
     "names": {
-      "dark": "dark",
+      "chocolate": "chocolate",
       "light": "light",
       "violet": "violet",
       "clay": "clay",
       "amber": "amber",
-      "merlot": "merlot"
+      "merlot": "merlot",
+      "sage": "sage",
+      "graphite": "graphite"
     }
   },
   "themeWidget": {

@@ -24,6 +24,10 @@
 .photo-widget__track {
   display: flex;
   height: 100%;
+}
+
+/* Promote layer only while dragging — permanent will-change freezes <video> in Chrome. */
+.photo-widget.is-dragging .photo-widget__track {
   will-change: transform;
 }
 

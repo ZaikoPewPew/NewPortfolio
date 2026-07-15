@@ -1,0 +1,79 @@
+/* Sage & Gold — тёплый органический вайб.
+   Тренд: приглушённый шалфейный зелёный + тёплое золото как контрапункт
+   (популярная связка "organic wellness" в 2026, sage перестаёт быть
+   только пастельным и уходит в более глубокие тона). */
+
+html[data-theme="sage"],
+.theme-switch-veil[data-theme="sage"] {
+  --color-bg-page: #0a0f0c;
+  --color-bg: #0a0f0c;
+  --color-bg-surface: #141c17;
+  --color-bg-elevated: #1d2921;
+  --color-surface: #141c17;
+  --color-text-primary: #eef5f0;
+  --color-text-muted: #8fa89a;
+  --color-text-secondary: #8fa89a;
+  --color-text-subdued: rgba(238, 245, 240, 0.5);
+  --color-text-on-bg: #eef5f0;
+  --color-border: #2a3a2f;
+  --color-border-subtle: #1d2921;
+  --color-bg-control: #1d2921;
+  --color-bg-contrast: #eef5f0;
+  --color-text-on-contrast: #0a0f0c;
+
+  /* Хитмап — шалфейная шкала */
+  --color-git-cell-empty: #1d2921;
+  --color-git-cell-l1: #b8d9c0;
+  --color-git-cell-l2: #7fb894;
+  --color-git-cell-l3: #4a9268;
+  --color-git-cell-l4: #2c6144;
+
+  --color-accent: #7fb894;
+  --color-accent-green: #d4b483;
+
+  --color-link-hover: #d4b483;
+  --color-contact-button-hover-text: #0a0f0c;
+  --shadow-link-hover: inset 0 0 10px 0 rgba(212, 180, 131, 0.2);
+  --shadow-tooltip: 0 8px 16px -2px rgba(0, 0, 0, 0.34);
+
+  --wash-bg: #0a0f0c;
+  --wash-grain-opacity: 0.08;
+  --wash-grain-overlay: 0.12;
+  --wash-grain-mixer: 0.2;
+  --wash-palette-employer-bg: #0a0f0c;
+  --wash-palette-employer-1: #2c6144;
+  --wash-palette-employer-2: #2a3f30;
+  --wash-palette-employer-3: #0a0f0c;
+  --wash-tint-employer: #2c6144;
+
+  --wash-tint-email: #5b8def;
+  --wash-tint-linkedin: #0a66c2;
+  --wash-tint-telegram: #2aabee;
+  --wash-tint-github: #8b949e;
+  --wash-tint-x: #e7e9ea;
+  --wash-tint-cv: #8fa89a;
+
+  --wash-palette-case-bg: #0a0f0c;
+  --wash-palette-case-1: #b8923f;
+  --wash-palette-case-2: #4a9268;
+  --wash-palette-case-3: #0a0f0c;
+  --wash-tint-case: #b8923f;
+
+  --color-glass-bg: rgba(238, 245, 240, 0.13);
+  --color-glass-border: rgba(238, 245, 240, 0.22);
+  --color-glass-shine: rgba(255, 255, 255, 0.32);
+  --shadow-glass:
+    0 8px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 0 var(--color-glass-shine);
+
+  --book-ticket-bg-top: url("/images/widgets/book/Card-2.svg");
+  --book-ticket-bg-bottom: url("/images/widgets/book/Card-1.svg");
+  --color-book-ticket-text: #141c17;
+  --color-book-barcode: #141c17;
+
+  --color-photo-indicator: #ffffff;
+  --color-photo-indicator-progress: #0a0f0c;
+
+  --color-case-cursor-bg: color-mix(in srgb, var(--color-bg-surface) 50%, transparent);
+  --color-case-cursor-text: var(--color-text-primary);
+}

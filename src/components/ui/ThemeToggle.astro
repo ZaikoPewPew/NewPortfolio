@@ -59,7 +59,7 @@ const themeNames = m.theme.names;
         stroke-linejoin="round"></path>
     </svg>
   </button>
-  <Tooltip class="theme-toggle__tooltip" placement="bottom" lines={[themeNames.dark]} />
+  <Tooltip class="theme-toggle__tooltip" placement="bottom" lines={[themeNames.chocolate]} />
 </div>
 
 <style>
@@ -68,10 +68,10 @@ const themeNames = m.theme.names;
     display: inline-flex;
   }
 
-  .theme-toggle__host[data-next-theme="dark"] {
-    --color-theme-preview-1: var(--theme-swatch-dark-1);
-    --color-theme-preview-2: var(--theme-swatch-dark-2);
-    --color-theme-preview-3: var(--theme-swatch-dark-3);
+  .theme-toggle__host[data-next-theme="chocolate"] {
+    --color-theme-preview-1: var(--theme-swatch-chocolate-1);
+    --color-theme-preview-2: var(--theme-swatch-chocolate-2);
+    --color-theme-preview-3: var(--theme-swatch-chocolate-3);
   }
 
   .theme-toggle__host[data-next-theme="violet"] {
@@ -96,6 +96,18 @@ const themeNames = m.theme.names;
     --color-theme-preview-1: var(--theme-swatch-merlot-1);
     --color-theme-preview-2: var(--theme-swatch-merlot-2);
     --color-theme-preview-3: var(--theme-swatch-merlot-3);
+  }
+
+  .theme-toggle__host[data-next-theme="sage"] {
+    --color-theme-preview-1: var(--theme-swatch-sage-1);
+    --color-theme-preview-2: var(--theme-swatch-sage-2);
+    --color-theme-preview-3: var(--theme-swatch-sage-3);
+  }
+
+  .theme-toggle__host[data-next-theme="graphite"] {
+    --color-theme-preview-1: var(--theme-swatch-graphite-1);
+    --color-theme-preview-2: var(--theme-swatch-graphite-2);
+    --color-theme-preview-3: var(--theme-swatch-graphite-3);
   }
 
   .theme-toggle__host[data-next-theme="light"] {

@@ -1,0 +1,79 @@
+/* Graphite — чистый монохром без цвета.
+   Тренд: "функциональный минимализм" / quiet luxury — вообще без
+   цветного акцента, вся выразительность за счёт контраста и glow
+   на off-white. Хорошо контрастирует с остальными яркими темами. */
+
+html[data-theme="graphite"],
+.theme-switch-veil[data-theme="graphite"] {
+  --color-bg-page: #0b0b0c;
+  --color-bg: #0b0b0c;
+  --color-bg-surface: #17171a;
+  --color-bg-elevated: #202023;
+  --color-surface: #17171a;
+  --color-text-primary: #f2f2f3;
+  --color-text-muted: #9a9a9e;
+  --color-text-secondary: #9a9a9e;
+  --color-text-subdued: rgba(242, 242, 243, 0.5);
+  --color-text-on-bg: #f2f2f3;
+  --color-border: #2c2c30;
+  --color-border-subtle: #202023;
+  --color-bg-control: #202023;
+  --color-bg-contrast: #f2f2f3;
+  --color-text-on-contrast: #0b0b0c;
+
+  /* Хитмап — чисто серая шкала, без цвета */
+  --color-git-cell-empty: #202023;
+  --color-git-cell-l1: #c4c4c8;
+  --color-git-cell-l2: #9797a0;
+  --color-git-cell-l3: #6a6a72;
+  --color-git-cell-l4: #3f3f45;
+
+  --color-accent: #e8e8ea;
+  --color-accent-green: #e8e8ea;
+
+  --color-link-hover: #e8e8ea;
+  --color-contact-button-hover-text: #0b0b0c;
+  --shadow-link-hover: inset 0 0 10px 0 rgba(232, 232, 234, 0.16);
+  --shadow-tooltip: 0 8px 16px -2px rgba(0, 0, 0, 0.36);
+
+  --wash-bg: #0b0b0c;
+  --wash-grain-opacity: 0.08;
+  --wash-grain-overlay: 0.12;
+  --wash-grain-mixer: 0.2;
+  --wash-palette-employer-bg: #0b0b0c;
+  --wash-palette-employer-1: #4a4e57;
+  --wash-palette-employer-2: #33333a;
+  --wash-palette-employer-3: #0b0b0c;
+  --wash-tint-employer: #4a4e57;
+
+  --wash-tint-email: #5b8def;
+  --wash-tint-linkedin: #0a66c2;
+  --wash-tint-telegram: #2aabee;
+  --wash-tint-github: #8b949e;
+  --wash-tint-x: #e7e9ea;
+  --wash-tint-cv: #9a9a9e;
+
+  --wash-palette-case-bg: #0b0b0c;
+  --wash-palette-case-1: #55555c;
+  --wash-palette-case-2: #33333a;
+  --wash-palette-case-3: #0b0b0c;
+  --wash-tint-case: #55555c;
+
+  --color-glass-bg: rgba(242, 242, 243, 0.13);
+  --color-glass-border: rgba(242, 242, 243, 0.22);
+  --color-glass-shine: rgba(255, 255, 255, 0.32);
+  --shadow-glass:
+    0 8px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 0 var(--color-glass-shine);
+
+  --book-ticket-bg-top: url("/images/widgets/book/Card-2.svg");
+  --book-ticket-bg-bottom: url("/images/widgets/book/Card-1.svg");
+  --color-book-ticket-text: #17171a;
+  --color-book-barcode: #17171a;
+
+  --color-photo-indicator: #ffffff;
+  --color-photo-indicator-progress: #0b0b0c;
+
+  --color-case-cursor-bg: color-mix(in srgb, var(--color-bg-surface) 50%, transparent);
+  --color-case-cursor-text: var(--color-text-primary);
+}

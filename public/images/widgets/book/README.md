@@ -11,7 +11,7 @@
 
 ## Токены
 
-В `themes/dark.css` и `themes/light.css`:
+В `themes/chocolate.css` и `themes/light.css`:
 
 - `--book-ticket-bg-top` — фон верхней карточки
 - `--book-ticket-bg-bottom` — фон нижней

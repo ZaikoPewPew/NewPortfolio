@@ -1,5 +1,13 @@
 /** Active toggle cycle. Keep `"light"` out to hide it; CSS stays in themes/light.css. */
-export const THEME_SEQUENCE = ["dark", "violet", "clay", "amber", "merlot"] as const;
+export const THEME_SEQUENCE = [
+  "chocolate",
+  "violet",
+  "clay",
+  "amber",
+  "merlot",
+  "sage",
+  "graphite",
+] as const;
 
 export type ThemeMode = (typeof THEME_SEQUENCE)[number];
 
@@ -11,21 +19,25 @@ export interface UserPrefs {
 
 const STORAGE_KEY = "portfolio-preferences";
 
+/** Legacy ids still present in localStorage after renames. */
+const THEME_ALIASES: Record<string, ThemeMode> = {
+  dark: "chocolate",
+};
+
 const defaults: UserPrefs = {
   sound: true,
   haptics: true,
-  theme: "dark",
+  theme: "chocolate",
 };
 
 function normalizeTheme(value: unknown): ThemeMode {
-  if (
-    typeof value === "string" &&
-    (THEME_SEQUENCE as readonly string[]).includes(value)
-  ) {
+  if (typeof value !== "string") return defaults.theme;
+
+  if ((THEME_SEQUENCE as readonly string[]).includes(value)) {
     return value as ThemeMode;
   }
 
-  return defaults.theme;
+  return THEME_ALIASES[value] ?? defaults.theme;
 }
 
 export function getNextTheme(theme: ThemeMode): ThemeMode {

@@ -7,7 +7,7 @@ alwaysApply: true
 
 Все цвета, spacing, radius, typography, motion, z-index — **только** в `src/styles/tokens.css`.
 
-Темы — `src/styles/themes/dark.css` и `light.css` (переопределяют semantic tokens).
+Темы — `src/styles/themes/chocolate.css` (default) и `light.css` (переопределяют semantic tokens).
 
 ## Правила
 
