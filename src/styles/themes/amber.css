@@ -1,0 +1,78 @@
+/* Amber Static — retro-modern 70s/90s вайб.
+   Тренд: burnt orange / deep mustard / dusty cyan / vintage purple
+   на тёплой почти-чёрной коричневой базе. Ностальгия, но освежённая. */
+
+html[data-theme="amber"],
+.theme-switch-veil[data-theme="amber"] {
+  --color-bg-page: #110d08;
+  --color-bg: #110d08;
+  --color-bg-surface: #1c150d;
+  --color-bg-elevated: #261c11;
+  --color-surface: #1c150d;
+  --color-text-primary: #f7f0e4;
+  --color-text-muted: #b3a08a;
+  --color-text-secondary: #b3a08a;
+  --color-text-subdued: rgba(247, 240, 228, 0.5);
+  --color-text-on-bg: #f7f0e4;
+  --color-border: #3a2a1a;
+  --color-border-subtle: #261c11;
+  --color-bg-control: #261c11;
+  --color-bg-contrast: #f7f0e4;
+  --color-text-on-contrast: #110d08;
+
+  /* Хитмап — мустард-шкала */
+  --color-git-cell-empty: #261c11;
+  --color-git-cell-l1: #f0d38a;
+  --color-git-cell-l2: #e0ab3f;
+  --color-git-cell-l3: #c07f1e;
+  --color-git-cell-l4: #8a5310;
+
+  --color-accent: #e0ab3f;
+  --color-accent-green: #6fa8a3;
+
+  --color-link-hover: #6fa8a3;
+  --color-contact-button-hover-text: #110d08;
+  --shadow-link-hover: inset 0 0 10px 0 rgba(111, 168, 163, 0.2);
+  --shadow-tooltip: 0 8px 16px -2px rgba(0, 0, 0, 0.36);
+
+  --wash-bg: #110d08;
+  --wash-grain-opacity: 0.08;
+  --wash-grain-overlay: 0.12;
+  --wash-grain-mixer: 0.2;
+  --wash-palette-employer-bg: #110d08;
+  --wash-palette-employer-1: #5b3a6b;
+  --wash-palette-employer-2: #3d2c3f;
+  --wash-palette-employer-3: #110d08;
+  --wash-tint-employer: #5b3a6b;
+
+  --wash-tint-email: #5b8def;
+  --wash-tint-linkedin: #0a66c2;
+  --wash-tint-telegram: #2aabee;
+  --wash-tint-github: #8b949e;
+  --wash-tint-x: #e7e9ea;
+  --wash-tint-cv: #b3a08a;
+
+  --wash-palette-case-bg: #110d08;
+  --wash-palette-case-1: #3f7d78;
+  --wash-palette-case-2: #c07f1e;
+  --wash-palette-case-3: #110d08;
+  --wash-tint-case: #3f7d78;
+
+  --color-glass-bg: rgba(247, 240, 228, 0.13);
+  --color-glass-border: rgba(247, 240, 228, 0.22);
+  --color-glass-shine: rgba(255, 255, 255, 0.32);
+  --shadow-glass:
+    0 8px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 0 var(--color-glass-shine);
+
+  --book-ticket-bg-top: url("/images/widgets/book/Card-2.svg");
+  --book-ticket-bg-bottom: url("/images/widgets/book/Card-1.svg");
+  --color-book-ticket-text: #1c150d;
+  --color-book-barcode: #1c150d;
+
+  --color-photo-indicator: #ffffff;
+  --color-photo-indicator-progress: #110d08;
+
+  --color-case-cursor-bg: color-mix(in srgb, var(--color-bg-surface) 50%, transparent);
+  --color-case-cursor-text: var(--color-text-primary);
+}

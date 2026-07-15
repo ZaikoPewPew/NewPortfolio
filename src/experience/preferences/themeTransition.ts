@@ -19,6 +19,7 @@ function easeOutExpo(t: number): number {
   return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
 }
 
+/** Hole grows: transparent center reveals the already-switched page. */
 function maskGradient(x: number, y: number, radius: number): string {
   return `radial-gradient(circle at ${x}px ${y}px, transparent ${radius}px, #000 ${radius}px)`;
 }

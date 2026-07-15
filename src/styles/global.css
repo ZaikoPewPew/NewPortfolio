@@ -3,6 +3,8 @@
 @import "./themes/light.css";
 @import "./themes/violet.css";
 @import "./themes/clay.css";
+@import "./themes/amber.css";
+@import "./themes/merlot.css";
 @import "./reset.css";
 @import "./typography.css";
 @import "../experience/motion/motion.tokens.css";
@@ -26,7 +28,9 @@ html[data-theme="light"] {
 }
 
 html[data-theme="violet"],
-html[data-theme="clay"] {
+html[data-theme="clay"],
+html[data-theme="amber"],
+html[data-theme="merlot"] {
   color-scheme: dark;
 }
 

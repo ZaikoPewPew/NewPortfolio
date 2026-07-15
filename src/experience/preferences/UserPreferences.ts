@@ -1,5 +1,5 @@
 /** Active toggle cycle. Keep `"light"` out to hide it; CSS stays in themes/light.css. */
-export const THEME_SEQUENCE = ["dark", "violet", "clay"] as const;
+export const THEME_SEQUENCE = ["dark", "violet", "clay", "amber", "merlot"] as const;
 
 export type ThemeMode = (typeof THEME_SEQUENCE)[number];
 

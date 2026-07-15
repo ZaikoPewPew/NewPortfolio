@@ -51,7 +51,9 @@
       "dark": "dark",
       "light": "light",
       "violet": "violet",
-      "clay": "clay"
+      "clay": "clay",
+      "amber": "amber",
+      "merlot": "merlot"
     }
   },
   "themeWidget": {
