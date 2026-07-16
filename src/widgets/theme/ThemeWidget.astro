@@ -8,6 +8,7 @@ import {
   interpolate,
   resolveLocale,
 } from "../../i18n";
+import { stripBase } from "../../lib/withBase";
 import "./theme.styles.css";
 
 interface Props {
@@ -19,10 +20,11 @@ const locale = resolveLocale(Astro.currentLocale);
 const otherLocale = getOtherLocale(locale);
 const m = getMessages(locale);
 
+const pathWithoutBase = stripBase(Astro.url.pathname);
 const pathWithoutLocale =
   locale === "en"
-    ? Astro.url.pathname
-    : Astro.url.pathname.replace(new RegExp(`^/${locale}`), "") || "/";
+    ? pathWithoutBase
+    : pathWithoutBase.replace(new RegExp(`^/${locale}(?=/|$)`), "") || "/";
 
 const otherLocaleHref = getRelativeLocaleUrl(otherLocale, pathWithoutLocale);
 const panelId = "theme-widget-panel";
