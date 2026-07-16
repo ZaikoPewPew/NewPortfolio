@@ -24,6 +24,7 @@ const gallery = await getPhotoGallery();
               slide.mediaType === "video" ? (
                 <video
                   class="photo-widget__media"
+                  data-photo-video
                   src={slide.mediaUrl}
                   muted
                   playsinline

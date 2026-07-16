@@ -48,6 +48,16 @@
   user-select: none;
 }
 
+/*
+ * Own compositor layer so Chrome keeps painting video frames inside a
+ * translated track (otherwise <video> freezes on frame 0).
+ */
+.photo-widget__media[data-photo-video] {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
 .photo-widget__indicator {
   position: absolute;
   bottom: var(--space-sm);

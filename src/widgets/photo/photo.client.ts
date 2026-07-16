@@ -3,12 +3,13 @@ import { PHOTO_SLIDE_DURATION_MS } from "./config";
 
 const TICK_MS = 50;
 const VIDEO_END_EPSILON = 0.12;
-/** Must match `--motion-photo-slide` (650ms) — play during transform freezes Chrome frames. */
+/** Must match `--motion-photo-slide` (650ms). */
 const SLIDE_TRANSITION_MS = 650;
 
+const cleanupByRoot = new WeakMap<HTMLElement, () => void>();
+
 export function initPhotoWidget(root: HTMLElement) {
-  if (root.hasAttribute("data-bound")) return;
-  root.setAttribute("data-bound", "true");
+  cleanupByRoot.get(root)?.();
 
   const track = root.querySelector<HTMLElement>("[data-photo-track]");
   const indicator = root.querySelector<HTMLElement>("[data-photo-indicator]");
@@ -75,10 +76,11 @@ export function initPhotoWidget(root: HTMLElement) {
   let tickId: number | null = null;
   let mediaSyncId: number | null = null;
   let imageStartedAt = 0;
-  let videoFallbackStartedAt: number | null = null;
   let isAdvancing = false;
   let playGeneration = 0;
   const reducedMotion = prefersReducedMotion();
+  const abort = new AbortController();
+  const { signal } = abort;
 
   const getSlideWidth = () => root.clientWidth;
 
@@ -142,36 +144,33 @@ export function initPhotoWidget(root: HTMLElement) {
   const playActiveVideo = (video: HTMLVideoElement, generation: number) => {
     video.muted = true;
     video.preload = "auto";
-    videoFallbackStartedAt = null;
+    progress = 0;
+    updateProgressFill();
+
+    // Restart from 0 on revisit — otherwise ended videos are skipped on the next loop.
+    // Seek only the active slide after transform settle (inactive seek still freezes Chrome).
+    if (video.ended || video.currentTime > VIDEO_END_EPSILON) {
+      try {
+        video.currentTime = 0;
+      } catch {
+        // Ignore seek errors before metadata is ready.
+      }
+    }
 
     const tryPlay = () => {
       if (generation !== playGeneration) return;
       if (getActiveSlideVideo() !== video || !canAutoplay()) return;
-
-      void video.play().then(
-        () => {
-          if (generation !== playGeneration) return;
-          // Decoder alive but compositor stuck on frame 0 — hard reload media.
-          if (video.currentTime < 0.01) {
-            window.setTimeout(() => {
-              if (generation !== playGeneration) return;
-              if (getActiveSlideVideo() !== video || !canAutoplay()) return;
-              if (!video.paused && video.currentTime < 0.05) {
-                video.load();
-                void video.play().catch(() => {});
-              }
-            }, 250);
-          }
-        },
-        () => {
-          // Autoplay blocked — tick fallback keeps the carousel moving.
-        },
-      );
+      void video.play().catch(() => {
+        // Autoplay blocked — retry from tick while canAutoplay().
+      });
     };
 
     if (video.readyState < 2) {
-      video.addEventListener("loadeddata", tryPlay, { once: true });
-      video.load();
+      video.addEventListener("loadeddata", tryPlay, { once: true, signal });
+      // Network fetch if needed — not a compositor resuscitation.
+      if (video.networkState === HTMLMediaElement.NETWORK_EMPTY) {
+        video.load();
+      }
     }
     tryPlay();
   };
@@ -198,13 +197,12 @@ export function initPhotoWidget(root: HTMLElement) {
       playActiveVideo(activeVideo, generation);
     } else {
       imageStartedAt = performance.now() - progress * PHOTO_SLIDE_DURATION_MS;
-      videoFallbackStartedAt = null;
     }
 
     startTick();
   };
 
-  /** Play only after transform settles — otherwise Chrome shows a frozen first frame. */
+  /** Soft progress during slide transform, then sync media after settle. */
   const scheduleMediaSync = (immediate: boolean) => {
     cancelPendingMediaSync();
     pauseAllVideos();
@@ -215,13 +213,14 @@ export function initPhotoWidget(root: HTMLElement) {
       return;
     }
 
-    // Soft progress during the slide animation so the indicator doesn't freeze.
     imageStartedAt = performance.now();
-    videoFallbackStartedAt = null;
     startTick();
 
     mediaSyncId = window.setTimeout(() => {
       mediaSyncId = null;
+      // Video progress must start from zero, not soft-transition bleed.
+      progress = 0;
+      updateProgressFill();
       syncActiveMedia();
     }, SLIDE_TRANSITION_MS);
   };
@@ -236,7 +235,7 @@ export function initPhotoWidget(root: HTMLElement) {
         return;
       }
 
-      // Still waiting for transform to finish before trusting video clock.
+      // Soft indicator while waiting for transform to finish.
       if (mediaSyncId !== null) {
         progress = Math.min(
           1,
@@ -250,44 +249,30 @@ export function initPhotoWidget(root: HTMLElement) {
       const activeVideo = getActiveSlideVideo();
 
       if (activeVideo) {
-        if (activeVideo.paused && !activeVideo.ended) {
-          void activeVideo.play().catch(() => {});
-        }
-
         const duration = activeVideo.duration;
-        const isAdvancingVideo =
-          !activeVideo.paused && activeVideo.currentTime > 0.05;
-
-        if (isAdvancingVideo && Number.isFinite(duration) && duration > 0) {
-          videoFallbackStartedAt = null;
-          progress = Math.min(1, activeVideo.currentTime / duration);
-          updateProgressFill();
-
-          if (
-            activeVideo.ended ||
-            duration - activeVideo.currentTime <= VIDEO_END_EPSILON
-          ) {
-            advanceSlide();
-          }
+        if (!Number.isFinite(duration) || duration <= 0) {
           return;
         }
 
-        const slideDurationMs =
-          Number.isFinite(duration) && duration > 0
-            ? duration * 1000
-            : PHOTO_SLIDE_DURATION_MS;
+        const nearEnd =
+          activeVideo.ended ||
+          duration - activeVideo.currentTime <= VIDEO_END_EPSILON;
 
-        if (!videoFallbackStartedAt) {
-          videoFallbackStartedAt =
-            performance.now() - progress * slideDurationMs;
+        // Finished (or nearly) — advance. Do not restart here; playActiveVideo
+        // resets currentTime when this slide becomes active again.
+        if (nearEnd && activeVideo.currentTime > VIDEO_END_EPSILON) {
+          progress = 1;
+          updateProgressFill();
+          advanceSlide();
+          return;
         }
 
-        progress = Math.min(
-          1,
-          (performance.now() - videoFallbackStartedAt) / slideDurationMs,
-        );
+        if (activeVideo.paused) {
+          void activeVideo.play().catch(() => {});
+        }
+
+        progress = Math.min(1, activeVideo.currentTime / duration);
         updateProgressFill();
-        if (progress >= 1) advanceSlide();
         return;
       }
 
@@ -443,20 +428,29 @@ export function initPhotoWidget(root: HTMLElement) {
     }
   };
 
-  track.addEventListener("transitionend", (event) => {
+  const onResize = () => {
+    setTranslate(-trackIndex * getSlideWidth(), false);
+  };
+
+  const onTransitionEnd = (event: TransitionEvent) => {
     if (event.target !== track || event.propertyName !== "transform") return;
     normalizeTrackIndex();
-  });
+  };
 
-  root.addEventListener("pointerdown", onPointerDown);
-  root.addEventListener("pointermove", onPointerMove);
-  root.addEventListener("pointerup", onPointerUp);
-  root.addEventListener("pointercancel", onPointerUp);
-  root.addEventListener("dragstart", (event) => {
+  const onDragStart = (event: Event) => {
     event.preventDefault();
-  });
+  };
 
-  document.addEventListener("visibilitychange", onVisibilityChange);
+  track.addEventListener("transitionend", onTransitionEnd, { signal });
+  root.addEventListener("pointerdown", onPointerDown, { signal });
+  root.addEventListener("pointermove", onPointerMove, { signal });
+  root.addEventListener("pointerup", onPointerUp, { signal });
+  root.addEventListener("pointercancel", onPointerUp, { signal });
+  root.addEventListener("dragstart", onDragStart, { signal });
+  document.addEventListener("visibilitychange", onVisibilityChange, {
+    signal,
+  });
+  window.addEventListener("resize", onResize, { signal });
 
   const intersectionObserver = new IntersectionObserver(
     (entries) => {
@@ -478,9 +472,16 @@ export function initPhotoWidget(root: HTMLElement) {
   );
   intersectionObserver.observe(root);
 
-  window.addEventListener("resize", () => {
-    setTranslate(-trackIndex * getSlideWidth(), false);
-  });
+  const cleanup = () => {
+    abort.abort();
+    cancelPendingMediaSync();
+    stopTick();
+    pauseAllVideos();
+    intersectionObserver.disconnect();
+    root.classList.remove("is-dragging");
+    cleanupByRoot.delete(root);
+  };
+  cleanupByRoot.set(root, cleanup);
 
   snapToTrackIndex(trackIndex, false);
 }
