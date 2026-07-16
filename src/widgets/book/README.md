@@ -25,6 +25,7 @@
 - Hover-звук: `paper` (`data-feedback="paper"`, hover-only, без tap)
 - Штрихкод — PNG (`barcode.png`)
 - Фоны карточек — theme-aware SVG через `--book-ticket-bg-top` / `--book-ticket-bg-bottom`
+- Текстура «помятой бумаги» — статичный CSS-оверлей из `linear-gradient` линий сгибов (`::before` на обеих карточках, без ассетов). Тон/сила — `--book-crease-shadow` / `--book-crease-highlight` / `--book-crease-opacity`
 - `prefers-reduced-motion` отключает tear-анимацию
 
 ## i18n

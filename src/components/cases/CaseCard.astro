@@ -181,6 +181,17 @@ const href = getRelativeLocaleUrl(locale, `/cases/${slug}`);
     overflow-wrap: anywhere;
   }
 
+  @media (max-width: 639px) {
+    .case-card {
+      height: var(--case-card-height-mobile);
+    }
+
+    .case-card__tag {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .case-card__inner,
     .case-card__tag {

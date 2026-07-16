@@ -97,6 +97,11 @@
   min-height: calc(var(--font-size-sm) * var(--line-height-normal) * 2);
 }
 
+.me-widget__clock {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}
+
 .me-widget__desktop-only {
   display: block;
 }

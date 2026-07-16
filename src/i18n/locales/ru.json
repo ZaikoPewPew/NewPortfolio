@@ -58,11 +58,13 @@
       "graphite": "graphite"
     }
   },
+  "liveClock": {
+    "ariaLabel": "Местное время в {city}"
+  },
   "themeWidget": {
     "ariaLabel": "Настройки сайта",
     "openMenuAriaLabel": "Открыть настройки сайта",
     "closeMenuAriaLabel": "Закрыть настройки сайта",
-    "locationAriaLabel": "Местное время в {city}",
     "languageAriaLabel": "Сменить язык, сейчас: {locale}",
     "languageTooltip": "язык",
     "soundTooltip": "звуки",

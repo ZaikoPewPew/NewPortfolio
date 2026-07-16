@@ -54,8 +54,8 @@ function playOpenFromAnchor(widget: HTMLElement, trigger: HTMLElement) {
     const dy = oy - ly;
 
     const stoneIndex = Number(stone.dataset.stone ?? "1");
-    /* Closest to anchor (#4) leads; leftmost (#1) travels longest */
-    const lead = 5 - stoneIndex;
+    /* Closest to anchor leads; leftmost travels longest */
+    const lead = stones.length + 1 - stoneIndex;
     const delay = 20 + lead * 40;
     const duration = 440 + lead * 50;
 
@@ -68,7 +68,7 @@ function playOpenFromAnchor(widget: HTMLElement, trigger: HTMLElement) {
 
   stones.forEach((stone) => {
     const stoneIndex = Number(stone.dataset.stone ?? "1");
-    const lead = 5 - stoneIndex;
+    const lead = stones.length + 1 - stoneIndex;
     const delay = 20 + lead * 40;
     const duration = 440 + lead * 50;
 
@@ -170,28 +170,5 @@ export function initThemeWidget(root: ParentNode = document) {
         host.setAttribute("data-tooltip-dismissed", "");
       }
     });
-  });
-
-  root.querySelectorAll<HTMLElement>("[data-live-clock]").forEach((clock) => {
-    if (clock.hasAttribute("data-clock-bound")) return;
-    clock.setAttribute("data-clock-bound", "true");
-
-    const timezone = clock.getAttribute("data-timezone");
-    const timeEl = clock.querySelector("[data-clock-time]");
-    if (!timezone || !timeEl) return;
-
-    const update = () => {
-      timeEl.textContent = new Intl.DateTimeFormat("en-US", {
-        timeZone: timezone,
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true,
-      })
-        .format(new Date())
-        .toLowerCase();
-    };
-
-    update();
-    setInterval(update, 60_000);
   });
 }

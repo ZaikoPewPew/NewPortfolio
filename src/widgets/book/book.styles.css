@@ -28,6 +28,60 @@ html[data-theme="light"] .book-widget {
   border-radius: 0 0 var(--radius-widget) var(--radius-widget);
 }
 
+/* Помятая бумага: статичные линии сгибов (тёмная впадина + светлый гребень).
+   Один раз растеризуется, не перерисовывается, без внешних ассетов. */
+.book-widget__top::before,
+.book-widget__bottom::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--book-crease-opacity);
+  background-image:
+    linear-gradient(
+      26deg,
+      transparent 21.6%,
+      var(--book-crease-shadow) 22%,
+      var(--book-crease-highlight) 22.6%,
+      transparent 23%
+    ),
+    linear-gradient(
+      -38deg,
+      transparent 46.6%,
+      var(--book-crease-shadow) 47%,
+      var(--book-crease-highlight) 47.6%,
+      transparent 48%
+    ),
+    linear-gradient(
+      66deg,
+      transparent 62.6%,
+      var(--book-crease-highlight) 63%,
+      var(--book-crease-shadow) 63.6%,
+      transparent 64%
+    ),
+    linear-gradient(
+      -14deg,
+      transparent 77.6%,
+      var(--book-crease-shadow) 78%,
+      var(--book-crease-highlight) 78.6%,
+      transparent 79%
+    ),
+    linear-gradient(
+      81deg,
+      transparent 34.6%,
+      var(--book-crease-highlight) 35%,
+      var(--book-crease-shadow) 35.6%,
+      transparent 36%
+    ),
+    linear-gradient(
+      -58deg,
+      transparent 11.6%,
+      var(--book-crease-shadow) 12%,
+      transparent 12.4%
+    );
+}
+
 .book-widget__top {
   top: 0;
   height: var(--book-card-top-height);

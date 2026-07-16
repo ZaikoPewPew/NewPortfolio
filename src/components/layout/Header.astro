@@ -61,26 +61,6 @@ const m = getMessages(resolveLocale(Astro.currentLocale));
 
   @media (max-width: 639px) {
     .header {
-      padding-top: var(--header-padding-top-mobile);
-      padding-bottom: var(--layout-header-widget-gap-mobile);
-    }
-
-    .header__inner {
-      padding-inline: var(--layout-gutter-mobile);
-    }
-
-    .header__row {
-      min-height: var(--header-row-height-mobile);
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .header__employer {
-      font-size: var(--header-employer-size-mobile);
-      line-height: var(--line-height-normal);
-    }
-
-    .header__row :global(.theme-widget) {
       display: none;
     }
   }

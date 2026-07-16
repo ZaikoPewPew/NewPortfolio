@@ -58,11 +58,13 @@
       "graphite": "graphite"
     }
   },
+  "liveClock": {
+    "ariaLabel": "Local time in {city}"
+  },
   "themeWidget": {
     "ariaLabel": "Site preferences",
     "openMenuAriaLabel": "Open site preferences",
     "closeMenuAriaLabel": "Close site preferences",
-    "locationAriaLabel": "Local time in {city}",
     "languageAriaLabel": "Switch language, current: {locale}",
     "languageTooltip": "language",
     "soundTooltip": "sounds",

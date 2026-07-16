@@ -2,7 +2,6 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 import ThemeToggle from "../../components/ui/ThemeToggle.astro";
 import Tooltip from "../../components/ui/Tooltip.astro";
-import { siteConfig } from "../../config/site.config";
 import {
   getMessages,
   getOtherLocale,
@@ -19,7 +18,6 @@ const { class: className } = Astro.props;
 const locale = resolveLocale(Astro.currentLocale);
 const otherLocale = getOtherLocale(locale);
 const m = getMessages(locale);
-const { cityCode, city, timezone } = siteConfig.location;
 
 const pathWithoutLocale =
   locale === "en"
@@ -48,22 +46,9 @@ const panelId = "theme-widget-panel";
     >
       <div class="theme-widget__tray-clip">
         <div class="theme-widget__tray-inner">
-          <p
-            class="theme-widget__chip theme-widget__location theme-widget__stone"
-            data-stone="1"
-            data-live-clock
-            data-timezone={timezone}
-            aria-label={interpolate(m.themeWidget.locationAriaLabel, { city })}
-          >
-            <span class="theme-widget__pulse" aria-hidden="true"></span>
-            <span class="theme-widget__city">{cityCode}</span>
-            <span class="theme-widget__sep" aria-hidden="true">/</span>
-            <span class="theme-widget__time" data-clock-time>--:--</span>
-          </p>
-
           <div
             class="theme-widget__control theme-widget__stone"
-            data-stone="2"
+            data-stone="1"
             data-tooltip-host
           >
             <a
@@ -85,7 +70,7 @@ const panelId = "theme-widget-panel";
 
           <div
             class="theme-widget__control theme-widget__stone"
-            data-stone="3"
+            data-stone="2"
             data-tooltip-host
           >
             <button
@@ -140,7 +125,7 @@ const panelId = "theme-widget-panel";
             />
           </div>
 
-          <div class="theme-widget__stone" data-stone="4">
+          <div class="theme-widget__stone" data-stone="3">
             <ThemeToggle class="theme-widget__theme" />
           </div>
         </div>

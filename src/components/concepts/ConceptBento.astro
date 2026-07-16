@@ -59,6 +59,16 @@ function getTileHeight(rowSpan: 1 | 2 | undefined): string {
     background-color: var(--color-bg-surface);
   }
 
+  @media (max-width: 639px) {
+    .concept-bento {
+      margin-top: var(--layout-gutter-mobile);
+    }
+
+    .concept-bento__grid {
+      gap: var(--layout-gutter-mobile);
+    }
+  }
+
   @media (min-width: 640px) {
     .concept-bento__grid {
       display: grid;

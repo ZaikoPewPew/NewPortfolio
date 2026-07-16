@@ -1,11 +1,14 @@
 ---
 import { siteConfig } from "../../config/site.config";
+import { getMessages, interpolate, resolveLocale } from "../../i18n";
 
 interface Props {
   class?: string;
 }
 
 const { class: className } = Astro.props;
+const locale = resolveLocale(Astro.currentLocale);
+const m = getMessages(locale);
 const { city, timezone } = siteConfig.location;
 ---
 
@@ -13,6 +16,7 @@ const { city, timezone } = siteConfig.location;
   class:list={["live-clock", className]}
   data-live-clock
   data-timezone={timezone}
+  aria-label={interpolate(m.liveClock.ariaLabel, { city })}
 >
   <span class="live-clock__city">{city}</span>
   <span class="live-clock__time" data-clock-time>--:--</span>
@@ -29,13 +33,13 @@ const { city, timezone } = siteConfig.location;
   .live-clock {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     margin: 0;
     font-family: var(--font-family);
     font-weight: var(--font-weight-regular);
     font-size: var(--font-size-base);
     line-height: var(--line-height-normal);
-    text-align: right;
+    text-align: left;
     white-space: nowrap;
   }
 
@@ -45,21 +49,6 @@ const { city, timezone } = siteConfig.location;
 
   .live-clock__time {
     color: var(--color-text-subdued);
-  }
-
-  @media (max-width: 639px) {
-    .live-clock {
-      flex-direction: row;
-      align-items: center;
-    }
-
-    .live-clock__city {
-      display: none;
-    }
-
-    .live-clock__time {
-      font-size: var(--header-employer-size-mobile);
-      line-height: var(--line-height-normal);
-    }
+    font-variant-numeric: tabular-nums;
   }
 </style>

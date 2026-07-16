@@ -1,5 +1,6 @@
 ---
 import ContactButton from "../../components/ui/ContactButton.astro";
+import LiveClock from "../../components/ui/LiveClock.astro";
 import { getMessages, resolveLocale } from "../../i18n";
 import { getMeProfile } from "./data/me.source";
 import "./me.styles.css";
@@ -58,7 +59,7 @@ const m = getMessages(locale);
         </div>
 
         <div class="me-widget__back-body me-widget__desktop-only">
-          <!-- back-side content TBD -->
+          <LiveClock class="me-widget__clock" />
         </div>
 
         <div class="me-widget__desktop-only">

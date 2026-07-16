@@ -139,26 +139,6 @@
   cursor: default;
 }
 
-.theme-widget__location {
-  width: max-content;
-  gap: var(--space-sm);
-  padding-block: var(--space-control);
-  padding-inline: var(--space-md);
-}
-
-.theme-widget__pulse {
-  flex-shrink: 0;
-  width: var(--space-xs);
-  height: var(--space-xs);
-  border-radius: 50%;
-  background: var(--color-accent-green);
-  animation: theme-widget-pulse 1.8s var(--ease-out-expo) infinite;
-}
-
-.theme-widget__time {
-  font-variant-numeric: tabular-nums;
-}
-
 .theme-widget__control {
   position: relative;
   display: inline-flex;
@@ -219,16 +199,6 @@
   height: var(--space-2xl);
 }
 
-@keyframes theme-widget-pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.28;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .theme-widget__shell,
   .theme-widget__tray,
@@ -241,9 +211,5 @@
 
   .theme-widget[data-open] .theme-widget__stone {
     opacity: 1;
-  }
-
-  .theme-widget__pulse {
-    animation: none;
   }
 }

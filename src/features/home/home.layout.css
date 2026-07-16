@@ -131,6 +131,7 @@
 @media (max-width: 639px) {
   .home {
     padding-inline: var(--layout-gutter-mobile);
+    padding-top: var(--layout-gutter-mobile);
   }
 
   .home__cases {

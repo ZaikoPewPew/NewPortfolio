@@ -106,6 +106,10 @@
   --book-tear-distance: 12px;
   --book-tear-rotate: -4deg;
   --book-tear-shift-x: 3px;
+  /* Book widget — crumpled paper creases (static CSS overlay, no assets) */
+  --book-crease-shadow: rgba(0, 0, 0, 0.06);
+  --book-crease-highlight: rgba(255, 255, 255, 0.5);
+  --book-crease-opacity: 1;
   --color-link-hover: #ff5b50;
   --color-overlay-glass: rgba(255, 255, 255, 0.25);
   --blur-control: 4px;
@@ -307,6 +311,7 @@
   /* Case cards */
   --case-card-width: 458px;
   --case-card-height: 340px;
+  --case-card-height-mobile: 300px;
   --case-card-logo-size: 48px;
 
   /* Concept showcase — витрина под кейсами */
