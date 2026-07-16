@@ -31,6 +31,7 @@
 }
 
 .me-widget__face--back {
+  gap: 0;
   transform: rotateY(180deg);
 }
 
@@ -47,11 +48,6 @@
   height: var(--space-2xl);
   border-radius: var(--radius-control);
   object-fit: cover;
-}
-
-.me-widget__avatar--ghost {
-  display: block;
-  background: transparent;
 }
 
 .me-widget__identity {
@@ -83,6 +79,7 @@
 }
 
 .me-widget__bio {
+  flex: 1;
   width: 100%;
   line-height: var(--line-height-normal);
 }
@@ -91,15 +88,47 @@
   display: block;
 }
 
-.me-widget__back-body {
-  flex: 1;
+.me-widget__photo {
   width: 100%;
-  min-height: calc(var(--font-size-sm) * var(--line-height-normal) * 2);
+  height: 65px;
+  border-radius: var(--radius-control);
+  object-fit: cover;
 }
 
-.me-widget__clock {
+.me-widget__location-wrap {
+  width: 100%;
+  margin-block-start: var(--space-md);
+}
+
+.me-widget__location {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.me-widget__location-place,
+.me-widget__location-time {
+  font-family: var(--font-family);
   font-size: var(--font-size-sm);
-  line-height: var(--line-height-normal);
+  font-weight: var(--font-weight-regular);
+  line-height: 1;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.me-widget__location-place {
+  text-transform: lowercase;
+}
+
+.me-widget__location-time {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.me-widget__actions {
+  margin-block-start: auto;
 }
 
 .me-widget__desktop-only {

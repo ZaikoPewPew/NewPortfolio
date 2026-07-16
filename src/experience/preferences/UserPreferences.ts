@@ -60,6 +60,9 @@ function load(): UserPrefs {
 
 let prefs = load();
 
+type PrefsListener = (prefs: UserPrefs) => void;
+const listeners = new Set<PrefsListener>();
+
 export const userPreferences = {
   get(): UserPrefs {
     return { ...prefs };
@@ -71,6 +74,13 @@ export const userPreferences = {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
     }
     document.documentElement.dataset.theme = prefs.theme;
+    listeners.forEach((listener) => listener({ ...prefs }));
+  },
+
+  /** Notified after every `set()` — keeps prefs-driven UI in sync regardless of trigger (click, hotkey). Returns unsubscribe. */
+  subscribe(listener: PrefsListener): () => void {
+    listeners.add(listener);
+    return () => listeners.delete(listener);
   },
 
   toggleSound() {

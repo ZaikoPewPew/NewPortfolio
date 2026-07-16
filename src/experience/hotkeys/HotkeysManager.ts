@@ -20,8 +20,9 @@ function normalizeHotkey(event: KeyboardEvent): string | null {
   if (event.code === "KeyC") return "c";
   if (event.code === "KeyH") return "h";
   if (event.code === "KeyK") return "k";
-  if (event.code === "KeyM") return "m";
+  if (event.code === "KeyS") return "s";
   if (event.code === "KeyT") return "t";
+  if (event.code === "KeyL") return "l";
   if (event.code === "KeyB") return "b";
   if (event.key === "?") return "?";
   return event.key.length === 1 ? event.key.toLowerCase() : null;
@@ -39,6 +40,15 @@ function runAction(action: HotkeyAction, key: string) {
       const theme = toggleThemeWithTransition();
       feedback.emit({ sound: "tap", haptic: "light", source: "hotkey.theme" });
       console.info(`Theme: ${theme}`);
+      break;
+    }
+    case "switchLanguage": {
+      const link = document.querySelector<HTMLAnchorElement>(
+        "[data-theme-widget-language]"
+      );
+      if (!link) return;
+      feedback.emit({ sound: "tap", haptic: "light", source: "hotkey.language" });
+      navigate(link.href);
       break;
     }
     case "focusCases": {

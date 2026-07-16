@@ -94,6 +94,35 @@
   box-shadow: var(--shadow-tooltip);
 }
 
+.tooltip__content--with-keycap {
+  flex-direction: row;
+  gap: calc(var(--space-xs) + var(--space-2xs));
+}
+
+.tooltip__lines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--tooltip-line-gap);
+}
+
+.tooltip__keycap {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--keycap-size);
+  height: var(--keycap-size);
+  border: 1px solid var(--color-tooltip-text);
+  border-bottom-width: var(--keycap-border-bottom);
+  border-radius: var(--radius-keycap);
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  line-height: 1;
+  color: var(--color-tooltip-text);
+  opacity: 0.35;
+}
+
 .tooltip__line {
   margin: 0;
   font-family: var(--font-family);

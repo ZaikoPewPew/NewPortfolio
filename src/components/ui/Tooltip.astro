@@ -6,9 +6,11 @@ interface Props {
   class?: string;
   /** Default: above the host. Theme toggle uses `bottom`; bento side tiles use `left`/`right`. */
   placement?: "top" | "bottom" | "left" | "right";
+  /** Hotkey hint rendered as a keycap next to the text (e.g. `t`, `s`, `l`). */
+  keycap?: string;
 }
 
-const { lines, class: className, placement = "top" } = Astro.props;
+const { lines, class: className, placement = "top", keycap } = Astro.props;
 ---
 
 <div
@@ -34,8 +36,17 @@ const { lines, class: className, placement = "top" } = Astro.props;
         <div class="tooltip__caret tooltip__caret--side tooltip__caret--left" aria-hidden="true" />
       )
     }
-    <div class="tooltip__content">
-      {lines.map((line) => <p class="tooltip__line">{line}</p>)}
+    <div class:list={["tooltip__content", keycap && "tooltip__content--with-keycap"]}>
+      <div class="tooltip__lines">
+        {lines.map((line) => <p class="tooltip__line">{line}</p>)}
+      </div>
+      {
+        keycap && (
+          <span class="tooltip__keycap" aria-hidden="true">
+            {keycap}
+          </span>
+        )
+      }
     </div>
     {
       placement === "top" && (

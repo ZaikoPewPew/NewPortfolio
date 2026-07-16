@@ -57,6 +57,7 @@ const panelId = "theme-widget-panel";
               class="theme-widget__chip theme-widget__language"
               href={otherLocaleHref}
               data-feedback="tap hover"
+              data-theme-widget-language
               aria-label={interpolate(m.themeWidget.languageAriaLabel, {
                 locale,
               })}
@@ -67,6 +68,7 @@ const panelId = "theme-widget-panel";
               class="theme-widget__tooltip"
               placement="bottom"
               lines={[m.themeWidget.languageTooltip]}
+              keycap="l"
             />
           </div>
 
@@ -124,6 +126,7 @@ const panelId = "theme-widget-panel";
               class="theme-widget__tooltip"
               placement="bottom"
               lines={[m.themeWidget.soundTooltip]}
+              keycap="s"
             />
           </div>
 

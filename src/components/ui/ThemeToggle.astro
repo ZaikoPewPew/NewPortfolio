@@ -59,7 +59,7 @@ const themeNames = m.theme.names;
         stroke-linejoin="round"></path>
     </svg>
   </button>
-  <Tooltip class="theme-toggle__tooltip" placement="bottom" lines={[themeNames.chocolate]} />
+  <Tooltip class="theme-toggle__tooltip" placement="bottom" lines={[themeNames.chocolate]} keycap="t" />
 </div>
 
 <style>
@@ -182,6 +182,8 @@ const themeNames = m.theme.names;
   import { getNextTheme, userPreferences } from "../../experience/preferences/UserPreferences";
   import { initDragTooltips } from "./tooltip.client";
 
+  let themeSyncSubscribed = false;
+
   type ThemeNamesMap = Record<string, string>;
 
   function readThemeNames(host: Element): ThemeNamesMap {
@@ -243,6 +245,13 @@ const themeNames = m.theme.names;
   bindThemeToggle();
   initDragTooltips();
   updateThemeToggleTooltip();
+
+  /* Reflect theme state from any source (click, hotkey `t`). */
+  if (!themeSyncSubscribed) {
+    themeSyncSubscribed = true;
+    userPreferences.subscribe(() => updateThemeToggleTooltip());
+  }
+
   document.addEventListener("astro:page-load", () => bindThemeToggle());
   document.addEventListener("astro:page-load", () => initDragTooltips());
   document.addEventListener("astro:page-load", () => updateThemeToggleTooltip());

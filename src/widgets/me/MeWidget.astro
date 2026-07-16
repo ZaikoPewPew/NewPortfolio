@@ -1,13 +1,14 @@
 ---
 import ContactButton from "../../components/ui/ContactButton.astro";
-import LiveClock from "../../components/ui/LiveClock.astro";
-import { getMessages, resolveLocale } from "../../i18n";
+import { siteConfig } from "../../config/site.config";
+import { getMessages, interpolate, resolveLocale } from "../../i18n";
 import { getMeProfile } from "./data/me.source";
 import "./me.styles.css";
 
 const locale = resolveLocale(Astro.currentLocale);
 const profile = await getMeProfile(locale);
 const m = getMessages(locale);
+const { city, country, timezone } = siteConfig.location;
 ---
 
 <article
@@ -51,18 +52,28 @@ const m = getMessages(locale);
         aria-hidden="true"
         inert
       >
-        <div class="me-widget__header">
-          <span class="me-widget__avatar me-widget__avatar--ghost" aria-hidden="true"></span>
-          <div class="me-widget__identity">
-            <!-- back-side content TBD -->
+        <img
+          class="me-widget__photo"
+          src={profile.cityPhotoUrl}
+          alt=""
+          width="284"
+          height="65"
+          loading="lazy"
+        />
+
+        <div class="me-widget__location-wrap me-widget__desktop-only">
+          <div
+            class="me-widget__location"
+            data-live-clock
+            data-timezone={timezone}
+            aria-label={interpolate(m.liveClock.ariaLabel, { city })}
+          >
+            <span class="me-widget__location-place">{city} \ {country}</span>
+            <span class="me-widget__location-time" data-clock-time>--:--</span>
           </div>
         </div>
 
-        <div class="me-widget__back-body me-widget__desktop-only">
-          <LiveClock class="me-widget__clock" />
-        </div>
-
-        <div class="me-widget__desktop-only">
+        <div class="me-widget__actions me-widget__desktop-only">
           <ContactButton />
         </div>
       </div>
@@ -71,12 +82,14 @@ const m = getMessages(locale);
 </article>
 
 <script>
+  import { initLiveClock } from "../../components/ui/liveClock.client";
   import { initMeWidget } from "./me.client";
 
   function bindMeWidgets() {
     document.querySelectorAll("[data-me-widget]").forEach((widget) => {
       initMeWidget(widget as HTMLElement);
     });
+    initLiveClock();
   }
 
   bindMeWidgets();

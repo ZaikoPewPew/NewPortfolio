@@ -9,6 +9,7 @@ export const siteConfig = {
   },
   location: {
     city: "Almaty",
+    country: "Kazakhstan",
     cityCode: "ala",
     timezone: "Asia/Almaty",
   },

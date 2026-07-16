@@ -152,9 +152,23 @@ function initThemeWidgetMenus(root: ParentNode = document) {
   });
 }
 
+function syncAllSoundButtons() {
+  document
+    .querySelectorAll<HTMLElement>("[data-theme-widget-sound]")
+    .forEach(syncSoundButton);
+}
+
+let soundSyncSubscribed = false;
+
 export function initThemeWidget(root: ParentNode = document) {
   initThemeWidgetMenus(root);
   initDragTooltips(root);
+
+  /* Reflect sound state from any source (click, hotkey `s`). */
+  if (!soundSyncSubscribed) {
+    soundSyncSubscribed = true;
+    userPreferences.subscribe(syncAllSoundButtons);
+  }
 
   root.querySelectorAll<HTMLElement>("[data-theme-widget-sound]").forEach((btn) => {
     if (btn.hasAttribute("data-bound")) return;
@@ -162,7 +176,6 @@ export function initThemeWidget(root: ParentNode = document) {
     syncSoundButton(btn);
     btn.addEventListener("click", () => {
       userPreferences.toggleSound();
-      syncSoundButton(btn);
 
       const host = btn.closest<HTMLElement>("[data-tooltip-host]");
       if (host) {
