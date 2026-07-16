@@ -1,5 +1,6 @@
 ---
 import "./case-media.css";
+import { withBase } from "../../../lib/withBase";
 
 interface Props {
   src: string;
@@ -9,9 +10,10 @@ interface Props {
 }
 
 const { src, alt, caption, width = "content" } = Astro.props;
+const imageSrc = withBase(src);
 ---
 
 <figure class:list={["case-media", `case-media--${width}`]}>
-  <img class="case-media__media" src={src} alt={alt} loading="lazy" decoding="async" />
+  <img class="case-media__media" src={imageSrc} alt={alt} loading="lazy" decoding="async" />
   {caption && <figcaption class="case-media__caption">{caption}</figcaption>}
 </figure>

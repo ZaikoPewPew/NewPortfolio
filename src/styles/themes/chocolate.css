@@ -53,8 +53,8 @@ html:not([data-theme]),
     0 8px 40px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 0 var(--color-glass-shine);
 
-  --book-ticket-bg-top: url("/images/widgets/book/Card-2.svg");
-  --book-ticket-bg-bottom: url("/images/widgets/book/Card-1.svg");
+  --book-ticket-bg-top: url("../images/widgets/book/Card-2.svg");
+  --book-ticket-bg-bottom: url("../images/widgets/book/Card-1.svg");
   --color-book-ticket-text: #1d1b18;
   --color-book-barcode: #1d1b18;
 

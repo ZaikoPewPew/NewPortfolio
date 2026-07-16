@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import Tag from "../ui/Tag.astro";
 import { getCaseTitle } from "../../features/cases/getCaseTitle";
 import { resolveLocale } from "../../i18n";
+import { withBase } from "../../lib/withBase";
 
 interface Props {
   caseEntry: CollectionEntry<"cases">;
@@ -12,12 +13,13 @@ const { caseEntry } = Astro.props;
 const { year, tags, cover } = caseEntry.data;
 const slug = caseEntry.slug;
 const title = getCaseTitle(slug, resolveLocale(Astro.currentLocale));
+const coverSrc = withBase(cover);
 ---
 
 <header class="case-hero">
   <div class="case-hero__morph" data-case-morph>
     <div class="case-hero__media">
-      <img class="case-hero__cover" src={cover} alt="" decoding="async" />
+      <img class="case-hero__cover" src={coverSrc} alt="" decoding="async" />
     </div>
     <h1 class="case-hero__title">{title}</h1>
   </div>

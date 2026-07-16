@@ -1,4 +1,5 @@
 import type { WidgetConfig } from "../_shared/types";
+import { withBase } from "../../lib/withBase";
 
 export const bookConfig: WidgetConfig = {
   id: "book",
@@ -8,5 +9,5 @@ export const bookConfig: WidgetConfig = {
 };
 
 export const bookAssets = {
-  barcode: "/images/widgets/book/barcode.png",
+  barcode: withBase("/images/widgets/book/barcode.png"),
 } as const;

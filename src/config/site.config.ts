@@ -1,9 +1,11 @@
+import { withBase } from "../lib/withBase";
+
 export const siteConfig = {
   name: "Vladislav Kurguzov",
   employer: {
     label: "alfa-bank",
     url: "https://alfabank.ru/",
-    video: "/images/widgets/currently-block/fantech.mp4",
+    video: withBase("/images/widgets/currently-block/fantech.mp4"),
   },
   location: {
     city: "Almaty",

@@ -1,12 +1,13 @@
 import { readdirSync } from "node:fs";
 import { join } from "node:path";
 import type { PhotoGallery } from "./photo.types";
+import { withBase } from "../../../lib/withBase";
 
 const GALLERY_PUBLIC_DIR = join(
   process.cwd(),
   "public/images/widgets/photo-gallery",
 );
-const GALLERY_URL_PREFIX = "/images/widgets/photo-gallery";
+const GALLERY_URL_PREFIX = withBase("/images/widgets/photo-gallery");
 const MEDIA_PATTERN = /\.(avif|gif|jpe?g|png|webm|mp4|mov|m4v|webp)$/i;
 
 const ALT_BY_FILE: Record<string, string> = {

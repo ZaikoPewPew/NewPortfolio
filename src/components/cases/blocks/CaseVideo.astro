@@ -1,5 +1,6 @@
 ---
 import "./case-media.css";
+import { withBase } from "../../../lib/withBase";
 
 interface Props {
   src: string;
@@ -9,13 +10,15 @@ interface Props {
 }
 
 const { src, poster, caption, width = "content" } = Astro.props;
+const videoSrc = withBase(src);
+const posterSrc = poster ? withBase(poster) : undefined;
 ---
 
 <figure class:list={["case-media", `case-media--${width}`]}>
   <video
     class="case-media__media"
-    src={src}
-    poster={poster}
+    src={videoSrc}
+    poster={posterSrc}
     controls
     playsinline
     preload="metadata"

@@ -2,6 +2,7 @@
 import { ViewTransitions } from "astro:transitions";
 import { getMessages, resolveLocale } from "../i18n";
 import PageBackground from "../features/home/background/PageBackground.astro";
+import { withBase } from "../lib/withBase";
 
 interface Props {
   title?: string;
@@ -19,6 +20,8 @@ const {
 } = Astro.props;
 
 const enablePageEnter = page === "home" || page === "case";
+const iconHref = withBase("/images/widgets/icon.svg");
+const comforterFontHref = withBase("/fonts/Comforter-Regular.ttf");
 ---
 
 <!doctype html>
@@ -28,10 +31,10 @@ const enablePageEnter = page === "home" || page === "case";
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title}</title>
-    <link rel="icon" type="image/svg+xml" href="/images/widgets/icon.svg" />
+    <link rel="icon" type="image/svg+xml" href={iconHref} />
     <link
       rel="preload"
-      href="/fonts/Comforter-Regular.ttf"
+      href={comforterFontHref}
       as="font"
       type="font/ttf"
       crossorigin

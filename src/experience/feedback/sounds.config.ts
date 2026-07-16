@@ -1,3 +1,5 @@
+import { withBase } from "../../lib/withBase";
+
 export type SoundId =
   | "tap"
   | "hover"
@@ -15,14 +17,14 @@ export interface SoundConfig {
 }
 
 export const sounds: SoundConfig[] = [
-  { id: "tap", path: "/audio/tap_new.mp3", volume: 0.4 },
-  { id: "hover", path: "/audio/hover_new.mp3", volume: 0.35 },
-  { id: "hoverCard", path: "/audio/hover_card_new.mp3", volume: 0.35 },
-  { id: "hoverEmployer", path: "/audio/8bit_hover_new.mp3", volume: 0.35 },
-  { id: "paper", path: "/audio/paper_new.mp3", volume: 0.35 },
-  { id: "bubble", path: "/audio/buble_hover_new.mp3", volume: 0.35 },
-  { id: "swipe", path: "/audio/swipe_new.mp3", volume: 0.3 },
-  { id: "flip", path: "/audio/flip.mp3", volume: 0.4 },
+  { id: "tap", path: withBase("/audio/tap_new.mp3"), volume: 0.4 },
+  { id: "hover", path: withBase("/audio/hover_new.mp3"), volume: 0.35 },
+  { id: "hoverCard", path: withBase("/audio/hover_card_new.mp3"), volume: 0.35 },
+  { id: "hoverEmployer", path: withBase("/audio/8bit_hover_new.mp3"), volume: 0.35 },
+  { id: "paper", path: withBase("/audio/paper_new.mp3"), volume: 0.35 },
+  { id: "bubble", path: withBase("/audio/buble_hover_new.mp3"), volume: 0.35 },
+  { id: "swipe", path: withBase("/audio/swipe_new.mp3"), volume: 0.3 },
+  { id: "flip", path: withBase("/audio/flip.mp3"), volume: 0.4 },
 ];
 
 export const soundMap = Object.fromEntries(

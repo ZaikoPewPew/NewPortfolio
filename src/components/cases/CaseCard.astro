@@ -6,6 +6,7 @@ import { casesConfig } from "../../config/cases.config";
 import { siteConfig } from "../../config/site.config";
 import { getCaseTitle } from "../../features/cases/getCaseTitle";
 import { resolveLocale } from "../../i18n";
+import { withBase } from "../../lib/withBase";
 
 interface Props {
   caseEntry: CollectionEntry<"cases">;
@@ -16,8 +17,16 @@ const { tags, hover, card } = caseEntry.data;
 const slug = caseEntry.slug;
 const locale = resolveLocale(Astro.currentLocale);
 const title = getCaseTitle(slug, locale);
-const logo = card?.logo ?? casesConfig.cardLogoPlaceholder;
+const logo = withBase(card?.logo ?? casesConfig.cardLogoPlaceholder);
 const href = getRelativeLocaleUrl(locale, `/cases/${slug}`);
+const hoverVideo = hover.previewVideo
+  ? withBase(hover.previewVideo)
+  : !hover.previewImage
+    ? siteConfig.employer.video
+    : undefined;
+const hoverImage = hover.previewImage && !hover.previewVideo
+  ? withBase(hover.previewImage)
+  : undefined;
 ---
 
 <a
@@ -26,8 +35,8 @@ const href = getRelativeLocaleUrl(locale, `/cases/${slug}`);
   data-case-card
   data-case-nav
   data-case-slug={slug}
-  data-hover-video={hover.previewVideo ?? (!hover.previewImage ? siteConfig.employer.video : undefined)}
-  data-hover-image={!hover.previewVideo ? hover.previewImage : undefined}
+  data-hover-video={hoverVideo}
+  data-hover-image={hoverImage}
   tabindex="0"
 >
   <article
