@@ -5,9 +5,13 @@ GitHub: username, contribution heatmap.
 ## Данные
 
 - mock: `data/git.mock.ts` — статичная heatmap из Figma
-- api: contributions API (`data/git.api.ts`) → последние 108 дней аккаунта из `site.config.ts` → `social.github`
+- api: contributions API (`data/git.api.ts`) → аккаунт из `site.config.ts` → `social.github`
+- Окна:
+  - heatmap — последние **108** дней (сетка 18×6)
+  - счётчик — **последний год** (`?y=last`, ~365 дней)
+- SSG отдаёт снимок на билде; `git.client.ts` сразу после загрузки подтягивает live API (CORS `*`)
 - Переключатель: `PUBLIC_GITHUB_MODE=mock|api` (default: `api`)
-- При ошибке API — fallback на mock
+- При ошибке API — fallback на mock (билд) / оставляем SSG-снимок (клиент)
 - Статус: **live**
 
 ## UX

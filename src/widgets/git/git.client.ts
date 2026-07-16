@@ -1,3 +1,16 @@
+import { getMessages, interpolate } from "../../i18n";
+import {
+  fetchGitContributions,
+  GIT_HEATMAP_COLS,
+  GIT_HEATMAP_SIZE,
+} from "./data/git.api";
+import type { GitContributionLevel } from "./data/git.types";
+import { formatContributionDate } from "./formatContributionDate";
+
+function clearLevelClasses(cell: HTMLElement) {
+  cell.className = cell.className.replace(/\bgit-widget__cell--l[1-4]\b/g, "").trim();
+}
+
 function initGitCellTooltips(root: HTMLElement, heatmap: HTMLElement) {
   const shell = root.parentElement ?? root;
   const tooltipHost = shell.querySelector<HTMLElement>("[data-git-tooltip-host]");
@@ -92,6 +105,61 @@ function initWholeWidgetLink(root: HTMLElement) {
   });
 }
 
+function usernameFromProfileUrl(profileUrl: string): string | null {
+  const trimmed = profileUrl.replace(/\/$/, "");
+  const username = trimmed.split("/").pop();
+  return username || null;
+}
+
+function levelClass(level: GitContributionLevel): string {
+  return level === 0 ? "" : `git-widget__cell--l${level}`;
+}
+
+async function refreshLiveContributions(root: HTMLElement) {
+  const profileUrl = root.dataset.gitProfileUrl;
+  if (!profileUrl) return;
+
+  const username = usernameFromProfileUrl(profileUrl);
+  if (!username) return;
+
+  try {
+    const live = await fetchGitContributions(username);
+    const cells = root.querySelectorAll<HTMLElement>("[data-git-cell]");
+    if (cells.length !== live.heatmap.length) return;
+
+    const lastRowStartIndex = GIT_HEATMAP_SIZE - GIT_HEATMAP_COLS;
+
+    live.heatmap.forEach((day, index) => {
+      const cell = cells[index];
+      if (!cell) return;
+
+      clearLevelClasses(cell);
+      const nextLevel = levelClass(day.level);
+      if (nextLevel) cell.classList.add(nextLevel);
+
+      if (index < lastRowStartIndex) {
+        cell.dataset.tooltipLabel = formatContributionDate(day.date);
+      } else {
+        delete cell.dataset.tooltipLabel;
+      }
+    });
+
+    const commitsLayer = root.querySelector<HTMLElement>(
+      ".git-widget__username-layer--commits",
+    );
+    if (commitsLayer) {
+      const m = getMessages();
+      commitsLayer.textContent = interpolate(m.git.commitsPerYear, {
+        count: new Intl.NumberFormat(
+          document.documentElement.lang || undefined,
+        ).format(live.commitsPerYear),
+      });
+    }
+  } catch (error) {
+    console.warn("[git-widget] live refresh failed:", error);
+  }
+}
+
 export function initGitWidget(root: HTMLElement) {
   if (root.hasAttribute("data-bound")) return;
   root.setAttribute("data-bound", "true");
@@ -103,4 +171,5 @@ export function initGitWidget(root: HTMLElement) {
 
   initWholeWidgetLink(root);
   initGitCellTooltips(root, heatmap);
+  void refreshLiveContributions(root);
 }

@@ -11,12 +11,17 @@ import type {
 export { GIT_HEATMAP_COLS, GIT_HEATMAP_ROWS, GIT_HEATMAP_SIZE } from "./git.constants";
 
 interface ContributionsResponse {
+  total?: {
+    lastYear?: number;
+  };
   contributions: Array<{
     date: string;
     count: number;
     level: number;
   }>;
 }
+
+const CONTRIBUTIONS_API = "https://github-contributions-api.jogruber.de/v4";
 
 function getGithubUsername(): string {
   const url = siteConfig.social.github;
@@ -50,30 +55,39 @@ export function mapContributionsToHeatmap(
   }));
 }
 
+/** Live contributions for the last year (`?y=last`). Safe in browser (CORS *). */
+export async function fetchGitContributions(
+  username: string,
+): Promise<Pick<GitProfile, "heatmap" | "commitsPerYear">> {
+  const response = await fetch(`${CONTRIBUTIONS_API}/${username}?y=last`, {
+    headers: { Accept: "application/json" },
+  });
+
+  if (!response.ok) {
+    throw new Error(`GitHub contributions API: ${response.status}`);
+  }
+
+  const data = (await response.json()) as ContributionsResponse;
+  const commitsPerYear =
+    data.total?.lastYear ??
+    data.contributions.reduce((sum, day) => sum + day.count, 0);
+
+  return {
+    heatmap: mapContributionsToHeatmap(data.contributions),
+    commitsPerYear,
+  };
+}
+
 export async function getApiGitProfile(): Promise<GitProfile> {
   const username = getGithubUsername();
 
   try {
-    const response = await fetch(
-      `https://github-contributions-api.jogruber.de/v4/${username}?y=last`,
-      { headers: { Accept: "application/json" } },
-    );
-
-    if (!response.ok) {
-      throw new Error(`GitHub contributions API: ${response.status}`);
-    }
-
-    const data = (await response.json()) as ContributionsResponse;
-    const commitsPerYear = data.contributions.reduce(
-      (sum, day) => sum + day.count,
-      0,
-    );
+    const live = await fetchGitContributions(username);
 
     return {
       username: `@${username}`,
       profileUrl: siteConfig.social.github,
-      heatmap: mapContributionsToHeatmap(data.contributions),
-      commitsPerYear,
+      ...live,
     };
   } catch (error) {
     console.warn("[git-widget] API failed, using mock:", error);
