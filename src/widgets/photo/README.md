@@ -11,6 +11,7 @@
 - mock: `data/photo.mock.ts` (файлы из `public/images/widgets/photo-gallery`, поддержка image + video)
 - api: `data/photo.api.ts` (planned)
 - Переключатель: `PUBLIC_PHOTO_MODE=mock|api`
+- Видео для веба: **H.264 (avc1) + `.mp4` lowercase**. HEVC/H.265 играет в Safari локально, но ломается в Chrome/Firefox на GitHub Pages
 
 ## UX
 

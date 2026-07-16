@@ -1,4 +1,4 @@
-import { readdirSync } from "node:fs";
+import { readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import type { PhotoGallery } from "./photo.types";
 import { withBase } from "../../../lib/withBase";
@@ -32,13 +32,19 @@ function getMediaType(fileName: string): "image" | "video" {
   return /\.(webm|mp4|mov|m4v)$/i.test(fileName) ? "video" : "image";
 }
 
+/** Bust Chrome media cache after re-encode (hard refresh often keeps old video bytes). */
+function mediaCacheKey(fileName: string): string {
+  const { mtimeMs, size } = statSync(join(GALLERY_PUBLIC_DIR, fileName));
+  return `${Math.round(mtimeMs)}-${size}`;
+}
+
 export function getMockPhotoGallery(): PhotoGallery {
   const files = getGalleryImageFiles();
 
   return {
     slides: files.map((file, index) => ({
       id: String(index + 1),
-      mediaUrl: `${GALLERY_URL_PREFIX}/${file}`,
+      mediaUrl: `${GALLERY_URL_PREFIX}/${file}?v=${mediaCacheKey(file)}`,
       mediaType: getMediaType(file),
       alt: ALT_BY_FILE[file] ?? `Фото ${index + 1}`,
     })),
