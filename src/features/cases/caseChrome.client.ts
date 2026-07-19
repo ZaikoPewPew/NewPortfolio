@@ -10,8 +10,6 @@ const HIDE_AFTER_DOWN_PX = 72;
 const SHOW_AFTER_UP_PX = 3;
 /** Always visible near the top of the case */
 const TOP_REVEAL_ZONE_PX = 120;
-/** Always visible near the end — natural pause for navigation */
-const BOTTOM_REVEAL_ZONE_PX = 160;
 
 let scrollBound = false;
 let lastY = 0;
@@ -38,20 +36,9 @@ function getNav(): HTMLElement | null {
   return document.querySelector<HTMLElement>("[data-navigation-widget]");
 }
 
-/** Keep chrome up while theme menu is open or focus is inside the header */
-function shouldPinChrome(header: HTMLElement | null): boolean {
-  if (!header) return false;
-  if (header.matches(":focus-within")) return true;
-  return Boolean(header.querySelector("[data-theme-widget][data-open]"));
-}
-
 function setChromeHidden(hidden: boolean) {
   const header = getHeader();
   const nav = getNav();
-
-  if (hidden && shouldPinChrome(header)) {
-    hidden = false;
-  }
 
   if (header) {
     if (isCasePage()) {
@@ -66,12 +53,6 @@ function setChromeHidden(hidden: boolean) {
   }
 }
 
-function revealChrome() {
-  downTravel = 0;
-  upTravel = 0;
-  setChromeHidden(false);
-}
-
 function update() {
   ticking = false;
 
@@ -82,8 +63,13 @@ function update() {
   }
 
   const nav = getNav();
-  const y = window.scrollY;
-  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const maxScroll = Math.max(
+    0,
+    document.documentElement.scrollHeight - window.innerHeight
+  );
+  /* Clamp out elastic overscroll: the rubber-band settle at the bottom
+     reads as an upward delta and would falsely reveal the chrome. */
+  const y = Math.min(Math.max(window.scrollY, 0), maxScroll);
 
   if (nav) {
     nav.style.setProperty(
@@ -95,11 +81,12 @@ function update() {
   const delta = y - lastY;
   lastY = y;
 
-  const nearTop = y <= TOP_REVEAL_ZONE_PX;
-  const nearBottom = maxScroll - y <= BOTTOM_REVEAL_ZONE_PX;
-
-  if (nearTop || nearBottom || shouldPinChrome(getHeader())) {
-    revealChrome();
+  /* Direction only decides visibility — no forced reveal at the bottom,
+     chrome stays hidden until the reader actually scrolls up. */
+  if (y <= TOP_REVEAL_ZONE_PX) {
+    downTravel = 0;
+    upTravel = 0;
+    setChromeHidden(false);
     return;
   }
 

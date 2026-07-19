@@ -1,0 +1,23 @@
+---
+description: Git push всегда включает деплой на GitHub Pages
+alwaysApply: true
+---
+
+# Git push → GitHub Pages
+
+Когда пользователь просит **git push**, **пуш**, **запушить**, **в пейджес** / **GitHub Pages** — делать полный цикл:
+
+1. **Commit** (если есть незакоммиченные изменения) — по user rules для коммитов
+2. **Push** в `origin` текущей ветки (`git push origin HEAD`)
+3. **Дождаться деплоя Pages** — workflow `.github/workflows/deploy-pages.yml` срабатывает на push в `main`
+
+## Как проверять Pages
+
+- После пуша в `main` запросить последний run workflow и дождаться `completed success`
+- Сайт: `https://zaikopewpew.github.io/NewPortfolio/`
+- Run: `https://api.github.com/repos/ZaikoPewPew/NewPortfolio/actions/workflows/deploy-pages.yml/runs?per_page=1`
+
+## Исключения
+
+- Пуш **не в `main`** — Pages не деплоится автоматически; предупредить и спросить, мержить ли в `main`
+- Если пользователь явно сказал «только коммит» / «без пуша» — не пушить и не деплоить
