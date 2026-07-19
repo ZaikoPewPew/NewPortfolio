@@ -32,7 +32,7 @@
 |--------|---------------|
 | Новый виджет | `src/widgets/<id>/`, регистрация в `registry.ts` (кроме theme / navigation) |
 | Навигация кейса | `src/widgets/navigation/` — CasePage, не в bento |
-| Chrome кейса (хедер + nav hide) | `src/features/cases/caseChrome.client.ts` |
+| Chrome кейса (прогресс чтения, кнопка «наверх») | `src/features/cases/caseChrome.client.ts` |
 | Hover кейсов | `src/features/home/case-hover/` |
 | Звук / вибро | `src/experience/feedback/FeedbackBus.ts` |
 | Хоткеи | `src/experience/hotkeys/hotkeys.config.ts` |

@@ -1,34 +1,16 @@
 .navigation-widget {
   position: fixed;
   bottom: var(--space-md);
-  left: 50%;
+  left: var(--space-md);
   z-index: var(--z-dock);
   display: flex;
   align-items: flex-start;
-  gap: var(--space-sm);
   padding: var(--space-sm);
   border-radius: var(--radius-widget);
   /* Same glass treatment as the header */
   background: color-mix(in srgb, var(--color-bg-surface) 78%, transparent);
   backdrop-filter: blur(var(--blur-header-glass)) saturate(1.4);
   -webkit-backdrop-filter: blur(var(--blur-header-glass)) saturate(1.4);
-  transform: translate(-50%, 0);
-  transition:
-    transform var(--motion-slow) var(--ease-spring-soft),
-    opacity var(--motion-slow) var(--ease-spring-soft),
-    visibility 0s;
-}
-
-/* Slide below the viewport edge while reading down */
-.navigation-widget[data-hidden] {
-  transform: translate(-50%, calc(100% + var(--space-md)));
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition:
-    transform var(--motion-slow) var(--ease-spring-soft),
-    opacity var(--motion-slow) var(--ease-spring-soft),
-    visibility 0s var(--motion-slow);
 }
 
 .navigation-widget__btn {
@@ -52,6 +34,32 @@
 
 .navigation-widget__btn:hover {
   color: var(--color-link-hover);
+}
+
+/* Scroll-top button is collapsed until the reader scrolls down the case;
+   once revealed it stays until they return to the top */
+.navigation-widget__btn--scroll-top {
+  margin-left: var(--space-sm);
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    width var(--motion-slow) var(--ease-spring-soft),
+    margin-left var(--motion-slow) var(--ease-spring-soft),
+    padding var(--motion-slow) var(--ease-spring-soft),
+    opacity var(--motion-slow) var(--ease-spring-soft),
+    transform var(--motion-slow) var(--ease-spring-soft),
+    color var(--motion-base) var(--ease-out-expo);
+}
+
+.navigation-widget:not([data-scrolled]) .navigation-widget__btn--scroll-top {
+  width: 0;
+  margin-left: 0;
+  padding-right: 0;
+  padding-left: 0;
+  opacity: 0;
+  transform: scale(0.6);
+  overflow: hidden;
+  pointer-events: none;
 }
 
 .navigation-widget__icon {
@@ -83,6 +91,7 @@
 @media (prefers-reduced-motion: reduce) {
   .navigation-widget,
   .navigation-widget__btn,
+  .navigation-widget__btn--scroll-top,
   .navigation-widget__ring-path {
     transition: none;
   }
