@@ -90,21 +90,26 @@
     "tiles": {
       "mychannel": {
         "label": "My blog",
-        "tooltip": ["my blog", "1.1k subs"]
+        "tooltipTitle": "my blog",
+        "tooltipMetric": "{count} subs",
+        "tooltipMetricFallback": "1.1k subs"
       },
       "ies": {
         "label": "IES",
-        "tooltip": ["my pet project", "1.8k users"]
+        "tooltipTitle": "my pet project",
+        "tooltipMetric": "{count} users",
+        "tooltipMetricFallback": "1.8k users"
       },
       "youtube": {
         "label": "YouTube — Design Lead",
         "caption": ["Design", "Lead"],
-        "tooltip": ["my youtube", "22k subs"]
+        "tooltipTitle": "my youtube",
+        "tooltipMetric": "{count} subs",
+        "tooltipMetricFallback": "22k subs"
       }
     }
   },
   "cases": {
-    "hoverCursor": "open",
     "titles": {
       "project-alpha": "Merchant Acquiring Calculator Redesign",
       "project-beta": "One initiative ended three years of marketing and business disputes",

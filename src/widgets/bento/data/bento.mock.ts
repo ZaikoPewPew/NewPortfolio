@@ -1,11 +1,33 @@
-import { getMessages, type Locale } from "../../../i18n";
-import type { BentoData } from "./bento.types";
+import { getMessages, interpolate, type Locale } from "../../../i18n";
+import type { BentoData, BentoTile } from "./bento.types";
 
-const TILE_HREFS = {
+export const TILE_HREFS = {
   mychannel: "https://t.me/dsgn_thinking",
   ies: "https://t.me/howlhouse_bot",
   youtube: "https://www.youtube.com/@DesignLeadd",
 } as const;
+
+/** Public pages used only for build-time metric scraping (may differ from tile href). */
+export const METRIC_SOURCES = {
+  mychannel: "https://t.me/dsgn_thinking",
+  ies: "https://t.me/ies_app",
+  youtube: "https://www.youtube.com/@DesignLeadd",
+} as const;
+
+type MetricTileId = keyof typeof METRIC_SOURCES;
+
+function tooltipForTile(
+  id: MetricTileId,
+  countLabel: string | "fallback",
+  locale?: Locale,
+): [string, string] {
+  const tile = getMessages(locale).bento.tiles[id];
+  const metric =
+    countLabel === "fallback"
+      ? tile.tooltipMetricFallback
+      : interpolate(tile.tooltipMetric, { count: countLabel });
+  return [tile.tooltipTitle, metric];
+}
 
 export function getMockBentoData(locale?: Locale): BentoData {
   const { bento } = getMessages(locale);
@@ -17,7 +39,7 @@ export function getMockBentoData(locale?: Locale): BentoData {
         label: bento.tiles.mychannel.label,
         href: TILE_HREFS.mychannel,
         variant: "mychannel",
-        tooltip: [...bento.tiles.mychannel.tooltip],
+        tooltip: tooltipForTile("mychannel", "fallback", locale),
         tooltipPlacement: "left",
       },
       {
@@ -25,7 +47,7 @@ export function getMockBentoData(locale?: Locale): BentoData {
         label: bento.tiles.ies.label,
         href: TILE_HREFS.ies,
         variant: "ies",
-        tooltip: [...bento.tiles.ies.tooltip],
+        tooltip: tooltipForTile("ies", "fallback", locale),
         tooltipPlacement: "right",
       },
       {
@@ -34,9 +56,27 @@ export function getMockBentoData(locale?: Locale): BentoData {
         href: TILE_HREFS.youtube,
         variant: "youtube",
         caption: [...bento.tiles.youtube.caption],
-        tooltip: [...bento.tiles.youtube.tooltip],
+        tooltip: tooltipForTile("youtube", "fallback", locale),
         tooltipPlacement: "right",
       },
     ],
   };
+}
+
+export function tileTooltipWithCount(
+  id: MetricTileId,
+  countLabel: string,
+  locale?: Locale,
+): [string, string] {
+  return tooltipForTile(id, countLabel, locale);
+}
+
+export function withTileTooltip(
+  tiles: BentoTile[],
+  id: MetricTileId,
+  countLabel: string,
+  locale?: Locale,
+): BentoTile[] {
+  const tooltip = tileTooltipWithCount(id, countLabel, locale);
+  return tiles.map((tile) => (tile.id === id ? { ...tile, tooltip } : tile));
 }

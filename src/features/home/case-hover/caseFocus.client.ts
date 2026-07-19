@@ -5,13 +5,6 @@ import {
   resetCurrentlyBlock,
   type CurrentlyBlockActivateOptions,
 } from "../../../components/ui/currentlyBlock.client";
-import {
-  activateCaseCursor,
-  deactivateCaseCursor,
-  initCaseCursor,
-  moveCaseCursor,
-  resetCaseCursor,
-} from "./caseCursor.client";
 
 let activeCard: HTMLAnchorElement | null = null;
 let isActive = false;
@@ -48,7 +41,6 @@ function unbindDocumentPointerMove() {
 
 export function initCaseFocus() {
   if (isDisabled()) return;
-  initCaseCursor();
   getCurrentlyBlock();
 }
 
@@ -59,7 +51,6 @@ export function activateCaseFocus(card: HTMLAnchorElement, clientX: number, clie
 
   if (isActive && activeCard === card) {
     block.movePointer(clientX, clientY);
-    moveCaseCursor(clientX, clientY);
     return;
   }
 
@@ -71,7 +62,6 @@ export function activateCaseFocus(card: HTMLAnchorElement, clientX: number, clie
   activeCard = card;
 
   block.activate(clientX, clientY, readBlockOptions(card));
-  activateCaseCursor(clientX, clientY);
   feedback.emit({ sound: "hoverCard", source: "case.hover" });
 
   bindDocumentPointerMove();
@@ -80,7 +70,6 @@ export function activateCaseFocus(card: HTMLAnchorElement, clientX: number, clie
 export function moveCaseFocusPointer(clientX: number, clientY: number) {
   if (!isActive) return;
   getCurrentlyBlock().movePointer(clientX, clientY);
-  moveCaseCursor(clientX, clientY);
 }
 
 export function deactivateCaseFocus() {
@@ -91,12 +80,10 @@ export function deactivateCaseFocus() {
   activeCard = null;
 
   getCurrentlyBlock().deactivate();
-  deactivateCaseCursor();
 }
 
 export function resetCaseFocus() {
   deactivateCaseFocus();
-  resetCaseCursor();
   resetCurrentlyBlock();
 }
 

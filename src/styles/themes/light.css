@@ -69,7 +69,4 @@ html[data-theme="light"],
   --book-ticket-bg-bottom: url("../images/widgets/book/Card-1-surface.svg");
   --color-book-ticket-text: var(--color-text-primary);
   --color-book-barcode: #242220;
-
-  --color-case-cursor-bg: color-mix(in srgb, var(--color-bg-surface) 72%, transparent);
-  --color-case-cursor-text: var(--color-text-primary);
 }

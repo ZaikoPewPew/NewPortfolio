@@ -90,21 +90,26 @@
     "tiles": {
       "mychannel": {
         "label": "Мой блог",
-        "tooltip": ["мой блог", "1.1k подп."]
+        "tooltipTitle": "мой блог",
+        "tooltipMetric": "{count} подп.",
+        "tooltipMetricFallback": "1.1k подп."
       },
       "ies": {
         "label": "IES",
-        "tooltip": ["мой пет-проект", "1.8k юзеров"]
+        "tooltipTitle": "мой пет-проект",
+        "tooltipMetric": "{count} юзеров",
+        "tooltipMetricFallback": "1.8k юзеров"
       },
       "youtube": {
         "label": "YouTube — Design Lead",
         "caption": ["Design", "Lead"],
-        "tooltip": ["мой ютуб", "22k сабов"]
+        "tooltipTitle": "мой ютуб",
+        "tooltipMetric": "{count} сабов",
+        "tooltipMetricFallback": "22k сабов"
       }
     }
   },
   "cases": {
-    "hoverCursor": "открыть",
     "titles": {
       "project-alpha": "Редизайн калькулятора торгового эквайринга",
       "project-beta": "Одна инициатива решила 3 года споров маркетинга и бизнеса",

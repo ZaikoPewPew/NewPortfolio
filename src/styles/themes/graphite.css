@@ -4,6 +4,7 @@
    на off-white. Хорошо контрастирует с остальными яркими темами. */
 
 html[data-theme="graphite"],
+html:not([data-theme]),
 .theme-switch-veil[data-theme="graphite"] {
   --color-bg-page: #0b0b0c;
   --color-bg: #0b0b0c;
@@ -73,7 +74,4 @@ html[data-theme="graphite"],
 
   --color-photo-indicator: #ffffff;
   --color-photo-indicator-progress: #0b0b0c;
-
-  --color-case-cursor-bg: color-mix(in srgb, var(--color-bg-surface) 50%, transparent);
-  --color-case-cursor-text: var(--color-text-primary);
 }

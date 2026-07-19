@@ -1,7 +1,6 @@
 /* Chocolate — тёплый near-black / шоколадный фон вместо чистого #000 */
 
 html[data-theme="chocolate"],
-html:not([data-theme]),
 .theme-switch-veil[data-theme="chocolate"] {
   --color-bg-page: #121110;
   --color-bg: #121110;
@@ -60,7 +59,4 @@ html:not([data-theme]),
 
   --color-photo-indicator: #ffffff;
   --color-photo-indicator-progress: #121110;
-
-  --color-case-cursor-bg: color-mix(in srgb, var(--color-bg-surface) 50%, transparent);
-  --color-case-cursor-text: var(--color-text-primary);
 }

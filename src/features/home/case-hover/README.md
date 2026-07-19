@@ -1,6 +1,6 @@
 # Case Hover — currently-block карточки кейса
 
-Интерактив при наведении на карточку кейса на главной: рядом с курсором летит **currently-block** с видео или изображением и кастомный курсор «open». Никаких оверлеев (blur / wash / затемнение), смены фона или подъёма карточки — только медиа-блок и курсор. Контроллер физики блока — общий с employer hover (`src/components/ui/currentlyBlock.client.ts`).
+Интерактив при наведении на карточку кейса на главной: рядом с курсором летит **currently-block** с видео или изображением. Системный курсор не меняется. Никаких оверлеев (blur / wash / затемнение), смены фона или подъёма карточки — только медиа-блок. Контроллер физики блока — общий с employer hover (`src/components/ui/currentlyBlock.client.ts`).
 
 ## Файлы
 
@@ -8,8 +8,6 @@
 |------|------------|
 | `CaseHoverController.client.ts` | Слушатели pointer-событий, состояние hover, классы `is-case-active` / `is-active` |
 | `caseFocus.client.ts` | Интеграция с `currentlyBlock`: активация с `restart: true`, движение за курсором, сброс |
-| `caseCursor.client.ts` | Кастомный курсор «open» за указателем (`cases.hoverCursor` в i18n) |
-| `case-cursor.css` | Стили курсора, `cursor: none` при `is-case-active` |
 | `case-focus.css` | Увеличенный размер `currently-block` для кейсов (класс `is-case-active`) |
 
 Инициализация — `initCaseHover()` из `HomeOrchestrator.client.ts` (только `body[data-page="home"]`). Сброс при View Transitions — `resetCaseHover()`.
@@ -20,7 +18,7 @@
 2. `activate(card, x, y)`:
    - `html` + `[data-home-page]` получают класс `is-case-active` (увеличивает размер блока)
    - карточка → `.is-active` (показывает теги)
-   - `activateCaseFocus()` — currently-block с медиа **с начала** (видео: `restart: true`) + курсор «open» + звук `hoverCard`
+   - `activateCaseFocus()` — currently-block с медиа **с начала** (видео: `restart: true`) + звук `hoverCard`
 3. `onDocumentPointerMove` — как только курсор выходит **за bounding-box активной карточки**, вызывается `deactivateCaseHover()` (см. «Логика выхода»)
 4. Переход на другую карточку — `pointerover` деактивирует текущую и активирует новую (видео новой карточки тоже с `currentTime = 0`)
 
@@ -55,9 +53,9 @@
 | `data-case-card` | `<a>` карточки | Хост hover |
 | `data-hover-video` | Карточка | Видео currently-block |
 | `data-hover-image` | Карточка | Изображение (только без `previewVideo`) |
-| `is-case-active` | `html`, `[data-home-page]` | Увеличенный размер currently-block + скрытие системного курсора |
+| `is-case-active` | `html`, `[data-home-page]` | Увеличенный размер currently-block |
 | `is-active` | Карточка | Показ тегов |
 
 ## Ограничения
 
-- Только desktop: `max-width: 639px` и `prefers-reduced-motion` отключают currently-block и кастомный курсор (`isDisabled()` в JS)
+- Только desktop: `max-width: 639px` и `prefers-reduced-motion` отключают currently-block (`isDisabled()` в JS)

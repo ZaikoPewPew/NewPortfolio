@@ -69,7 +69,4 @@ html[data-theme="clay"],
 
   --color-photo-indicator: #ffffff;
   --color-photo-indicator-progress: #0a0a0b;
-
-  --color-case-cursor-bg: color-mix(in srgb, var(--color-bg-surface) 50%, transparent);
-  --color-case-cursor-text: var(--color-text-primary);
 }

@@ -148,9 +148,8 @@ npm run preview  # предпросмотр сборки
 При hover (desktop):
 
 1. Currently-block с медиа кейса (`hover.previewVideo` → видео; иначе `hover.previewImage` → картинка; иначе employer video) следует за курсором; при каждом входе на плитку ролик стартует с начала
-2. Кастомный курсор «open» (`cases.hoverCursor`)
-3. Теги карточки появляются (`.is-active`)
-4. Звук `hoverCard`
+2. Теги карточки появляются (`.is-active`)
+3. Звук `hoverCard`
 
 На mobile и при `prefers-reduced-motion` hover-эффект отключён.
 
@@ -326,7 +325,7 @@ interpolate(m.header.employerAriaLabel, { employer: "alfa-bank" });
 
 ### Темы
 
-- `src/styles/themes/chocolate.css` — default (`data-theme="chocolate"` на `<html>`)
+- `src/styles/themes/graphite.css` — default (`data-theme="graphite"` на `<html>`)
 - `src/styles/themes/light.css` — светлая тема
 
 Переключение — `ThemeToggle` / хоткей `t` / dock. Анимация — `themeTransition.ts` (круговой reveal от точки клика).

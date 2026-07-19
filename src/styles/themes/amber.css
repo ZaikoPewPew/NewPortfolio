@@ -72,7 +72,4 @@ html[data-theme="amber"],
 
   --color-photo-indicator: #ffffff;
   --color-photo-indicator-progress: #110d08;
-
-  --color-case-cursor-bg: color-mix(in srgb, var(--color-bg-surface) 50%, transparent);
-  --color-case-cursor-text: var(--color-text-primary);
 }

@@ -25,9 +25,9 @@ const THEME_ALIASES: Record<string, ThemeMode> = {
 };
 
 const defaults: UserPrefs = {
-  sound: true,
+  sound: false,
   haptics: true,
-  theme: "chocolate",
+  theme: "graphite",
 };
 
 function normalizeTheme(value: unknown): ThemeMode {

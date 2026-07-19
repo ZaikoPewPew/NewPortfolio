@@ -9,6 +9,6 @@ export function getBentoData(locale?: Locale): Promise<BentoData> {
   return createDataSource({
     mode: env.bento.mode,
     mock: () => getMockBentoData(locale),
-    api: () => getApiBentoData(),
+    api: () => getApiBentoData(locale),
   })();
 }

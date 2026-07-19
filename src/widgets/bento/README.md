@@ -1,6 +1,6 @@
 # Bento Widget
 
-Статус: **mock**
+Статус: **live** (метрики на билде; fallback — mock)
 
 ## Назначение
 
@@ -9,9 +9,14 @@
 ## Данные
 
 - mock: `data/bento.mock.ts` — labels/tooltips из `getMessages().bento`
-- api: `data/bento.api.ts` (planned)
-- Переключатель: `PUBLIC_BENTO_MODE=mock|api`
-- i18n-ключи: `bento.ariaLabel`, `bento.tiles.*` — см. [`src/i18n/README.md`](../../i18n/README.md)
+- api: `data/bento.api.ts` — compact-метрики на build-time, по плитке fallback на mock
+- Источники метрик (`METRIC_SOURCES`):
+  - mychannel → `t.me/dsgn_thinking`
+  - ies → `t.me/ies_app` (ссылка плитки остаётся на бота)
+  - youtube → `youtube.com/@DesignLeadd`
+- Парсеры: `telegramSubscribers.ts`, `youtubeSubscribers.ts`, `formatCompactCount.ts` (`1122` → `1.1k`)
+- Переключатель: `PUBLIC_BENTO_MODE=mock|api` (в CI Pages — `api`)
+- i18n: `tooltipTitle` + `tooltipMetric` (`{count}`) + `tooltipMetricFallback`
 
 ## UX
 
