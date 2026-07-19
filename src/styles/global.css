@@ -9,6 +9,7 @@
 @import "./themes/graphite.css";
 @import "./reset.css";
 @import "./typography.css";
+@import "./case-prose.css";
 @import "../experience/motion/motion.tokens.css";
 @import "../features/transitions/view-transitions.css";
 @import "../features/home/case-transition/case-transition.css";
@@ -76,34 +77,6 @@ body {
 
 .case-content {
   max-width: var(--layout-case-reading-width);
-}
-
-.case-content h2 {
-  font-size: var(--font-size-xl);
-  line-height: var(--line-height-tight);
-  margin-top: var(--space-2xl);
-  margin-bottom: var(--space-md);
-}
-
-.case-content h3 {
-  font-size: var(--font-size-lg);
-  margin-top: var(--space-xl);
-  margin-bottom: var(--space-sm);
-}
-
-.case-content p {
-  margin-bottom: var(--space-md);
-  color: var(--color-text-on-bg);
-}
-
-.case-content ul,
-.case-content ol {
-  margin-bottom: var(--space-md);
-  padding-left: var(--space-lg);
-}
-
-.case-content li {
-  margin-bottom: var(--space-xs);
 }
 
 [data-tooltip-layer-active] {

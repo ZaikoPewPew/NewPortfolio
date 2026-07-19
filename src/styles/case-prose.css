@@ -1,0 +1,102 @@
+/* Case body reading rhythm — scoped to .case-content__body */
+
+.case-content__body h2 {
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-regular);
+  margin-top: var(--space-3xl);
+  margin-bottom: var(--space-md);
+}
+
+.case-content__body h2:first-child {
+  margin-top: 0;
+}
+
+.case-content__body h3 {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-medium);
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-sm);
+}
+
+.case-content__body h2 + *,
+.case-content__body h3 + * {
+  margin-top: 0;
+}
+
+.case-content__body p {
+  margin-top: 0;
+  margin-bottom: var(--space-md);
+  color: var(--color-text-on-bg);
+  line-height: var(--line-height-normal);
+}
+
+.case-content__body ul,
+.case-content__body ol {
+  margin-top: 0;
+  margin-bottom: var(--space-md);
+  padding-left: var(--space-lg);
+}
+
+.case-content__body p + ul,
+.case-content__body p + ol {
+  margin-top: calc(var(--space-sm) * -1);
+}
+
+.case-content__body li {
+  margin-bottom: var(--space-sm);
+  line-height: var(--line-height-normal);
+}
+
+.case-content__body li:last-child {
+  margin-bottom: 0;
+}
+
+.case-content__body a {
+  color: var(--color-text-secondary);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  transition: color var(--motion-fast) var(--ease-out-expo);
+}
+
+.case-content__body a:hover {
+  color: var(--color-text-primary);
+}
+
+.case-content__body strong {
+  font-weight: var(--font-weight-medium);
+}
+
+.case-content__body .case-media {
+  margin-block: var(--space-2xl);
+}
+
+@media (max-width: 639px) {
+  .case-content__body h2 {
+    font-size: var(--font-size-lg);
+    margin-top: var(--space-2xl);
+    margin-bottom: var(--space-sm);
+  }
+
+  .case-content__body h2:first-child {
+    margin-top: 0;
+  }
+
+  .case-content__body h3 {
+    font-size: var(--font-size-base);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+  }
+
+  .case-content__body p,
+  .case-content__body li {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-normal);
+    overflow-wrap: anywhere;
+  }
+
+  .case-content__body .case-media {
+    margin-block: var(--space-xl);
+  }
+}
