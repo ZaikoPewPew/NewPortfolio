@@ -16,6 +16,7 @@ import { bindPageEnter, syncPageEnterOnLoad } from "./page-enter/PageEnterContro
 import { initCaseHover, resetCaseHover } from "./case-hover/CaseHoverController.client";
 import { resetEmployerName, initEmployerName } from "../../components/ui/employerName.client";
 import { initContactButton, resetContactButton } from "../../components/ui/contactButton.client";
+import { initCaseChrome } from "../cases/caseChrome.client";
 
 let feedbackBound = false;
 let hotkeysBound = false;
@@ -91,6 +92,7 @@ function initExperience() {
   bindContactPanelPersistence();
   bindCaseTransition();
   bindPageEnter();
+  initCaseChrome();
 
   if (document.body.dataset.page === "home") {
     initCaseHover();

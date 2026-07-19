@@ -22,6 +22,31 @@
     z-index: var(--z-header);
   }
 
+  /* Case reading: slide header away with the same spring as bottom nav */
+  body[data-page="case"] .header {
+    transition:
+      transform var(--motion-slow) var(--ease-spring-soft),
+      opacity var(--motion-slow) var(--ease-spring-soft),
+      visibility 0s;
+  }
+
+  body[data-page="case"] .header[data-hidden] {
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      transform var(--motion-slow) var(--ease-spring-soft),
+      opacity var(--motion-slow) var(--ease-spring-soft),
+      visibility 0s var(--motion-slow);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body[data-page="case"] .header {
+      transition: none;
+    }
+  }
+
   body[data-page="home"] .grid__widgets {
     position: sticky;
     top: var(--layout-header-block-height);
