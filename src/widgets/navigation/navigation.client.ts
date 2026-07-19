@@ -1,10 +1,20 @@
-/** Ignore tiny scroll jitter (trackpad inertia) when toggling visibility */
-const DIRECTION_THRESHOLD_PX = 8;
+/*
+ * Hide/show follows the asymmetric pattern used by article sites and
+ * mobile browser toolbars: hiding needs sustained downward reading
+ * (accumulated distance), showing reacts to the first clear upward move.
+ */
+/** Accumulated downward scroll before hiding — forgives jitter and short adjustments */
+const HIDE_AFTER_DOWN_PX = 72;
+/** Upward scroll that reveals the menu — near-instant response to intent */
+const SHOW_AFTER_UP_PX = 8;
 /** Never hide the menu within this distance from the top of the page */
 const TOP_REVEAL_ZONE_PX = 120;
+/** Reveal near the end of the case — natural pause point for navigation */
+const BOTTOM_REVEAL_ZONE_PX = 160;
 
 let scrollBound = false;
 let lastY = 0;
+let downTravel = 0;
 let ticking = false;
 
 function getScrollProgress(): number {
@@ -24,6 +34,8 @@ function update() {
   if (!widget) return;
 
   const y = window.scrollY;
+  const doc = document.documentElement;
+  const maxScroll = doc.scrollHeight - window.innerHeight;
 
   widget.style.setProperty(
     "--nav-scroll-progress",
@@ -31,14 +43,26 @@ function update() {
   );
 
   const delta = y - lastY;
-  if (y <= TOP_REVEAL_ZONE_PX) {
+  lastY = y;
+
+  const nearTop = y <= TOP_REVEAL_ZONE_PX;
+  const nearBottom = maxScroll - y <= BOTTOM_REVEAL_ZONE_PX;
+
+  if (nearTop || nearBottom) {
+    downTravel = 0;
     widget.removeAttribute("data-hidden");
-  } else if (delta > DIRECTION_THRESHOLD_PX) {
-    widget.setAttribute("data-hidden", "");
-  } else if (delta < -DIRECTION_THRESHOLD_PX) {
+    return;
+  }
+
+  if (delta > 0) {
+    downTravel += delta;
+    if (downTravel >= HIDE_AFTER_DOWN_PX) {
+      widget.setAttribute("data-hidden", "");
+    }
+  } else if (delta < -SHOW_AFTER_UP_PX) {
+    downTravel = 0;
     widget.removeAttribute("data-hidden");
   }
-  if (Math.abs(delta) > DIRECTION_THRESHOLD_PX) lastY = y;
 }
 
 function onScroll() {
