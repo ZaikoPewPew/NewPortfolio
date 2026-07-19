@@ -1,0 +1,26 @@
+# Navigation widget
+
+Статус: **live** · место: страница кейса (не в bento `registry`).
+
+Плавающее меню навигации по кейсу: домой и скролл наверх.
+
+## Файлы
+
+| Файл | Назначение |
+|------|------------|
+| `NavigationWidget.astro` | Разметка |
+| `navigation.styles.css` | Фикс снизу по центру, кнопки |
+| `navigation.client.ts` | Scroll to top |
+
+## Поведение
+
+- Слева — ссылка на главную (locale-aware)
+- Справа — плавный скролл к началу страницы (`prefers-reduced-motion` → instant)
+- Fixed, `bottom: 16px`, по центру viewport
+- Прогресс чтения: обводка 2px (`--color-accent`) вокруг кнопки «наверх», 0% — верх кейса, 100% — низ; старт с верхней середины, по часовой (`--nav-scroll-progress`)
+- Auto-hide: скролл вниз — уезжает под нижний край, скролл вверх или зона < 120px от верха — возвращается
+- Feedback: `tap` / `hover` через `FeedbackBus`
+
+## Где используется
+
+- [`src/features/cases/CasePage.astro`](../../features/cases/CasePage.astro)

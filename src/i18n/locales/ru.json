@@ -71,6 +71,11 @@
     "soundOnAriaLabel": "Выключить звуки сайта",
     "soundOffAriaLabel": "Включить звуки сайта"
   },
+  "navigationWidget": {
+    "ariaLabel": "Навигация по кейсу",
+    "homeAriaLabel": "На главную",
+    "scrollTopAriaLabel": "Наверх"
+  },
   "git": {
     "ariaLabel": "Активность на GitHub",
     "openProfile": "Открыть профиль на GitHub",

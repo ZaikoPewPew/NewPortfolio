@@ -1,0 +1,92 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { getMessages, resolveLocale } from "../../i18n";
+import "./navigation.styles.css";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const locale = resolveLocale(Astro.currentLocale);
+const m = getMessages(locale);
+const homeHref = getRelativeLocaleUrl(locale, "/");
+---
+
+<nav
+  class:list={["navigation-widget", className]}
+  aria-label={m.navigationWidget.ariaLabel}
+  data-navigation-widget
+>
+  <a
+    class="navigation-widget__btn"
+    href={homeHref}
+    data-feedback="tap hover"
+    data-feedback-source="widget.navigation.home"
+    aria-label={m.navigationWidget.homeAriaLabel}
+  >
+    <svg
+      class="navigation-widget__icon"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M19.0167 7.14177C19.6261 7.50149 20 8.15646 20 8.8641V18C20 19.1046 19.1046 20 18 20H16C14.8954 20 14 19.1046 14 18V13.9999C14 12.8954 13.1046 11.9999 12 11.9999C10.8954 11.9999 10 12.8954 10 13.9999V18C10 19.1046 9.10457 20 8 20H6C4.89543 20 4 19.1046 4 18V8.8641C4 8.15646 4.37395 7.50149 4.98335 7.14177L10.9833 3.60011C11.6106 3.22988 12.3894 3.22988 13.0167 3.60011L19.0167 7.14177Z"
+        stroke="currentColor"
+        stroke-width="1.3"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path>
+    </svg>
+  </a>
+
+  <button
+    type="button"
+    class="navigation-widget__btn"
+    data-navigation-scroll-top
+    data-feedback="tap hover"
+    data-feedback-source="widget.navigation.scrollTop"
+    aria-label={m.navigationWidget.scrollTopAriaLabel}
+  >
+    <svg
+      class="navigation-widget__icon"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M12 19V5M18 11L12 5L6 11"
+        stroke="currentColor"
+        stroke-width="1.3"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path>
+    </svg>
+    <svg
+      class="navigation-widget__ring"
+      viewBox="0 0 48 48"
+      fill="none"
+      aria-hidden="true"
+    >
+      {/* Rounded-rect outline starting at top center, clockwise; pathLength
+          normalizes to 100 so dashoffset maps 1:1 to scroll percent. */}
+      <path
+        class="navigation-widget__ring-path"
+        d="M24 1 H32 A15 15 0 0 1 47 16 V32 A15 15 0 0 1 32 47 H16 A15 15 0 0 1 1 32 V16 A15 15 0 0 1 16 1 H24"
+        pathLength="100"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"></path>
+    </svg>
+  </button>
+</nav>
+
+<script>
+  import { initNavigationWidget } from "./navigation.client";
+
+  initNavigationWidget();
+  document.addEventListener("astro:page-load", () => initNavigationWidget());
+</script>

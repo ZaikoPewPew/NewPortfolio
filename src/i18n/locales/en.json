@@ -71,6 +71,11 @@
     "soundOnAriaLabel": "Mute site sounds",
     "soundOffAriaLabel": "Unmute site sounds"
   },
+  "navigationWidget": {
+    "ariaLabel": "Case navigation",
+    "homeAriaLabel": "Back to home",
+    "scrollTopAriaLabel": "Scroll to top"
+  },
   "git": {
     "ariaLabel": "GitHub activity",
     "openProfile": "Open GitHub profile",

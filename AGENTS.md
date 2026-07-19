@@ -30,7 +30,8 @@
 
 | Задача | Файл / папка |
 |--------|---------------|
-| Новый виджет | `src/widgets/<id>/`, регистрация в `registry.ts` |
+| Новый виджет | `src/widgets/<id>/`, регистрация в `registry.ts` (кроме theme / navigation) |
+| Навигация кейса | `src/widgets/navigation/` — CasePage, не в bento |
 | Hover кейсов | `src/features/home/case-hover/` |
 | Звук / вибро | `src/experience/feedback/FeedbackBus.ts` |
 | Хоткеи | `src/experience/hotkeys/hotkeys.config.ts` |

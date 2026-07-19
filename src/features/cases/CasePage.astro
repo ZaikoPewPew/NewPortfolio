@@ -5,6 +5,7 @@ import Grid from "../../components/layout/Grid.astro";
 import CaseHero from "../../components/cases/CaseHero.astro";
 import { caseMdxComponents } from "../../components/cases/blocks";
 import HomeWidgets from "../home/HomeWidgets.astro";
+import NavigationWidget from "../../widgets/navigation/NavigationWidget.astro";
 import { getCaseTitle } from "../cases/getCaseTitle";
 import { getMessages, resolveLocale } from "../../i18n";
 import type { CollectionEntry } from "astro:content";
@@ -40,4 +41,6 @@ const m = getMessages(locale);
 
     <p class="home__copyright" data-page-enter>krgzv.com © 2026</p>
   </main>
+
+  <NavigationWidget />
 </BaseLayout>
