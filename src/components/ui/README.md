@@ -332,7 +332,7 @@ Tap на кнопке **не** проигрывается (`bubble` — hover-on
 
 Перенесён в [`src/widgets/theme/`](../../widgets/theme/) — header-меню настроек (не bento registry).
 
-Раскрытие **вниз**, тултипы **слева**. См. [`widgets/theme/README.md`](../../widgets/theme/README.md).
+Раскрытие **вниз**, тултипы **слева**, класс `theme-widget--fixed` (top-right). См. [`widgets/theme/README.md`](../../widgets/theme/README.md).
 
 ---
 

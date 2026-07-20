@@ -110,16 +110,10 @@ function mixHsl(
   ];
 }
 
+/** Employer-like: one accent, rest = page bg. No hue-shifted rainbow stops. */
 function buildPalette(tintHex: string, bgHex: string): string[] {
-  let [h, s, l] = hexToHsl(tintHex);
-  s = Math.max(s, 38);
-  l = Math.min(Math.max(l, 42), 62);
-  return [
-    bgHex,
-    hslToHex(h, s + 8, Math.min(l + 20, 82)),
-    hslToHex(h + 38, s, Math.min(l + 28, 86)),
-    hslToHex(h - 28, s - 8, Math.min(l + 34, 88)),
-  ];
+  const tint = parseCssColor(tintHex);
+  return [bgHex, tint, bgHex, bgHex];
 }
 
 function colorToVec4(hex: string): [number, number, number, number] {

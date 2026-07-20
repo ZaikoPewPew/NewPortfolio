@@ -1,6 +1,6 @@
 # Theme menu widget
 
-Статус: **live** · место: header / страница кейса (не в bento `registry`).
+Статус: **live** · место: fixed top-right на home и странице кейса (не в bento `registry`).
 
 Меню настроек: язык, звук, тема. Закрыто — кнопка-якорь; открыто — подложка растягивается вниз, чипы вылетают из якоря (FLIP).
 
@@ -20,9 +20,9 @@
 - Тултипы — `placement="left"` (язык, звук, тема через `ThemeToggle` + `tooltipPlacement`)
 - Смена темы — circle reveal через `themeTransition.ts`, см. [`experience/README.md`](../../experience/README.md)
 - Close — повторный клик / Escape / outside
-- Локальное время — в book-виджете (`LiveClock`), не в этом меню
+- Класс `theme-widget--fixed` — `position: fixed; top/right: --space-md` (стили в `home.layout.css`)
 
 ## Где используется
 
-- [`src/components/layout/Header.astro`](../../components/layout/Header.astro) — home
-- [`src/features/cases/CasePage.astro`](../../features/cases/CasePage.astro) — `class="case-theme-widget"` (fixed top-right)
+- [`src/features/home/HomePage.astro`](../../features/home/HomePage.astro) — `class="theme-widget--fixed"`
+- [`src/features/cases/CasePage.astro`](../../features/cases/CasePage.astro) — то же

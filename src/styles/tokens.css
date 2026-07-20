@@ -313,6 +313,14 @@
   --layout-header-widget-gap-desktop: var(--space-md);
   --layout-header-widget-gap-mobile: var(--space-sm);
   --blur-header-glass: 20px;
+  /*
+   * Home: offset so case list text lines up with me-widget name
+   * (card padding-top + vertical centering of name+role in the avatar row).
+   */
+  --layout-cases-name-align: calc(
+    var(--space-sm) +
+      (var(--space-2xl) - (var(--font-size-sm) * 2 + var(--space-2xs))) / 2
+  );
 
   /* Case cards (legacy sizes; home list uses company columns) */
   --case-card-width: 458px;

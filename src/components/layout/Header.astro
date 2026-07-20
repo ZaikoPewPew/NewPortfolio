@@ -1,5 +1,4 @@
 ---
-import ThemeWidget from "../../widgets/theme/ThemeWidget.astro";
 import EmployerName from "../ui/EmployerName.astro";
 import { getMessages, resolveLocale } from "../../i18n";
 
@@ -15,7 +14,6 @@ const m = getMessages(resolveLocale(Astro.currentLocale));
         </span>
         <EmployerName label={m.header.employerLabel} />
       </p>
-      <ThemeWidget />
     </div>
   </div>
 </header>
@@ -50,8 +48,8 @@ const m = getMessages(resolveLocale(Astro.currentLocale));
   }
 
   /*
-   * Stay in header flow; on wide screens cancel content centering so both
-   * sit at the viewport edge (16px via --layout-gutter-desktop padding).
+   * Stay in header flow; on wide screens cancel content centering so
+   * employer sits at the viewport edge (16px via --layout-gutter-desktop).
    */
   .header__employer {
     position: relative;
@@ -63,11 +61,6 @@ const m = getMessages(resolveLocale(Astro.currentLocale));
     line-height: var(--line-height-tight);
     color: var(--color-text-primary);
     white-space: nowrap;
-  }
-
-  .header__row :global(.theme-widget) {
-    position: relative;
-    left: max(0px, calc((100vw - var(--layout-content-width)) / 2));
   }
 
   @media (max-width: 639px) {

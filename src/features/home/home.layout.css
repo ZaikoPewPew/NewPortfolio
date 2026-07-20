@@ -5,9 +5,10 @@
   padding-inline: var(--layout-gutter-desktop);
 }
 
-/* Case cover: 16px from the top edge of the viewport */
+/* Home + case: content 16px from the top edge of the viewport */
+body[data-page="home"] .home,
 body[data-page="case"] .home {
-  padding-top: var(--layout-case-cover-inset-top);
+  padding-top: var(--space-md);
 }
 
 .home__cases {
@@ -22,8 +23,8 @@ body[data-page="case"] .home {
   display: none;
 }
 
-/* Case page: no header — standalone theme widget pinned to the top-right */
-body[data-page="case"] .theme-widget.case-theme-widget {
+/* No header — theme menu pinned top-right (home + case) */
+.theme-widget.theme-widget--fixed {
   position: fixed;
   top: var(--space-md);
   right: var(--space-md);
@@ -31,25 +32,20 @@ body[data-page="case"] .theme-widget.case-theme-widget {
 }
 
 @media (min-width: 640px) {
-  body[data-page="home"] .header {
-    position: sticky;
-    top: 0;
-    z-index: var(--z-header);
-  }
-
   body[data-page="home"] .grid__widgets {
     position: sticky;
-    top: var(--layout-header-block-height);
+    top: var(--space-md);
     align-self: start;
     z-index: var(--z-content);
   }
 
   body[data-page="home"] .grid__widgets:has([data-tooltip-visible]) {
-    /* Keep below sticky header; tooltips use their own --z-tooltip inside */
     z-index: var(--z-content);
   }
 
   body[data-page="home"] .home__cases {
+    /* Align first row with me-widget__name inside the card */
+    padding-top: var(--layout-cases-name-align);
     margin-top: 0;
   }
 

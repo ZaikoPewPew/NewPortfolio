@@ -1,4 +1,4 @@
-@import "../../../components/ui/currently-block.css";
+@import "../../../components/ui/employer-name.css";
 
 html.is-case-active .currently-block {
   --currently-block-inner-width: var(--currently-block-case-inner-width);

@@ -102,7 +102,7 @@ npm run preview  # предпросмотр сборки
 | `/cases/[slug]` | `src/pages/cases/[slug].astro` | Детальная страница кейса (MDX) |
 | *(404)* | `src/pages/404.astro` | Страница «не найдено» → `404.html` при сборке |
 
-Главная и кейсы используют `BaseLayout` + `Header` + `Grid`. На странице кейса слева остаются те же виджеты (`HomeWidgets` с `transition:persist`), справа — контент кейса.
+Главная и кейсы используют `BaseLayout` + `Grid`. ThemeWidget — fixed top-right (`theme-widget--fixed`). Хедер (`Header.astro`) на home не рендерится. На странице кейса слева остаются те же виджеты (`HomeWidgets` с `transition:persist`), справа — контент кейса.
 
 404 — отдельный минимальный layout: текст и кнопка на главную (`src/features/not-found/`).
 
@@ -112,10 +112,11 @@ npm run preview  # предпросмотр сборки
 
 ## Главная страница
 
-### Header
+### Chrome
 
-- **Employer** — «currently at» + ссылка на работодателя (`site.config.ts`), hover с видео-блоком **currently-block** (`EmployerName.astro`). Ролик: `public/images/widgets/currently-block/fantech.mp4`. Подробнее — [`src/components/ui/README.md`](src/components/ui/README.md)
-- **LiveClock** — время в часовом поясе из `site.config.location.timezone` (Almaty)
+- **ThemeWidget** — fixed top-right (язык / звук / тема); меню вниз, тултипы слева
+- Контентная сетка — **16px** (`--space-md`) от верхнего края viewport
+- Employer header на home скрыт; LiveClock — в book-виджете
 
 ### Левая колонка — виджеты (300px на desktop)
 

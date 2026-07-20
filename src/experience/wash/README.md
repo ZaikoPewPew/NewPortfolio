@@ -18,7 +18,7 @@ import { createWash, readWashTint } from "./wash.client";
 
 const wash = createWash(canvas);
 wash.setTintId("employer"); // палитра из --wash-palette-employer-*
-wash.setTint("#692020");    // динамическая палитра из tint + --wash-bg
+wash.setTint("#FF2A16");    // как employer: [bg, tint, bg, bg] — без hue-shift радуги
 wash.destroy();
 ```
 
@@ -28,14 +28,14 @@ wash.destroy();
 
 1. Canvas с классом `wash__canvas` и `data-wash-canvas` внутри overlay-контейнера.
 2. `createWash(canvas)` после вставки в DOM (нужен `clientWidth`/`clientHeight` родителя).
-3. При hover — `setTintId(id)` по `data-wash-tint` хоста.
+3. При hover — `setTintId(id)` по `data-wash-tint` хоста или `setTint(hex)` для company/case из frontmatter.
 4. При unmount / навигации — `destroy()`.
 
-Сейчас интегрировано в [`employerName.client.ts`](../../components/ui/employerName.client.ts). Спека UI-слоёв — [`components/ui/README.md`](../../components/ui/README.md) (секция Employer hover).
+Сейчас: employer portal + case/company hover через [`employerName.client.ts`](../../components/ui/employerName.client.ts) (`activateFocusWash`). Спека UI — [`components/ui/README.md`](../../components/ui/README.md).
 
 ## Токены
 
-Семантика в `tokens.css`, значения цветов — в `themes/chocolate.css`, `themes/light.css`, `themes/violet.css` и `themes/clay.css`.
+Семантика в `tokens.css`, значения цветов — в `themes/*.css`.
 
 | Токен | Смысл |
 |-------|-------|
@@ -48,7 +48,7 @@ wash.destroy();
 | `--wash-tint-{id}` | Accent tint по id (`employer`, `email`, `linkedin`, …) |
 | `--wash-palette-{id}-bg` / `-1` / `-2` / `-3` | Кастомная 4-цветная палитра для id |
 
-Если задана полная палитра `--wash-palette-{id}-*`, `setTintId` использует её напрямую. Иначе палитра строится из tint + bg через HSL-mix.
+Если задана полная палитра `--wash-palette-{id}-*`, `setTintId` использует её напрямую. Иначе (и для `setTint(hex)`) — `[bg, accent, bg, bg]`, как у soft employer.
 
 ## Поведение
 
