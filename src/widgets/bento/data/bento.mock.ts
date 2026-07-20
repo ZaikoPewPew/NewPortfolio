@@ -40,7 +40,7 @@ export function getMockBentoData(locale?: Locale): BentoData {
         href: TILE_HREFS.mychannel,
         variant: "mychannel",
         tooltip: tooltipForTile("mychannel", "fallback", locale),
-        tooltipPlacement: "left",
+        tooltipPlacement: "bottom",
       },
       {
         id: "ies",
@@ -48,7 +48,7 @@ export function getMockBentoData(locale?: Locale): BentoData {
         href: TILE_HREFS.ies,
         variant: "ies",
         tooltip: tooltipForTile("ies", "fallback", locale),
-        tooltipPlacement: "right",
+        tooltipPlacement: "bottom",
       },
       {
         id: "youtube",
@@ -57,7 +57,7 @@ export function getMockBentoData(locale?: Locale): BentoData {
         variant: "youtube",
         caption: [...bento.tiles.youtube.caption],
         tooltip: tooltipForTile("youtube", "fallback", locale),
-        tooltipPlacement: "right",
+        tooltipPlacement: "bottom",
       },
     ],
   };

@@ -8,7 +8,7 @@
 |------|------------|
 | `CaseHoverController.client.ts` | Слушатели pointer, focus компании, wash, currently |
 | `caseFocus.client.ts` | currently-block: активация с `restart: true` |
-| `case-focus.css` | Увеличенный размер currently-block (`is-case-active`) |
+| `case-focus.css` | Импорт employer/wash стилей (размер блока — в `currently-block.css`) |
 
 Инициализация — `initCaseHover()` из `HomeOrchestrator.client.ts`. Сброс — `resetCaseHover()`.
 
@@ -27,7 +27,7 @@ Hit-test на каждом `pointermove` (`elementFromPoint`): после вых
 
 1. Wash из `data-wash-color` (`hover.washTint` → иначе `hover.gradientTo` → иначе `case`)
 2. currently-block с медиа с начала + звук `hoverCard`
-3. `html.is-case-active` — scale блока
+3. `html.is-case-active` — флаг hover кейса (размер блока всегда case-scale, см. `currently-block.css`)
 4. Выход — за bounding-box заголовка кейса
 
 ## Стейты строки (`interaction`)
@@ -65,7 +65,7 @@ Hit-test на каждом `pointermove` (`elementFromPoint`): после вых
 | `data-case-card` | заголовок кейса | Хост currently |
 | `data-hover-video` / `data-hover-image` | компания / кейс | Медиа |
 | `is-focused` | компания | Выше blur |
-| `is-case-active` | `html`, home | Scale currently (только кейсы) |
+| `is-case-active` | `html`, home | Флаг hover кейса |
 | `is-focus-wash-active` | `html` | Backdrop + wash |
 
 ## Ограничения

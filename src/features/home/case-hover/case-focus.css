@@ -1,9 +1,3 @@
 @import "../../../components/ui/employer-name.css";
 
-html.is-case-active .currently-block {
-  --currently-block-inner-width: var(--currently-block-case-inner-width);
-  --currently-block-inner-height: var(--currently-block-case-inner-height);
-  --currently-block-padding: var(--currently-block-case-padding);
-  --currently-block-radius: var(--currently-block-case-radius);
-  --currently-block-inner-radius: var(--currently-block-case-inner-radius);
-}
+/* Case-scale size lives on `.currently-block` (see currently-block.css). */

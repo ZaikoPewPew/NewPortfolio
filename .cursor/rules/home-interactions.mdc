@@ -15,7 +15,7 @@ alwaysApply: false
 - Компания — wash/blur + currently-block при `companyVideo` / `companyImage` / fallback `employer.video` для employer label
 - Кейсы — currently-block только у `interaction: hover|link`
 - Каждый вход на `[data-case-card]` — видео **с начала** (`restart: true`); employer без restart
-- `html.is-case-active` — размер currently-block (`--currently-block-case-*`), только при hover кейса
+- `html.is-case-active` — флаг hover кейса (размер currently-block всегда case-scale в `currently-block.css`)
 - `html.is-focus-wash-active` — backdrop blur + wash; группа `[data-case-company].is-focused` выше оверлея
 - Hit-test — `elementFromPoint` на `pointermove` / `pointerover` (активация следующего хоста после gap; выход когда курсор не над interactive-хостом)
 - `interaction`: `plain` | `hover` | `link` — см. `case-hover/README.md`; у `hover` курсор default, у `link` — pointer

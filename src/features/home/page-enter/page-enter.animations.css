@@ -39,6 +39,15 @@ html[data-home-entering] .header {
   --page-enter-delay: var(--page-enter-delay-header);
 }
 
+/* Fixed chrome: avatar (left) + theme menu (right) — first wave with header */
+html[data-home-entering] .profile-menu__shell {
+  --page-enter-delay: var(--page-enter-delay-chrome);
+}
+
+html[data-home-entering] .theme-widget {
+  --page-enter-delay: var(--page-enter-delay-chrome);
+}
+
 html[data-home-entering] .me-widget {
   --page-enter-delay: var(--page-enter-delay-me);
 }

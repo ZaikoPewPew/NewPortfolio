@@ -5,14 +5,41 @@ import { getBentoData } from "./data/bento.source";
 import "./bento.styles.css";
 import "./bento.animations.css";
 
+interface Props {
+  /**
+   * `links` — mychannel + ies (under book);
+   * `youtube` — wide tile under photo;
+   * `all` — full 2×2 grid (registry / standalone).
+   */
+  section?: "all" | "links" | "youtube";
+}
+
+const { section = "all" } = Astro.props;
 const locale = resolveLocale(Astro.currentLocale);
 const data = await getBentoData(locale);
 const m = getMessages(locale);
-const topTiles = data.tiles.filter((tile) => tile.variant !== "youtube");
-const youtubeTile = data.tiles.find((tile) => tile.variant === "youtube");
+const showLinks = section === "all" || section === "links";
+const showYoutube = section === "all" || section === "youtube";
+const topTiles = showLinks
+  ? data.tiles.filter((tile) => tile.variant !== "youtube")
+  : [];
+const youtubeTile = showYoutube
+  ? data.tiles.find((tile) => tile.variant === "youtube")
+  : undefined;
+const ariaLabel =
+  section === "youtube" && youtubeTile
+    ? youtubeTile.label
+    : m.bento.ariaLabel;
 ---
 
-<article class="bento-widget" aria-label={m.bento.ariaLabel}>
+<article
+  class:list={[
+    "bento-widget",
+    section === "youtube" && "bento-widget--youtube",
+    section === "links" && "bento-widget--links",
+  ]}
+  aria-label={ariaLabel}
+>
   <div class="bento-widget__grid">
     {
       topTiles.map((tile) => (

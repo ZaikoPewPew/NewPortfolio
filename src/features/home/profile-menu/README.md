@@ -32,11 +32,22 @@ FOUC: inline-скрипт в `ProfileMenu.astro` читает `profile-menu-open
 2. Имя / роль
 3. Bio
 4. ContactButton (say hi)
-5. Git → book / photo / bento снизу
+5. Git → book / photo+youtube / bento-links снизу
 
 Закрытие быстрее (`CLOSE_SETTLE_MS`): shell и bento сжимаются сразу; bento уходит через opacity контейнера (без transform на детях — не конфликтует с contact-panel).
 
 `prefers-reduced-motion` — мгновенно, без keyframes.
+
+## Bento layout (desktop)
+
+Правая колонка виджетов в профиле:
+
+| Колонка | Сверху | Снизу |
+|---------|--------|-------|
+| Слева | Book | `BentoWidget section="links"` (mychannel + ies) |
+| Справа | Photo | `BentoWidget section="youtube"` (wide) |
+
+Тултипы всех трёх плиток — `placement: "bottom"`. Детали — [`src/widgets/bento/README.md`](../../../widgets/bento/README.md).
 
 ## Contact panel
 

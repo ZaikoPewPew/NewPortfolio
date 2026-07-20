@@ -4,7 +4,17 @@
 
 ## Назначение
 
-Компактная сетка 142×142 из трёх плиток-ссылок: Telegram-канал, IES, YouTube.
+Три плитки-ссылки: Telegram-канал, IES, YouTube.
+
+### `section` prop (`BentoWidget.astro`)
+
+| Значение | Что рендерит | Где на home |
+|----------|--------------|-------------|
+| `links` | mychannel + ies | под Book |
+| `youtube` | wide YouTube | под Photo |
+| `all` (default) | все три в сетке | registry / standalone |
+
+`ProfileMenu` / `HomeWidgets` монтируют два инстанса: `section="links"` и `section="youtube"`.
 
 ## Данные
 
@@ -22,7 +32,7 @@
 
 - Hover: иконки и текст YouTube → `--color-link-hover` (без text-shadow)
 - Tap feedback через `FeedbackBus` (`data-feedback="tap hover"`)
-- Тултипы на плитках: balloon-on-string (`Tooltip` + `initDragTooltips`); боковые плитки — `tooltipPlacement: "left"` / `"right"` в mock — см. [`src/components/ui/README.md`](../../components/ui/README.md)
+- Тултипы на плитках: balloon-on-string (`Tooltip` + `initDragTooltips`); все три — `tooltipPlacement: "bottom"` — см. [`src/components/ui/README.md`](../../components/ui/README.md)
 
 ## Ассеты
 

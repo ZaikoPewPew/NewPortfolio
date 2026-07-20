@@ -83,7 +83,7 @@
 
 ### Где используется
 
-- [`src/widgets/bento/`](../widgets/bento/) — тултипы на плитках (`tooltip?: string[]`, `tooltipPlacement?: left|right|…` в mock)
+- [`src/widgets/bento/`](../widgets/bento/) — тултипы на плитках (`tooltip?: string[]`, `tooltipPlacement: "bottom"` в mock)
 
 ### Правила
 
@@ -102,7 +102,7 @@
 | Файл | Назначение |
 |------|------------|
 | `currentlyBlock.client.ts` | DOM, физика, видео + изображение, `bindCurrentlyBlockHost`, `initCurrentlyBlock`, опция `restart` |
-| `currently-block.css` | Liquid-glass рамка, `.currently-block__video` / `__image` |
+| `currently-block.css` | Liquid-glass рамка; размер всегда case-scale (чтобы не сжимался при fade-out) |
 | `CurrentlyBlockTrigger.astro` | Обёртка-хост с data-атрибутами |
 
 Инициализация — `initCurrentlyBlock()` (вызывается из `initEmployerName()` на главной) или напрямую из оркестратора. Сброс — `resetCurrentlyBlock()`.
@@ -239,7 +239,8 @@ Employer hover использует тот же контроллер через 
 
 | Токен | Смысл |
 |-------|-------|
-| `--currently-block-inner-width` / `--height` | Размер области видео (297×152) |
+| `--currently-block-inner-width` / `--height` | Базовый размер медиа (297×152); на блоке сразу case-scale ×1.5 |
+| `--currently-block-case-*` | Case-scale токены; применяются на `.currently-block` по умолчанию |
 | `--currently-block-radius` / `--inner-radius` | Скругления рамки и медиа |
 | `--currently-block-padding` | Padding рамки |
 | `--employer-blur-amount` | Сила backdrop-blur под wash |

@@ -78,7 +78,7 @@ Slide-анимации: `contact-panel.animations.css`. Только desktop (`m
 2. `PageEnterController` включает `data-home-entering` и снимает флаги по таймеру (`--motion-page-enter-total` / `--motion-page-enter-total-case`)
 3. Задержки — токены `--page-enter-delay-*` в `tokens.css`
 
-**Home:** header → me / git → book+bento (пара) / photo → cases (парами: `floor(i/2)`) → concepts (парами) → copyright. Кейсы стартуют с overlap относительно левой колонки. Total ~1.8s.
+**Home:** chrome (avatar `profile-menu__shell` + `theme-widget`, `--page-enter-delay-chrome`) → me / git → book+bento-links (пара) / photo+youtube → cases (парами: `floor(i/2)`) → concepts (парами) → copyright. Кейсы стартуют с overlap относительно левой колонки. Total ~1.8s.
 
 **Case (reload / прямой заход):** header → hero (cover+title) → meta → MDX body (`> *` парами, max 5 волн) → copyright. Виджеты скрыты; total — `--motion-page-enter-total-case` (~1.5s). Без `data-page-enter` на body — CSS по селекторам, без FOUC.
 

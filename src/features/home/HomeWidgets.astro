@@ -54,11 +54,17 @@ const locale = resolveLocale(Astro.currentLocale);
             <BookWidget />
           </div>
           <div data-contact-item="bento" data-tooltip-layer data-page-enter>
-            <BentoWidget />
+            <BentoWidget section="links" />
           </div>
         </div>
-        <div data-contact-item="photo" data-page-enter>
+        <div
+          class="home__widget-stack"
+          data-contact-item="photo"
+          data-tooltip-layer
+          data-page-enter
+        >
           <PhotoWidget />
+          <BentoWidget section="youtube" />
         </div>
       </div>
     </div>

@@ -1,4 +1,13 @@
 .currently-block {
+  /* Case-scale size is the only intentional display size (employer/focus-wash
+   * match it). Keep it on the block itself so size doesn't snap down while
+   * opacity is still fading after html.is-*-active is cleared. */
+  --currently-block-inner-width: var(--currently-block-case-inner-width);
+  --currently-block-inner-height: var(--currently-block-case-inner-height);
+  --currently-block-padding: var(--currently-block-case-padding);
+  --currently-block-radius: var(--currently-block-case-radius);
+  --currently-block-inner-radius: var(--currently-block-case-inner-radius);
+
   position: fixed;
   top: 0;
   left: 0;

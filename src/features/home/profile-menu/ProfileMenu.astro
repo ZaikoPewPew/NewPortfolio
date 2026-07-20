@@ -63,7 +63,7 @@ const m = getMessages(locale);
     })();
   </script>
 
-  <div class="profile-menu__shell">
+  <div class="profile-menu__shell" data-page-enter>
     <div class="profile-menu__header">
       <button
         type="button"
@@ -143,11 +143,17 @@ const m = getMessages(locale);
               <BookWidget />
             </div>
             <div data-contact-item="bento" data-tooltip-layer data-page-enter>
-              <BentoWidget />
+              <BentoWidget section="links" />
             </div>
           </div>
-          <div data-contact-item="photo" data-page-enter>
+          <div
+            class="home__widget-stack"
+            data-contact-item="photo"
+            data-tooltip-layer
+            data-page-enter
+          >
             <PhotoWidget />
+            <BentoWidget section="youtube" />
           </div>
         </div>
       </div>

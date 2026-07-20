@@ -227,6 +227,7 @@
   --motion-page-enter-duration: 780ms;
   --ease-page-enter: var(--ease-spring-soft);
   --page-enter-delay-header: 0ms;
+  --page-enter-delay-chrome: var(--page-enter-delay-header);
   --page-enter-delay-me: calc(var(--page-enter-stagger) * 1);
   --page-enter-delay-git: calc(var(--page-enter-stagger) * 2);
   --page-enter-delay-book: calc(var(--page-enter-stagger) * 3);
