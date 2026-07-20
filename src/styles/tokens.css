@@ -156,6 +156,7 @@
   --font-size-3xl: 36px;
   --font-size-4xl: 40px;
   --font-size-5xl: 48px;
+  --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --line-height-tight: 1.2;
@@ -329,7 +330,9 @@
   --case-card-logo-size: 48px;
   --case-company-name-width: 142px;
   --case-company-year-width: 142px;
-  --case-company-icon-size: 18px;
+  --case-company-icon-size: 16px;
+  --case-list-font-size: var(--font-size-sm);
+  --case-list-font-weight: var(--font-weight-light);
   --space-cases-company-gap: 40px;
 
   /* Concept showcase — витрина под кейсами */

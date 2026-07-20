@@ -114,7 +114,18 @@
       "project-alpha": "Merchant Acquiring Calculator Redesign",
       "project-beta": "One initiative ended three years of marketing and business disputes",
       "project-gamma": "Reduced call center inquiries by N%",
-      "project-delta": "QR Transport Payments"
+      "rmr-banking-app": "Corporate banking app for a regional bank",
+      "rmr-loyalty": "B2B loyalty program redesign",
+      "rmr-design-system": "Internal design system rollout",
+      "zimran-course-player": "Course player for mobile learning",
+      "zimran-paywall": "Paywall experiment that lifted conversion",
+      "zimran-admin": "Admin console for content ops",
+      "project-delta": "QR Transport Payments",
+      "kcell-self-care": "Self-care app navigation overhaul",
+      "kcell-roaming": "Roaming packs purchase flow",
+      "alfa-kz-cards": "Debit card issue flow",
+      "alfa-kz-transfers": "P2P transfers redesign",
+      "alfa-kz-loyalty": "Loyalty cashback hub"
     }
   },
   "hotkeys": {
