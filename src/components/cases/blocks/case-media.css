@@ -1,6 +1,6 @@
 .case-media {
   display: block;
-  margin-block: var(--space-xl);
+  margin-block: var(--case-text-to-visual-gap);
   margin-inline: 0;
   padding: 0;
   border: none;
@@ -10,7 +10,7 @@
   display: block;
   width: 100%;
   height: auto;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-card);
   background: var(--color-bg-surface);
 }
 

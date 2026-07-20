@@ -79,6 +79,7 @@
   --space-xl: 32px;
   --space-2xl: 48px;
   --space-3xl: 64px;
+  --space-4xl: 96px;
 
   /* Radius */
   --radius-widget: 24px;
@@ -151,10 +152,14 @@
   --font-size-2xl: 32px;
   --font-size-3xl: 36px;
   --font-size-4xl: 40px;
+  --font-size-5xl: 48px;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --line-height-tight: 1.2;
+  --line-height-snug: 1.1;
   --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-snug: -0.01em;
 
   /* Motion */
   --motion-fast: 150ms;
@@ -278,8 +283,14 @@
   --layout-content-width: 1248px;
   --layout-widgets-width: 300px;
   --layout-cases-width: 932px;
-  --layout-case-reading-width: 751px;
+  /* Paragraph measure ≈900–950 per case study guide; cover stays full cases column */
+  --layout-case-reading-width: 900px;
   --layout-case-cover-height: 340px;
+  --layout-case-cover-inset-top: var(--space-md);
+  /* Case body rhythm: section → title → text → visual */
+  --case-section-gap: var(--space-4xl);
+  --case-title-to-text-gap: var(--space-2xl);
+  --case-text-to-visual-gap: var(--space-3xl);
   --layout-column-gap: var(--space-md);
   --layout-gutter-desktop: var(--space-md);
   --layout-gutter-mobile: var(--space-sm);

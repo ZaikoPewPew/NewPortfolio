@@ -328,7 +328,7 @@ interpolate(m.header.employerAriaLabel, { employer: "alfa-bank" });
 - `src/styles/themes/graphite.css` — default (`data-theme="graphite"` на `<html>`)
 - `src/styles/themes/light.css` — светлая тема
 
-Переключение — `ThemeToggle` / хоткей `t` / dock. Анимация — `themeTransition.ts` (круговой reveal от точки клика).
+Переключение — `ThemeToggle` / хоткей `t` / dock. Анимация — `themeTransition.ts`: View Transitions API + `clip-path: circle()` от точки клика (новая тема раскрывается поверх старой); fallback — WAAPI на `.theme-switch-veil`. Без origin или при `prefers-reduced-motion` — мгновенно.
 
 ### Z-index (semantic)
 

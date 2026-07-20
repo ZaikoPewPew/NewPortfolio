@@ -34,7 +34,7 @@ const coverSrc = withBase(cover);
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-lg);
   }
 
   .case-hero__media {
@@ -58,7 +58,7 @@ const coverSrc = withBase(cover);
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-sm);
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--case-title-to-text-gap);
   }
 
   .case-hero__year {
@@ -67,9 +67,10 @@ const coverSrc = withBase(cover);
   }
 
   .case-hero__title {
-    font-size: var(--font-size-2xl);
-    line-height: var(--line-height-tight);
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-snug);
     font-weight: var(--font-weight-medium);
+    letter-spacing: var(--letter-spacing-tight);
     overflow-wrap: anywhere;
   }
 
@@ -85,7 +86,7 @@ const coverSrc = withBase(cover);
     }
 
     .case-hero__title {
-      font-size: var(--font-size-xl);
+      font-size: var(--font-size-2xl);
     }
 
     .case-hero__meta {

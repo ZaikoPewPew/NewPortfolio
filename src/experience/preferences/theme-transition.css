@@ -1,15 +1,15 @@
+/* Theme switch: clip-path reveal on ::view-transition-new(root) — no default cross-fade. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
 .theme-switch-veil {
   position: fixed;
   inset: 0;
   z-index: 2147483646;
   pointer-events: none;
   background: var(--color-bg-page);
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-mode: alpha;
-  mask-size: 100% 100%;
-  mask-repeat: no-repeat;
-  mask-mode: alpha;
 }
 
 @media (prefers-reduced-motion: reduce) {

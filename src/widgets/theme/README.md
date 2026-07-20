@@ -17,7 +17,7 @@
 - Якорь справа не смещается (☰ ↔ ✕)
 - Shell / tray растут справа налево
 - Чипы стартуют из центра якоря (`playOpenFromAnchor`) и с лёгким bounce встают в слоты
-- Тултипы языка и звука — снизу; theme — через `ThemeToggle`
+- Тултипы языка и звука — снизу; theme — через `ThemeToggle` (circle reveal через `themeTransition.ts`, см. [`experience/README.md`](../../experience/README.md))
 - Close — повторный клик / Escape / outside
 - Локальное время — на обороте me-виджета (`LiveClock`)
 

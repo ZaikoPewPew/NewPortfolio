@@ -35,7 +35,7 @@ card:
 
 ## Тело кейса (MDX-блоки)
 
-Ритм чтения — `src/styles/case-prose.css` (`.case-content__body`).
+Ритм чтения — `src/styles/case-prose.css` (`.case-content__body`). Токены: `--case-section-gap`, `--case-title-to-text-gap`, `--case-text-to-visual-gap` в `tokens.css`. Паттерн: eyebrow/label → title → text → visual.
 
 ### Иерархия
 

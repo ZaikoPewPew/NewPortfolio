@@ -6,16 +6,8 @@ export interface ThemeTransitionOrigin {
   y: number;
 }
 
-/**
- * Baseline (pre-smooth pass) — restore if needed:
- * - MOTION_MS = 500
- * - easeOutExpo: t >= 1 ? 1 : 1 - Math.pow(2, -10 * t)
- * - hard mask edge: transparent ${r}px, #000 ${r}px (no feather)
- * - rAF loop writing maskImage / webkitMaskImage each frame
- */
 const MOTION_MS = 480;
-/** Soft band hides per-frame radius jumps on a hard mask edge. */
-const MASK_FEATHER_PX = 36;
+const EASING = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 function maxRevealRadius(x: number, y: number): number {
   return Math.hypot(
@@ -24,54 +16,73 @@ function maxRevealRadius(x: number, y: number): number {
   );
 }
 
-/** Gentler than expo: expansion stays readable frame-to-frame, less “slideshow”. */
-function easeOutCubic(t: number): number {
-  return 1 - Math.pow(1 - t, 3);
+function supportsViewTransitions(): boolean {
+  return typeof document.startViewTransition === "function";
 }
 
-/** Hole grows: transparent center reveals the already-switched page. */
-function maskGradient(x: number, y: number, radius: number): string {
-  const inner = Math.max(0, radius);
-  const outer = inner + MASK_FEATHER_PX;
-  return `radial-gradient(circle at ${x}px ${y}px, transparent ${inner}px, #000 ${outer}px)`;
-}
-
-function runCircleReveal(
+function runViewTransitionReveal(
   x: number,
   y: number,
-  oldTheme: ThemeMode,
   nextTheme: ThemeMode
 ): ThemeMode {
+  const radius = maxRevealRadius(x, y);
+
+  const transition = document.startViewTransition(() => {
+    userPreferences.set({ theme: nextTheme });
+  });
+
+  transition.ready
+    .then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${radius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: MOTION_MS,
+          easing: EASING,
+          pseudoElement: "::view-transition-new(root)",
+        }
+      );
+    })
+    .catch(() => {
+      // Skipped or interrupted (e.g. rapid toggling) — theme already applied.
+    });
+
+  return nextTheme;
+}
+
+function runCircleRevealFallback(
+  x: number,
+  y: number,
+  nextTheme: ThemeMode
+): ThemeMode {
+  const radius = maxRevealRadius(x, y);
+
   userPreferences.set({ theme: nextTheme });
 
-  const radius = maxRevealRadius(x, y);
   const veil = document.createElement("div");
   veil.className = "theme-switch-veil";
-  veil.setAttribute("data-theme", oldTheme);
-  const startMask = maskGradient(x, y, 0);
-  veil.style.maskImage = startMask;
-  veil.style.webkitMaskImage = startMask;
+  veil.setAttribute("data-theme", nextTheme);
   document.body.appendChild(veil);
 
-  const start = performance.now();
-
-  function frame(now: number) {
-    const progress = Math.min((now - start) / MOTION_MS, 1);
-    const eased = easeOutCubic(progress);
-    const currentRadius = radius * eased;
-    const mask = maskGradient(x, y, currentRadius);
-
-    veil.style.maskImage = mask;
-    veil.style.webkitMaskImage = mask;
-
-    if (progress < 1) {
-      requestAnimationFrame(frame);
-    } else {
-      veil.remove();
+  const anim = veil.animate(
+    [
+      { clipPath: `circle(0px at ${x}px ${y}px)` },
+      { clipPath: `circle(${radius}px at ${x}px ${y}px)` },
+    ],
+    {
+      duration: MOTION_MS,
+      easing: EASING,
+      fill: "forwards",
     }
-  }
+  );
 
-  requestAnimationFrame(frame);
+  anim.onfinish = () => veil.remove();
+  window.setTimeout(() => veil.remove(), MOTION_MS + 100);
+
   return nextTheme;
 }
 
@@ -89,5 +100,9 @@ export function toggleThemeWithTransition(origin?: ThemeTransitionOrigin): Theme
     return nextTheme;
   }
 
-  return runCircleReveal(origin.x, origin.y, oldTheme, nextTheme);
+  if (supportsViewTransitions()) {
+    return runViewTransitionReveal(origin.x, origin.y, nextTheme);
+  }
+
+  return runCircleRevealFallback(origin.x, origin.y, nextTheme);
 }

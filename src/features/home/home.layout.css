@@ -5,6 +5,11 @@
   padding-inline: var(--layout-gutter-desktop);
 }
 
+/* Case cover: 16px from the top edge of the viewport */
+body[data-page="case"] .home {
+  padding-top: var(--layout-case-cover-inset-top);
+}
+
 .home__cases {
   width: 100%;
   min-width: 0;
@@ -139,6 +144,10 @@ body[data-page="case"] .theme-widget.case-theme-widget {
   .home {
     padding-inline: var(--layout-gutter-mobile);
     padding-top: var(--layout-gutter-mobile);
+  }
+
+  body[data-page="case"] .home {
+    padding-top: var(--layout-case-cover-inset-top);
   }
 
   .home__cases {

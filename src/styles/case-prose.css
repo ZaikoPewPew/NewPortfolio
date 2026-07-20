@@ -1,11 +1,21 @@
-/* Case body reading rhythm — scoped to .case-content__body */
+/* Case body reading rhythm — scoped to .case-content__body
+ * Pattern: eyebrow/label → title → text → visual (see case layout tokens)
+ */
+
+.case-content__body {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+}
 
 .case-content__body h2 {
-  font-size: var(--font-size-xl);
-  line-height: var(--line-height-tight);
-  font-weight: var(--font-weight-regular);
-  margin-top: var(--space-3xl);
-  margin-bottom: var(--space-md);
+  font-size: var(--font-size-3xl);
+  line-height: var(--line-height-snug);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-snug);
+  color: var(--color-text-primary);
+  margin-top: var(--case-section-gap);
+  margin-bottom: var(--case-title-to-text-gap);
 }
 
 .case-content__body h2:first-child {
@@ -13,11 +23,12 @@
 }
 
 .case-content__body h3 {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
   line-height: var(--line-height-tight);
   font-weight: var(--font-weight-medium);
-  margin-top: var(--space-xl);
-  margin-bottom: var(--space-sm);
+  color: var(--color-text-primary);
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-md);
 }
 
 .case-content__body h2 + *,
@@ -28,7 +39,7 @@
 .case-content__body p {
   margin-top: 0;
   margin-bottom: var(--space-md);
-  color: var(--color-text-on-bg);
+  color: var(--color-text-secondary);
   line-height: var(--line-height-normal);
 }
 
@@ -66,17 +77,22 @@
 
 .case-content__body strong {
   font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
 }
 
 .case-content__body .case-media {
-  margin-block: var(--space-2xl);
+  margin-block: var(--case-text-to-visual-gap);
 }
 
 @media (max-width: 639px) {
+  .case-content__body {
+    font-size: var(--font-size-base);
+  }
+
   .case-content__body h2 {
-    font-size: var(--font-size-lg);
-    margin-top: var(--space-2xl);
-    margin-bottom: var(--space-sm);
+    font-size: var(--font-size-2xl);
+    margin-top: var(--space-3xl);
+    margin-bottom: var(--space-lg);
   }
 
   .case-content__body h2:first-child {
@@ -84,19 +100,17 @@
   }
 
   .case-content__body h3 {
-    font-size: var(--font-size-base);
-    margin-top: var(--space-lg);
+    font-size: var(--font-size-lg);
+    margin-top: var(--space-xl);
     margin-bottom: var(--space-sm);
   }
 
   .case-content__body p,
   .case-content__body li {
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-normal);
     overflow-wrap: anywhere;
   }
 
   .case-content__body .case-media {
-    margin-block: var(--space-xl);
+    margin-block: var(--space-2xl);
   }
 }
