@@ -111,21 +111,18 @@
   },
   "cases": {
     "titles": {
-      "project-alpha": "Редизайн калькулятора торгового эквайринга",
-      "project-beta": "Одна инициатива решила 3 года споров маркетинга и бизнеса",
-      "project-gamma": "Сократил обращения в колл-центр на N%",
-      "rmr-banking-app": "Корпоративное банковское приложение",
-      "rmr-loyalty": "Редизайн B2B-программы лояльности",
-      "rmr-design-system": "Внутренний дизайн-системный rollout",
-      "zimran-course-player": "Плеер курсов для мобильного обучения",
-      "zimran-paywall": "Paywall-эксперимент с ростом конверсии",
-      "zimran-admin": "Админка для контент-операций",
-      "project-delta": "Оплата транспорта с помощью QR-кода",
-      "kcell-self-care": "Навигация в self-care приложении",
-      "kcell-roaming": "Покупка роуминг-пакетов",
-      "alfa-kz-cards": "Выпуск дебетовой карты",
-      "alfa-kz-transfers": "Редизайн P2P-переводов",
-      "alfa-kz-loyalty": "Хаб кэшбэка и лояльности"
+      "project-alpha": "редизайн калькулятора торгового эквайринга",
+      "project-beta": "одна инициатива решила 3 года споров маркетинга и бизнеса",
+      "project-gamma": "сократил обращения в колл-центр на n%",
+      "rmr-banking-app": "hcb design-system",
+      "rmr-loyalty": "branch system",
+      "rmr-design-system": "file organization system",
+      "zimran-paywall": "инвестиционные достижения",
+      "project-delta": "оплата транспорта с помощью qr-кода",
+      "kcell-self-care": "мобильные платежи",
+      "alfa-kz-cards": "график платежей рассрочки",
+      "alfa-kz-transfers": "статусы погашений",
+      "alfa-kz-loyalty": "продление рассрочки"
     }
   },
   "hotkeys": {

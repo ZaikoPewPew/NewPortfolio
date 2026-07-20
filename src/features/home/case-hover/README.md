@@ -12,13 +12,16 @@
 
 Инициализация — `initCaseHover()` из `HomeOrchestrator.client.ts`. Сброс — `resetCaseHover()`.
 
+Hit-test на каждом `pointermove` (`elementFromPoint`): после выхода из bbox в gap между строками currently снова включается, как только курсор над следующим `[data-case-card]` — даже если `pointerover` не пришёл.
+
 ## Поток hover
 
 ### Компания (`[data-case-company-link]`)
 
 1. Wash tint из `data-wash-color` (`companyWash` в frontmatter) или fallback `case`
-2. **Без** currently-block
-3. Выход — за bounding-box ссылки компании
+2. currently-block при наличии медиа (`companyVideo` / `companyImage` / fallback `employer.video` для `alfa-bank`)
+3. Звук `hoverEmployer`; видео без restart (как employer)
+4. Выход — за bounding-box ссылки компании
 
 ### Кейс (`[data-case-card]`, interaction `hover` \| `link`)
 
@@ -35,7 +38,15 @@
 | `hover` | dashed псевдоссылка | да | нет |
 | `link` | dashed псевдоссылка | да | `/cases/[slug]` |
 
-Компания: только wash (не currently).
+Компания: wash + currently-block при наличии медиа (см. ниже).
+
+## currently-block медиа (компания)
+
+| Frontmatter | `data-*` | Поведение |
+|-------------|---------|-----------|
+| `companyVideo` | `data-hover-video` | Ролик без restart |
+| `companyImage` (без видео) | `data-hover-image` | Статика |
+| `company === siteConfig.employer.label` | `data-hover-video` | `employer.video` (fantech) |
 
 ## currently-block медиа (кейсы)
 
@@ -50,9 +61,9 @@
 | Атрибут / класс | Где | Роль |
 |-----------------|-----|------|
 | `data-case-company` | секция группы | Контейнер focus |
-| `data-case-company-link` | ссылка компании | Хост wash-only |
+| `data-case-company-link` | ссылка компании | Хост wash + currently |
 | `data-case-card` | заголовок кейса | Хост currently |
-| `data-hover-video` / `data-hover-image` | кейс | Медиа |
+| `data-hover-video` / `data-hover-image` | компания / кейс | Медиа |
 | `is-focused` | компания | Выше blur |
 | `is-case-active` | `html`, home | Scale currently (только кейсы) |
 | `is-focus-wash-active` | `html` | Backdrop + wash |

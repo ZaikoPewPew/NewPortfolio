@@ -16,7 +16,7 @@ ThemeWidget (`theme-widget--fixed`) монтируется в `HomePage` / `Case
 ## Поток hover кейса
 
 1. `CaseCompany` / `CaseRow` ставят `data-case-card` и `data-hover-*` на interactive-элементы
-2. `CaseHoverController` слушает `pointerover` в `.home__cases`; выход — за границы активного `[data-case-card]`
+2. `CaseHoverController` — hit-test `elementFromPoint` на `pointermove` / `pointerover` в `.home__cases`
 3. Wash (tint `case`) + currently-block; группа получает `.is-focused`
 4. Детали — [`case-hover/README.md`](case-hover/README.md)
 

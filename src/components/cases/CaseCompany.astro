@@ -1,5 +1,6 @@
 ---
 import type { HomeCaseCompanyGroup } from "../../features/home/cases/getHomeCases";
+import { resolveCompanyHoverMedia } from "../../features/cases/resolveCompanyHoverMedia";
 import CaseRow from "./CaseRow.astro";
 
 interface Props {
@@ -8,6 +9,11 @@ interface Props {
 }
 
 const { group, index } = Astro.props;
+const media = resolveCompanyHoverMedia(group.company, group.companyVideo, group.companyImage);
+const hoverAttrs = {
+  ...(media.hoverVideo ? { "data-hover-video": media.hoverVideo } : {}),
+  ...(media.hoverImage ? { "data-hover-image": media.hoverImage } : {}),
+};
 ---
 
 <section
@@ -24,6 +30,7 @@ const { group, index } = Astro.props;
       rel="noopener noreferrer"
       data-case-company-link
       {...(group.companyWash ? { "data-wash-color": group.companyWash } : {})}
+      {...hoverAttrs}
     >
       <span class="case-company__label">{group.company}</span>
       <svg
@@ -82,7 +89,7 @@ const { group, index } = Astro.props;
     width: fit-content;
     max-width: 100%;
     font-family: var(--font-family);
-    font-weight: var(--case-list-font-weight);
+    font-weight: var(--case-company-font-weight);
     font-size: var(--case-list-font-size);
     line-height: var(--line-height-normal);
     color: var(--color-text-primary);

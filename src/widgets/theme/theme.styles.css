@@ -156,6 +156,7 @@
 .theme-widget__language {
   width: var(--space-2xl);
   padding: var(--space-control) 0;
+  font-weight: var(--font-weight-light);
   font-variant-numeric: tabular-nums;
 }
 

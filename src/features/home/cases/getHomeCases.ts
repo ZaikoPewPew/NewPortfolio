@@ -11,6 +11,10 @@ export type HomeCaseCompanyGroup = {
   companyUrl: string;
   /** Wash hex for company link; from first case with companyWash. */
   companyWash?: string;
+  /** Currently-block video; from first case with companyVideo. */
+  companyVideo?: string;
+  /** Currently-block image; from first case with companyImage. */
+  companyImage?: string;
   cases: HomeCaseEntry[];
 };
 
@@ -31,7 +35,7 @@ export function groupHomeCasesByCompany(
   const indexByCompany = new Map<string, number>();
 
   for (const entry of cases) {
-    const { company, companyUrl, companyWash } = entry.data;
+    const { company, companyUrl, companyWash, companyVideo, companyImage } = entry.data;
     const existing = indexByCompany.get(company);
 
     if (existing === undefined) {
@@ -40,6 +44,8 @@ export function groupHomeCasesByCompany(
         company,
         companyUrl,
         companyWash,
+        companyVideo,
+        companyImage,
         cases: [entry],
       });
       continue;
@@ -48,6 +54,12 @@ export function groupHomeCasesByCompany(
     const group = groups[existing];
     if (!group.companyWash && companyWash) {
       group.companyWash = companyWash;
+    }
+    if (!group.companyVideo && companyVideo) {
+      group.companyVideo = companyVideo;
+    }
+    if (!group.companyImage && companyImage) {
+      group.companyImage = companyImage;
     }
     group.cases.push(entry);
   }

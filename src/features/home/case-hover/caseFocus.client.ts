@@ -15,10 +15,12 @@ function isDisabled() {
 }
 
 function readBlockOptions(target: HTMLElement): CurrentlyBlockActivateOptions {
+  const isCompanyLink = target.hasAttribute("data-case-company-link");
+
   return {
     videoSrc: target.dataset.hoverVideo,
     imageSrc: target.dataset.hoverImage,
-    restart: true,
+    restart: !isCompanyLink,
   };
 }
 
@@ -44,7 +46,12 @@ export function initCaseFocus() {
   getCurrentlyBlock();
 }
 
-export function activateCaseFocus(target: HTMLElement, clientX: number, clientY: number) {
+export function activateCaseFocus(
+  target: HTMLElement,
+  clientX: number,
+  clientY: number,
+  options: { skipFeedback?: boolean } = {}
+) {
   if (isDisabled()) return;
 
   const block = getCurrentlyBlock();
@@ -56,17 +63,24 @@ export function activateCaseFocus(target: HTMLElement, clientX: number, clientY:
 
   const switching = isActive && activeTarget !== target;
   if (switching) {
+    activeTarget?.classList.remove("is-case-title-active");
     activeTarget = target;
+    target.classList.add("is-case-title-active");
     block.activate(clientX, clientY, readBlockOptions(target));
-    feedback.emit({ sound: "hoverCard", source: "case.hover" });
+    if (!options.skipFeedback) {
+      feedback.emit({ sound: "hoverCard", source: "case.hover" });
+    }
     return;
   }
 
   isActive = true;
   activeTarget = target;
+  target.classList.add("is-case-title-active");
 
   block.activate(clientX, clientY, readBlockOptions(target));
-  feedback.emit({ sound: "hoverCard", source: "case.hover" });
+  if (!options.skipFeedback) {
+    feedback.emit({ sound: "hoverCard", source: "case.hover" });
+  }
 
   bindDocumentPointerMove();
 }
@@ -81,6 +95,7 @@ export function deactivateCaseFocus() {
 
   isActive = false;
   unbindDocumentPointerMove();
+  activeTarget?.classList.remove("is-case-title-active");
   activeTarget = null;
 
   getCurrentlyBlock().deactivate();

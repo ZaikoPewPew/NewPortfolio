@@ -103,8 +103,9 @@ const hoverAttrs = isInteractive
     cursor: pointer;
   }
 
-  a.case-row__title--interactive:hover,
-  a.case-row__title--interactive:focus-visible {
+  .case-row__title--interactive.is-case-title-active,
+  .case-row__title--interactive:hover,
+  .case-row__title--interactive:focus-visible {
     text-decoration-color: var(--color-text-primary);
   }
 

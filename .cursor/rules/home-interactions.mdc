@@ -9,14 +9,15 @@ alwaysApply: false
 ## Hover кейсов
 
 - Список по компаниям (`CaseList` → `CaseCompany` / `CaseRow`)
-- Эффект: blur/wash на блок компании; currently-block только на interactive-кейсах
+- Эффект: blur/wash на блок компании; currently-block у компании (при медиа) и interactive-кейсов
 - Wash-портал (`employer-focus-root`) — стили из `employer-name.css`, подключаются через `case-focus.css` (на home без `EmployerName`)
 - Медиа — `data-hover-video` / `data-hover-image` на кейсах (frontmatter `hover.preview*`; приоритет: видео → картинка → `siteConfig.employer.video`)
-- Компания — только wash/blur; currently-block только у `interaction: hover|link`
+- Компания — wash/blur + currently-block при `companyVideo` / `companyImage` / fallback `employer.video` для employer label
+- Кейсы — currently-block только у `interaction: hover|link`
 - Каждый вход на `[data-case-card]` — видео **с начала** (`restart: true`); employer без restart
 - `html.is-case-active` — размер currently-block (`--currently-block-case-*`), только при hover кейса
 - `html.is-focus-wash-active` — backdrop blur + wash; группа `[data-case-company].is-focused` выше оверлея
-- Hit-test выхода — bounding-box **активного хоста** (ссылка компании или заголовок кейса)
+- Hit-test — `elementFromPoint` на `pointermove` / `pointerover` (активация следующего хоста после gap; выход когда курсор не над interactive-хостом)
 - `interaction`: `plain` | `hover` | `link` — см. `case-hover/README.md`; у `hover` курсор default, у `link` — pointer
 
 ## Ограничения

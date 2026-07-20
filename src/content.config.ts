@@ -31,6 +31,10 @@ const cases = defineCollection({
     companyUrl: z.string().url(),
     /** Wash tint for company name hover (hex); same within a company group. */
     companyWash: z.string().optional(),
+    /** Currently-block video on company link hover; same within a company group. */
+    companyVideo: z.string().optional(),
+    /** Currently-block image when no companyVideo; same within a company group. */
+    companyImage: z.string().optional(),
     /**
      * Home list interaction:
      * plain — text only;

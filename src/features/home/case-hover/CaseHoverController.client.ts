@@ -1,4 +1,5 @@
 import { isMobileViewport, prefersReducedMotion } from "../../../experience/motion/prefersReducedMotion";
+import { feedback } from "../../../experience/feedback/FeedbackBus";
 import {
   activateFocusWash,
   deactivateFocusWash,
@@ -17,14 +18,15 @@ let boundCasesRegion: HTMLElement | null = null;
 let activeCompany: HTMLElement | null = null;
 /** Host used for exit hit-test: company link or case title. */
 let activeHost: HTMLElement | null = null;
+let syncHoverFromPointer: ((clientX: number, clientY: number) => void) | null = null;
 
 function resolveCaseCard(target: EventTarget | null): HTMLElement | null {
-  if (!(target instanceof HTMLElement)) return null;
+  if (!(target instanceof Element)) return null;
   return target.closest<HTMLElement>("[data-case-card]");
 }
 
 function resolveCompanyLink(target: EventTarget | null): HTMLElement | null {
-  if (!(target instanceof HTMLElement)) return null;
+  if (!(target instanceof Element)) return null;
   return target.closest<HTMLElement>("[data-case-company-link]");
 }
 
@@ -66,12 +68,7 @@ function focusCompany(company: HTMLElement) {
 }
 
 function onDocumentPointerMove(e: PointerEvent) {
-  const host = activeHost;
-  if (!host) return;
-
-  if (!isPointerInside(host, e.clientX, e.clientY)) {
-    deactivateCaseHover();
-  }
+  syncHoverFromPointer?.(e.clientX, e.clientY);
 }
 
 export function deactivateCaseHover() {
@@ -99,7 +96,7 @@ export function initCaseHover() {
   const casesRegion = boundCasesRegion;
   if (!casesRegion) return;
 
-  const activateCompanyWash = (host: HTMLElement) => {
+  const activateCompanyFocus = (host: HTMLElement, clientX: number, clientY: number) => {
     if (mobile || reducedMotion) return;
 
     const company = resolveCompany(host);
@@ -108,9 +105,16 @@ export function initCaseHover() {
     activeHost = host;
     focusCompany(company);
     activateFocusWash(host.dataset.washColor || "case");
-    // Company: wash only — no currently-block
-    deactivateCaseFocus();
     setCaseBlockActive(page, false);
+
+    const hasMedia = Boolean(host.dataset.hoverVideo || host.dataset.hoverImage);
+    if (hasMedia) {
+      activateCaseFocus(host, clientX, clientY, { skipFeedback: true });
+    } else {
+      deactivateCaseFocus();
+    }
+
+    feedback.emit({ sound: "hoverEmployer", source: "case.company" });
   };
 
   const activateCaseCard = (card: HTMLElement, clientX: number, clientY: number) => {
@@ -126,24 +130,48 @@ export function initCaseHover() {
     activateCaseFocus(card, clientX, clientY);
   };
 
+  /**
+   * Hit-test under the cursor so currently-block recovers after gap exits.
+   * Activation used to rely only on pointerover; document pointermove could
+   * deactivate in the gap and leave the next card stuck inactive if over was missed
+   * (fast moves, scroll-under-cursor, etc.).
+   */
+  syncHoverFromPointer = (clientX, clientY) => {
+    if (mobile || reducedMotion) return;
+
+    const under = document.elementFromPoint(clientX, clientY);
+    if (!(under instanceof Element) || !casesRegion.contains(under)) {
+      if (activeHost && !isPointerInside(activeHost, clientX, clientY)) {
+        deactivateCaseHover();
+      }
+      return;
+    }
+
+    const caseCard = resolveCaseCard(under);
+    if (caseCard) {
+      if (caseCard === getActiveCaseFocusTarget() && caseCard === activeHost) return;
+      activateCaseCard(caseCard, clientX, clientY);
+      return;
+    }
+
+    const companyLink = resolveCompanyLink(under);
+    if (companyLink) {
+      if (companyLink === activeHost) return;
+      activateCompanyFocus(companyLink, clientX, clientY);
+      return;
+    }
+
+    if (activeHost && !isPointerInside(activeHost, clientX, clientY)) {
+      deactivateCaseHover();
+    }
+  };
+
   document.removeEventListener("pointermove", onDocumentPointerMove);
   document.addEventListener("pointermove", onDocumentPointerMove, { passive: true });
 
   casesRegion.addEventListener("pointerover", (e) => {
     if (mobile || reducedMotion) return;
-
-    const caseCard = resolveCaseCard(e.target);
-    if (caseCard) {
-      if (caseCard === getActiveCaseFocusTarget() && caseCard === activeHost) return;
-      activateCaseCard(caseCard, e.clientX, e.clientY);
-      return;
-    }
-
-    const companyLink = resolveCompanyLink(e.target);
-    if (companyLink) {
-      if (companyLink === activeHost) return;
-      activateCompanyWash(companyLink);
-    }
+    syncHoverFromPointer?.(e.clientX, e.clientY);
   });
 
   page.addEventListener("pointerleave", () => {
@@ -154,6 +182,7 @@ export function initCaseHover() {
 
 export function resetCaseHover() {
   document.removeEventListener("pointermove", onDocumentPointerMove);
+  syncHoverFromPointer = null;
   boundPage = null;
   boundCasesRegion = null;
   activeHost = null;
