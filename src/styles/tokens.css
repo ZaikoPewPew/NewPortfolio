@@ -335,11 +335,16 @@
   --case-list-font-size: var(--font-size-sm);
   --case-list-font-weight: var(--font-weight-light);
   --case-company-font-weight: var(--font-weight-regular);
+  /* Home portfolio: company → company */
   --space-cases-company-gap: var(--space-3xl);
+  /* Home portfolio: case rows within one company */
+  --space-cases-row-gap: var(--space-md);
+  /* Home: last portfolio block → concept bento */
+  --space-portfolio-to-concepts: var(--space-3xl);
   /* Company link hover — underline + external icon */
-  --motion-case-company-link: 420ms;
+  --motion-case-company-link: 200ms;
   --ease-case-company-link: cubic-bezier(0.33, 0.1, 0.25, 1);
-  --motion-case-company-icon-delay: 55ms;
+  --motion-case-company-icon-delay: 20ms;
 
   /* Hit expand — invisible ::after padding around text links (.hit-expand) */
   --hit-expand-y: 0.65rem;

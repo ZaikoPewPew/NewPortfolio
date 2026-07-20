@@ -12,7 +12,10 @@
     "backToHome": "На главную"
   },
   "home": {
-    "ariaLabel": "Главная"
+    "ariaLabel": "Главная",
+    "portfolio": {
+      "ariaLabel": "Портфолио"
+    }
   },
   "concepts": {
     "ariaLabel": "Витрина концептов"

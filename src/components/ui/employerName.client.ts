@@ -207,10 +207,24 @@ function bindEmployerHost(host: HTMLElement) {
   const disabled = () => reducedMotion || !isDesktopEmployer();
 
   let isActive = false;
+  let focusExitTimer: ReturnType<typeof setTimeout> | null = null;
 
   const blockOptions = (): CurrentlyBlockActivateOptions => ({
     videoSrc,
   });
+
+  const readFocusWashMs = () => {
+    const raw = Number.parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue("--motion-focus-wash"),
+    );
+    return Number.isFinite(raw) ? raw : 480;
+  };
+
+  const cancelFocusExit = () => {
+    if (focusExitTimer === null) return;
+    clearTimeout(focusExitTimer);
+    focusExitTimer = null;
+  };
 
   const syncFloat = () => {
     syncFloatElement(floatEl, label);
@@ -236,6 +250,11 @@ function bindEmployerHost(host: HTMLElement) {
     }
   };
 
+  const settleFocusExit = () => {
+    focusExitTimer = null;
+    hideFloat();
+  };
+
   const onScrollWhileActive = () => {
     if (!isActive) return;
     syncFloat();
@@ -243,6 +262,7 @@ function bindEmployerHost(host: HTMLElement) {
 
   const activate = (clientX: number, clientY: number) => {
     if (disabled()) return;
+    cancelFocusExit();
     if (isActive) {
       block.movePointer(clientX, clientY);
       return;
@@ -257,14 +277,26 @@ function bindEmployerHost(host: HTMLElement) {
     block.activate(clientX, clientY, blockOptions());
   };
 
-  const deactivate = () => {
-    if (!isActive) return;
-    isActive = false;
-    host.removeAttribute("data-employer-active");
-    document.documentElement.classList.remove("is-employer-active");
-    window.removeEventListener("scroll", onScrollWhileActive);
-    hideFloat();
-    block.deactivate();
+  const deactivate = (options: { immediate?: boolean } = {}) => {
+    if (!isActive && focusExitTimer === null) return;
+    cancelFocusExit();
+    if (isActive) {
+      isActive = false;
+      host.removeAttribute("data-employer-active");
+      window.removeEventListener("scroll", onScrollWhileActive);
+      // Start wash exit; keep float above blur until fade settles.
+      document.documentElement.classList.remove("is-employer-active");
+      block.deactivate();
+    }
+
+    const immediate = options.immediate || reducedMotion;
+    const exitMs = readFocusWashMs();
+    if (immediate || exitMs <= 0) {
+      settleFocusExit();
+      return;
+    }
+
+    focusExitTimer = setTimeout(settleFocusExit, exitMs);
   };
 
   host.addEventListener("mouseenter", (event) => {
@@ -293,7 +325,7 @@ function bindEmployerHost(host: HTMLElement) {
 
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState !== "hidden" || !isActive) return;
-    deactivate();
+    deactivate({ immediate: true });
   });
 }
 

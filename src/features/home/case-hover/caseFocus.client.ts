@@ -57,6 +57,7 @@ export function activateCaseFocus(
   const block = getCurrentlyBlock();
 
   if (isActive && activeTarget === target) {
+    bindDocumentPointerMove();
     block.movePointer(clientX, clientY);
     return;
   }
@@ -67,6 +68,7 @@ export function activateCaseFocus(
     activeTarget = target;
     target.classList.add("is-case-title-active");
     block.activate(clientX, clientY, readBlockOptions(target));
+    bindDocumentPointerMove();
     if (!options.skipFeedback) {
       feedback.emit({ sound: "hoverCard", source: "case.hover" });
     }

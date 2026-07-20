@@ -17,6 +17,7 @@ alwaysApply: false
 - Каждый вход на `[data-case-card]` — видео **с начала** (`restart: true`); employer без restart
 - `html.is-case-active` — флаг hover кейса (размер currently-block всегда case-scale в `currently-block.css`)
 - `html.is-focus-wash-active` — backdrop blur + wash; группа `[data-case-company].is-focused` выше оверлея
+- Exit: wash и currently/title снимаются сразу; `is-focused` держится до конца `--motion-focus-wash`, иначе компания прыгает под ещё сильный blur
 - Hit-test — `elementFromPoint` на `pointermove` / `pointerover` (активация следующего хоста после gap; выход когда курсор не над interactive-хостом)
 - `interaction`: `plain` | `hover` | `link` — см. `case-hover/README.md`; у `hover` курсор default, у `link` — pointer
 

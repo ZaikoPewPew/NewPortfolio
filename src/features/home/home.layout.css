@@ -14,7 +14,7 @@ body[data-page="case"] .home {
 .home__cases {
   display: flex;
   flex-direction: column;
-  gap: var(--space-cases-company-gap);
+  gap: var(--space-portfolio-to-concepts);
   width: 100%;
   min-width: 0;
 }

@@ -45,7 +45,7 @@ function handleCaseNavClick(event: MouseEvent) {
   if (!slug) return;
 
   beginWidgetsNavigationLock();
-  deactivateCaseHover();
+  deactivateCaseHover({ immediate: true });
   clearPhaseFlags();
   document.documentElement.classList.add("is-case-navigating");
   document.documentElement.dataset.caseTransitionSlug = slug;

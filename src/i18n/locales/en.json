@@ -12,7 +12,10 @@
     "backToHome": "Back to home"
   },
   "home": {
-    "ariaLabel": "Home"
+    "ariaLabel": "Home",
+    "portfolio": {
+      "ariaLabel": "Portfolio"
+    }
   },
   "concepts": {
     "ariaLabel": "Concept showcase"

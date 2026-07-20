@@ -64,9 +64,9 @@ Hit-test на каждом `pointermove` (`elementFromPoint`): после вых
 | `data-case-company-link` | ссылка компании | Хост wash + currently |
 | `data-case-card` | заголовок кейса | Хост currently |
 | `data-hover-video` / `data-hover-image` | компания / кейс | Медиа |
-| `is-focused` | компания | Выше blur |
+| `is-focused` | компания | Выше blur (держится до конца exit wash) |
 | `is-case-active` | `html`, home | Флаг hover кейса |
-| `is-focus-wash-active` | `html` | Backdrop + wash |
+| `is-focus-wash-active` | `html` | Backdrop + wash; снятие сразу; currently/title — сразу; `is-focused` — после `--motion-focus-wash` |
 
 ## Ограничения
 

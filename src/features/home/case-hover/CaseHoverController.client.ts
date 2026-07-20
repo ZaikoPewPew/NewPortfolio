@@ -19,6 +19,21 @@ let activeCompany: HTMLElement | null = null;
 /** Host used for exit hit-test: company link or case title. */
 let activeHost: HTMLElement | null = null;
 let syncHoverFromPointer: ((clientX: number, clientY: number) => void) | null = null;
+/** Keep company above wash until blur/grain fade reaches 0. */
+let focusExitTimer: ReturnType<typeof setTimeout> | null = null;
+
+function readFocusWashMs(): number {
+  const raw = Number.parseFloat(
+    getComputedStyle(document.documentElement).getPropertyValue("--motion-focus-wash"),
+  );
+  return Number.isFinite(raw) ? raw : 480;
+}
+
+function cancelFocusExit() {
+  if (focusExitTimer === null) return;
+  clearTimeout(focusExitTimer);
+  focusExitTimer = null;
+}
 
 function resolveCaseCard(target: EventTarget | null): HTMLElement | null {
   if (!(target instanceof Element)) return null;
@@ -71,15 +86,32 @@ function onDocumentPointerMove(e: PointerEvent) {
   syncHoverFromPointer?.(e.clientX, e.clientY);
 }
 
-export function deactivateCaseHover() {
+export function deactivateCaseHover(options: { immediate?: boolean } = {}) {
+  cancelFocusExit();
   activeHost = null;
-  clearCompanyFocus();
-  deactivateCaseFocus();
-  deactivateFocusWash();
 
   const page = document.querySelector<HTMLElement>("[data-home-page]");
-  document.documentElement.classList.remove("is-case-active");
-  page?.classList.remove("is-case-active");
+  // currently-block + title off immediately; wash fades; company stays elevated
+  // (is-focused) until blur reaches 0 so it does not jump under a strong wash.
+  deactivateFocusWash();
+  deactivateCaseFocus();
+  if (page) setCaseBlockActive(page, false);
+  else {
+    document.documentElement.classList.remove("is-case-active");
+    document.querySelector<HTMLElement>("[data-home-page]")?.classList.remove("is-case-active");
+  }
+
+  const immediate = options.immediate || prefersReducedMotion();
+  const exitMs = readFocusWashMs();
+  if (immediate || exitMs <= 0) {
+    clearCompanyFocus();
+    return;
+  }
+
+  focusExitTimer = setTimeout(() => {
+    focusExitTimer = null;
+    clearCompanyFocus();
+  }, exitMs);
 }
 
 export function initCaseHover() {
@@ -102,6 +134,7 @@ export function initCaseHover() {
     const company = resolveCompany(host);
     if (!company) return;
 
+    cancelFocusExit();
     activeHost = host;
     focusCompany(company);
     activateFocusWash(host.dataset.washColor || "case");
@@ -123,6 +156,7 @@ export function initCaseHover() {
     const company = resolveCompany(card);
     if (!company) return;
 
+    cancelFocusExit();
     activeHost = card;
     focusCompany(company);
     activateFocusWash(card.dataset.washColor || "case");
@@ -181,6 +215,7 @@ export function initCaseHover() {
 }
 
 export function resetCaseHover() {
+  cancelFocusExit();
   document.removeEventListener("pointermove", onDocumentPointerMove);
   syncHoverFromPointer = null;
   boundPage = null;
