@@ -58,7 +58,6 @@ Veil `.theme-switch-veil` с `data-theme={nextTheme}` + `veil.animate({ clipPath
 | `paper` | `paper_new.mp3` | Hover book widget (`data-feedback="paper"`) |
 | `bubble` | `buble_hover_new.mp3` | Hover contact button (`data-feedback="bubble"`) |
 | `swipe` | `swipe_new.mp3` | Открытие/закрытие contact panel (`ContactPanelController`) |
-| `flip` | `flip.mp3` | Переворот MeWidget (`me.client.ts`) |
 
 ### `data-feedback` на главной
 

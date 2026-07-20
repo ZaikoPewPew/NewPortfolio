@@ -1,0 +1,136 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { getCaseTitle } from "../../features/cases/getCaseTitle";
+import { resolveCaseHoverMedia } from "../../features/cases/resolveCaseHoverMedia";
+import { resolveLocale } from "../../i18n";
+
+interface Props {
+  caseEntry: CollectionEntry<"cases">;
+}
+
+const { caseEntry } = Astro.props;
+const { year, interaction, hover } = caseEntry.data;
+const slug = caseEntry.slug;
+const locale = resolveLocale(Astro.currentLocale);
+const title = getCaseTitle(slug, locale);
+const media = resolveCaseHoverMedia(caseEntry);
+const href = getRelativeLocaleUrl(locale, `/cases/${slug}`);
+const isInteractive = interaction === "hover" || interaction === "link";
+const isLink = interaction === "link";
+const washColor = hover.washTint ?? hover.gradientTo;
+
+const hoverAttrs = isInteractive
+  ? {
+      "data-case-card": true,
+      "data-wash-color": washColor,
+      ...(media.hoverVideo ? { "data-hover-video": media.hoverVideo } : {}),
+      ...(media.hoverImage ? { "data-hover-image": media.hoverImage } : {}),
+    }
+  : {};
+---
+
+<div class="case-row">
+  <div class="case-row__title-slot">
+    {
+      isLink ? (
+        <a
+          href={href}
+          class="case-row__title case-row__title--interactive"
+          data-case-nav
+          data-case-slug={slug}
+          tabindex="0"
+          {...hoverAttrs}
+        >
+          {title}
+        </a>
+      ) : isInteractive ? (
+        <span
+          class="case-row__title case-row__title--interactive"
+          tabindex="0"
+          {...hoverAttrs}
+        >
+          {title}
+        </span>
+      ) : (
+        <span class="case-row__title">{title}</span>
+      )
+    }
+  </div>
+  <span class="case-row__year">{year}</span>
+</div>
+
+<style>
+  /*
+   * [fluid title | 142 year] — fills space between company column and right edge.
+   */
+  .case-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--case-company-year-width);
+    column-gap: var(--layout-column-gap);
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .case-row__title-slot {
+    min-width: 0;
+  }
+
+  .case-row__title {
+    display: inline-block;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--color-text-primary);
+    text-decoration: none;
+  }
+
+  .case-row__title--interactive {
+    cursor: default;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--color-text-subdued);
+    text-underline-offset: 0.2em;
+  }
+
+  a.case-row__title--interactive {
+    cursor: pointer;
+  }
+
+  a.case-row__title--interactive:hover,
+  a.case-row__title--interactive:focus-visible {
+    text-decoration-color: var(--color-text-primary);
+  }
+
+  .case-row__title--interactive:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: var(--space-2xs);
+  }
+
+  .case-row__year {
+    margin: 0;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--color-text-subdued);
+    text-align: right;
+  }
+
+  @media (max-width: 639px) {
+    .case-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .case-row__year {
+      text-align: left;
+    }
+  }
+</style>

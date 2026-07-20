@@ -11,6 +11,9 @@ body[data-page="case"] .home {
 }
 
 .home__cases {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-cases-company-gap);
   width: 100%;
   min-width: 0;
 }
@@ -46,42 +49,8 @@ body[data-page="case"] .theme-widget.case-theme-widget {
     z-index: var(--z-content);
   }
 
-  /* Me card 3D flip expands into header gap — lift widgets above header glass */
-  body[data-page="home"] .grid__widgets:has([data-me-flipping]) {
-    z-index: calc(var(--z-header) + 1);
-  }
-
   body[data-page="home"] .home__cases {
     margin-top: 0;
-    isolation: isolate;
-  }
-
-  /*
-   * Page scroll stays on document. Sticky corner caps round the hard
-   * clip under the header (24px = --radius-widget) over the cases column.
-   */
-  body[data-page="home"] .home__cases::before {
-    content: "";
-    position: sticky;
-    top: var(--layout-header-block-height);
-    display: block;
-    height: var(--radius-widget);
-    margin-bottom: calc(-1 * var(--radius-widget));
-    pointer-events: none;
-    z-index: 2;
-    background:
-      radial-gradient(
-          circle at right bottom,
-          transparent calc(var(--radius-widget) - 0.5px),
-          var(--color-bg-page) var(--radius-widget)
-        )
-        left top / var(--radius-widget) var(--radius-widget) no-repeat,
-      radial-gradient(
-          circle at left bottom,
-          transparent calc(var(--radius-widget) - 0.5px),
-          var(--color-bg-page) var(--radius-widget)
-        )
-        right top / var(--radius-widget) var(--radius-widget) no-repeat;
   }
 
   body[data-page="home"] .home__widgets {
@@ -155,10 +124,6 @@ body[data-page="case"] .theme-widget.case-theme-widget {
     max-width: 100%;
   }
 
-  .home__cases .case-card {
-    max-width: 100%;
-  }
-
   /*
    * Case page mobile: same structure as desktop — cover then text,
    * no widgets column. Gutters = --layout-gutter-mobile (8px).
@@ -189,10 +154,6 @@ body[data-page="case"] .theme-widget.case-theme-widget {
   main[data-case-page] .case-hero__meta {
     margin-bottom: var(--layout-gutter-mobile);
   }
-}
-
-.home__cases .case-card__inner {
-  background: var(--color-bg-surface);
 }
 
 @media (min-width: 640px) {

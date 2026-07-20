@@ -54,8 +54,8 @@ function playOpenFromAnchor(widget: HTMLElement, trigger: HTMLElement) {
     const dy = oy - ly;
 
     const stoneIndex = Number(stone.dataset.stone ?? "1");
-    /* Closest to anchor leads; leftmost travels longest */
-    const lead = stones.length + 1 - stoneIndex;
+    /* Closest to anchor leads; bottom-most travels longest */
+    const lead = stoneIndex;
     const delay = 20 + lead * 40;
     const duration = 440 + lead * 50;
 
@@ -68,7 +68,7 @@ function playOpenFromAnchor(widget: HTMLElement, trigger: HTMLElement) {
 
   stones.forEach((stone) => {
     const stoneIndex = Number(stone.dataset.stone ?? "1");
-    const lead = stones.length + 1 - stoneIndex;
+    const lead = stoneIndex;
     const delay = 20 + lead * 40;
     const duration = 440 + lead * 50;
 

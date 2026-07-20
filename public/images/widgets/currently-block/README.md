@@ -26,7 +26,7 @@ employer: {
 
 `EmployerName.astro` → `data-employer-video` → `employerName.client.ts` / общий `CurrentlyBlockController`.
 
-**Кейсы** — в frontmatter MDX (`hover.previewVideo` и/или `hover.previewImage`). На карточке: `data-hover-video`, `data-hover-image` (`CaseCard.astro`). При каждом входе курсора на плитку видео стартует с нуля (`restart: true` в `caseFocus.client.ts`).
+**Кейсы** — в frontmatter MDX (`hover.previewVideo` и/или `hover.previewImage`). На home: `data-hover-video` / `data-hover-image` через `resolveCaseHoverMedia` → `CaseCompany` / `CaseRow`. При каждом входе курсора на interactive-элемент видео стартует с нуля (`restart: true` в `caseFocus.client.ts`).
 
 ### Приоритет медиа на карточке
 

@@ -275,9 +275,9 @@ Employer hover использует тот же контроллер через 
 | Файл | Назначение |
 |------|------------|
 | `ContactButton.astro` | Разметка, слой `.contact-button__fill`, цвета hover |
-| `contactButton.client.ts` | fill on enter/leave; `resetContactButton` / `resumeContactButtonHover` |
+| `contactButton.client.ts` | fill on enter/leave; `resetContactButton` |
 
-Инициализация — `initContactButton()` из `HomeOrchestrator.client.ts`; сброс — `resetContactButton()` при навигации, bfcache и `document.visibilitychange` → hidden (Cmd+Tab / уход в другое окно — `mouseleave` часто не срабатывает). Во время me-flip enter/leave игнорируются (`[data-me-flipping]`); после flip — `resumeContactButtonHover()`.
+Инициализация — `initContactButton()` из `HomeOrchestrator.client.ts`; сброс — `resetContactButton()` при навигации, bfcache и `document.visibilitychange` → hidden (Cmd+Tab / уход в другое окно — `mouseleave` часто не срабатывает).
 
 ### Feedback
 
@@ -332,7 +332,19 @@ Tap на кнопке **не** проигрывается (`bubble` — hover-on
 
 Перенесён в [`src/widgets/theme/`](../../widgets/theme/) — header-меню настроек (не bento registry).
 
-См. [`widgets/theme/README.md`](../../widgets/theme/README.md).
+Раскрытие **вниз**, тултипы **слева**. См. [`widgets/theme/README.md`](../../widgets/theme/README.md).
+
+---
+
+## ThemeToggle
+
+Кнопка смены темы внутри `ThemeWidget` (и потенциально dock).
+
+| Prop | Default | Смысл |
+|------|---------|--------|
+| `tooltipPlacement` | `left` | Сторона тултипа (`top` / `bottom` / `left` / `right`) |
+
+Тултип показывает **следующую** тему в цикле (`getNextTheme`); хоткей-hint `t`. Circle reveal — `themeTransition.ts`.
 
 ---
 

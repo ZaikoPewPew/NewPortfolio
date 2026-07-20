@@ -94,13 +94,16 @@
 }
 
 html.is-employer-active .employer-name__backdrop,
-html.is-employer-active .employer-name__overlay {
+html.is-employer-active .employer-name__overlay,
+html.is-focus-wash-active .employer-name__backdrop,
+html.is-focus-wash-active .employer-name__overlay {
   opacity: 1;
   visibility: visible;
 }
 
 /* Same size as case hover (`--currently-block-case-*`, scale 1.5) */
-html.is-employer-active .currently-block {
+html.is-employer-active .currently-block,
+html.is-focus-wash-active .currently-block {
   --currently-block-inner-width: var(--currently-block-case-inner-width);
   --currently-block-inner-height: var(--currently-block-case-inner-height);
   --currently-block-padding: var(--currently-block-case-padding);

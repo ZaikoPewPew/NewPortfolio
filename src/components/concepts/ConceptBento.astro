@@ -29,7 +29,7 @@ function getTileHeight(rowSpan: 1 | 2 | undefined): string {
   .concept-bento {
     width: 100%;
     min-width: 0;
-    margin-top: var(--layout-column-gap);
+    margin-top: 0;
   }
 
   .concept-bento__grid {
@@ -60,10 +60,6 @@ function getTileHeight(rowSpan: 1 | 2 | undefined): string {
   }
 
   @media (max-width: 639px) {
-    .concept-bento {
-      margin-top: var(--layout-gutter-mobile);
-    }
-
     .concept-bento__grid {
       gap: var(--layout-gutter-mobile);
     }

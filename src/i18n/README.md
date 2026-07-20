@@ -35,7 +35,8 @@ interpolate(m.header.employerAriaLabel, { employer: "alfa-bank" });
 | `contact` | `ContactWidget` — aria, подписи ссылок |
 | `theme` | `ThemeToggle.astro` |
 | `themeWidget` | `widgets/theme/ThemeWidget.astro` — aria language / sound |
-| `liveClock` | `components/ui/LiveClock.astro` — aria local time |
+| `liveClock` | `LiveClock.astro` / `BookWidget` — aria local time |
+| `book` | `BookWidget.astro` — aria local time ticket |
 | `bento` | `bento.mock.ts`, `BentoWidget.astro` |
 | `hotkeys` | `HotkeysManager`, `hotkeys.config.ts` (`messageKey`) |
 

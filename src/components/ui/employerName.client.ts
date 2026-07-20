@@ -103,6 +103,29 @@ function getSharedPortal(): EmployerPortal {
   return sharedPortal;
 }
 
+/** Shared blur + wash portal (employer + case company focus). */
+export function ensureFocusWashPortal(): EmployerPortal {
+  return getSharedPortal();
+}
+
+/**
+ * Activate focus wash.
+ * Hex (`#…`) → dynamic palette via setTint; otherwise theme id via setTintId.
+ */
+export function activateFocusWash(tint: string = "employer") {
+  const { wash } = getSharedPortal();
+  if (tint.startsWith("#")) {
+    wash?.setTint(tint);
+  } else {
+    wash?.setTintId(tint);
+  }
+  document.documentElement.classList.add("is-focus-wash-active");
+}
+
+export function deactivateFocusWash() {
+  document.documentElement.classList.remove("is-focus-wash-active");
+}
+
 /**
  * Floating label — прямой потомок body.
  *

@@ -6,7 +6,7 @@ import {
   type CurrentlyBlockActivateOptions,
 } from "../../../components/ui/currentlyBlock.client";
 
-let activeCard: HTMLAnchorElement | null = null;
+let activeTarget: HTMLElement | null = null;
 let isActive = false;
 let documentPointerMoveBound: ((event: PointerEvent) => void) | null = null;
 
@@ -14,10 +14,10 @@ function isDisabled() {
   return prefersReducedMotion() || isMobileViewport();
 }
 
-function readBlockOptions(card: HTMLAnchorElement): CurrentlyBlockActivateOptions {
+function readBlockOptions(target: HTMLElement): CurrentlyBlockActivateOptions {
   return {
-    videoSrc: card.dataset.hoverVideo,
-    imageSrc: card.dataset.hoverImage,
+    videoSrc: target.dataset.hoverVideo,
+    imageSrc: target.dataset.hoverImage,
     restart: true,
   };
 }
@@ -44,24 +44,28 @@ export function initCaseFocus() {
   getCurrentlyBlock();
 }
 
-export function activateCaseFocus(card: HTMLAnchorElement, clientX: number, clientY: number) {
+export function activateCaseFocus(target: HTMLElement, clientX: number, clientY: number) {
   if (isDisabled()) return;
 
   const block = getCurrentlyBlock();
 
-  if (isActive && activeCard === card) {
+  if (isActive && activeTarget === target) {
     block.movePointer(clientX, clientY);
     return;
   }
 
-  if (isActive) {
-    deactivateCaseFocus();
+  const switching = isActive && activeTarget !== target;
+  if (switching) {
+    activeTarget = target;
+    block.activate(clientX, clientY, readBlockOptions(target));
+    feedback.emit({ sound: "hoverCard", source: "case.hover" });
+    return;
   }
 
   isActive = true;
-  activeCard = card;
+  activeTarget = target;
 
-  block.activate(clientX, clientY, readBlockOptions(card));
+  block.activate(clientX, clientY, readBlockOptions(target));
   feedback.emit({ sound: "hoverCard", source: "case.hover" });
 
   bindDocumentPointerMove();
@@ -77,7 +81,7 @@ export function deactivateCaseFocus() {
 
   isActive = false;
   unbindDocumentPointerMove();
-  activeCard = null;
+  activeTarget = null;
 
   getCurrentlyBlock().deactivate();
 }
@@ -89,4 +93,8 @@ export function resetCaseFocus() {
 
 export function isCaseFocusActive() {
   return isActive;
+}
+
+export function getActiveCaseFocusTarget() {
+  return activeTarget;
 }

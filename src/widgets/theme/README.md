@@ -1,26 +1,28 @@
 # Theme menu widget
 
-Статус: **live** · место: header (не в bento `registry`).
+Статус: **live** · место: header / страница кейса (не в bento `registry`).
 
-Меню настроек: язык, звук, тема. Закрыто — кнопка-якорь; открыто — подложка растягивается влево, чипы вылетают из якоря (FLIP).
+Меню настроек: язык, звук, тема. Закрыто — кнопка-якорь; открыто — подложка растягивается вниз, чипы вылетают из якоря (FLIP).
 
 ## Файлы
 
 | Файл | Назначение |
 |------|------------|
-| `ThemeWidget.astro` | Разметка |
-| `theme.styles.css` | Оболочка, tray expand, якорь |
+| `ThemeWidget.astro` | Разметка (якорь сверху, tray снизу) |
+| `theme.styles.css` | Колонка, `grid-template-rows` expand, якорь |
 | `theme.client.ts` | Open/close, FLIP-вылет, sound |
 
 ## Поведение
 
-- Якорь справа не смещается (☰ ↔ ✕)
-- Shell / tray растут справа налево
-- Чипы стартуют из центра якоря (`playOpenFromAnchor`) и с лёгким bounce встают в слоты
-- Тултипы языка и звука — снизу; theme — через `ThemeToggle` (circle reveal через `themeTransition.ts`, см. [`experience/README.md`](../../experience/README.md))
+- Якорь сверху не смещается (☰ ↔ ✕)
+- Shell / tray растут сверху вниз (`grid-template-rows: 0fr → 1fr`)
+- Чипы стартуют из центра якоря (`playOpenFromAnchor`) и с лёгким bounce встают в слоты; ближайший к якорю ведёт анимацию
+- Тултипы — `placement="left"` (язык, звук, тема через `ThemeToggle` + `tooltipPlacement`)
+- Смена темы — circle reveal через `themeTransition.ts`, см. [`experience/README.md`](../../experience/README.md)
 - Close — повторный клик / Escape / outside
-- Локальное время — на обороте me-виджета (`LiveClock`)
+- Локальное время — в book-виджете (`LiveClock`), не в этом меню
 
 ## Где используется
 
-- [`src/components/layout/Header.astro`](../../components/layout/Header.astro)
+- [`src/components/layout/Header.astro`](../../components/layout/Header.astro) — home
+- [`src/features/cases/CasePage.astro`](../../features/cases/CasePage.astro) — `class="case-theme-widget"` (fixed top-right)

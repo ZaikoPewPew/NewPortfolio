@@ -7,6 +7,7 @@ export const THEME_SEQUENCE = [
   "merlot",
   "sage",
   "graphite",
+  "soft",
 ] as const;
 
 export type ThemeMode = (typeof THEME_SEQUENCE)[number];

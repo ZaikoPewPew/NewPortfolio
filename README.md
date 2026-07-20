@@ -123,9 +123,9 @@ npm run preview  # предпросмотр сборки
 
 | Виджет | Размер | Назначение |
 |--------|--------|------------|
-| **me** | wide | Профиль: аватар, имя, роль, bio, contact/about |
+| **me** | wide | Профиль: аватар, имя, роль, bio, contact |
 | **git** | wide | GitHub heatmap |
-| **book** | 142×142 | «Сейчас читаю» — билет с tear-hover (mock) |
+| **book** | 142×142 | Локальное время — билет с tear-hover |
 | **photo** | 142×142 | Фотогалерея со слайдами |
 | **bento** | 142× tall | Плитки-ссылки (канал, IES, YouTube) + тултипы |
 
@@ -135,25 +135,24 @@ npm run preview  # предпросмотр сборки
 
 ### Правая колонка — кейсы
 
-Список карточек `CaseList` → `CaseCard`. На desktop — сетка **2×N** (`minmax(0, 1fr)`), карточки до `--case-card-width` × `--case-card-height` (458×340px).
+Список кейсов `CaseList` → группы по `company` (`CaseCompany` / `CaseRow`). Колонки: компания / название / год.
 
-**Карточка (home):**
+**Строка на home:**
 
-- Фон `--color-bg-surface` (как у виджетов)
-- Лого 48×48 + `title` (14px); `summary` на карточке не показывается
-- Теги (`Tag variant="pill"`) — только при hover / `:focus-visible`
-- `cover` — для morph-перехода; фоновое фото на карточке пока скрыто
-- Лого по умолчанию — `casesConfig.cardLogoPlaceholder`; per-case — `card.logo` в frontmatter
+- Компания — ссылка `companyUrl`, wash на hover (`companyWash`)
+- Название — по `interaction`: `plain` (текст) / `hover` (currently + wash) / `link` (currently + wash + `/cases/[slug]`)
+- Год справа
+- Медиа currently-block: `hover.previewVideo` → `hover.previewImage` → employer video
 
 При hover (desktop):
 
-1. Currently-block с медиа кейса (`hover.previewVideo` → видео; иначе `hover.previewImage` → картинка; иначе employer video) следует за курсором; при каждом входе на плитку ролик стартует с начала
-2. Теги карточки появляются (`.is-active`)
-3. Звук `hoverCard`
+1. Компания — только blur/wash на группу
+2. Interactive-кейс — wash + currently-block у курсора (видео с начала при каждом входе)
+3. Звук `hoverCard` на кейсе
 
-На mobile и при `prefers-reduced-motion` hover-эффект отключён.
+На mobile и при `prefers-reduced-motion` hover/wash отключены.
 
-**Скролл (desktop):** header и левая колонка виджетов — `sticky`; кейсы прокручиваются вместе со страницей (без внутреннего scroll-контейнера). Верхний ряд карточек выровнен с отступом `--layout-header-widget-gap-desktop` от хедера.
+**Скролл (desktop):** header и левая колонка виджетов — `sticky`; кейсы прокручиваются вместе со страницей (без внутреннего scroll-контейнера).
 
 Количество кейсов на главной — `casesConfig.homeLimit` (сейчас `6`).
 
@@ -249,22 +248,27 @@ widgets/<id>/
 title: "Название"
 cover: "/images/cases/cover.svg"
 order: 1
-summary: "Краткое описание для карточки"
+summary: "Краткое описание"
 year: 2025
 tags: ["mobile", "fintech"]
+company: "alfa-bank"
+companyUrl: "https://alfabank.ru/"
+companyWash: "#EF3124"          # optional; wash при hover названия компании
+interaction: link               # plain | hover | link
 hover:
   gradientFrom: "#1a0a2e"
   gradientTo: "#e94560"
+  washTint: "#e94560"           # optional; fallback gradientTo
   gradientAngle: 160
-  previewImage: "/images/widgets/currently-block/qr_code.jpg"  # optional; currently-block (без previewVideo)
-  previewVideo: "/images/widgets/currently-block/terminal.mp4"  # optional; currently-block (приоритет над previewImage)
+  previewImage: "/images/widgets/currently-block/qr_code.jpg"  # optional
+  previewVideo: "/images/widgets/currently-block/terminal.mp4"  # optional; приоритет над previewImage
 card:
   layout: horizontal   # legacy; на home не используется
   subtitle: "Подзаголовок"                   # optional
-  logo: "/images/cases/logo.svg"               # optional; иначе cardLogoPlaceholder
+  logo: "/images/cases/logo.svg"               # optional
 ```
 
-Градиенты hover — **только** в frontmatter (исключение из правила design-tokens). Оркестратор читает их через `data-hover-*` на `CaseCard`.
+Градиенты / wash hex — **только** в frontmatter (исключение из правила design-tokens). Медиа резолвится в `resolveCaseHoverMedia` → `data-hover-*` на списке.
 
 Тело кейса — обычный MDX (заголовки, параграфы, списки).
 
@@ -325,10 +329,14 @@ interpolate(m.header.employerAriaLabel, { employer: "alfa-bank" });
 
 ### Темы
 
-- `src/styles/themes/graphite.css` — default (`data-theme="graphite"` на `<html>`)
-- `src/styles/themes/light.css` — светлая тема
+Цикл переключения (`THEME_SEQUENCE` в `UserPreferences.ts`):
+`chocolate` → `violet` → `clay` → `amber` → `merlot` → `sage` → `graphite` → `soft`.
 
-Переключение — `ThemeToggle` / хоткей `t` / dock. Анимация — `themeTransition.ts`: View Transitions API + `clip-path: circle()` от точки клика (новая тема раскрывается поверх старой); fallback — WAAPI на `.theme-switch-veil`. Без origin или при `prefers-reduced-motion` — мгновенно.
+- `src/styles/themes/graphite.css` — default (`data-theme="graphite"` на `<html>`)
+- `src/styles/themes/soft.css` — светлая (Soft Blush)
+- Остальные — в `src/styles/themes/*.css` (`light` есть в CSS, но вне цикла toggle)
+
+Меню настроек — `ThemeWidget` в header / на странице кейса: раскрывается **вниз**, тултипы **слева**. Переключение темы — `ThemeToggle` / хоткей `t`. Анимация — `themeTransition.ts`: View Transitions API + `clip-path: circle()` от точки клика; fallback — WAAPI на `.theme-switch-veil`. Без origin или при `prefers-reduced-motion` — мгновенно.
 
 ### Z-index (semantic)
 
@@ -440,7 +448,7 @@ kurguzov/
 ├── src/
 │   ├── components/
 │   │   ├── layout/         # Grid, Header, PageShell, WidgetGrid
-│   │   ├── cases/          # CaseCard, CaseList, CaseHero
+│   │   ├── cases/          # CaseList, CaseCompany, CaseRow, CaseHero
 │   │   └── ui/             # атомы: Tooltip, ThemeToggle, LiveClock…
 │   ├── config/             # site, dock, env, cases
 │   ├── content/cases/      # MDX-кейсы

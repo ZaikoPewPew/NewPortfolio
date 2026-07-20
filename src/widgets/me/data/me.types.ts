@@ -4,5 +4,4 @@ export interface MeProfile {
   bioLine1: string;
   bioLine2: string;
   avatarUrl: string;
-  cityPhotoUrl: string;
 }

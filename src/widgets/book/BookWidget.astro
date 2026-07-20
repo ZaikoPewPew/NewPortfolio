@@ -1,15 +1,19 @@
 ---
-import { getMessages, resolveLocale } from "../../i18n";
+import { siteConfig } from "../../config/site.config";
+import { getMessages, interpolate, resolveLocale } from "../../i18n";
 import { bookAssets } from "./config";
 import "./book.styles.css";
 import "./book.animations.css";
 
-const m = getMessages(resolveLocale(Astro.currentLocale));
+const locale = resolveLocale(Astro.currentLocale);
+const m = getMessages(locale);
+const { city, country, timezone } = siteConfig.location;
+const countryLabel = country.toLowerCase();
 ---
 
 <article
   class="book-widget"
-  aria-label={m.book.ariaLabel}
+  aria-label={interpolate(m.book.ariaLabel, { city })}
   data-feedback="paper"
   data-feedback-source="widget.book"
 >
@@ -26,6 +30,24 @@ const m = getMessages(resolveLocale(Astro.currentLocale));
   </div>
 
   <div class="book-widget__top">
-    <p class="book-widget__label">{m.book.label}</p>
+    <div
+      class="book-widget__clock"
+      data-live-clock
+      data-timezone={timezone}
+    >
+      <span class="book-widget__time" data-clock-time>--:--:-- --</span>
+      <span class="book-widget__place">{countryLabel}</span>
+    </div>
   </div>
 </article>
+
+<script>
+  import { initLiveClock } from "../../components/ui/liveClock.client";
+
+  function bindBookClock() {
+    initLiveClock();
+  }
+
+  bindBookClock();
+  document.addEventListener("astro:page-load", bindBookClock);
+</script>

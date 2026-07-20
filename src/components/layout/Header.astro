@@ -44,12 +44,18 @@ const m = getMessages(resolveLocale(Astro.currentLocale));
   .header__row {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: var(--space-md);
     min-height: var(--header-row-height-desktop);
   }
 
+  /*
+   * Stay in header flow; on wide screens cancel content centering so both
+   * sit at the viewport edge (16px via --layout-gutter-desktop padding).
+   */
   .header__employer {
+    position: relative;
+    left: min(0px, calc((var(--layout-content-width) - 100vw) / 2));
     margin: 0;
     font-family: var(--font-family);
     font-weight: var(--font-weight-regular);
@@ -57,6 +63,11 @@ const m = getMessages(resolveLocale(Astro.currentLocale));
     line-height: var(--line-height-tight);
     color: var(--color-text-primary);
     white-space: nowrap;
+  }
+
+  .header__row :global(.theme-widget) {
+    position: relative;
+    left: max(0px, calc((100vw - var(--layout-content-width)) / 2));
   }
 
   @media (max-width: 639px) {

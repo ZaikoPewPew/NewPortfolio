@@ -1,97 +1,40 @@
 ---
 import ContactButton from "../../components/ui/ContactButton.astro";
-import { siteConfig } from "../../config/site.config";
-import { getMessages, interpolate, resolveLocale } from "../../i18n";
+import { getMessages, resolveLocale } from "../../i18n";
 import { getMeProfile } from "./data/me.source";
 import "./me.styles.css";
 
 const locale = resolveLocale(Astro.currentLocale);
 const profile = await getMeProfile(locale);
 const m = getMessages(locale);
-const { city, country, timezone } = siteConfig.location;
 ---
 
 <article
   class="me-widget"
   aria-label={m.me.ariaLabel}
-  data-me-widget
-  data-me-flipped="false"
   data-page-enter
 >
-  <div class="me-widget__scene">
-    <div class="me-widget__flipper">
-      <div class="me-widget__face me-widget__face--front" data-me-face="front">
-        <div class="me-widget__header">
-          <img
-            class="me-widget__avatar"
-            src={profile.avatarUrl}
-            alt=""
-            width="48"
-            height="48"
-            loading="eager"
-          />
-          <div class="me-widget__identity">
-            <p class="me-widget__name">{profile.name}</p>
-            <p class="me-widget__role">{profile.role}</p>
-          </div>
-        </div>
-
-        <p class="me-widget__bio me-widget__desktop-only">
-          <span class="me-widget__bio-line">{profile.bioLine1}</span>
-          <span class="me-widget__bio-line">{profile.bioLine2}</span>
-        </p>
-
-        <div class="me-widget__desktop-only">
-          <ContactButton />
-        </div>
-      </div>
-
-      <div
-        class="me-widget__face me-widget__face--back"
-        data-me-face="back"
-        aria-hidden="true"
-        inert
-      >
-        <img
-          class="me-widget__photo"
-          src={profile.cityPhotoUrl}
-          alt=""
-          width="284"
-          height="65"
-          loading="lazy"
-        />
-
-        <div class="me-widget__location-wrap me-widget__desktop-only">
-          <div
-            class="me-widget__location"
-            data-live-clock
-            data-timezone={timezone}
-            aria-label={interpolate(m.liveClock.ariaLabel, { city })}
-          >
-            <span class="me-widget__location-place">{city} \ {country}</span>
-            <span class="me-widget__location-time" data-clock-time>--:--</span>
-          </div>
-        </div>
-
-        <div class="me-widget__actions me-widget__desktop-only">
-          <ContactButton />
-        </div>
-      </div>
+  <div class="me-widget__header">
+    <img
+      class="me-widget__avatar"
+      src={profile.avatarUrl}
+      alt=""
+      width="48"
+      height="48"
+      loading="eager"
+    />
+    <div class="me-widget__identity">
+      <p class="me-widget__name">{profile.name}</p>
+      <p class="me-widget__role">{profile.role}</p>
     </div>
   </div>
+
+  <p class="me-widget__bio me-widget__desktop-only">
+    <span class="me-widget__bio-line">{profile.bioLine1}</span>
+    <span class="me-widget__bio-line">{profile.bioLine2}</span>
+  </p>
+
+  <div class="me-widget__desktop-only">
+    <ContactButton />
+  </div>
 </article>
-
-<script>
-  import { initLiveClock } from "../../components/ui/liveClock.client";
-  import { initMeWidget } from "./me.client";
-
-  function bindMeWidgets() {
-    document.querySelectorAll("[data-me-widget]").forEach((widget) => {
-      initMeWidget(widget as HTMLElement);
-    });
-    initLiveClock();
-  }
-
-  bindMeWidgets();
-  document.addEventListener("astro:page-load", bindMeWidgets);
-</script>

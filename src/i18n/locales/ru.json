@@ -55,7 +55,8 @@
       "amber": "amber",
       "merlot": "merlot",
       "sage": "sage",
-      "graphite": "graphite"
+      "graphite": "graphite",
+      "soft": "soft"
     }
   },
   "liveClock": {
@@ -82,8 +83,7 @@
     "commitsPerYear": "{count} коммитов в год"
   },
   "book": {
-    "ariaLabel": "Сейчас читаю",
-    "label": "сейчас я читаю"
+    "ariaLabel": "Местное время в {city}"
   },
   "bento": {
     "ariaLabel": "Ссылки и каналы",

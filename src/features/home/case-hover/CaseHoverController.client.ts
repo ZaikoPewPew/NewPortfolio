@@ -1,48 +1,88 @@
 import { isMobileViewport, prefersReducedMotion } from "../../../experience/motion/prefersReducedMotion";
 import {
+  activateFocusWash,
+  deactivateFocusWash,
+  ensureFocusWashPortal,
+} from "../../../components/ui/employerName.client";
+import {
   activateCaseFocus,
   deactivateCaseFocus,
+  getActiveCaseFocusTarget,
   initCaseFocus,
   resetCaseFocus,
 } from "./caseFocus.client";
 
 let boundPage: HTMLElement | null = null;
 let boundCasesRegion: HTMLElement | null = null;
-let activeHoverCard: HTMLAnchorElement | null = null;
+let activeCompany: HTMLElement | null = null;
+/** Host used for exit hit-test: company link or case title. */
+let activeHost: HTMLElement | null = null;
+
+function resolveCaseCard(target: EventTarget | null): HTMLElement | null {
+  if (!(target instanceof HTMLElement)) return null;
+  return target.closest<HTMLElement>("[data-case-card]");
+}
+
+function resolveCompanyLink(target: EventTarget | null): HTMLElement | null {
+  if (!(target instanceof HTMLElement)) return null;
+  return target.closest<HTMLElement>("[data-case-company-link]");
+}
+
+function resolveCompany(el: HTMLElement): HTMLElement | null {
+  return el.closest<HTMLElement>("[data-case-company]");
+}
+
+function clearCompanyFocus() {
+  if (!activeCompany) return;
+  activeCompany.classList.remove("is-focused");
+  activeCompany = null;
+}
+
+function isPointerInside(el: HTMLElement, clientX: number, clientY: number) {
+  const rect = el.getBoundingClientRect();
+  return (
+    clientX >= rect.left &&
+    clientX <= rect.right &&
+    clientY >= rect.top &&
+    clientY <= rect.bottom
+  );
+}
+
+function setCaseBlockActive(page: HTMLElement, active: boolean) {
+  if (active) {
+    document.documentElement.classList.add("is-case-active");
+    page.classList.add("is-case-active");
+    return;
+  }
+  document.documentElement.classList.remove("is-case-active");
+  page.classList.remove("is-case-active");
+}
+
+function focusCompany(company: HTMLElement) {
+  if (activeCompany === company) return;
+  clearCompanyFocus();
+  activeCompany = company;
+  company.classList.add("is-focused");
+}
 
 function onDocumentPointerMove(e: PointerEvent) {
-  const activeCard = activeHoverCard;
-  if (!activeCard) return;
+  const host = activeHost;
+  if (!host) return;
 
-  const rect = activeCard.getBoundingClientRect();
-  const inside =
-    e.clientX >= rect.left &&
-    e.clientX <= rect.right &&
-    e.clientY >= rect.top &&
-    e.clientY <= rect.bottom;
-
-  if (inside) return;
-
-  deactivateCaseHover();
+  if (!isPointerInside(host, e.clientX, e.clientY)) {
+    deactivateCaseHover();
+  }
 }
 
 export function deactivateCaseHover() {
-  const activeCard = activeHoverCard;
-
-  if (activeCard) {
-    activeCard.classList.remove("is-active");
-  }
-
-  activeHoverCard = null;
+  activeHost = null;
+  clearCompanyFocus();
   deactivateCaseFocus();
+  deactivateFocusWash();
+
   const page = document.querySelector<HTMLElement>("[data-home-page]");
   document.documentElement.classList.remove("is-case-active");
   page?.classList.remove("is-case-active");
-}
-
-function resolveCard(target: EventTarget | null): HTMLAnchorElement | null {
-  if (!(target instanceof HTMLElement)) return null;
-  return target.closest<HTMLAnchorElement>("[data-case-card]");
 }
 
 export function initCaseHover() {
@@ -52,19 +92,37 @@ export function initCaseHover() {
   boundPage = page;
   boundCasesRegion = page.querySelector<HTMLElement>(".home__cases");
   initCaseFocus();
+  ensureFocusWashPortal();
 
   const reducedMotion = prefersReducedMotion();
   const mobile = isMobileViewport();
   const casesRegion = boundCasesRegion;
   if (!casesRegion) return;
 
-  const activate = (card: HTMLAnchorElement, clientX: number, clientY: number) => {
+  const activateCompanyWash = (host: HTMLElement) => {
     if (mobile || reducedMotion) return;
 
-    activeHoverCard = card;
-    document.documentElement.classList.add("is-case-active");
-    page.classList.add("is-case-active");
-    card.classList.add("is-active");
+    const company = resolveCompany(host);
+    if (!company) return;
+
+    activeHost = host;
+    focusCompany(company);
+    activateFocusWash(host.dataset.washColor || "case");
+    // Company: wash only — no currently-block
+    deactivateCaseFocus();
+    setCaseBlockActive(page, false);
+  };
+
+  const activateCaseCard = (card: HTMLElement, clientX: number, clientY: number) => {
+    if (mobile || reducedMotion) return;
+
+    const company = resolveCompany(card);
+    if (!company) return;
+
+    activeHost = card;
+    focusCompany(company);
+    activateFocusWash(card.dataset.washColor || "case");
+    setCaseBlockActive(page, true);
     activateCaseFocus(card, clientX, clientY);
   };
 
@@ -74,18 +132,22 @@ export function initCaseHover() {
   casesRegion.addEventListener("pointerover", (e) => {
     if (mobile || reducedMotion) return;
 
-    const card = resolveCard(e.target);
-    if (!card || card === activeHoverCard) return;
+    const caseCard = resolveCaseCard(e.target);
+    if (caseCard) {
+      if (caseCard === getActiveCaseFocusTarget() && caseCard === activeHost) return;
+      activateCaseCard(caseCard, e.clientX, e.clientY);
+      return;
+    }
 
-    deactivateCaseHover();
-    activate(card, e.clientX, e.clientY);
+    const companyLink = resolveCompanyLink(e.target);
+    if (companyLink) {
+      if (companyLink === activeHost) return;
+      activateCompanyWash(companyLink);
+    }
   });
 
-  page.addEventListener("pointerleave", (e) => {
-    if (mobile || reducedMotion || !activeHoverCard) return;
-
-    const related = e.relatedTarget;
-    if (related instanceof Node && activeHoverCard.contains(related)) return;
+  page.addEventListener("pointerleave", () => {
+    if (mobile || reducedMotion || !activeHost) return;
     deactivateCaseHover();
   });
 }
@@ -94,7 +156,9 @@ export function resetCaseHover() {
   document.removeEventListener("pointermove", onDocumentPointerMove);
   boundPage = null;
   boundCasesRegion = null;
-  activeHoverCard = null;
+  activeHost = null;
+  clearCompanyFocus();
   resetCaseFocus();
+  deactivateFocusWash();
   document.documentElement.classList.remove("is-case-active");
 }

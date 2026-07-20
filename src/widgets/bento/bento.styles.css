@@ -30,7 +30,7 @@
   justify-content: center;
   width: var(--bento-tile-size);
   height: var(--bento-tile-size);
-  border-radius: var(--radius-control);
+  border-radius: var(--radius-widget);
   background: var(--color-bg-surface);
   color: var(--bento-icon-color);
   text-decoration: none;

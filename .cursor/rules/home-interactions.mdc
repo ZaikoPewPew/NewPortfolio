@@ -8,17 +8,19 @@ alwaysApply: false
 
 ## Hover кейсов
 
-- Единственный эффект — currently-block с медиа у курсора (`CaseHoverController` + `caseFocus.client.ts`); системный курсор не меняется
-- Медиа карточки — `data-hover-video` / `data-hover-image` (frontmatter `hover.previewVideo` / `hover.previewImage`; приоритет: видео → картинка → `siteConfig.employer.video`)
-- Каждый вход курсора на плитку — видео **с начала** (`CurrentlyBlockActivateOptions.restart`); employer hover без restart
-- Класс `is-case-active` на `html` / `[data-home-page]` — увеличивает размер блока (`--currently-block-case-*`)
-- Карточка получает `.is-active` (показ тегов)
-- Никаких blur / wash / градиента фона / preview-панели / подъёма карточки
-- Логика выхода, scale блока — `case-hover/README.md`
+- Список по компаниям (`CaseList` → `CaseCompany` / `CaseRow`)
+- Эффект: blur/wash на блок компании; currently-block только на interactive-кейсах
+- Медиа — `data-hover-video` / `data-hover-image` на кейсах (frontmatter `hover.preview*`; приоритет: видео → картинка → `siteConfig.employer.video`)
+- Компания — только wash/blur; currently-block только у `interaction: hover|link`
+- Каждый вход на `[data-case-card]` — видео **с начала** (`restart: true`); employer без restart
+- `html.is-case-active` — размер currently-block (`--currently-block-case-*`), только при hover кейса
+- `html.is-focus-wash-active` — backdrop blur + wash; группа `[data-case-company].is-focused` выше оверлея
+- Hit-test выхода — bounding-box **активного хоста** (ссылка компании или заголовок кейса)
+- `interaction`: `plain` | `hover` | `link` — см. `case-hover/README.md`; у `hover` курсор default, у `link` — pointer
 
 ## Ограничения
 
-- Hover-блок отключён на mobile и `prefers-reduced-motion`
+- Hover/wash отключены на mobile и `prefers-reduced-motion`
 - Фон — `PageBackground.astro` (сплошной `--color-bg-page`)
 
 ## Оркестрация

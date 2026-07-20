@@ -1,0 +1,80 @@
+/* Soft Blush — светлая тема.
+   База: white / #F5F5F5 / #242426.
+   Акцент: брендовый красный #F9392A. */
+
+html[data-theme="soft"],
+.theme-switch-veil[data-theme="soft"] {
+  --color-bg-page: #ffffff;
+  --color-bg: #ffffff;
+  --color-bg-surface: #f5f5f5;
+  --color-bg-elevated: #ececec;
+  --color-surface: #f5f5f5;
+  --color-text-primary: #242426;
+  --color-text-muted: #8a8a8e;
+  --color-text-secondary: #8a8a8e;
+  --color-text-subdued: rgba(36, 36, 38, 0.5);
+  --color-text-on-bg: #242426;
+  --color-border: #e6e6e8;
+  --color-border-subtle: #ececec;
+  --color-bg-control: #ececec;
+  --color-bg-contrast: #242426;
+  --color-text-on-contrast: #ffffff;
+
+  /* Хитмап — приглушённый пастельно-зелёный */
+  --color-git-cell-empty: #ececec;
+  --color-git-cell-l1: #d3f0da;
+  --color-git-cell-l2: #a9e0b8;
+  --color-git-cell-l3: #79c491;
+  --color-git-cell-l4: #4a9c68;
+
+  --color-accent: #f9392a;
+  --color-accent-green: #a9e0b8;
+
+  --color-link-hover: #f9392a;
+  --color-contact-button-hover-text: #ffffff;
+  --shadow-link-hover: inset 0 0 10px 0 rgba(249, 57, 42, 0.16);
+  --shadow-tooltip: 0 8px 16px -2px rgba(36, 36, 38, 0.14);
+
+  --color-overlay-glass: rgba(36, 36, 38, 0.16);
+  --color-glass-bg: rgba(36, 36, 38, 0.1);
+  --color-glass-border: rgba(36, 36, 38, 0.16);
+  --color-glass-shine: rgba(255, 255, 255, 0.6);
+  --shadow-glass:
+    0 8px 40px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 0 var(--color-glass-shine);
+
+  --color-photo-indicator: #ffffff;
+  --color-photo-indicator-progress: #242426;
+
+  --wash-grain-opacity: 0.08;
+  --wash-grain-overlay: 0.08;
+  --wash-grain-mixer: 0.14;
+
+  --wash-bg: #ffffff;
+  --wash-palette-employer-bg: #ffffff;
+  --wash-palette-employer-1: #f9392a;
+  --wash-palette-employer-2: #ffffff;
+  --wash-palette-employer-3: #ffffff;
+  --wash-tint-employer: #f9392a;
+
+  --wash-tint-email: #3d6fd9;
+  --wash-tint-linkedin: #004182;
+  --wash-tint-telegram: #229ed9;
+  --wash-tint-github: #57606a;
+  --wash-tint-x: #0f1419;
+  --wash-tint-cv: #8a8a8e;
+
+  --wash-palette-case-bg: #ffffff;
+  --wash-palette-case-1: #a89bd6;
+  --wash-palette-case-2: #ffffff;
+  --wash-palette-case-3: #ffffff;
+  --wash-tint-case: #a89bd6;
+
+  --book-ticket-bg-top: url("../images/widgets/book/Card-2-surface.svg");
+  --book-ticket-bg-bottom: url("../images/widgets/book/Card-1-surface.svg");
+  --color-book-ticket-text: var(--color-text-primary);
+  --color-book-barcode: #242426;
+
+  --color-case-cursor-bg: color-mix(in srgb, var(--color-bg-surface) 72%, transparent);
+  --color-case-cursor-text: var(--color-text-primary);
+}

@@ -7,8 +7,7 @@ export type SoundId =
   | "hoverEmployer"
   | "paper"
   | "bubble"
-  | "swipe"
-  | "flip";
+  | "swipe";
 
 export interface SoundConfig {
   id: SoundId;
@@ -24,7 +23,6 @@ export const sounds: SoundConfig[] = [
   { id: "paper", path: withBase("/audio/paper_new.mp3"), volume: 0.35 },
   { id: "bubble", path: withBase("/audio/buble_hover_new.mp3"), volume: 0.35 },
   { id: "swipe", path: withBase("/audio/swipe_new.mp3"), volume: 0.3 },
-  { id: "flip", path: withBase("/audio/flip.mp3"), volume: 0.4 },
 ];
 
 export const soundMap = Object.fromEntries(

@@ -1,12 +1,11 @@
 function formatTime(timezone: string): string {
   return new Intl.DateTimeFormat("en-US", {
     timeZone: timezone,
-    hour: "numeric",
+    hour: "2-digit",
     minute: "2-digit",
+    second: "2-digit",
     hour12: true,
-  })
-    .format(new Date())
-    .toLowerCase();
+  }).format(new Date());
 }
 
 export function initLiveClock(root: ParentNode = document) {
@@ -23,6 +22,6 @@ export function initLiveClock(root: ParentNode = document) {
     };
 
     update();
-    setInterval(update, 60_000);
+    setInterval(update, 1_000);
   });
 }

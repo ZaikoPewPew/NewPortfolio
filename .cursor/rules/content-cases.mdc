@@ -13,17 +13,26 @@ alwaysApply: false
 ## Обязательные поля frontmatter
 
 - `title`, `cover`, `order`, `summary`, `year`, `tags`
+- `company` — бренд на home-списке (не переводится)
+- `companyUrl` — внешний URL компании
+- `companyWash` — hex wash для hover названия компании (опционально; один на группу)
+- `interaction` — `plain` | `hover` | `link` (default `link`): plain без интеракции; hover — currently+wash без ссылки; link — currently+wash + страница кейса
 - `visibility` — `demo` (default) | `live` (только при `PUBLIC_CASES_SHOW_LIVE=true`)
-- `hover` — gradientFrom, gradientTo, gradientAngle, previewImage (optional), previewVideo (optional)
+- `hover` — gradientFrom, gradientTo, gradientAngle, washTint (optional, fallback `gradientTo`), previewImage (optional), previewVideo (optional)
 - `card` — layout (legacy), subtitle (optional), logo (optional)
 
 ## Пример
 
 ```yaml
 visibility: demo
+company: "alfa-bank"
+companyUrl: "https://alfabank.ru/"
+companyWash: "#EF3124"
+interaction: link
 hover:
   gradientFrom: "#1a0a2e"
   gradientTo: "#e94560"
+  washTint: "#e94560"
   gradientAngle: 160
   previewImage: "/images/cases/preview.svg"
   previewVideo: "/images/widgets/currently-block/terminal.mp4"

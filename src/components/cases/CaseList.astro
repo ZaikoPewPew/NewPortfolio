@@ -1,113 +1,29 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import CaseCard from "./CaseCard.astro";
+import {
+  groupHomeCasesByCompany,
+} from "../../features/home/cases/getHomeCases";
 import "../../features/home/case-hover/case-focus.css";
+import CaseCompany from "./CaseCompany.astro";
 
 interface Props {
   cases: CollectionEntry<"cases">[];
 }
 
 const { cases } = Astro.props;
-
-const viewTransitionRules = cases
-  .map((caseEntry) => {
-    const slug = caseEntry.slug;
-    return `
-::view-transition-old(case-list-${slug}) {
-  animation: caseCollapseOut var(--motion-case-collapse) var(--ease-case-exit) both;
-  transform-origin: top center;
-}
-
-::view-transition-group(case-${slug}) {
-  animation-duration: var(--motion-case-morph);
-  animation-timing-function: var(--ease-case-enter);
-}
-
-::view-transition-old(case-${slug}) {
-  animation: caseMorphOldFade var(--motion-case-morph) var(--ease-case-exit) both;
-  overflow: hidden;
-  border-radius: var(--radius-widget);
-}
-
-::view-transition-new(case-${slug}) {
-  animation: caseMorphNewFade var(--motion-case-morph) var(--ease-case-enter) both;
-  overflow: hidden;
-  border-radius: var(--radius-card);
-}
-
-html.is-case-returning ::view-transition-group(case-${slug}),
-html.is-case-returning ::view-transition-old(case-${slug}),
-html.is-case-returning ::view-transition-new(case-${slug}) {
-  animation-duration: var(--motion-case-back);
-  animation-timing-function: var(--ease-case-exit);
-}`;
-  })
-  .join("\n");
-
-const reducedMotionRules = cases
-  .map(
-    (caseEntry) => `
-::view-transition-old(case-list-${caseEntry.slug}),
-::view-transition-old(case-${caseEntry.slug}),
-::view-transition-new(case-${caseEntry.slug}) {
-  animation: none !important;
-}`
-  )
-  .join("\n");
-
-const globalCaseTransitionCss = `@media (min-width: 640px) {
-${viewTransitionRules}
-}
-
-@media (min-width: 640px) and (prefers-reduced-motion: reduce) {
-${reducedMotionRules}
-}`;
+const groups = groupHomeCasesByCompany(cases);
 ---
 
-<ul class="case-list">
-  {
-    cases.map((caseEntry, index) => (
-      <li
-        class="case-list__item"
-        data-page-enter
-        style={`--page-enter-delay: calc(var(--page-enter-cases-base-active) + ${Math.floor(index / 2)} * var(--page-enter-delay-cases-step))`}
-      >
-        <CaseCard caseEntry={caseEntry} />
-      </li>
-    ))
-  }
-</ul>
-
-<style is:global set:html={globalCaseTransitionCss}></style>
+<div class="case-list">
+  {groups.map((group, index) => <CaseCompany group={group} index={index} />)}
+</div>
 
 <style>
   .case-list {
     display: flex;
     flex-direction: column;
-    gap: var(--layout-column-gap);
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    gap: var(--space-cases-company-gap);
     width: 100%;
     max-width: 100%;
-  }
-
-  .case-list__item {
-    min-width: 0;
-  }
-
-  @media (max-width: 639px) {
-    .case-list {
-      gap: var(--layout-gutter-mobile);
-    }
-  }
-
-  /* 2 cols only when cases column is wide enough (desktop); tablet stays 1 col */
-  @media (min-width: 1024px) {
-    .case-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--layout-column-gap);
-    }
   }
 </style>

@@ -4,9 +4,10 @@ import Tooltip from "./Tooltip.astro";
 
 interface Props {
   class?: string;
+  tooltipPlacement?: "top" | "bottom" | "left" | "right";
 }
 
-const { class: className } = Astro.props;
+const { class: className, tooltipPlacement = "left" } = Astro.props;
 const m = getMessages(resolveLocale(Astro.currentLocale));
 const themeNames = m.theme.names;
 ---
@@ -59,7 +60,12 @@ const themeNames = m.theme.names;
         stroke-linejoin="round"></path>
     </svg>
   </button>
-  <Tooltip class="theme-toggle__tooltip" placement="bottom" lines={[themeNames.chocolate]} keycap="t" />
+  <Tooltip
+    class="theme-toggle__tooltip"
+    placement={tooltipPlacement}
+    lines={[themeNames.chocolate]}
+    keycap="t"
+  />
 </div>
 
 <style>
@@ -110,15 +116,16 @@ const themeNames = m.theme.names;
     --color-theme-preview-3: var(--theme-swatch-graphite-3);
   }
 
+  .theme-toggle__host[data-next-theme="soft"] {
+    --color-theme-preview-1: var(--theme-swatch-soft-1);
+    --color-theme-preview-2: var(--theme-swatch-soft-2);
+    --color-theme-preview-3: var(--theme-swatch-soft-3);
+  }
+
   .theme-toggle__host[data-next-theme="light"] {
     --color-theme-preview-1: var(--theme-swatch-light-1);
     --color-theme-preview-2: var(--theme-swatch-light-2);
     --color-theme-preview-3: var(--theme-swatch-light-3);
-  }
-
-  .theme-toggle__host :global(.theme-toggle__tooltip) {
-    top: calc(100% + var(--tooltip-offset));
-    bottom: auto;
   }
 
   .theme-toggle {

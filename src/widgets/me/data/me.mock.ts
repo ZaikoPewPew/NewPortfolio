@@ -11,6 +11,5 @@ export function getMockMeProfile(locale?: Locale): MeProfile {
     bioLine1: m.me.bio.line1,
     bioLine2: m.me.bio.line2,
     avatarUrl: withBase("/images/widgets/avatar.jpg"),
-    cityPhotoUrl: withBase("/images/widgets/almaty.png"),
   };
 }

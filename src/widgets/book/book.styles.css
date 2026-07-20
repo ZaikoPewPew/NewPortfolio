@@ -11,6 +11,24 @@ html[data-theme="light"] .book-widget {
   filter: sepia(6%) saturate(108%) brightness(0.995);
 }
 
+/* Soft: заливка билета = surface, как у соседних виджетов */
+html[data-theme="soft"] .book-widget__top,
+html[data-theme="soft"] .book-widget__bottom {
+  background-color: var(--color-bg-surface);
+  background-image: none;
+  -webkit-mask-image: var(--book-ticket-bg-top);
+  mask-image: var(--book-ticket-bg-top);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+html[data-theme="soft"] .book-widget__bottom {
+  -webkit-mask-image: var(--book-ticket-bg-bottom);
+  mask-image: var(--book-ticket-bg-bottom);
+}
+
 .book-widget__bottom,
 .book-widget__top {
   position: absolute;
@@ -91,20 +109,30 @@ html[data-theme="light"] .book-widget {
   z-index: 1;
 }
 
-.book-widget__label {
+.book-widget__clock {
   position: absolute;
-  inset: 16.16% 5.63% 66.67% 5.63%;
+  inset: 16.16% 5.63% 55% 5.63%;
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-2xs);
   margin: 0;
   font-family: var(--font-family);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-normal);
+  line-height: 1;
   text-align: center;
-  word-break: break-word;
   color: var(--color-book-ticket-text);
+}
+
+.book-widget__time {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.book-widget__place {
+  text-transform: lowercase;
 }
 
 .book-widget__barcode {

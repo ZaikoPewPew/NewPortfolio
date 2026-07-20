@@ -1,61 +1,62 @@
-# Case Hover — currently-block карточки кейса
+# Case Hover — currently-block + wash на списке кейсов
 
-Интерактив при наведении на карточку кейса на главной: рядом с курсором летит **currently-block** с видео или изображением. Системный курсор не меняется. Никаких оверлеев (blur / wash / затемнение), смены фона или подъёма карточки — только медиа-блок. Контроллер физики блока — общий с employer hover (`src/components/ui/currentlyBlock.client.ts`).
+Интерактив на главной: **blur/wash** на блок компании; **currently-block** только у interactive-кейсов (`hover` / `link`). Системный курсор не меняется (кроме кликабельных ссылок).
 
 ## Файлы
 
 | Файл | Назначение |
 |------|------------|
-| `CaseHoverController.client.ts` | Слушатели pointer-событий, состояние hover, классы `is-case-active` / `is-active` |
-| `caseFocus.client.ts` | Интеграция с `currentlyBlock`: активация с `restart: true`, движение за курсором, сброс |
-| `case-focus.css` | Увеличенный размер `currently-block` для кейсов (класс `is-case-active`) |
+| `CaseHoverController.client.ts` | Слушатели pointer, focus компании, wash, currently |
+| `caseFocus.client.ts` | currently-block: активация с `restart: true` |
+| `case-focus.css` | Увеличенный размер currently-block (`is-case-active`) |
 
-Инициализация — `initCaseHover()` из `HomeOrchestrator.client.ts` (только `body[data-page="home"]`). Сброс при View Transitions — `resetCaseHover()`.
+Инициализация — `initCaseHover()` из `HomeOrchestrator.client.ts`. Сброс — `resetCaseHover()`.
 
 ## Поток hover
 
-1. `pointerover` в зоне `.home__cases` → `resolveCard()` находит `[data-case-card]`
-2. `activate(card, x, y)`:
-   - `html` + `[data-home-page]` получают класс `is-case-active` (увеличивает размер блока)
-   - карточка → `.is-active` (показывает теги)
-   - `activateCaseFocus()` — currently-block с медиа **с начала** (видео: `restart: true`) + звук `hoverCard`
-3. `onDocumentPointerMove` — как только курсор выходит **за bounding-box активной карточки**, вызывается `deactivateCaseHover()` (см. «Логика выхода»)
-4. Переход на другую карточку — `pointerover` деактивирует текущую и активирует новую (видео новой карточки тоже с `currentTime = 0`)
+### Компания (`[data-case-company-link]`)
 
-## Логика выхода
+1. Wash tint из `data-wash-color` (`companyWash` в frontmatter) или fallback `case`
+2. **Без** currently-block
+3. Выход — за bounding-box ссылки компании
 
-- **Источник правды** — модульная `activeHoverCard` (в контроллере). Локальных дублей нет: `deactivateCaseHover()` экспортируется и вызывается из pointer-move, поэтому состояние всегда согласовано.
-- `onDocumentPointerMove` считает hover активным, только пока курсор **внутри прямоугольника карточки**. Ушёл на бенто/хедер/промежуток между карточками → мгновенная деактивация.
-- Возврат на ту же карточку: после деактивации `activeHoverCard = null`, следующий `pointerover` снова активирует блок — видео стартует **с нуля**.
-- `pointerleave` на `[data-home-page]` — страховка на быстрый увод курсора за окно.
+### Кейс (`[data-case-card]`, interaction `hover` \| `link`)
 
-## currently-block для кейсов
+1. Wash из `data-wash-color` (`hover.washTint` → иначе `hover.gradientTo` → иначе `case`)
+2. currently-block с медиа с начала + звук `hoverCard`
+3. `html.is-case-active` — scale блока
+4. Выход — за bounding-box заголовка кейса
 
-Медиа на карточке — приоритет **видео → изображение → employer fallback**:
+## Стейты строки (`interaction`)
 
-| Frontmatter | `data-*` на карточке | Поведение |
-|-------------|----------------------|-----------|
-| `hover.previewVideo` | `data-hover-video` | Ролик; при каждом входе `currentTime = 0` + `play()` |
-| `hover.previewImage` (без видео) | `data-hover-image` | Статичное изображение (`object-fit: cover`) |
-| ничего | `data-hover-video` = `employer.video` | Fallback-ролик employer |
+| Значение | UI | currently + wash | Навигация |
+|----------|-----|------------------|-----------|
+| `plain` | текст | нет | нет |
+| `hover` | dashed псевдоссылка | да | нет |
+| `link` | dashed псевдоссылка | да | `/cases/[slug]` |
 
-`CaseCard.astro` передаёт `data-hover-image` **только** если `previewVideo` не задан — иначе legacy `previewImage` (cover SVG) не перекрывает ролик.
+Компания: только wash (не currently).
 
-- Employer hover **без** `restart` — ролик продолжает с места паузы
-- Размер блока **×1.5** относительно employer: класс `html.is-case-active` переопределяет `--currently-block-inner-*`, `--padding`, `--radius` на `--currently-block-case-*`. Масштаб — токен `--currently-block-case-scale`
+## currently-block медиа (кейсы)
 
-Контроллер физики блока — общий `getCurrentlyBlock()` из `src/components/ui/currentlyBlock.client.ts`.
+| Frontmatter | `data-*` | Поведение |
+|-------------|---------|-----------|
+| `hover.previewVideo` | `data-hover-video` | Ролик с `restart: true` |
+| `hover.previewImage` (без видео) | `data-hover-image` | Статика |
+| ничего | employer.video | Fallback |
 
-## Data-атрибуты и классы
+## Data-атрибуты / классы
 
 | Атрибут / класс | Где | Роль |
 |-----------------|-----|------|
-| `data-case-card` | `<a>` карточки | Хост hover |
-| `data-hover-video` | Карточка | Видео currently-block |
-| `data-hover-image` | Карточка | Изображение (только без `previewVideo`) |
-| `is-case-active` | `html`, `[data-home-page]` | Увеличенный размер currently-block |
-| `is-active` | Карточка | Показ тегов |
+| `data-case-company` | секция группы | Контейнер focus |
+| `data-case-company-link` | ссылка компании | Хост wash-only |
+| `data-case-card` | заголовок кейса | Хост currently |
+| `data-hover-video` / `data-hover-image` | кейс | Медиа |
+| `is-focused` | компания | Выше blur |
+| `is-case-active` | `html`, home | Scale currently (только кейсы) |
+| `is-focus-wash-active` | `html` | Backdrop + wash |
 
 ## Ограничения
 
-- Только desktop: `max-width: 639px` и `prefers-reduced-motion` отключают currently-block (`isDisabled()` в JS)
+- Desktop only: mobile и `prefers-reduced-motion` отключают wash и currently

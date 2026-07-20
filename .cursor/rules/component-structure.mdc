@@ -9,7 +9,7 @@ alwaysApply: false
 ## Размещение
 
 - `components/layout/` — Grid (см. `layout-grid.mdc`), PageShell, WidgetGrid (читает registry)
-- `components/cases/` — CaseCard, CaseList, CaseHero; `blocks/` — CaseImage, CaseVideo, CaseGif (MDX body)
+- `components/cases/` — CaseList, CaseCompany, CaseRow, CaseHero; `blocks/` — CaseImage, CaseVideo, CaseGif (MDX body)
 - `components/ui/` — атомы (Button, Tag, Link, Tooltip — см. `ui/README.md`)
 - `widgets/` — **интерактивные виджеты** (не в components/widgets/)
 
@@ -18,7 +18,7 @@ alwaysApply: false
 - Один компонент = один файл
 - Dumb UI: props in → markup out, без fetch и side effects
 - Не хардкодь цвета — только CSS-переменные из tokens
-- Логика hover-фона — в `features/home/`, не в CaseCard
+- Логика hover — в `features/home/`, не в CaseCompany / CaseRow
 
 ## Виджеты
 
