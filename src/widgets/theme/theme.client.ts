@@ -123,6 +123,25 @@ function setMenuOpen(
   }
 }
 
+/**
+ * Hit-test against the open shell bounds.
+ * During View Transitions the snapshot overlay steals the event target, so
+ * `widget.contains(target)` is false even when the pointer is over the tray.
+ */
+function isPointerInsideOpenShell(
+  widget: HTMLElement,
+  event: PointerEvent
+): boolean {
+  const target = event.target;
+  if (target instanceof Node && widget.contains(target)) return true;
+
+  const shell =
+    widget.querySelector<HTMLElement>(".theme-widget__shell") ?? widget;
+  const { left, right, top, bottom } = shell.getBoundingClientRect();
+  const { clientX: x, clientY: y } = event;
+  return x >= left && x <= right && y >= top && y <= bottom;
+}
+
 function initThemeWidgetMenus(root: ParentNode = document) {
   root.querySelectorAll<HTMLElement>("[data-theme-widget]").forEach((widget) => {
     if (widget.hasAttribute("data-menu-bound")) return;
@@ -140,8 +159,7 @@ function initThemeWidgetMenus(root: ParentNode = document) {
 
     document.addEventListener("pointerdown", (event) => {
       if (!widget.hasAttribute("data-open")) return;
-      const target = event.target;
-      if (!(target instanceof Node) || widget.contains(target)) return;
+      if (isPointerInsideOpenShell(widget, event)) return;
       setMenuOpen(widget, false);
     });
 

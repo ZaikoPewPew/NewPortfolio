@@ -333,7 +333,7 @@
   --case-company-icon-size: 16px;
   --case-list-font-size: var(--font-size-sm);
   --case-list-font-weight: var(--font-weight-light);
-  --space-cases-company-gap: 40px;
+  --space-cases-company-gap: var(--space-3xl);
 
   /* Concept showcase — витрина под кейсами */
   --concept-row-height: calc((var(--case-card-height) - var(--layout-column-gap)) / 2);
