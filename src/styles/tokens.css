@@ -335,6 +335,16 @@
   --case-list-font-weight: var(--font-weight-light);
   --case-company-font-weight: var(--font-weight-regular);
   --space-cases-company-gap: var(--space-3xl);
+  /* Company link hover — underline + external icon */
+  --motion-case-company-link: 420ms;
+  --ease-case-company-link: cubic-bezier(0.33, 0.1, 0.25, 1);
+  --motion-case-company-icon-delay: 55ms;
+
+  /* Hit expand — invisible ::after padding around text links (.hit-expand) */
+  --hit-expand-y: 0.65rem;
+  --hit-expand-x: 0.85rem;
+  --hit-expand-y-sm: 0.45rem;
+  --hit-expand-x-sm: 0.5rem;
 
   /* Concept showcase — витрина под кейсами */
   --concept-row-height: calc((var(--case-card-height) - var(--layout-column-gap)) / 2);
@@ -352,11 +362,18 @@
   --wash-grain-size: 200px;
   --wash-grain-cycle: 8s;
   --wash-grain-shift: 200px;
+  /* How much theme --color-bg-page blends into wash accents (0–1) */
+  --wash-accent-bg-mix: 0.42;
+  /* Peak opacity of colored wash (gradient + grain); blur stays separate */
+  --wash-overlay-opacity: 0.82;
 
   /* Employer currently block */
   --employer-blur-amount: 3px;
   --employer-grain-opacity: var(--wash-grain-opacity);
   --employer-grain-size: var(--wash-grain-size);
+  /* Focus wash enter/exit — blur + gradient + grain */
+  --motion-focus-wash: 480ms;
+  --ease-focus-wash: cubic-bezier(0.45, 0, 0.55, 1);
   --currently-block-radius: var(--radius-widget);
   --currently-block-inner-radius: var(--radius-control);
   --currently-block-inner-width: 297px;
@@ -378,12 +395,12 @@
   --currently-block-case-inner-radius: calc(
     var(--currently-block-inner-radius) * var(--currently-block-case-scale)
   );
-  --employer-follow-force: 0.14;
-  --employer-follow-damping: 0.78;
-  --employer-tilt-max: 12;
-  --employer-balloon-force: 0.09;
-  --employer-balloon-damping: 0.82;
-  --employer-velocity-to-angle: 0.065;
+  --employer-follow-force: 0.075;
+  --employer-follow-damping: 0.9;
+  --employer-tilt-max: 7;
+  --employer-balloon-force: 0.05;
+  --employer-balloon-damping: 0.92;
+  --employer-velocity-to-angle: 0.038;
 
   /* Contact button — hover fill */
   --color-contact-button-hover-bg: var(--color-link-hover);

@@ -6,6 +6,7 @@ import {
   readSavedContactPanelOpen,
   resolveContactPanelOpen,
 } from "./contact-panel.storage";
+import { ensureProfileMenuOpenForContact } from "../profile-menu/profile-menu.client";
 
 const CONTACT_ANIMATION_MS = 700;
 const MOBILE_MEDIA_QUERY = "(max-width: 639px)";
@@ -22,6 +23,7 @@ let animationTimer: number | undefined;
 let clickBound = false;
 let persistenceBound = false;
 let widgetsNavLockBound = false;
+let profileOpenPending = false;
 
 function isMobileViewport(): boolean {
   return window.matchMedia(MOBILE_MEDIA_QUERY).matches;
@@ -204,8 +206,16 @@ export function isContactPanelOpen(): boolean {
 export function toggleContactPanel(force?: boolean) {
   if (isMobileViewport()) return;
 
-  const nextOpen = typeof force === "boolean" ? force : !isContactPanelOpen();
-  setContactState(nextOpen, { animate: true });
+  if (profileOpenPending) return;
+  profileOpenPending = true;
+
+  void ensureProfileMenuOpenForContact().then(() => {
+    const nextOpen =
+      typeof force === "boolean" ? force : !isContactPanelOpen();
+    setContactState(nextOpen, { animate: true });
+  }).finally(() => {
+    profileOpenPending = false;
+  });
 }
 
 function syncContactPanelOnLoad() {

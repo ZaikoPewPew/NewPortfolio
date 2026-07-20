@@ -15,17 +15,6 @@
     box-sizing: border-box;
   }
 
-  body[data-page="home"] main.home .grid {
-    grid-template-columns: var(--layout-widgets-width) minmax(0, 1fr);
-    column-gap: var(--layout-column-gap);
-  }
-
-  body[data-page="home"] .grid__cases {
-    max-width: none;
-    width: 100%;
-    margin-inline: 0;
-  }
-
   body[data-page="case"] {
     overflow-x: clip;
   }

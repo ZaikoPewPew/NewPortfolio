@@ -36,6 +36,11 @@
       "backToHome": "back to home"
     }
   },
+  "profileMenu": {
+    "ariaLabel": "Profile menu",
+    "openAriaLabel": "Open profile and widgets",
+    "closeAriaLabel": "Close profile and widgets"
+  },
   "contact": {
     "ariaLabel": "Contacts",
     "cvValue": "google docs",

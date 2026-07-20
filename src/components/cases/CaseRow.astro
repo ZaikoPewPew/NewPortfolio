@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { pickCaseGradient } from "../../config/caseGradients.config";
 import { getCaseTitle } from "../../features/cases/getCaseTitle";
 import { resolveCaseHoverMedia } from "../../features/cases/resolveCaseHoverMedia";
 import { resolveLocale } from "../../i18n";
@@ -10,7 +11,7 @@ interface Props {
 }
 
 const { caseEntry } = Astro.props;
-const { year, interaction, hover } = caseEntry.data;
+const { year, interaction } = caseEntry.data;
 const slug = caseEntry.slug;
 const locale = resolveLocale(Astro.currentLocale);
 const title = getCaseTitle(slug, locale);
@@ -18,7 +19,7 @@ const media = resolveCaseHoverMedia(caseEntry);
 const href = getRelativeLocaleUrl(locale, `/cases/${slug}`);
 const isInteractive = interaction === "hover" || interaction === "link";
 const isLink = interaction === "link";
-const washColor = hover.washTint ?? hover.gradientTo;
+const washColor = pickCaseGradient(slug).washTint;
 
 const hoverAttrs = isInteractive
   ? {
@@ -36,7 +37,7 @@ const hoverAttrs = isInteractive
       isLink ? (
         <a
           href={href}
-          class="case-row__title case-row__title--interactive"
+          class="case-row__title case-row__title--interactive hit-expand"
           data-case-nav
           data-case-slug={slug}
           tabindex="0"
@@ -46,7 +47,7 @@ const hoverAttrs = isInteractive
         </a>
       ) : isInteractive ? (
         <span
-          class="case-row__title case-row__title--interactive"
+          class="case-row__title case-row__title--interactive hit-expand"
           tabindex="0"
           {...hoverAttrs}
         >

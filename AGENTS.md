@@ -47,6 +47,7 @@
 | Тултип (balloon) | `src/components/ui/Tooltip.astro`, `tooltip.client.ts` — см. `components/ui/README.md` |
 | Employer hover / currently-block | `EmployerName.astro`, `CurrentlyBlockTrigger.astro`, `currentlyBlock.client.ts` — см. `components/ui/README.md` |
 | Contact button hover | `src/components/ui/ContactButton.astro`, `contactButton.client.ts` — см. `components/ui/README.md` |
+| Profile menu (home) | `src/features/home/profile-menu/` — fixed аватар → me + bento |
 | Конфиг сайта | `src/config/` — см. `config/README.md` |
 | UI-тексты / переводы | `src/i18n/locales/*.json`, `locale.config.ts` — см. `i18n.mdc` |
 
@@ -57,5 +58,6 @@
 - [`src/widgets/README.md`](src/widgets/README.md)
 - [`src/experience/README.md`](src/experience/README.md)
 - [`src/features/home/README.md`](src/features/home/README.md)
+- [`src/features/home/profile-menu/README.md`](src/features/home/profile-menu/README.md)
 - [`src/features/not-found/README.md`](src/features/not-found/README.md)
 - [`src/config/README.md`](src/config/README.md)

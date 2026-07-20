@@ -8,6 +8,10 @@ import {
   prepareContactPanelForNavigation,
 } from "./contact/ContactPanelController.client";
 import {
+  bindProfileMenu,
+  syncProfileMenuOnLoad,
+} from "./profile-menu/profile-menu.client";
+import {
   bindCaseTransition,
   resetCaseTransition,
   syncCaseTransitionOnLoad,
@@ -96,6 +100,8 @@ function initExperience() {
 
   if (document.body.dataset.page === "home") {
     initCaseHover();
+    syncProfileMenuOnLoad();
+    bindProfileMenu();
   }
 
   if (!hotkeysBound) {

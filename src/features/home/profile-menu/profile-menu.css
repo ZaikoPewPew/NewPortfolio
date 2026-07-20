@@ -1,0 +1,525 @@
+/* Fixed left panel — shell expands into me-widget; bento flies in below */
+.profile-menu.profile-menu--fixed {
+  --profile-menu-expand: var(--motion-slow);
+  --profile-shell-collapsed: calc(
+    var(--space-2xl) + 2 * var(--space-sm)
+  );
+
+  position: fixed;
+  top: var(--space-md);
+  left: var(--space-md);
+  z-index: var(--z-dock);
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  width: var(--layout-widgets-width);
+  max-width: var(--layout-widgets-width);
+  box-sizing: border-box;
+  transition: gap var(--profile-menu-expand) var(--ease-spring-soft);
+}
+
+.profile-menu[data-open] {
+  gap: var(--bento-gap);
+}
+
+.profile-menu__shell {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0;
+  width: var(--profile-shell-collapsed);
+  max-width: var(--layout-widgets-width);
+  padding: var(--space-sm);
+  border-radius: var(--radius-widget);
+  background: var(--color-bg-surface);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition:
+    width var(--profile-menu-expand) var(--ease-spring-soft),
+    gap var(--profile-menu-expand) var(--ease-spring-soft);
+}
+
+.profile-menu[data-open] .profile-menu__shell {
+  width: var(--layout-widgets-width);
+  gap: var(--space-md);
+}
+
+.profile-menu__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  min-height: var(--space-2xl);
+}
+
+.profile-menu__anchor {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-2xl);
+  height: var(--space-2xl);
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-control);
+  background: transparent;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.profile-menu__avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-control);
+  object-fit: cover;
+  transition: transform var(--motion-base) var(--ease-spring-soft);
+}
+
+.profile-menu__anchor:hover .profile-menu__avatar {
+  transform: scale(1.04);
+}
+
+.profile-menu[data-open] .profile-menu__avatar {
+  transform: none;
+}
+
+.profile-menu__identity {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-2xs);
+  min-width: 0;
+  opacity: 0;
+  transition: opacity var(--motion-base) var(--ease-out-expo);
+}
+
+.profile-menu__identity-content,
+.profile-menu__bio-wrap,
+.profile-menu__contact-wrap {
+  opacity: 0;
+  transform: translate3d(0, var(--space-sm), 0);
+}
+
+.profile-menu[data-open] .profile-menu__identity {
+  opacity: 1;
+  transition-delay: 100ms;
+}
+
+.profile-menu[data-open] .profile-menu__identity-content,
+.profile-menu[data-open] .profile-menu__bio-wrap,
+.profile-menu[data-open] .profile-menu__contact-wrap {
+  opacity: 1;
+  transform: none;
+}
+
+.profile-menu__name,
+.profile-menu__role,
+.profile-menu__bio {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+}
+
+.profile-menu__name,
+.profile-menu__role {
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.profile-menu__role {
+  color: var(--color-text-subdued);
+}
+
+.profile-menu__bio {
+  width: 100%;
+  line-height: var(--line-height-normal);
+}
+
+.profile-menu__bio-line {
+  display: block;
+}
+
+.profile-menu__tray {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--profile-menu-expand)
+    var(--ease-spring-soft);
+}
+
+.profile-menu[data-open] .profile-menu__tray {
+  grid-template-rows: 1fr;
+}
+
+.profile-menu__tray-clip {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.profile-menu__tray-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  height: max-content;
+}
+
+.profile-menu__bio-wrap,
+.profile-menu__contact-wrap {
+  transition:
+    opacity var(--motion-base) var(--ease-out-expo),
+    transform var(--motion-base) var(--ease-spring-soft);
+}
+
+/* Bento stack below shell — flies in from below */
+.profile-menu__bento.home__widgets {
+  display: grid;
+  grid-template-rows: 0fr;
+  width: var(--layout-widgets-width);
+  max-width: var(--layout-widgets-width);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    grid-template-rows var(--profile-menu-expand) var(--ease-spring-soft),
+    opacity var(--motion-base) var(--ease-out-expo);
+}
+
+.profile-menu[data-open] .profile-menu__bento.home__widgets {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 60ms;
+}
+
+.profile-menu__bento > .home__widgets-body,
+.profile-menu__bento > .home__contact-mobile {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.profile-menu[data-open] .profile-menu__bento > .home__widgets-body {
+  overflow: visible;
+}
+
+.profile-menu__bento .home__widgets-body {
+  position: relative;
+  min-height: 292px;
+  z-index: 1;
+}
+
+.profile-menu__bento .home__widgets-default {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bento-gap);
+  position: relative;
+  z-index: 1;
+}
+
+.profile-menu__bento .home__widget-row {
+  display: flex;
+  gap: var(--bento-gap);
+  align-items: flex-start;
+}
+
+.profile-menu__bento .home__widget-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bento-gap);
+  width: var(--widget-book-size);
+}
+
+.profile-menu__bento .home__contact-slot {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.profile-menu__bento .home__contact-slot-enter {
+  width: 100%;
+  height: 100%;
+}
+
+.profile-menu__bento[data-contact-open="true"] .home__widgets-default,
+.profile-menu__bento[data-contact-animating] .home__widgets-default {
+  pointer-events: none;
+}
+
+.profile-menu__bento[data-contact-open="true"]:not([data-contact-animating])
+  .home__widgets-default {
+  visibility: hidden;
+}
+
+.profile-menu__bento .home__widget-item--git,
+.profile-menu__bento [data-contact-item="book"],
+.profile-menu__bento [data-contact-item="photo"],
+.profile-menu__bento [data-contact-item="bento"] {
+  position: relative;
+}
+
+.profile-menu__bento .home__widget-item--git {
+  z-index: -1;
+}
+
+.profile-menu__bento[data-contact-open="true"] .home__contact-slot,
+.profile-menu__bento[data-contact-animating="opening"] .home__contact-slot {
+  pointer-events: auto;
+}
+
+.profile-menu__bento .home__contact-mobile {
+  display: none;
+}
+
+/* The opening sequence advances from shell content to the bento stack. */
+.home[data-profile-animating="opening"]
+  .profile-menu
+  .profile-menu__identity-content {
+  animation: profileItemEnter var(--motion-base) var(--ease-spring-soft) 100ms
+    both;
+}
+
+.home[data-profile-animating="opening"]
+  .profile-menu
+  .profile-menu__bio-wrap {
+  animation: profileItemEnter var(--motion-base) var(--ease-spring-soft) 200ms
+    both;
+}
+
+.home[data-profile-animating="opening"]
+  .profile-menu
+  .profile-menu__contact-wrap {
+  animation: profileItemEnter var(--motion-base) var(--ease-spring-soft) 300ms
+    both;
+}
+
+.home[data-profile-animating="opening"]
+  .profile-menu
+  .profile-menu__bento:not([data-contact-open="true"])
+  .home__widget-item--git,
+.home[data-profile-animating="opening"]
+  .profile-menu
+  .profile-menu__bento:not([data-contact-open="true"])
+  [data-contact-item="book"],
+.home[data-profile-animating="opening"]
+  .profile-menu
+  .profile-menu__bento:not([data-contact-open="true"])
+  [data-contact-item="photo"],
+.home[data-profile-animating="opening"]
+  .profile-menu
+  .profile-menu__bento:not([data-contact-open="true"])
+  [data-contact-item="bento"] {
+  animation: profileBentoFlyIn var(--motion-slow) var(--ease-spring-soft) both;
+}
+
+.home[data-profile-animating="opening"]
+  .profile-menu
+  .profile-menu__bento:not([data-contact-open="true"])
+  .home__widget-item--git {
+  animation-delay: 420ms;
+}
+
+.home[data-profile-animating="opening"]
+  .profile-menu
+  .profile-menu__bento:not([data-contact-open="true"])
+  [data-contact-item="book"] {
+  animation-delay: 470ms;
+}
+
+.home[data-profile-animating="opening"]
+  .profile-menu
+  .profile-menu__bento:not([data-contact-open="true"])
+  [data-contact-item="photo"] {
+  animation-delay: 500ms;
+}
+
+.home[data-profile-animating="opening"]
+  .profile-menu
+  .profile-menu__bento:not([data-contact-open="true"])
+  [data-contact-item="bento"] {
+  animation-delay: 520ms;
+}
+
+/* Close shell and bento together; nested widgets keep their own transforms. */
+.home[data-profile-animating="closing"]
+  .profile-menu
+  .profile-menu__bento.home__widgets {
+  animation: profileBentoExit var(--motion-fast) var(--ease-out-expo) both;
+}
+
+.home[data-profile-animating="closing"]
+  .profile-menu
+  .profile-menu__contact-wrap {
+  animation: profileItemExit var(--motion-base) var(--ease-out-expo) 180ms both;
+}
+
+.home[data-profile-animating="closing"] .profile-menu .profile-menu__bio-wrap {
+  animation: profileItemExit var(--motion-base) var(--ease-out-expo) 240ms both;
+}
+
+.home[data-profile-animating="closing"]
+  .profile-menu
+  .profile-menu__identity-content {
+  animation: profileItemExit var(--motion-base) var(--ease-out-expo) 300ms both;
+}
+
+@keyframes profileBentoFlyIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--space-lg), 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes profileBentoExit {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes profileItemEnter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--space-sm), 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes profileItemExit {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, calc(-1 * var(--space-sm)), 0);
+  }
+}
+
+/* Desktop home: cases always centered; widgets live in fixed profile menu */
+@media (min-width: 640px) {
+  body[data-page="home"] .profile-menu.profile-menu--fixed {
+    display: flex;
+  }
+
+  body[data-page="home"] main.home .grid {
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 0;
+  }
+
+  /*
+   * Collapse the widgets column in flow, but keep overflow visible so the
+   * fixed profile menu (child) still paints and receives pointer events.
+   */
+  body[data-page="home"] .grid__widgets {
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow: visible;
+  }
+
+  body[data-page="home"] .grid__cases,
+  body[data-page="home"] .home__cases {
+    max-width: var(--layout-case-reading-width);
+    width: 100%;
+    margin-inline: auto;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 639px) {
+  .profile-menu.profile-menu--fixed {
+    position: static;
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    gap: var(--layout-gutter-mobile);
+  }
+
+  .profile-menu__shell {
+    width: 100%;
+    gap: var(--space-md);
+  }
+
+  .profile-menu__identity {
+    opacity: 1;
+  }
+
+  .profile-menu__tray {
+    grid-template-rows: 0fr;
+  }
+
+  .profile-menu__bio {
+    display: none;
+  }
+
+  .profile-menu__tray-inner .contact-button {
+    display: none;
+  }
+
+  .profile-menu__bento.home__widgets {
+    display: flex;
+    flex-direction: column;
+    grid-template-rows: none;
+    width: 100%;
+    max-width: 100%;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .profile-menu__bento .home__widgets-body {
+    display: none;
+  }
+
+  .profile-menu__bento .home__contact-mobile {
+    display: block;
+    width: 100%;
+  }
+
+  .profile-menu__anchor {
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-menu,
+  .profile-menu__shell,
+  .profile-menu__identity,
+  .profile-menu__bio-wrap,
+  .profile-menu__contact-wrap,
+  .profile-menu__tray,
+  .profile-menu__bento.home__widgets,
+  .profile-menu__avatar {
+    transition: none;
+  }
+
+  .home[data-profile-animating] .profile-menu .profile-menu__identity-content,
+  .home[data-profile-animating] .profile-menu .profile-menu__bio-wrap,
+  .home[data-profile-animating] .profile-menu .profile-menu__contact-wrap,
+  .home[data-profile-animating] .profile-menu .home__widget-item--git,
+  .home[data-profile-animating] .profile-menu [data-contact-item="book"],
+  .home[data-profile-animating] .profile-menu [data-contact-item="photo"],
+  .home[data-profile-animating] .profile-menu [data-contact-item="bento"] {
+    animation: none;
+  }
+}

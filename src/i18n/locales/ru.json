@@ -36,6 +36,11 @@
       "backToHome": "на главную"
     }
   },
+  "profileMenu": {
+    "ariaLabel": "Меню профиля",
+    "openAriaLabel": "Открыть профиль и виджеты",
+    "closeAriaLabel": "Закрыть профиль и виджеты"
+  },
   "contact": {
     "ariaLabel": "Контакты",
     "cvValue": "google docs",

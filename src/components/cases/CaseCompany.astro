@@ -24,7 +24,7 @@ const hoverAttrs = {
 >
   <div class="case-company__name">
     <a
-      class="case-company__link"
+      class="case-company__link hit-expand"
       href={group.companyUrl}
       target="_blank"
       rel="noopener noreferrer"
@@ -98,7 +98,7 @@ const hoverAttrs = {
     background-position: 0 100%;
     background-repeat: no-repeat;
     background-size: 0% 1px;
-    transition: background-size var(--motion-fast) var(--ease-out-expo);
+    transition: background-size var(--motion-case-company-link) var(--ease-case-company-link);
   }
 
   .case-company__link:focus-visible {
@@ -114,8 +114,9 @@ const hoverAttrs = {
     opacity: 0;
     transform: translate3d(calc(-1 * var(--space-xs)), var(--space-xs), 0);
     transition:
-      opacity var(--motion-fast) var(--ease-out-expo),
-      transform var(--motion-fast) var(--ease-out-expo);
+      opacity var(--motion-case-company-link) var(--ease-case-company-link),
+      transform var(--motion-case-company-link) var(--ease-case-company-link);
+    transition-delay: 0ms;
   }
 
   .case-company__link:hover,
@@ -127,6 +128,7 @@ const hoverAttrs = {
   .case-company__link:focus-visible .case-company__icon {
     opacity: 1;
     transform: translate3d(0, 0, 0);
+    transition-delay: var(--motion-case-company-icon-delay);
   }
 
   .case-company__cases {

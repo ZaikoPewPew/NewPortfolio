@@ -85,3 +85,18 @@ body {
   position: relative;
   z-index: var(--z-tooltip);
 }
+
+/* Invisible hit padding around text links — does not affect layout or animation */
+.hit-expand {
+  position: relative;
+}
+
+.hit-expand::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--hit-expand-y)) calc(-1 * var(--hit-expand-x));
+}
+
+.hit-expand--sm::after {
+  inset: calc(-1 * var(--hit-expand-y-sm)) calc(-1 * var(--hit-expand-x-sm));
+}

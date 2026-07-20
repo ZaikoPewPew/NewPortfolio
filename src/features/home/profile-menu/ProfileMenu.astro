@@ -1,0 +1,162 @@
+---
+import ContactButton from "../../../components/ui/ContactButton.astro";
+import ContactWidget from "../../../widgets/me/ContactWidget.astro";
+import GitWidget from "../../../widgets/git/GitWidget.astro";
+import BookWidget from "../../../widgets/book/BookWidget.astro";
+import PhotoWidget from "../../../widgets/photo/PhotoWidget.astro";
+import BentoWidget from "../../../widgets/bento/BentoWidget.astro";
+import { getMessages, resolveLocale } from "../../../i18n";
+import { getMeProfile } from "../../../widgets/me/data/me.source";
+import { CONTACT_PANEL_OPEN_KEY } from "../contact/contact-panel.storage";
+import { PROFILE_MENU_OPEN_KEY } from "./profile-menu.storage";
+import "../../../widgets/me/me.styles.css";
+import "../contact/contact-panel.animations.css";
+import "./profile-menu.css";
+
+const locale = resolveLocale(Astro.currentLocale);
+const profile = await getMeProfile(locale);
+const m = getMessages(locale);
+---
+
+<div
+  class="profile-menu profile-menu--fixed"
+  role="group"
+  aria-label={m.profileMenu.ariaLabel}
+  data-profile-menu
+  data-open-label={m.profileMenu.openAriaLabel}
+  data-close-label={m.profileMenu.closeAriaLabel}
+  transition:persist={`profile-menu-${locale}`}
+>
+  <script
+    is:inline
+    define:vars={{
+      profileMenuOpenKey: PROFILE_MENU_OPEN_KEY,
+      contactPanelOpenKey: CONTACT_PANEL_OPEN_KEY,
+    }}
+  >
+    (function () {
+      var menu = document.currentScript && document.currentScript.parentElement;
+      if (!menu || !menu.hasAttribute("data-profile-menu")) return;
+      var home = menu.closest("[data-home-page]");
+
+      if (!window.matchMedia("(max-width: 639px)").matches) {
+        var value = sessionStorage.getItem(profileMenuOpenKey);
+        var open = value === "1" || value === "true";
+        if (value === null) open = false;
+        if (home) home.dataset.profileOpen = String(open);
+        if (open) menu.setAttribute("data-open", "");
+        else menu.removeAttribute("data-open");
+      } else if (home) {
+        home.dataset.profileOpen = "true";
+        menu.setAttribute("data-open", "");
+      }
+
+      var contactValue = sessionStorage.getItem(contactPanelOpenKey);
+      if (contactValue === null) return;
+      var contactOpen = contactValue === "1" || contactValue === "true";
+      var layout = menu.querySelector("[data-contact-layout]");
+      if (layout) layout.dataset.contactOpen = String(contactOpen);
+      if (contactOpen && home) {
+        home.dataset.profileOpen = "true";
+        menu.setAttribute("data-open", "");
+      }
+    })();
+  </script>
+
+  <div class="profile-menu__shell">
+    <div class="profile-menu__header">
+      <button
+        type="button"
+        class="profile-menu__anchor"
+        data-profile-menu-trigger
+        data-feedback="tap hover"
+        aria-expanded="false"
+        aria-controls="profile-menu-panel"
+        aria-label={m.profileMenu.openAriaLabel}
+      >
+        <img
+          class="profile-menu__avatar"
+          src={profile.avatarUrl}
+          alt=""
+          width="48"
+          height="48"
+          loading="eager"
+          decoding="async"
+        />
+      </button>
+
+      <div class="profile-menu__identity" data-profile-menu-identity>
+        <div class="profile-menu__identity-content">
+          <p class="profile-menu__name">{profile.name}</p>
+          <p class="profile-menu__role">{profile.role}</p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="profile-menu__tray"
+      id="profile-menu-panel"
+      data-profile-menu-panel
+      aria-hidden="true"
+      inert
+    >
+      <div class="profile-menu__tray-clip">
+        <div class="profile-menu__tray-inner">
+          <div class="profile-menu__bio-wrap">
+            <p class="profile-menu__bio">
+              <span class="profile-menu__bio-line">{profile.bioLine1}</span>
+              <span class="profile-menu__bio-line">{profile.bioLine2}</span>
+            </p>
+          </div>
+          <div class="profile-menu__contact-wrap">
+            <ContactButton />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="profile-menu__bento home__widgets"
+    data-contact-layout
+    data-contact-open="false"
+    data-profile-bento
+    inert
+  >
+    <div class="home__contact-mobile" data-page-enter>
+      <ContactWidget />
+    </div>
+
+    <div class="home__widgets-body">
+      <div class="home__widgets-default" data-contact-default>
+        <div
+          class="home__widget-item home__widget-item--git"
+          data-contact-item="git"
+          data-tooltip-layer
+          data-page-enter
+        >
+          <GitWidget />
+        </div>
+        <div class="home__widget-row" data-contact-item="row">
+          <div class="home__widget-stack">
+            <div data-contact-item="book" data-page-enter>
+              <BookWidget />
+            </div>
+            <div data-contact-item="bento" data-tooltip-layer data-page-enter>
+              <BentoWidget />
+            </div>
+          </div>
+          <div data-contact-item="photo" data-page-enter>
+            <PhotoWidget />
+          </div>
+        </div>
+      </div>
+
+      <div class="home__contact-slot" data-contact-slot aria-hidden="true">
+        <div class="home__contact-slot-enter" data-page-enter>
+          <ContactWidget />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

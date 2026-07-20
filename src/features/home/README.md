@@ -6,12 +6,13 @@
 
 - `background/` — PageBackground (сплошной фон страницы); монтируется в `BaseLayout`
 - `case-hover/` — hover списка кейсов: currently-block + wash на блок компании — см. [`case-hover/README.md`](case-hover/README.md)
+- `profile-menu/` — fixed аватар слева → expand в me-widget + bento — см. [`profile-menu/README.md`](profile-menu/README.md)
 - `dock/` — ActionDock (email, social, theme)
 - `contact/` — say hi / vibe check, sessionStorage, slide-анимации
 - `page-enter/` — каскадное появление блоков при первой загрузке / reload
 - `HomeOrchestrator.client.ts` — инициализация hover-оркестрации
 
-ThemeWidget (`theme-widget--fixed`) монтируется в `HomePage` / `CasePage` через slot `header` BaseLayout — не в `Header.astro`. Employer hover (`EmployerName`) и contact button hover живут в `src/components/ui/`; contact инициализируется оркестратором — см. [`src/components/ui/README.md`](../components/ui/README.md).
+ThemeWidget (`theme-widget--fixed`) монтируется в `HomePage` / `CasePage` через slot `header` BaseLayout — не в `Header.astro`. На home виджеты — `ProfileMenu` в slot `widgets`; на case — `HomeWidgets` + `MeWidget`. Employer hover (`EmployerName`) и contact button hover живут в `src/components/ui/`; contact и profile инициализируются оркестратором — см. [`src/components/ui/README.md`](../components/ui/README.md).
 
 ## Поток hover кейса
 
@@ -22,15 +23,20 @@ ThemeWidget (`theme-widget--fixed`) монтируется в `HomePage` / `Case
 
 ## Layout главной (desktop)
 
-Реализация: `home.layout.css`. Хедер на home не рендерится.
+Реализация: `home.layout.css` + `profile-menu/`. Хедер на home не рендерится.
 
 | Зона | Поведение |
 |------|-----------|
 | ThemeWidget | `fixed` top-right (`theme-widget--fixed`), 16px от краёв |
+| ProfileMenu | `fixed` top-left 16px; shell разворачивается в карточку me-widget; bento прилетает снизу |
 | `.home` / `.grid` | `padding-top: --space-md` (16px от верха viewport) |
-| `grid__widgets` | sticky `top: --space-md` |
-| `grid__cases` | `padding-top: --layout-cases-name-align` — первая строка на уровне `me-widget__name` |
+| `grid__widgets` | в потоке схлопнут (0×0); контент — fixed ProfileMenu |
+| `grid__cases` | всегда `max-width: --layout-case-reading-width` по центру |
 | `grid__cases` скролл | обычный поток; скролл страницы прокручивает список |
+
+Состояние профиля: `data-profile-open` на `[data-home-page]` + `data-open` на `[data-profile-menu]`, sessionStorage `profile-menu-open`. По умолчанию закрыт. Mobile — shell как me-widget, contact mobile, без collapse. Подробности анимации и стыка с contact — [`profile-menu/README.md`](profile-menu/README.md).
+
+Copyright на home: fixed `left/bottom: --space-md` от краёв viewport (не от контент-бокса 1248px).
 
 На странице кейса (`data-case-page`, desktop): без choreography — мгновенный переход; виджеты скрыты (`visibility` + absolute), cases на ширину контентной колонки, cover `--layout-case-cover-height` с отступом 16px от верха viewport, текст `--layout-case-reading-width` (900px) по центру. Mobile без изменений.
 
@@ -48,11 +54,13 @@ Employer hover и currently-block — **только desktop** (`max-width: 639p
 
 ## Contact panel (say hi / vibe check)
 
-1. Кнопка в `MeWidget` переключает `data-contact-open` на `[data-contact-layout]`
-2. Состояние пишется в `sessionStorage` (`contact-panel.storage.ts`, ключ `contact-panel-open`)
-3. **Reload / case-страница:** inline-скрипт в `HomeWidgets.astro` восстанавливает `data-contact-open` до парсинга bento/git — без FOUC
-4. `ContactPanelController.client.ts` синхронизирует кнопку и `aria-hidden` слота после `astro:page-load`
-5. При View Transitions между `/` и `/cases/*` — `beginWidgetsNavigationLock()` фиксирует transform без анимации
+1. Кнопка в ProfileMenu (desktop) / MeWidget (case, mobile) переключает `data-contact-open` на `[data-contact-layout]`
+2. Перед swipe на home: `ensureProfileMenuOpenForContact()` — профиль открыт до анимации контактов
+3. Состояние пишется в `sessionStorage` (`contact-panel.storage.ts`, ключ `contact-panel-open`)
+4. **Reload / home:** inline-скрипт в `ProfileMenu.astro` восстанавливает `data-contact-open` и `data-profile-open` до paint — без FOUC; если контакты открыты — профиль тоже
+5. `ContactPanelController.client.ts` синхронизирует кнопку и `aria-hidden` слота после `astro:page-load`
+6. При View Transitions между `/` и `/cases/*` — `beginWidgetsNavigationLock()` фиксирует transform без анимации
+7. При стабильном `data-contact-open="true"` default-bento скрыт (`visibility`), чтобы не мелькал под contact-slot при повторном раскрытии профиля
 
 Slide-анимации: `contact-panel.animations.css`. Только desktop (`min-width: 640px`).
 

@@ -32,21 +32,14 @@ body[data-page="case"] .home {
 }
 
 @media (min-width: 640px) {
-  body[data-page="home"] .grid__widgets {
-    position: sticky;
-    top: var(--space-md);
-    align-self: start;
-    z-index: var(--z-content);
+  body[data-page="home"] .home__copyright {
+    display: block;
+    bottom: var(--space-md);
+    left: var(--space-md);
   }
 
   body[data-page="home"] .grid__widgets:has([data-tooltip-visible]) {
     z-index: var(--z-content);
-  }
-
-  body[data-page="home"] .home__cases {
-    /* Align first row with me-widget__name inside the card */
-    padding-top: var(--layout-cases-name-align);
-    margin-top: 0;
   }
 
   body[data-page="home"] .home__widgets {
@@ -106,6 +99,12 @@ body[data-page="case"] .home {
 }
 
 @media (max-width: 639px) {
+  body[data-page="home"] .home__copyright {
+    display: block;
+    bottom: var(--space-md);
+    left: var(--space-md);
+  }
+
   .home {
     padding-inline: var(--layout-gutter-mobile);
     padding-top: var(--layout-gutter-mobile);

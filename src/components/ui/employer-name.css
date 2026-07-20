@@ -57,12 +57,12 @@
   z-index: 0;
   pointer-events: none;
   opacity: 0;
-  visibility: hidden;
-  backdrop-filter: blur(var(--employer-blur-amount));
-  -webkit-backdrop-filter: blur(var(--employer-blur-amount));
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
   transition:
-    opacity var(--motion-base) var(--ease-out-expo),
-    visibility var(--motion-base) var(--ease-out-expo);
+    opacity var(--motion-focus-wash) var(--ease-focus-wash),
+    backdrop-filter var(--motion-focus-wash) var(--ease-focus-wash),
+    -webkit-backdrop-filter var(--motion-focus-wash) var(--ease-focus-wash);
 }
 
 .employer-name__overlay {
@@ -71,10 +71,7 @@
   z-index: 1;
   pointer-events: none;
   opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity var(--motion-base) var(--ease-out-expo),
-    visibility var(--motion-base) var(--ease-out-expo);
+  transition: opacity var(--motion-focus-wash) var(--ease-focus-wash);
   -webkit-mask-image: radial-gradient(
     ellipse 58% 52% at 50% 48%,
     rgba(0, 0, 0, 0.28) 30%,
@@ -94,11 +91,15 @@
 }
 
 html.is-employer-active .employer-name__backdrop,
-html.is-employer-active .employer-name__overlay,
-html.is-focus-wash-active .employer-name__backdrop,
-html.is-focus-wash-active .employer-name__overlay {
+html.is-focus-wash-active .employer-name__backdrop {
   opacity: 1;
-  visibility: visible;
+  backdrop-filter: blur(var(--employer-blur-amount));
+  -webkit-backdrop-filter: blur(var(--employer-blur-amount));
+}
+
+html.is-employer-active .employer-name__overlay,
+html.is-focus-wash-active .employer-name__overlay {
+  opacity: var(--wash-overlay-opacity);
 }
 
 /* Same size as case hover (`--currently-block-case-*`, scale 1.5) */

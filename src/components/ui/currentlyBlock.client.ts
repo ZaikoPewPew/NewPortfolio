@@ -10,13 +10,15 @@ const SETTLE_VELOCITY = 0.08;
 const DEFAULT_OFFSET_X = 24;
 const DEFAULT_OFFSET_Y = 24;
 
-const POS_FORCE = 0.14;
-const POS_DAMPING = 0.78;
-const ANGLE_FORCE = 0.09;
-const ANGLE_DAMPING = 0.82;
-const VELOCITY_TO_ANGLE = 0.065;
-const VELOCITY_DECAY = 0.86;
-const MAX_TILT_DEG = 12;
+const POS_FORCE = 0.075;
+const POS_DAMPING = 0.9;
+const ANGLE_FORCE = 0.05;
+const ANGLE_DAMPING = 0.92;
+const VELOCITY_TO_ANGLE = 0.038;
+const VELOCITY_DECAY = 0.9;
+const MAX_TILT_DEG = 7;
+const MAX_POINTER_VELOCITY = 2200;
+const POINTER_VELOCITY_SMOOTH = 0.38;
 
 export type CurrentlyBlockActivateOptions = {
   videoSrc?: string;
@@ -233,6 +235,8 @@ export class CurrentlyBlockController {
     this.lastPointerX = clientX;
     this.lastPointerTime = performance.now();
     this.setTargetFromPointer(clientX, clientY, this.lastPointerTime);
+    this.snapMotion();
+    this.startLoop();
     if (options.restart && this.mediaMode === "video") this.restartVideo();
     else if (this.mediaMode === "video") this.video?.play().catch(() => {});
   }
@@ -389,8 +393,14 @@ export class CurrentlyBlockController {
     if (this.lastPointerTime > 0) {
       const dt = (timestamp - this.lastPointerTime) / 1000;
       if (dt > 0 && dt < 0.2) {
-        const instantVelocity = (clientX - this.lastPointerX) / dt;
-        this.mouseVelocityX = this.mouseVelocityX * 0.35 + instantVelocity * 0.65;
+        const instantVelocity = clamp(
+          (clientX - this.lastPointerX) / dt,
+          -MAX_POINTER_VELOCITY,
+          MAX_POINTER_VELOCITY,
+        );
+        this.mouseVelocityX =
+          this.mouseVelocityX * (1 - POINTER_VELOCITY_SMOOTH) +
+          instantVelocity * POINTER_VELOCITY_SMOOTH;
       }
     }
 

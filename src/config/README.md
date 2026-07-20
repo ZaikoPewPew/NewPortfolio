@@ -10,6 +10,7 @@
 | `dock.config.ts` | Элементы ActionDock (email, social, theme, music) |
 | `env.config.ts` | Режимы mock/api виджетов + `cases.showLive` (`PUBLIC_CASES_SHOW_LIVE`) |
 | `cases.config.ts` | `homeLimit`, `cardLogoPlaceholder` — кейсы на главной |
+| `caseGradients.config.ts` | Палитра wash-градиентов для ссылок кейсов (`pickCaseGradient`) |
 
 ### `cases.config.ts`
 

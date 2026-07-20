@@ -46,7 +46,9 @@ function parseCssColor(value: string): string {
 }
 
 export function readWashBg(): string {
-  return parseCssColor(readCssVar("--wash-bg", readCssVar("--color-bg-page", "#000000")));
+  return parseCssColor(
+    readCssVar("--color-bg-page", readCssVar("--wash-bg", "#000000")),
+  );
 }
 
 export function readWashTint(id: WashTintId | string): string {
@@ -110,10 +112,43 @@ function mixHsl(
   ];
 }
 
-/** Employer-like: one accent, rest = page bg. No hue-shifted rainbow stops. */
+/**
+ * Soften brand accents without shifting hue (red stays red → burgundy, not orange).
+ * Lowers lightness into deep tones; eases only neon-level saturation.
+ */
+function muteWashAccent(tintHex: string): string {
+  const [h, s, l] = hexToHsl(parseCssColor(tintHex));
+  const deepL = l > 42 ? l * 0.52 : l * 0.82;
+  const richS = s > 72 ? s * 0.84 : s * 0.94;
+  return hslToHex(h, richS, Math.max(18, Math.min(deepL, 38)));
+}
+
+/**
+ * Ground accent in theme page bg via S/L only — hue locked, no red→orange drift.
+ */
+function mixAccentIntoPageBg(accentHex: string, bgHex: string, amount: number): string {
+  const [h, s, l] = hexToHsl(parseCssColor(accentHex));
+  const [, bgS, bgL] = hexToHsl(parseCssColor(bgHex));
+  return hslToHex(h, s + (bgS - s) * amount, l + (bgL - l) * amount);
+}
+
+function prepareAccent(tintHex: string, bgHex: string): string {
+  const deep = muteWashAccent(tintHex);
+  const mix = readTokenNumber("--wash-accent-bg-mix", 0.42);
+  return mixAccentIntoPageBg(deep, bgHex, mix);
+}
+
+/** Base = --color-bg-page; accents muted and blended into page bg. */
+function softenPalette(palette: string[]): string[] {
+  const bg = readWashBg();
+  return palette.map((hex, index) => (index === 0 ? bg : prepareAccent(hex, bg)));
+}
+
+/** Theme page bg + deep accent (mixed with bg) + softer mid stop. */
 function buildPalette(tintHex: string, bgHex: string): string[] {
-  const tint = parseCssColor(tintHex);
-  return [bgHex, tint, bgHex, bgHex];
+  const accent = prepareAccent(tintHex, bgHex);
+  const soft = mixAccentIntoPageBg(accent, bgHex, 0.45);
+  return [bgHex, accent, soft, bgHex];
 }
 
 function colorToVec4(hex: string): [number, number, number, number] {
@@ -305,7 +340,7 @@ class MeshGradientWash {
     let palette: string[];
 
     if (customPalette) {
-      palette = customPalette;
+      palette = softenPalette(customPalette);
     } else {
       const bg = readWashBg();
       this.hslCurrent = mixHsl(this.hslCurrent, hexToHsl(this.targetHex), TINT_MIX);
