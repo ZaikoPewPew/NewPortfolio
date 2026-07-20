@@ -38,7 +38,8 @@ body[data-page="case"] .home {
     left: var(--space-md);
   }
 
-  body[data-page="home"] .grid__widgets:has([data-tooltip-visible]) {
+  body[data-page="home"] .grid__widgets:has([data-tooltip-visible]),
+  body[data-page="case"] .grid__widgets:has([data-tooltip-visible]) {
     z-index: var(--z-content);
   }
 
@@ -48,8 +49,7 @@ body[data-page="case"] .home {
   }
 
   /*
-   * Case page: cover = same width as header__row (home content box, no grid gap).
-   * Title / meta / body = reading measure, centered.
+   * Case page: cover, text, and media share reading measure (900px), centered.
    */
   body[data-page="case"] {
     overflow-x: clip;
@@ -57,14 +57,6 @@ body[data-page="case"] .home {
 
   main[data-case-page] .grid__cases,
   main[data-case-page] .case-content {
-    max-width: none;
-    width: 100%;
-    margin-inline: 0;
-  }
-
-  main[data-case-page] .case-hero__title,
-  main[data-case-page] .case-hero__meta,
-  main[data-case-page] .case-content__body {
     max-width: var(--layout-case-reading-width);
     width: 100%;
     margin-inline: auto;
@@ -132,13 +124,6 @@ body[data-page="case"] .home {
     max-width: none;
     width: 100%;
     margin-inline: 0;
-  }
-
-  main[data-case-page] .case-hero__title,
-  main[data-case-page] .case-hero__meta,
-  main[data-case-page] .case-content__body {
-    max-width: none;
-    width: 100%;
   }
 
   main[data-case-page] .case-hero__morph {

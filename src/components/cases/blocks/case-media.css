@@ -27,8 +27,8 @@
 }
 
 .case-media--full {
-  width: min(100%, var(--layout-cases-width));
-  max-width: none;
+  width: 100%;
+  max-width: 100%;
 }
 
 .case-media video.case-media__media {

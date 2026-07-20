@@ -12,7 +12,7 @@
 - `page-enter/` — каскадное появление блоков при первой загрузке / reload
 - `HomeOrchestrator.client.ts` — инициализация hover-оркестрации
 
-ThemeWidget (`theme-widget--fixed`) монтируется в `HomePage` / `CasePage` через slot `header` BaseLayout — не в `Header.astro`. На home виджеты — `ProfileMenu` в slot `widgets`; на case — `HomeWidgets` + `MeWidget`. Employer hover (`EmployerName`) и contact button hover живут в `src/components/ui/`; contact и profile инициализируются оркестратором — см. [`src/components/ui/README.md`](../components/ui/README.md).
+ThemeWidget (`theme-widget--fixed`) монтируется в `HomePage` / `CasePage` через slot `header` BaseLayout — не в `Header.astro`. Виджеты — `ProfileMenu` в slot `widgets` на home и case. Employer hover (`EmployerName`) и contact button hover живут в `src/components/ui/`; contact и profile инициализируются оркестратором — см. [`src/components/ui/README.md`](../components/ui/README.md).
 
 ## Поток hover кейса
 
@@ -34,11 +34,11 @@ ThemeWidget (`theme-widget--fixed`) монтируется в `HomePage` / `Case
 | `grid__cases` | всегда `max-width: --layout-case-reading-width` по центру |
 | `grid__cases` скролл | обычный поток; скролл страницы прокручивает список |
 
-Состояние профиля: `data-profile-open` на `[data-home-page]` + `data-open` на `[data-profile-menu]`, sessionStorage `profile-menu-open`. По умолчанию закрыт. Mobile — shell как me-widget, contact mobile, без collapse. Подробности анимации и стыка с contact — [`profile-menu/README.md`](profile-menu/README.md).
+Состояние профиля: `data-profile-open` на `[data-home-page]` / `[data-case-page]` + `data-open` на `[data-profile-menu]`, sessionStorage `profile-menu-open`. По умолчанию закрыт. Mobile (home) — shell как me-widget, contact mobile, без collapse. Подробности анимации и стыка с contact — [`profile-menu/README.md`](profile-menu/README.md).
 
 Copyright на home: fixed `left/bottom: --space-md` от краёв viewport (не от контент-бокса 1248px).
 
-На странице кейса (`data-case-page`, desktop): без choreography — мгновенный переход; виджеты скрыты (`visibility` + absolute), cases на ширину контентной колонки, cover `--layout-case-cover-height` с отступом 16px от верха viewport, текст `--layout-case-reading-width` (900px) по центру. Mobile без изменений.
+На странице кейса (`data-case-page`, desktop): без choreography — мгновенный переход; `ProfileMenu` fixed как на home; cover / текст / media — `--layout-case-reading-width` (900px) по центру. Mobile без изменений (колонка виджетов скрыта).
 
 ## Поток employer hover
 

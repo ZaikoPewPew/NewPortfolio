@@ -1,55 +1,14 @@
 @media (min-width: 640px) {
   /*
    * Instant case layout — no slide / fade choreography.
-   * Widgets parked off-screen; cases fill header__row width.
+   * Profile menu stays fixed (same as home); cases use reading width.
    */
-  main.home .grid {
-    position: relative;
-  }
-
-  body[data-page="home"] .home__widgets,
-  body[data-page="case"] .home__widgets {
-    width: var(--layout-widgets-width);
-    min-width: var(--layout-widgets-width);
-    max-width: var(--layout-widgets-width);
-    box-sizing: border-box;
-  }
-
   body[data-page="case"] {
     overflow-x: clip;
-  }
-
-  body[data-page="case"] main.home .grid {
-    grid-template-columns: minmax(0, 1fr);
-    column-gap: 0;
-  }
-
-  body[data-page="case"] .grid__widgets {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: var(--layout-widgets-width);
-    min-width: var(--layout-widgets-width);
-    max-width: var(--layout-widgets-width);
-    visibility: hidden;
-    pointer-events: none;
-    z-index: var(--z-content);
-  }
-
-  body[data-page="case"] .home__widgets {
-    visibility: hidden;
-    pointer-events: none;
   }
 
   body[data-page="case"] .home__copyright {
     visibility: hidden;
     pointer-events: none;
-  }
-
-  body[data-page="case"] .grid__cases {
-    grid-column: 1;
-    max-width: none;
-    width: 100%;
-    margin-inline: 0;
   }
 }

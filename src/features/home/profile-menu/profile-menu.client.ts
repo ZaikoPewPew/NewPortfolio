@@ -16,8 +16,11 @@ function isDesktopProfileMenu() {
   return window.matchMedia("(min-width: 640px)").matches;
 }
 
-function getHome(): HTMLElement | null {
-  return document.querySelector<HTMLElement>("[data-home-page]");
+/** Profile state host — home or case page main. */
+function getProfileHost(): HTMLElement | null {
+  return document.querySelector<HTMLElement>(
+    "[data-home-page], [data-case-page]"
+  );
 }
 
 function getMenu(): HTMLElement | null {
@@ -57,9 +60,9 @@ function syncBentoInert(menu: HTMLElement, open: boolean) {
 }
 
 export function isProfileMenuOpen(): boolean {
-  const home = getHome();
-  if (!home) return false;
-  return home.getAttribute("data-profile-open") === "true";
+  const host = getProfileHost();
+  if (!host) return false;
+  return host.getAttribute("data-profile-open") === "true";
 }
 
 export function setProfileMenuOpen(
@@ -69,19 +72,19 @@ export function setProfileMenuOpen(
     restoreFocus = false,
   }: { animate?: boolean; restoreFocus?: boolean } = {}
 ) {
-  const home = getHome();
+  const host = getProfileHost();
   const menu = getMenu();
-  if (!home || !menu) return;
+  if (!host || !menu) return;
 
   if (!isDesktopProfileMenu()) {
-    home.setAttribute("data-profile-open", "true");
+    host.setAttribute("data-profile-open", "true");
     menu.toggleAttribute("data-open", true);
     syncTrigger(menu, true);
     syncBentoInert(menu, true);
     return;
   }
 
-  const prev = home.getAttribute("data-profile-open") === "true";
+  const prev = host.getAttribute("data-profile-open") === "true";
   if (prev === open) {
     syncTrigger(menu, open);
     syncBentoInert(menu, open);
@@ -89,14 +92,14 @@ export function setProfileMenuOpen(
   }
 
   clearSettleTimer();
-  home.removeAttribute("data-profile-settled");
+  host.removeAttribute("data-profile-settled");
 
   const shouldAnimate = animate && !prefersReducedMotion();
   if (shouldAnimate) {
-    home.setAttribute("data-profile-animating", open ? "opening" : "closing");
+    host.setAttribute("data-profile-animating", open ? "opening" : "closing");
   }
 
-  home.setAttribute("data-profile-open", String(open));
+  host.setAttribute("data-profile-open", String(open));
   menu.toggleAttribute("data-open", open);
   syncTrigger(menu, open);
   writeProfileMenuOpen(open);
@@ -105,14 +108,14 @@ export function setProfileMenuOpen(
 
   if (shouldAnimate) {
     settleTimer = window.setTimeout(() => {
-      home.removeAttribute("data-profile-animating");
-      home.setAttribute("data-profile-settled", "");
+      host.removeAttribute("data-profile-animating");
+      host.setAttribute("data-profile-settled", "");
       if (!open) syncBentoInert(menu, false);
       settleTimer = undefined;
     }, open ? OPEN_SETTLE_MS : CLOSE_SETTLE_MS);
   } else {
-    home.removeAttribute("data-profile-animating");
-    home.setAttribute("data-profile-settled", "");
+    host.removeAttribute("data-profile-animating");
+    host.setAttribute("data-profile-settled", "");
     syncBentoInert(menu, open);
   }
 
@@ -131,12 +134,12 @@ export function toggleProfileMenu(force?: boolean) {
  * widgets horizontally. This keeps transform ownership unambiguous.
  */
 export function ensureProfileMenuOpenForContact(): Promise<void> {
-  const home = getHome();
-  if (!home || !isDesktopProfileMenu()) return Promise.resolve();
+  const host = getProfileHost();
+  if (!host || !isDesktopProfileMenu()) return Promise.resolve();
 
   if (
     isProfileMenuOpen() &&
-    !home.hasAttribute("data-profile-animating")
+    !host.hasAttribute("data-profile-animating")
   ) {
     return Promise.resolve();
   }
@@ -148,9 +151,9 @@ export function ensureProfileMenuOpenForContact(): Promise<void> {
 }
 
 export function bindProfileMenu() {
-  const home = getHome();
+  const host = getProfileHost();
   const menu = getMenu();
-  if (!home || !menu || menu.hasAttribute("data-menu-bound")) return;
+  if (!host || !menu || menu.hasAttribute("data-menu-bound")) return;
   menu.setAttribute("data-menu-bound", "true");
 
   const trigger = menu.querySelector<HTMLElement>("[data-profile-menu-trigger]");
@@ -169,17 +172,17 @@ export function bindProfileMenu() {
 }
 
 export function syncProfileMenuOnLoad() {
-  const home = getHome();
+  const host = getProfileHost();
   const menu = getMenu();
-  if (!home || !menu) return;
+  if (!host || !menu) return;
 
   if (!isDesktopProfileMenu()) {
-    home.setAttribute("data-profile-open", "true");
+    host.setAttribute("data-profile-open", "true");
     menu.toggleAttribute("data-open", true);
     syncTrigger(menu, true);
     syncBentoInert(menu, true);
-    home.removeAttribute("data-profile-animating");
-    home.setAttribute("data-profile-settled", "");
+    host.removeAttribute("data-profile-animating");
+    host.setAttribute("data-profile-settled", "");
     return;
   }
 
@@ -187,10 +190,10 @@ export function syncProfileMenuOnLoad() {
     menu.querySelector<HTMLElement>("[data-contact-layout]")?.dataset
       .contactOpen === "true";
   const open = resolveProfileMenuOpen() || contactOpen;
-  home.setAttribute("data-profile-open", String(open));
+  host.setAttribute("data-profile-open", String(open));
   menu.toggleAttribute("data-open", open);
   syncTrigger(menu, open);
   syncBentoInert(menu, open);
-  home.removeAttribute("data-profile-animating");
-  home.setAttribute("data-profile-settled", "");
+  host.removeAttribute("data-profile-animating");
+  host.setAttribute("data-profile-settled", "");
 }

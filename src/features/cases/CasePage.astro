@@ -3,9 +3,9 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Grid from "../../components/layout/Grid.astro";
 import CaseHero from "../../components/cases/CaseHero.astro";
 import { caseMdxComponents } from "../../components/cases/blocks";
-import HomeWidgets from "../home/HomeWidgets.astro";
 import NavigationWidget from "../../widgets/navigation/NavigationWidget.astro";
 import ThemeWidget from "../../widgets/theme/ThemeWidget.astro";
+import ProfileMenu from "../home/profile-menu/ProfileMenu.astro";
 import { getCaseTitle } from "../cases/getCaseTitle";
 import { getMessages, resolveLocale } from "../../i18n";
 import type { CollectionEntry } from "astro:content";
@@ -27,9 +27,14 @@ const m = getMessages(locale);
 <BaseLayout title={`${title} — ${m.meta.defaultTitle}`} description={summary} page="case">
   <ThemeWidget class="theme-widget--fixed" slot="header" />
 
-  <main class="home" data-case-page aria-label={title}>
+  <main
+    class="home"
+    data-case-page
+    data-profile-open="false"
+    aria-label={title}
+  >
     <Grid>
-      <HomeWidgets slot="widgets" />
+      <ProfileMenu slot="widgets" />
 
       <article slot="cases" class="home__cases case-content" data-case-content>
         <CaseHero caseEntry={caseEntry} />

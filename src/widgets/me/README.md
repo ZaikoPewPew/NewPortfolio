@@ -2,7 +2,7 @@
 
 Профиль: аватар, имя, роль, bio, contact me. Карточка статичная (без flip).
 
-На **home desktop** тот же контент живёт в [`ProfileMenu`](../../features/home/profile-menu/README.md) (shell expand). `MeWidget` остаётся на case page и в mobile-потоке через ProfileMenu / `HomeWidgets`.
+На **home / case desktop** тот же контент живёт в [`ProfileMenu`](../../features/home/profile-menu/README.md) (shell expand). `MeWidget` остаётся для legacy `HomeWidgets` и как reference-компонент; mobile-поток — через ProfileMenu.
 
 ## UX-сценарии
 

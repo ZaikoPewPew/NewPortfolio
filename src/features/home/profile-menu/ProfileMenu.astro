@@ -37,17 +37,18 @@ const m = getMessages(locale);
     (function () {
       var menu = document.currentScript && document.currentScript.parentElement;
       if (!menu || !menu.hasAttribute("data-profile-menu")) return;
-      var home = menu.closest("[data-home-page]");
+      var host =
+        menu.closest("[data-home-page]") || menu.closest("[data-case-page]");
 
       if (!window.matchMedia("(max-width: 639px)").matches) {
         var value = sessionStorage.getItem(profileMenuOpenKey);
         var open = value === "1" || value === "true";
         if (value === null) open = false;
-        if (home) home.dataset.profileOpen = String(open);
+        if (host) host.dataset.profileOpen = String(open);
         if (open) menu.setAttribute("data-open", "");
         else menu.removeAttribute("data-open");
-      } else if (home) {
-        home.dataset.profileOpen = "true";
+      } else if (host) {
+        host.dataset.profileOpen = "true";
         menu.setAttribute("data-open", "");
       }
 
@@ -56,8 +57,8 @@ const m = getMessages(locale);
       var contactOpen = contactValue === "1" || contactValue === "true";
       var layout = menu.querySelector("[data-contact-layout]");
       if (layout) layout.dataset.contactOpen = String(contactOpen);
-      if (contactOpen && home) {
-        home.dataset.profileOpen = "true";
+      if (contactOpen && host) {
+        host.dataset.profileOpen = "true";
         menu.setAttribute("data-open", "");
       }
     })();

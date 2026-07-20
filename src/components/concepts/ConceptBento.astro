@@ -3,22 +3,18 @@ import { conceptItems } from "../../features/home/concepts/concepts.mock";
 import { getMessages, resolveLocale } from "../../i18n";
 
 const m = getMessages(resolveLocale(Astro.currentLocale));
-
-function getTileHeight(rowSpan: 1 | 2 | undefined): string {
-  return rowSpan === 2 ? "var(--case-card-height)" : "var(--concept-row-height)";
-}
 ---
 
-<section class="concept-bento" aria-label={m.concepts.ariaLabel}>
-  <ul class="concept-bento__grid">
+<section class="concept-tiles" aria-label={m.concepts.ariaLabel}>
+  <ul class="concept-tiles__list">
     {
       conceptItems.map((item, index) => (
         <li
-          class="concept-bento__item"
+          class="concept-tiles__item"
           data-page-enter=""
-          style={`--page-enter-delay: calc(var(--page-enter-delay-concepts-base-active) + ${Math.floor(index / 2)} * var(--page-enter-delay-concepts-step)); --concept-col-span: ${item.colSpan ?? 1}; --concept-row-span: ${item.rowSpan ?? 1}; height: ${getTileHeight(item.rowSpan)};`}
+          style={`--page-enter-delay: calc(var(--page-enter-delay-concepts-base-active) + ${index} * var(--page-enter-delay-concepts-step));`}
         >
-          <div class="concept-bento__surface"></div>
+          <div class="concept-tiles__surface" data-concept-id={item.id}></div>
         </li>
       ))
     }
@@ -26,55 +22,37 @@ function getTileHeight(rowSpan: 1 | 2 | undefined): string {
 </section>
 
 <style>
-  .concept-bento {
+  .concept-tiles {
     width: 100%;
     min-width: 0;
-    margin-top: 0;
   }
 
-  .concept-bento__grid {
+  .concept-tiles__list {
     display: flex;
     flex-direction: column;
-    gap: var(--layout-column-gap);
+    gap: var(--space-md);
     list-style: none;
     margin: 0;
     padding: 0;
     width: 100%;
   }
 
-  .concept-bento__item {
+  .concept-tiles__item {
     display: block;
     width: 100%;
+    max-width: var(--concept-tile-size);
+    aspect-ratio: 1;
     min-width: 0;
     border-radius: var(--radius-widget);
     background-color: var(--color-bg-surface);
     overflow: hidden;
   }
 
-  .concept-bento__surface {
+  .concept-tiles__surface {
     display: block;
     width: 100%;
     height: 100%;
     border-radius: var(--radius-widget);
     background-color: var(--color-bg-surface);
-  }
-
-  @media (max-width: 639px) {
-    .concept-bento__grid {
-      gap: var(--layout-gutter-mobile);
-    }
-  }
-
-  @media (min-width: 640px) {
-    .concept-bento__grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-auto-rows: minmax(var(--concept-row-height), auto);
-    }
-
-    .concept-bento__item {
-      grid-column: span var(--concept-col-span, 1);
-      grid-row: span var(--concept-row-span, 1);
-    }
   }
 </style>

@@ -285,7 +285,7 @@
   --layout-content-width: 1248px;
   --layout-widgets-width: 300px;
   --layout-cases-width: 932px;
-  /* Paragraph measure ≈900–950 per case study guide; cover stays full cases column */
+  /* Paragraph measure ≈900–950 per case study guide; cover + media share it */
   --layout-case-reading-width: 900px;
   --layout-case-cover-height: 340px;
   --layout-case-cover-inset-top: var(--space-md);
@@ -352,8 +352,8 @@
   --hit-expand-y-sm: 0.45rem;
   --hit-expand-x-sm: 0.5rem;
 
-  /* Concept showcase — витрина под кейсами */
-  --concept-row-height: calc((var(--case-card-height) - var(--layout-column-gap)) / 2);
+  /* Concept showcase — квадраты под портфолио */
+  --concept-tile-size: 900px;
   --radius-pill: 500px;
 
   /* Wash — animated gradient + grain (employer hover и др.) */

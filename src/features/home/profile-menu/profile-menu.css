@@ -414,13 +414,15 @@
   }
 }
 
-/* Desktop home: cases always centered; widgets live in fixed profile menu */
+/* Desktop: cases always centered; widgets live in fixed profile menu (home + case) */
 @media (min-width: 640px) {
-  body[data-page="home"] .profile-menu.profile-menu--fixed {
+  body[data-page="home"] .profile-menu.profile-menu--fixed,
+  body[data-page="case"] .profile-menu.profile-menu--fixed {
     display: flex;
   }
 
-  body[data-page="home"] main.home .grid {
+  body[data-page="home"] main.home .grid,
+  body[data-page="case"] main.home .grid {
     grid-template-columns: minmax(0, 1fr);
     column-gap: 0;
   }
@@ -429,7 +431,8 @@
    * Collapse the widgets column in flow, but keep overflow visible so the
    * fixed profile menu (child) still paints and receives pointer events.
    */
-  body[data-page="home"] .grid__widgets {
+  body[data-page="home"] .grid__widgets,
+  body[data-page="case"] .grid__widgets {
     width: 0;
     height: 0;
     margin: 0;
@@ -439,7 +442,10 @@
   }
 
   body[data-page="home"] .grid__cases,
-  body[data-page="home"] .home__cases {
+  body[data-page="home"] .home__cases,
+  body[data-page="case"] .grid__cases,
+  body[data-page="case"] .home__cases,
+  body[data-page="case"] .case-content {
     max-width: var(--layout-case-reading-width);
     width: 100%;
     margin-inline: auto;

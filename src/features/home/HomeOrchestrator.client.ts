@@ -100,6 +100,9 @@ function initExperience() {
 
   if (document.body.dataset.page === "home") {
     initCaseHover();
+  }
+
+  if (document.querySelector("[data-profile-menu]")) {
     syncProfileMenuOnLoad();
     bindProfileMenu();
   }

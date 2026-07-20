@@ -11,16 +11,16 @@ Fixed-панель профиля на главной (desktop): зеркало 
 | `profile-menu.client.ts` | Toggle, Escape, settle-таймеры, `ensureProfileMenuOpenForContact()` |
 | `profile-menu.storage.ts` | sessionStorage `profile-menu-open` |
 
-Монтируется в `HomePage` в slot `widgets`. На case page по-прежнему `HomeWidgets` + `MeWidget`.
+Монтируется в `HomePage` и `CasePage` в slot `widgets` (один `transition:persist`).
 
 ## Состояния
 
 | Атрибут | Где | Значение |
 |---------|-----|----------|
-| `data-profile-open` | `[data-home-page]` | `"true"` / `"false"` |
+| `data-profile-open` | `[data-home-page]` / `[data-case-page]` | `"true"` / `"false"` |
 | `data-open` | `[data-profile-menu]` | наличие присутствует, когда открыт |
-| `data-profile-animating` | `[data-home-page]` | `"opening"` / `"closing"` на время каскада |
-| `data-profile-settled` | `[data-home-page]` | после завершения анимации |
+| `data-profile-animating` | host (`main.home`) | `"opening"` / `"closing"` на время каскада |
+| `data-profile-settled` | host (`main.home`) | после завершения анимации |
 
 FOUC: inline-скрипт в `ProfileMenu.astro` читает `profile-menu-open` и `contact-panel-open` до paint. Если контакты открыты — профиль тоже открывается.
 
@@ -61,12 +61,12 @@ FOUC: inline-скрипт в `ProfileMenu.astro` читает `profile-menu-open
 
 - Fixed: `top/left: --space-md` (16px), `z-index: --z-dock`
 - `grid__widgets` в потоке 0×0, overflow visible (fixed-потомок рисуется)
-- Cases: `max-width: --layout-case-reading-width`, `margin-inline: auto`
+- Cases (home + case page): `max-width: --layout-case-reading-width`, `margin-inline: auto`
 - Copyright на home: fixed `left/bottom: --space-md` (viewport, не контент-бокс)
 
 ## Mobile
 
-ProfileMenu в потоке сетки; shell всегда «открыт» как me-widget; bio/кнопка скрыты; contact — `home__contact-mobile`. Trigger не кликабелен.
+ProfileMenu в потоке сетки на home; shell всегда «открыт» как me-widget; bio/кнопка скрыты; contact — `home__contact-mobile`. Trigger не кликабелен. На case page колонка виджетов скрыта.
 
 ## i18n
 
