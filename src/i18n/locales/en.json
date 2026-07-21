@@ -17,6 +17,10 @@
       "ariaLabel": "Portfolio"
     }
   },
+  "mobileStub": {
+    "ariaLabel": "Desktop only notice",
+    "text": "Portfolio is available on desktop only"
+  },
   "concepts": {
     "ariaLabel": "Concept showcase"
   },

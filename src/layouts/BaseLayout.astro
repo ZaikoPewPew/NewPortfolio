@@ -61,8 +61,43 @@ const comforterFontHref = withBase("/fonts/Comforter-Regular.ttf");
     }
     <slot name="header" />
     <slot />
+    <div class="mobile-stub" role="alert" aria-label={m.mobileStub.ariaLabel}>
+      <p class="mobile-stub__text">{m.mobileStub.text}</p>
+    </div>
   </body>
 </html>
+
+<style>
+  .mobile-stub {
+    display: none;
+  }
+
+  /* Below desktop (< 1024px, синхронно с --bp-desktop) — see layout-grid.mdc */
+  @media (max-width: 1023px) {
+    .mobile-stub {
+      position: fixed;
+      inset: 0;
+      z-index: var(--z-mobile-stub);
+      display: grid;
+      place-items: center;
+      padding: var(--space-xl);
+      background: var(--color-bg-page);
+    }
+
+    .mobile-stub__text {
+      margin: 0;
+      max-width: 320px;
+      color: var(--color-text-primary);
+      font-family: var(--font-family);
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tight);
+      text-align: center;
+      text-wrap: balance;
+    }
+  }
+</style>
 
 <script>
   import "../features/home/HomeOrchestrator.client";

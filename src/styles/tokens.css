@@ -287,6 +287,7 @@
   --z-employer-focus: 250;
   --z-employer-block: 255;
   --z-tooltip: 2147483647;
+  --z-mobile-stub: 2147483647;
 
   /* Layout */
   --layout-content-width: 1248px;
@@ -294,6 +295,8 @@
   --layout-cases-width: 932px;
   /* Paragraph measure ≈900–950 per case study guide; cover + media share it */
   --layout-case-reading-width: 900px;
+  /* Small monitors (tablet range): squeeze case links + case body narrower */
+  --layout-case-reading-width-compact: 600px;
   --layout-case-cover-height: 340px;
   --layout-case-cover-inset-top: var(--space-md);
   /* Case body rhythm: section → title → text → visual */
@@ -431,4 +434,15 @@
   --bp-mobile: 640px;
   --bp-mobile-max: 639px;
   --bp-desktop: 1024px;
+}
+
+/*
+ * Small monitors (tablet, 640–1023px): narrow the content column so portfolio
+ * case links (home) and the case body (case page) get squeezed to a tighter
+ * reading measure instead of stretching toward the viewport edges.
+ */
+@media (min-width: 640px) and (max-width: 1023px) {
+  :root {
+    --layout-case-reading-width: var(--layout-case-reading-width-compact);
+  }
 }

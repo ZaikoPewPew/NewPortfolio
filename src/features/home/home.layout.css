@@ -45,7 +45,6 @@ body[data-page="case"] .home {
 
   body[data-page="home"] .home__widgets {
     margin-top: 0;
-    background: var(--color-bg-page);
   }
 
   /*
@@ -65,7 +64,6 @@ body[data-page="case"] .home {
   [data-case-page] .home__widgets,
   [data-case-page] .home__cases {
     margin-top: 0;
-    background: var(--color-bg-page);
   }
 
   .home__copyright {
