@@ -144,9 +144,17 @@
   --git-cell-size: 12px;
   --git-cell-gap: var(--space-xs);
 
+  /* Article widget — case scroll drum (fixed, right-centered on case page) */
+  --article-drum-width: 24px;
+  --article-drum-height: 80px;
+  --article-names-max-width: 160px;
+  --article-column-gap: var(--space-sm);
+  --article-offset-right: var(--space-md);
+
   /* Typography */
   --font-family: "Styrene A LC", "Styrene A", system-ui, -apple-system, sans-serif;
   --font-family-script: "Comforter", cursive;
+  --font-size-2xs: 10px;
   --font-size-xs: 12px;
   --font-size-sm: 14px;
   --font-size-base: 16px;

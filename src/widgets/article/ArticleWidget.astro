@@ -1,0 +1,34 @@
+---
+import { getMessages, resolveLocale } from "../../i18n";
+import "./article.styles.css";
+import "./article.animations.css";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const locale = resolveLocale(Astro.currentLocale);
+const m = getMessages(locale);
+---
+
+<nav
+  class:list={["article-widget", className]}
+  aria-label={m.articleWidget.ariaLabel}
+  data-article-widget
+>
+  {/* Section names (prev / active / next) — decorative; dots carry the labels */}
+  <div class="article-widget__names" data-article-names aria-hidden="true"></div>
+
+  {/* The drum: a vertical pill with section dots that grow toward the center */}
+  <div class="article-widget__drum" data-article-drum>
+    <div class="article-widget__dots" data-article-dots></div>
+  </div>
+</nav>
+
+<script>
+  import { initArticleWidget } from "./article.client";
+
+  initArticleWidget();
+  document.addEventListener("astro:page-load", () => initArticleWidget());
+</script>

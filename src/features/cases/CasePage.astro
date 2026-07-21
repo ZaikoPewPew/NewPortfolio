@@ -4,6 +4,7 @@ import Grid from "../../components/layout/Grid.astro";
 import CaseHero from "../../components/cases/CaseHero.astro";
 import { caseMdxComponents } from "../../components/cases/blocks";
 import NavigationWidget from "../../widgets/navigation/NavigationWidget.astro";
+import ArticleWidget from "../../widgets/article/ArticleWidget.astro";
 import ThemeWidget from "../../widgets/theme/ThemeWidget.astro";
 import ProfileMenu from "../home/profile-menu/ProfileMenu.astro";
 import { getCaseTitle } from "../cases/getCaseTitle";
@@ -48,4 +49,5 @@ const m = getMessages(locale);
   </main>
 
   <NavigationWidget />
+  <ArticleWidget />
 </BaseLayout>

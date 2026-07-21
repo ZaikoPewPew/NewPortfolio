@@ -1,0 +1,18 @@
+/* Position/opacity are eased per frame in article.client.ts (lerp toward the
+ * scroll target), so the only CSS transitions are the reveal and the dot's
+ * active-color shift. */
+
+.article-widget {
+  transition: opacity var(--motion-base) var(--ease-out-expo);
+}
+
+.article-widget__dot {
+  transition: background var(--motion-fast) linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-widget,
+  .article-widget__dot {
+    transition: none;
+  }
+}

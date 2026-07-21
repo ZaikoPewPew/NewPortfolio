@@ -85,6 +85,10 @@
     "homeAriaLabel": "Back to home",
     "scrollTopAriaLabel": "Scroll to top"
   },
+  "articleWidget": {
+    "ariaLabel": "Article sections",
+    "jumpTo": "Go to “{name}”"
+  },
   "git": {
     "ariaLabel": "GitHub activity",
     "openProfile": "Open GitHub profile",
@@ -119,9 +123,9 @@
   },
   "cases": {
     "titles": {
-      "project-alpha": "merchant acquiring calculator redesign",
-      "project-beta": "one initiative ended three years of marketing and business disputes",
-      "project-gamma": "reduced call center inquiries by n%",
+      "project-alpha": "merchant acquiring calculator",
+      "project-beta": "terminal showcase",
+      "project-gamma": "customer self-service portal",
       "rmr-banking-app": "hcb design-system",
       "rmr-loyalty": "branch system",
       "rmr-design-system": "file organization system",

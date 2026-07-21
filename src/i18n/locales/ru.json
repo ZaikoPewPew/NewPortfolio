@@ -85,6 +85,10 @@
     "homeAriaLabel": "На главную",
     "scrollTopAriaLabel": "Наверх"
   },
+  "articleWidget": {
+    "ariaLabel": "Разделы статьи",
+    "jumpTo": "Перейти к «{name}»"
+  },
   "git": {
     "ariaLabel": "Активность на GitHub",
     "openProfile": "Открыть профиль на GitHub",
@@ -119,12 +123,12 @@
   },
   "cases": {
     "titles": {
-      "project-alpha": "редизайн калькулятора торгового эквайринга",
-      "project-beta": "одна инициатива решила 3 года споров маркетинга и бизнеса",
-      "project-gamma": "сократил обращения в колл-центр на n%",
+      "project-alpha": "калькулятор торгового эквайринга",
+      "project-beta": "витрина терминалов",
+      "project-gamma": "портал самообслуживания клиентов",
       "rmr-banking-app": "hcb design-system",
-      "rmr-loyalty": "branch system",
-      "rmr-design-system": "file organization system",
+      "rmr-loyalty": "система филиалов",
+      "rmr-design-system": "система организации файлов",
       "zimran-paywall": "инвестиционные достижения",
       "project-delta": "оплата транспорта с помощью qr-кода",
       "kcell-self-care": "мобильные платежи",

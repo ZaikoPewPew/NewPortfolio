@@ -1,0 +1,125 @@
+/* Article widget — case scroll drum.
+ * Fixed on the right, vertically centered, 16px from the edge.
+ * Left: section names (active + neighbours). Right: a vertical pill with dots.
+ * The active item is pinned to the pill edge at the first/last section.
+ * Dots and names are generated and positioned by article.client.ts. */
+
+.article-widget {
+  position: fixed;
+  top: 50%;
+  right: var(--article-offset-right);
+  z-index: var(--z-dock);
+  display: flex;
+  align-items: center;
+  gap: var(--article-column-gap);
+  transform: translateY(-50%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.article-widget[data-ready] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Names column — absolutely stacked, right-aligned; JS positions each label. */
+.article-widget__names {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--article-names-max-width);
+  height: var(--article-drum-height);
+}
+
+.article-widget__name {
+  position: absolute;
+  top: 0;
+  right: 0;
+  max-width: 100%;
+  margin: 0;
+  /* Bigger, transparent hit area than the glyphs: vertical padding + room left. */
+  padding: var(--space-xs) var(--space-2xs) var(--space-xs) var(--space-sm);
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-tight);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transform-origin: right center;
+  transform: translateY(-50%);
+  /* --item-opacity is eased per frame in article.client.ts; :hover can override */
+  opacity: var(--item-opacity, 0);
+  will-change: transform, opacity, top;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* Hover on a dimmed (inactive) section name — just brighten it, no background. */
+.article-widget__name:hover {
+  opacity: 1;
+}
+
+/* Drum — dark pill; dots live inside and are clipped by the rounded edges. */
+.article-widget__drum {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--article-drum-width);
+  height: var(--article-drum-height);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg-surface);
+  overflow: hidden;
+  cursor: grab;
+}
+
+.article-widget__drum.is-dragging {
+  cursor: grabbing;
+}
+
+.article-widget__dots {
+  position: absolute;
+  inset: 0;
+}
+
+.article-widget__dot {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-pill);
+  /* --dot-active: 0 → muted control color, 1 → white (active section) */
+  background: color-mix(
+    in srgb,
+    var(--color-bg-contrast) calc(var(--dot-active, 0) * 100%),
+    var(--color-bg-control)
+  );
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  opacity: 0;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* Hover on an inactive dot — bring it to the active (white) color. */
+.article-widget__dot:hover {
+  background: var(--color-bg-contrast);
+}
+
+@media (max-width: 639px) {
+  .article-widget {
+    display: none;
+  }
+}

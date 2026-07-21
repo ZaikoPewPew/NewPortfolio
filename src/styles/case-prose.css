@@ -3,13 +3,13 @@
  */
 
 .case-content__body {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base);
   line-height: var(--line-height-normal);
   color: var(--color-text-secondary);
 }
 
 .case-content__body h2 {
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-xl);
   line-height: var(--line-height-snug);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--letter-spacing-snug);
@@ -23,7 +23,7 @@
 }
 
 .case-content__body h3 {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   line-height: var(--line-height-tight);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);
@@ -86,11 +86,11 @@
 
 @media (max-width: 639px) {
   .case-content__body {
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-sm);
   }
 
   .case-content__body h2 {
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-lg);
     margin-top: var(--space-3xl);
     margin-bottom: var(--space-lg);
   }
@@ -100,7 +100,7 @@
   }
 
   .case-content__body h3 {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-base);
     margin-top: var(--space-xl);
     margin-bottom: var(--space-sm);
   }
