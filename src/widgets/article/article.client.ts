@@ -109,8 +109,6 @@ function readSections(body: HTMLElement, namesEl: HTMLElement): Section[] {
     nameButton.type = "button";
     nameButton.className = "article-widget__name";
     nameButton.dataset.index = String(sectionIndex);
-    nameButton.dataset.feedback = "tap hover";
-    nameButton.dataset.feedbackSource = "widget.article.section";
     nameButton.setAttribute("aria-label", label);
     nameButton.textContent = name;
     namesEl.appendChild(nameButton);

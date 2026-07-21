@@ -1,4 +1,3 @@
-import { feedback } from "../../../experience/feedback/FeedbackBus";
 import { userPreferences } from "../../../experience/preferences/UserPreferences";
 import { readSayHiDismissed } from "../profile-menu/profile-menu.storage";
 
@@ -164,15 +163,9 @@ function updatePointer(event: PointerEvent) {
     localY >= 0 &&
     localY <= CANVAS_H;
 
-  const wasActive = state.pointerActive;
   state.pointerX = localX;
   state.pointerY = localY;
   state.pointerActive = inside && !isMenuOpen(state.menu);
-
-  // Debounced by nature: only fires on the outside -> inside transition.
-  if (state.pointerActive && !wasActive) {
-    feedback.emit({ sound: "bubble", haptic: "light", source: "sayHi" });
-  }
 }
 
 export async function initSayHiParticles(): Promise<void> {
