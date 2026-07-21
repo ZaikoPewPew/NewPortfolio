@@ -67,6 +67,44 @@
   opacity: 0;
 }
 
+/* "Say hi" is a home-only flourish; on case pages the profile menu is reused
+   but the hint is not needed. */
+[data-case-page] .profile-menu__say-hi,
+[data-case-page] .profile-menu__say-hi-canvas {
+  display: none;
+}
+
+/* Particle canvas overlays the static say-hi span; JS reveals it (and hides the
+   span) only on home desktop with motion allowed. Static span stays as the
+   no-JS / reduced-motion fallback. */
+.profile-menu__say-hi-canvas {
+  /* Padding lets particles fly past the glyph without clipping; the canvas is
+     shifted back by the same amount so the text keeps the span's position.
+     Value mirrors PAD in sayHiParticles.client.ts. */
+  --say-hi-pad: 48px;
+  position: absolute;
+  top: calc(var(--profile-shell-collapsed) - var(--say-hi-pad));
+  left: calc(var(--profile-shell-collapsed) - var(--say-hi-pad));
+  width: calc(143px + var(--say-hi-pad) * 2);
+  height: calc(80px + var(--say-hi-pad) * 2);
+  display: none;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity var(--motion-base) var(--ease-out-expo);
+}
+
+.profile-menu[data-say-hi-particles] .profile-menu__say-hi {
+  display: none;
+}
+
+.profile-menu[data-say-hi-particles] .profile-menu__say-hi-canvas {
+  display: block;
+}
+
+.profile-menu[data-open] .profile-menu__say-hi-canvas {
+  opacity: 0;
+}
+
 .profile-menu__header {
   display: flex;
   align-items: center;

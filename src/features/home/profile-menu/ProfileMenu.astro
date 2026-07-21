@@ -121,6 +121,13 @@ const m = getMessages(locale);
     style={`--say-hi-src: url("${withBase("/images/ui/say-hi.svg")}")`}
   ></span>
 
+  <canvas
+    class="profile-menu__say-hi-canvas"
+    aria-hidden="true"
+    data-say-hi-canvas
+    data-say-hi-src={withBase("/images/ui/say-hi.svg")}
+  ></canvas>
+
   <div
     class="profile-menu__bento home__widgets"
     data-contact-layout

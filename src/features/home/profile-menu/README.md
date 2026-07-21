@@ -8,7 +8,7 @@ Fixed-панель профиля на главной (desktop): зеркало 
 |------|------|
 | `ProfileMenu.astro` | Разметка: shell (avatar + identity + bio + ContactButton) + bento (`data-contact-layout`) |
 | `profile-menu.css` | Fixed позиция, expand/collapse, каскад open/close, центрирование cases |
-| `profile-menu.client.ts` | Toggle, Escape, settle-таймеры, `ensureProfileMenuOpenForContact()` |
+| `profile-menu.client.ts` | Toggle, Escape, клик вне меню, settle-таймеры, `ensureProfileMenuOpenForContact()` |
 | `profile-menu.storage.ts` | sessionStorage `profile-menu-open` |
 
 Монтируется в `HomePage` и `CasePage` в slot `widgets` (один `transition:persist`).
@@ -35,6 +35,8 @@ FOUC: inline-скрипт в `ProfileMenu.astro` читает `profile-menu-open
 5. Git → book / photo+youtube / bento-links снизу
 
 Закрытие быстрее (`CLOSE_SETTLE_MS`): shell и bento сжимаются сразу; bento уходит через opacity контейнера (без transform на детях — не конфликтует с contact-panel).
+
+Закрыть можно: триггером (аватар), `Escape` (с возвратом фокуса) или кликом (`pointerdown`) вне контейнера `[data-profile-menu]` — по кейсам, доку или фону.
 
 `prefers-reduced-motion` — мгновенно, без keyframes.
 

@@ -169,6 +169,18 @@ export function bindProfileMenu() {
     if (!isDesktopProfileMenu()) return;
     setProfileMenuOpen(false, { restoreFocus: true });
   });
+
+  document.addEventListener("pointerdown", (event) => {
+    if (!isDesktopProfileMenu() || !isProfileMenuOpen()) return;
+
+    const currentMenu = getMenu();
+    if (!currentMenu) return;
+
+    const target = event.target as Node | null;
+    if (target && currentMenu.contains(target)) return;
+
+    setProfileMenuOpen(false);
+  });
 }
 
 export function syncProfileMenuOnLoad() {

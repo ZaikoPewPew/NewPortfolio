@@ -18,6 +18,7 @@ import {
 } from "./case-transition/CaseTransitionController.client";
 import { bindPageEnter, syncPageEnterOnLoad } from "./page-enter/PageEnterController.client";
 import { initCaseHover, resetCaseHover } from "./case-hover/CaseHoverController.client";
+import { initSayHiParticles, resetSayHiParticles } from "./say-hi/sayHiParticles.client";
 import { resetEmployerName, initEmployerName } from "../../components/ui/employerName.client";
 import { initContactButton, resetContactButton } from "../../components/ui/contactButton.client";
 import { initCaseChrome } from "../cases/caseChrome.client";
@@ -100,6 +101,7 @@ function initExperience() {
 
   if (document.body.dataset.page === "home") {
     initCaseHover();
+    void initSayHiParticles();
   }
 
   if (document.querySelector("[data-profile-menu]")) {
@@ -142,6 +144,7 @@ document.addEventListener("astro:before-preparation", (event) => {
   prepareContactPanelForNavigation(transitionEvent.to);
   resetCaseTransition();
   resetCaseHover();
+  resetSayHiParticles();
   resetEmployerName();
   resetContactButton();
 });
