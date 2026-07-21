@@ -6,6 +6,7 @@ import BookWidget from "../../../widgets/book/BookWidget.astro";
 import PhotoWidget from "../../../widgets/photo/PhotoWidget.astro";
 import BentoWidget from "../../../widgets/bento/BentoWidget.astro";
 import { getMessages, resolveLocale } from "../../../i18n";
+import { withBase } from "../../../lib/withBase";
 import { getMeProfile } from "../../../widgets/me/data/me.source";
 import { CONTACT_PANEL_OPEN_KEY } from "../contact/contact-panel.storage";
 import { PROFILE_MENU_OPEN_KEY } from "./profile-menu.storage";
@@ -57,10 +58,6 @@ const m = getMessages(locale);
       var contactOpen = contactValue === "1" || contactValue === "true";
       var layout = menu.querySelector("[data-contact-layout]");
       if (layout) layout.dataset.contactOpen = String(contactOpen);
-      if (contactOpen && host) {
-        host.dataset.profileOpen = "true";
-        menu.setAttribute("data-open", "");
-      }
     })();
   </script>
 
@@ -110,17 +107,24 @@ const m = getMessages(locale);
             </p>
           </div>
           <div class="profile-menu__contact-wrap">
-            <ContactButton />
+            <ContactButton mode="about" />
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <span
+    class="profile-menu__say-hi"
+    aria-hidden="true"
+    data-page-enter
+    style={`--say-hi-src: url("${withBase("/images/ui/say-hi.svg")}")`}
+  ></span>
+
   <div
     class="profile-menu__bento home__widgets"
     data-contact-layout
-    data-contact-open="false"
+    data-contact-open="true"
     data-profile-bento
     inert
   >

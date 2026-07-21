@@ -15,7 +15,7 @@ const locale = resolveLocale(Astro.currentLocale);
 <div
   class="home__widgets"
   data-contact-layout
-  data-contact-open="false"
+  data-contact-open="true"
   transition:persist={`home-widgets-${locale}`}
 >
   <script is:inline define:vars={{ contactPanelOpenKey: CONTACT_PANEL_OPEN_KEY }}>

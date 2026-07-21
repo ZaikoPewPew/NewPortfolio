@@ -56,8 +56,8 @@ Employer hover и currently-block — **только desktop** (`max-width: 639p
 
 1. Кнопка в ProfileMenu (desktop) / MeWidget (case, mobile) переключает `data-contact-open` на `[data-contact-layout]`
 2. Перед swipe на home: `ensureProfileMenuOpenForContact()` — профиль открыт до анимации контактов
-3. Состояние пишется в `sessionStorage` (`contact-panel.storage.ts`, ключ `contact-panel-open`)
-4. **Reload / home:** inline-скрипт в `ProfileMenu.astro` восстанавливает `data-contact-open` и `data-profile-open` до paint — без FOUC; если контакты открыты — профиль тоже
+3. Состояние пишется в `sessionStorage` (`contact-panel.storage.ts`, ключ `contact-panel-open`); **по умолчанию открыты контакты (say hi)** — при первом раскрытии профиля виден say hi, переключение на vibe check по кнопке
+4. **Reload / home:** inline-скрипт в `ProfileMenu.astro` восстанавливает `data-contact-open` и `data-profile-open` до paint — без FOUC; состояния независимы (открытость профиля не форсится контактами)
 5. `ContactPanelController.client.ts` синхронизирует кнопку и `aria-hidden` слота после `astro:page-load`
 6. При View Transitions между `/` и `/cases/*` — `beginWidgetsNavigationLock()` фиксирует transform без анимации
 7. При стабильном `data-contact-open="true"` default-bento скрыт (`visibility`), чтобы не мелькал под contact-slot при повторном раскрытии профиля
@@ -78,7 +78,7 @@ Slide-анимации: `contact-panel.animations.css`. Только desktop (`m
 2. `PageEnterController` включает `data-home-entering` и снимает флаги по таймеру (`--motion-page-enter-total` / `--motion-page-enter-total-case`)
 3. Задержки — токены `--page-enter-delay-*` в `tokens.css`
 
-**Home:** chrome (avatar `profile-menu__shell` + `theme-widget`, `--page-enter-delay-chrome`) → me / git → book+bento-links (пара) / photo+youtube → cases (парами: `floor(i/2)`) → concepts (парами) → copyright. Кейсы стартуют с overlap относительно левой колонки. Total ~1.8s.
+**Home:** chrome (avatar `profile-menu__shell` + `theme-widget` + подпись `profile-menu__say-hi`, `--page-enter-delay-chrome`) → me / git → book+bento-links (пара) / photo+youtube → cases (парами: `floor(i/2)`) → concepts (парами) → copyright. Кейсы стартуют с overlap относительно левой колонки. Total ~1.8s. `say-hi` подавляется, если профиль открыт (в этом состоянии подсказка скрыта).
 
 **Case (reload / прямой заход):** header → hero (cover+title) → meta → MDX body (`> *` парами, max 5 волн) → copyright. Виджеты скрыты; total — `--motion-page-enter-total-case` (~1.5s). Без `data-page-enter` на body — CSS по селекторам, без FOUC.
 

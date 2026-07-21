@@ -186,10 +186,7 @@ export function syncProfileMenuOnLoad() {
     return;
   }
 
-  const contactOpen =
-    menu.querySelector<HTMLElement>("[data-contact-layout]")?.dataset
-      .contactOpen === "true";
-  const open = resolveProfileMenuOpen() || contactOpen;
+  const open = resolveProfileMenuOpen();
   host.setAttribute("data-profile-open", String(open));
   menu.toggleAttribute("data-open", open);
   syncTrigger(menu, open);

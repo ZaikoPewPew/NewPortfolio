@@ -47,6 +47,26 @@
   gap: var(--space-md);
 }
 
+/* "Say hi" hint anchored to the bottom-right corner of the collapsed shell;
+   hidden once the profile menu opens. */
+.profile-menu__say-hi {
+  position: absolute;
+  top: var(--profile-shell-collapsed);
+  left: var(--profile-shell-collapsed);
+  width: 143px;
+  height: 80px;
+  pointer-events: none;
+  opacity: 1;
+  background-color: var(--color-text-primary);
+  -webkit-mask: var(--say-hi-src) no-repeat center / contain;
+  mask: var(--say-hi-src) no-repeat center / contain;
+  transition: opacity var(--motion-base) var(--ease-out-expo);
+}
+
+.profile-menu[data-open] .profile-menu__say-hi {
+  opacity: 0;
+}
+
 .profile-menu__header {
   display: flex;
   align-items: center;
@@ -505,6 +525,10 @@
   .profile-menu__anchor {
     pointer-events: none;
   }
+
+  .profile-menu__say-hi {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -515,7 +539,8 @@
   .profile-menu__contact-wrap,
   .profile-menu__tray,
   .profile-menu__bento.home__widgets,
-  .profile-menu__avatar {
+  .profile-menu__avatar,
+  .profile-menu__say-hi {
     transition: none;
   }
 

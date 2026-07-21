@@ -100,11 +100,13 @@
   padding: 0;
   border: none;
   border-radius: var(--radius-pill);
-  /* --dot-active: 0 → muted control color, 1 → white (active section) */
+  /* --dot-active is binary: 0 → muted border color, 1 → contrast (active section).
+   * Border reads on --color-bg-surface in every theme; control collides with the
+   * drum surface in light themes (near-identical values). */
   background: color-mix(
     in srgb,
     var(--color-bg-contrast) calc(var(--dot-active, 0) * 100%),
-    var(--color-bg-control)
+    var(--color-border)
   );
   transform: translate(-50%, -50%);
   cursor: pointer;

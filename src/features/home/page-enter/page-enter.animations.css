@@ -48,6 +48,18 @@ html[data-home-entering] .theme-widget {
   --page-enter-delay: var(--page-enter-delay-chrome);
 }
 
+/* "Say hi" hint rides the chrome wave with the collapsed avatar.
+   Suppressed when the profile is open (the hint is hidden in that state). */
+html[data-home-entering] .profile-menu__say-hi {
+  --page-enter-delay: var(--page-enter-delay-chrome);
+}
+
+html[data-home-enter] .profile-menu[data-open] .profile-menu__say-hi,
+html[data-home-entering] .profile-menu[data-open] .profile-menu__say-hi {
+  opacity: 0 !important;
+  animation: none !important;
+}
+
 html[data-home-entering] .me-widget {
   --page-enter-delay: var(--page-enter-delay-me);
 }

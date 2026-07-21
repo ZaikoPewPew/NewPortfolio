@@ -15,8 +15,8 @@ import { getMessages, interpolate } from "../../i18n";
  * Collapsed: a compact indicator. A tap opens the full menu; it expands evenly
  * from the center (staying screen-centered) into a list of every section that
  * you can navigate by clicking a name or a dot. Tap outside / Esc / pick a
- * section collapses it again. You can also drag the drum or wheel over it to
- * scrub the page.
+ * section collapses it again. You can also drag the drum to scrub the page;
+ * wheel passes through so the page scrolls natively over the widget.
  */
 
 // Collapsed geometry.
@@ -435,15 +435,6 @@ function bindInteractions(current: ArticleState): void {
 
   root.addEventListener("pointerup", endPress, { signal });
   root.addEventListener("pointercancel", endPress, { signal });
-
-  root.addEventListener(
-    "wheel",
-    (event) => {
-      event.preventDefault();
-      window.scrollBy({ top: event.deltaY, behavior: "auto" });
-    },
-    { passive: false, signal }
-  );
 
   document.addEventListener(
     "pointerdown",

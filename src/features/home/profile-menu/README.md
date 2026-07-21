@@ -22,7 +22,7 @@ Fixed-панель профиля на главной (desktop): зеркало 
 | `data-profile-animating` | host (`main.home`) | `"opening"` / `"closing"` на время каскада |
 | `data-profile-settled` | host (`main.home`) | после завершения анимации |
 
-FOUC: inline-скрипт в `ProfileMenu.astro` читает `profile-menu-open` и `contact-panel-open` до paint. Если контакты открыты — профиль тоже открывается.
+FOUC: inline-скрипт в `ProfileMenu.astro` читает `profile-menu-open` и `contact-panel-open` до paint. Состояния независимы: открытость профиля определяется только `profile-menu-open`, а `contact-panel-open` — только какое суб-состояние (say hi / vibe check) показать внутри bento.
 
 ## Open / close (desktop)
 
@@ -31,7 +31,7 @@ FOUC: inline-скрипт в `ProfileMenu.astro` читает `profile-menu-open
 1. Shell расширяется (64 → 300)
 2. Имя / роль
 3. Bio
-4. ContactButton (say hi)
+4. ContactButton (по умолчанию режим «about» → vibe check, т.к. say hi показан)
 5. Git → book / photo+youtube / bento-links снизу
 
 Закрытие быстрее (`CLOSE_SETTLE_MS`): shell и bento сжимаются сразу; bento уходит через opacity контейнера (без transform на детях — не конфликтует с contact-panel).
@@ -51,6 +51,7 @@ FOUC: inline-скрипт в `ProfileMenu.astro` читает `profile-menu-open
 
 ## Contact panel
 
+- **Дефолт — контакты (say hi):** `DEFAULT_CONTACT_PANEL_OPEN = true`, markup `data-contact-open="true"`, `ContactButton mode="about"`. При первом раскрытии профиля виден say hi; кнопка переключает на vibe check.
 - Перед swipe `ContactPanelController` вызывает `ensureProfileMenuOpenForContact()` — профиль гарантированно открыт.
 - При стабильном `data-contact-open="true"` default-bento скрыт (`visibility: hidden`), чтобы не мелькал под contact-slot при повторном раскрытии профиля.
 - Во время `data-contact-animating` скрытие не применяется — работает обычный swipe.
