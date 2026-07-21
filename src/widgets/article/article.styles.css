@@ -78,7 +78,8 @@
   border-radius: var(--radius-pill);
   background: var(--color-bg-surface);
   overflow: hidden;
-  cursor: grab;
+  /* Pointer signals "click to expand"; grabbing only shows during an active drag */
+  cursor: pointer;
 }
 
 .article-widget__drum.is-dragging {

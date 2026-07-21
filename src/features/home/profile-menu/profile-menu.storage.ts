@@ -19,3 +19,23 @@ export function resolveProfileMenuOpen(): boolean {
 export function writeProfileMenuOpen(open: boolean) {
   sessionStorage.setItem(PROFILE_MENU_OPEN_KEY, open ? "1" : "0");
 }
+
+/** Once the profile has been opened, the "say hi" hint has served its purpose
+    and is dismissed for good (persisted across sessions). */
+export const SAY_HI_DISMISSED_KEY = "say-hi-dismissed";
+
+export function readSayHiDismissed(): boolean {
+  try {
+    return localStorage.getItem(SAY_HI_DISMISSED_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+export function writeSayHiDismissed() {
+  try {
+    localStorage.setItem(SAY_HI_DISMISSED_KEY, "1");
+  } catch {
+    /* storage unavailable — hint simply keeps showing */
+  }
+}

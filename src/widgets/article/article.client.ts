@@ -24,7 +24,8 @@ const DOT_SIZE_MAX = 8; // px, active dot
 const DOT_SIZE_STEP = 1; // px shrink per section away from active
 const DOT_SIZE_MIN = 2; // px, smallest visible dot
 const DOT_SPACING = 16; // px, center-to-center (8px dot + 8px gap between dots)
-const MAX_DOT_SLOT = 6; // dots farther than this fade out
+const DOT_FADE_PER_SLOT = 0.4; // collapsed opacity falloff per section from active
+// active 1 · ±1 ≈ 0.6 (clear) · ±2 ≈ 0.2 (faint) · ±2.5+ fades out
 const NAME_SIZE_MAX = 12; // px, active name
 const NAME_SIZE_MIN = 10; // px, far names
 const NAME_SPACING = 20; // px, center-to-center between names
@@ -264,7 +265,7 @@ function render(pos: number, expansion: number): void {
     const expandedDotSize = 6 + 2 * active; // 8 active, 6 otherwise
     const dotSize = lerp(collapsedDotSize, expandedDotSize, expansion);
     const dotY = lerp(collapsedDotY(index), expandedY(index), expansion);
-    const collapsedDotOpacity = abs > MAX_DOT_SLOT ? 0 : clamp(MAX_DOT_SLOT - abs, 0, 1);
+    const collapsedDotOpacity = clamp(1 - DOT_FADE_PER_SLOT * abs, 0, 1);
     const expandedDotOpacity = 0.55 + 0.45 * active;
     const dotOpacity = lerp(collapsedDotOpacity, expandedDotOpacity, expansion);
     dot.style.width = `${dotSize.toFixed(2)}px`;

@@ -1,5 +1,6 @@
 import { feedback } from "../../../experience/feedback/FeedbackBus";
 import { userPreferences } from "../../../experience/preferences/UserPreferences";
+import { readSayHiDismissed } from "../profile-menu/profile-menu.storage";
 
 /** Glyph box of the say-hi text (matches the svg drawn into the canvas). */
 const TEXT_W = 143;
@@ -178,6 +179,8 @@ export async function initSayHiParticles(): Promise<void> {
   if (state) return;
   if (!document.querySelector("[data-home-page]")) return;
   if (!isDesktop() || prefersReducedMotion()) return;
+  // Hint already retired after a previous open — never rebuild it.
+  if (readSayHiDismissed()) return;
 
   const canvas = document.querySelector<HTMLCanvasElement>("[data-say-hi-canvas]");
   if (!canvas) return;

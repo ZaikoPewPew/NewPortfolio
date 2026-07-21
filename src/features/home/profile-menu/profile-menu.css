@@ -105,6 +105,12 @@
   opacity: 0;
 }
 
+/* After the profile has been opened once, the hint is retired for good. */
+.profile-menu[data-say-hi-dismissed] .profile-menu__say-hi,
+.profile-menu[data-say-hi-dismissed] .profile-menu__say-hi-canvas {
+  display: none;
+}
+
 .profile-menu__header {
   display: flex;
   align-items: center;

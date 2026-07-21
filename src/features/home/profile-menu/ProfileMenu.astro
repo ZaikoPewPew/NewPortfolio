@@ -9,7 +9,7 @@ import { getMessages, resolveLocale } from "../../../i18n";
 import { withBase } from "../../../lib/withBase";
 import { getMeProfile } from "../../../widgets/me/data/me.source";
 import { CONTACT_PANEL_OPEN_KEY } from "../contact/contact-panel.storage";
-import { PROFILE_MENU_OPEN_KEY } from "./profile-menu.storage";
+import { PROFILE_MENU_OPEN_KEY, SAY_HI_DISMISSED_KEY } from "./profile-menu.storage";
 import "../../../widgets/me/me.styles.css";
 import "../contact/contact-panel.animations.css";
 import "./profile-menu.css";
@@ -33,6 +33,7 @@ const m = getMessages(locale);
     define:vars={{
       profileMenuOpenKey: PROFILE_MENU_OPEN_KEY,
       contactPanelOpenKey: CONTACT_PANEL_OPEN_KEY,
+      sayHiDismissedKey: SAY_HI_DISMISSED_KEY,
     }}
   >
     (function () {
@@ -40,6 +41,12 @@ const m = getMessages(locale);
       if (!menu || !menu.hasAttribute("data-profile-menu")) return;
       var host =
         menu.closest("[data-home-page]") || menu.closest("[data-case-page]");
+
+      try {
+        if (localStorage.getItem(sayHiDismissedKey) === "1") {
+          menu.setAttribute("data-say-hi-dismissed", "");
+        }
+      } catch (e) {}
 
       if (!window.matchMedia("(max-width: 639px)").matches) {
         var value = sessionStorage.getItem(profileMenuOpenKey);

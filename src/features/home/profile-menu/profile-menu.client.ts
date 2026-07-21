@@ -1,7 +1,10 @@
 import {
   resolveProfileMenuOpen,
   writeProfileMenuOpen,
+  readSayHiDismissed,
+  writeSayHiDismissed,
 } from "./profile-menu.storage";
+import { resetSayHiParticles } from "../say-hi/sayHiParticles.client";
 
 const OPEN_SETTLE_MS = 880;
 const CLOSE_SETTLE_MS = 360;
@@ -25,6 +28,15 @@ function getProfileHost(): HTMLElement | null {
 
 function getMenu(): HTMLElement | null {
   return document.querySelector<HTMLElement>("[data-profile-menu]");
+}
+
+/** The "say hi" hint only teaches that the avatar is clickable. Once the profile
+    has been opened, retire it permanently (particles + static span). */
+function dismissSayHi(menu: HTMLElement) {
+  if (menu.hasAttribute("data-say-hi-dismissed")) return;
+  menu.setAttribute("data-say-hi-dismissed", "");
+  writeSayHiDismissed();
+  resetSayHiParticles();
 }
 
 function clearSettleTimer() {
@@ -104,7 +116,10 @@ export function setProfileMenuOpen(
   syncTrigger(menu, open);
   writeProfileMenuOpen(open);
 
-  if (open) syncBentoInert(menu, true);
+  if (open) {
+    dismissSayHi(menu);
+    syncBentoInert(menu, true);
+  }
 
   if (shouldAnimate) {
     settleTimer = window.setTimeout(() => {
@@ -205,4 +220,6 @@ export function syncProfileMenuOnLoad() {
   syncBentoInert(menu, open);
   host.removeAttribute("data-profile-animating");
   host.setAttribute("data-profile-settled", "");
+
+  if (open || readSayHiDismissed()) dismissSayHi(menu);
 }
