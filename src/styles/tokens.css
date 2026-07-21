@@ -437,11 +437,13 @@
 }
 
 /*
- * Small monitors (tablet, 640–1023px): narrow the content column so portfolio
- * case links (home) and the case body (case page) get squeezed to a tighter
- * reading measure instead of stretching toward the viewport edges.
+ * Laptops / smaller desktops (1024–1919px): narrow the content column so the
+ * portfolio case links (home) and the case body (case page) get squeezed to a
+ * tighter reading measure instead of stretching toward the viewport edges.
+ * Below 1024px the desktop-only mobile-stub takes over; large external
+ * monitors (≥1920px) keep the full 900px measure.
  */
-@media (min-width: 640px) and (max-width: 1023px) {
+@media (min-width: 1024px) and (max-width: 1919px) {
   :root {
     --layout-case-reading-width: var(--layout-case-reading-width-compact);
   }
