@@ -17,13 +17,9 @@ const m = getMessages(locale);
   aria-label={m.articleWidget.ariaLabel}
   data-article-widget
 >
-  {/* Section names (prev / active / next) — decorative; dots carry the labels */}
-  <div class="article-widget__names" data-article-names aria-hidden="true"></div>
-
-  {/* The drum: a vertical pill with section dots that grow toward the center */}
-  <div class="article-widget__drum" data-article-drum>
-    <div class="article-widget__dots" data-article-dots></div>
-  </div>
+  {/* Section names column — collapsed shows the active + neighbours, a tap
+      expands into the full list. JS creates and positions each name. */}
+  <div class="article-widget__names" data-article-names></div>
 </nav>
 
 <script>

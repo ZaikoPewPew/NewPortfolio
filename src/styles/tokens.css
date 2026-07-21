@@ -145,8 +145,7 @@
   --git-cell-gap: var(--space-xs);
 
   /* Article widget — case scroll drum (fixed, right-centered on case page) */
-  --article-drum-width: 24px;
-  --article-drum-height: 80px;
+  --article-drum-height: 112px;
   --article-names-max-width: 160px;
   --article-column-gap: var(--space-sm);
   --article-offset-right: var(--space-md);

@@ -3,33 +3,29 @@ import { prefersReducedMotion } from "../../experience/motion/prefersReducedMoti
 import { getMessages, interpolate } from "../../i18n";
 
 /*
- * Article scroll drum.
+ * Article scroll drum (names only).
  *
  * Reads the ## headings inside the case body and renders them as a vertical
- * strip of dots (right) plus section names (left). Position is a continuous
- * fractional index derived from scroll (scroll-spy), eased toward its target
- * each frame so the drum glides. Active item = biggest dot / brightest name;
- * neighbours shrink by one step. At the extremes the active item pins to the
- * top/bottom of the pill (8px inset) and the rest cascade away.
+ * strip of section names. Position is a continuous fractional index derived
+ * from scroll (scroll-spy), eased toward its target each frame so the column
+ * glides. Active item = brightest / biggest name; neighbours shrink by one
+ * step. At the extremes the active item pins to the top/bottom (8px inset) and
+ * the rest cascade away.
  *
- * Collapsed: a compact indicator. A tap opens the full menu; it expands evenly
- * from the center (staying screen-centered) into a list of every section that
- * you can navigate by clicking a name or a dot. Tap outside / Esc / pick a
- * section collapses it again. You can also drag the drum to scrub the page;
+ * Collapsed: a few names around the active one. A tap opens the full menu; it
+ * expands evenly from the center (staying screen-centered) into a list of every
+ * section that you can navigate by clicking a name. Tap outside / Esc / pick a
+ * section collapses it again. You can also drag the column to scrub the page;
  * wheel passes through so the page scrolls natively over the widget.
  */
 
 // Collapsed geometry.
-const DOT_SIZE_MAX = 8; // px, active dot
-const DOT_SIZE_STEP = 1; // px shrink per section away from active
-const DOT_SIZE_MIN = 2; // px, smallest visible dot
-const DOT_SPACING = 16; // px, center-to-center (8px dot + 8px gap between dots)
-const DOT_FADE_PER_SLOT = 0.4; // collapsed opacity falloff per section from active
-// active 1 · ±1 ≈ 0.6 (clear) · ±2 ≈ 0.2 (faint) · ±2.5+ fades out
 const NAME_SIZE_MAX = 12; // px, active name
 const NAME_SIZE_MIN = 10; // px, far names
-const NAME_SPACING = 20; // px, center-to-center between names
-const NAME_WINDOW = 1.4; // names shown within this distance (≈3 when collapsed)
+const NAME_SPACING = 24; // px, center-to-center between names (≈12px gap at 12px text)
+const NAME_FADE_PER_SLOT = 0.4; // collapsed opacity falloff per section from active
+// active 1 · ±1 ≈ 0.6 · ±2 ≈ 0.2 · ±2.5+ fades out → ~5 names visible
+const NAME_WINDOW = 2.6; // names shown within this distance (≈5 when collapsed)
 const EDGE_INSET = 8; // px, active item inset from pill edge at the extremes
 
 // Expanded (full menu) geometry.
@@ -46,16 +42,13 @@ const EXPAND_DURATION = 420; // ms, open/close tween
 interface Section {
   el: HTMLElement;
   name: string;
-  dot: HTMLButtonElement;
   label: HTMLButtonElement;
   top: number;
 }
 
 interface ArticleState {
   root: HTMLElement;
-  drum: HTMLElement;
   namesEl: HTMLElement;
-  dotsEl: HTMLElement;
   sections: Section[];
   baseHeight: number;
   pos: number;
@@ -98,16 +91,11 @@ function easeOutExpo(t: number): number {
   return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
 }
 
-function readSections(
-  body: HTMLElement,
-  dotsEl: HTMLElement,
-  namesEl: HTMLElement
-): Section[] {
+function readSections(body: HTMLElement, namesEl: HTMLElement): Section[] {
   const headings = Array.from(body.querySelectorAll<HTMLElement>("h2"));
   const messages = getMessages();
   const sections: Section[] = [];
 
-  dotsEl.replaceChildren();
   namesEl.replaceChildren();
 
   headings.forEach((el, index) => {
@@ -116,15 +104,6 @@ function readSections(
     if (!el.id) el.id = `case-section-${index + 1}`;
     const sectionIndex = sections.length;
     const label = interpolate(messages.articleWidget.jumpTo, { name });
-
-    const dot = document.createElement("button");
-    dot.type = "button";
-    dot.className = "article-widget__dot";
-    dot.dataset.index = String(sectionIndex);
-    dot.dataset.feedback = "tap hover";
-    dot.dataset.feedbackSource = "widget.article.section";
-    dot.setAttribute("aria-label", label);
-    dotsEl.appendChild(dot);
 
     const nameButton = document.createElement("button");
     nameButton.type = "button";
@@ -136,7 +115,7 @@ function readSections(
     nameButton.textContent = name;
     namesEl.appendChild(nameButton);
 
-    sections.push({ el, name, dot, label: nameButton, top: 0 });
+    sections.push({ el, name, label: nameButton, top: 0 });
   });
 
   return sections;
@@ -235,13 +214,9 @@ function render(pos: number, expansion: number): void {
   const { sections, baseHeight } = state;
   const n = sections.length;
 
-  const dotSizes = sections.map((_, i) =>
-    Math.max(DOT_SIZE_MIN, DOT_SIZE_MAX - DOT_SIZE_STEP * Math.abs(i - pos))
-  );
   const nameSizes = sections.map((_, i) =>
     Math.max(NAME_SIZE_MIN, NAME_SIZE_MAX - Math.abs(i - pos))
   );
-  const collapsedDotY = stripLayout(pos, dotSizes, baseHeight, DOT_SPACING, EDGE_INSET);
   const collapsedNameY = stripLayout(pos, nameSizes, baseHeight, NAME_SPACING, EDGE_INSET);
 
   const spacing = expandedSpacing(n);
@@ -249,7 +224,6 @@ function render(pos: number, expansion: number): void {
   const expandedY = (i: number): number => EXPANDED_PAD + i * spacing;
 
   const containerHeight = lerp(baseHeight, expandedHeight, expansion);
-  state.drum.style.height = `${containerHeight.toFixed(2)}px`;
   state.namesEl.style.height = `${containerHeight.toFixed(2)}px`;
 
   const open = expansion > 0.5;
@@ -258,31 +232,15 @@ function render(pos: number, expansion: number): void {
     const slot = index - pos;
     const abs = Math.abs(slot);
     const active = Math.max(0, 1 - abs);
-    const { dot, label } = section;
-
-    // Dot — collapsed 8px strip; on open it spreads to align with the names.
-    const collapsedDotSize = dotSizes[index];
-    const expandedDotSize = 6 + 2 * active; // 8 active, 6 otherwise
-    const dotSize = lerp(collapsedDotSize, expandedDotSize, expansion);
-    const dotY = lerp(collapsedDotY(index), expandedY(index), expansion);
-    const collapsedDotOpacity = clamp(1 - DOT_FADE_PER_SLOT * abs, 0, 1);
-    const expandedDotOpacity = 0.55 + 0.45 * active;
-    const dotOpacity = lerp(collapsedDotOpacity, expandedDotOpacity, expansion);
-    dot.style.width = `${dotSize.toFixed(2)}px`;
-    dot.style.height = `${dotSize.toFixed(2)}px`;
-    dot.style.top = `${dotY.toFixed(2)}px`;
-    dot.style.transform = "translate(-50%, -50%)";
-    dot.style.setProperty("--dot-active", active.toFixed(3));
-    dot.style.opacity = dotOpacity.toFixed(3);
-    dot.style.pointerEvents = open || dotOpacity > 0.05 ? "auto" : "none";
+    const { label } = section;
 
     // Name.
     const collapsedNameScale = nameSizes[index] / NAME_SIZE_MAX;
     const expandedNameSize = NAME_SIZE_MIN + 1 + active; // 12 active, 11 otherwise
     const nameScale = lerp(collapsedNameScale, expandedNameSize / NAME_SIZE_MAX, expansion);
     const nameY = lerp(collapsedNameY(index), expandedY(index), expansion);
-    const closeness = Math.max(0, 1 - abs / 2);
-    const collapsedNameOpacity = (0.4 + 0.6 * closeness) * clamp((NAME_WINDOW - abs) / 0.6, 0, 1);
+    const collapsedNameOpacity =
+      clamp(1 - NAME_FADE_PER_SLOT * abs, 0, 1) * clamp((NAME_WINDOW - abs) / 0.6, 0, 1);
     const expandedNameOpacity = 0.6 + 0.4 * active;
     const nameOpacity = lerp(collapsedNameOpacity, expandedNameOpacity, expansion);
     label.style.top = `${nameY.toFixed(2)}px`;
@@ -356,13 +314,7 @@ function jumpToSection(index: number): void {
   });
 }
 
-function indexFromPoint(x: number, y: number): number | null {
-  const el = document.elementFromPoint(x, y);
-  const item = el?.closest?.<HTMLElement>("[data-index]");
-  return item ? Number(item.dataset.index) : null;
-}
-
-/** Section index only when the point is over a name label (left column). */
+/** Section index when the point is over a name label, otherwise null. */
 function nameIndexFromPoint(x: number, y: number): number | null {
   const el = document.elementFromPoint(x, y);
   const name = el?.closest?.<HTMLElement>(".article-widget__name");
@@ -370,7 +322,7 @@ function nameIndexFromPoint(x: number, y: number): number | null {
 }
 
 function bindInteractions(current: ArticleState): void {
-  const { root, drum, abort } = current;
+  const { root, namesEl, abort } = current;
   const { signal } = abort;
 
   root.addEventListener(
@@ -394,7 +346,7 @@ function bindInteractions(current: ArticleState): void {
       const delta = event.clientY - current.startY;
       if (!current.dragging && Math.abs(delta) < DRAG_THRESHOLD) return;
       current.dragging = true;
-      drum.classList.add("is-dragging");
+      namesEl.classList.add("is-dragging");
       const nextPos = clamp(
         current.startPos - delta / DRAG_PX_PER_SECTION,
         0,
@@ -410,23 +362,18 @@ function bindInteractions(current: ArticleState): void {
     current.down = false;
     const wasDragging = current.dragging;
     current.dragging = false;
-    drum.classList.remove("is-dragging");
+    namesEl.classList.remove("is-dragging");
     if (root.hasPointerCapture(event.pointerId)) root.releasePointerCapture(event.pointerId);
     if (wasDragging) return; // a scrub, not a tap
 
     if (current.expandedTarget < 0.5) {
-      // Collapsed: a name navigates without opening; the pill (right) opens the menu.
-      const nameIndex = nameIndexFromPoint(event.clientX, event.clientY);
-      if (nameIndex != null) {
-        jumpToSection(nameIndex);
-        return;
-      }
+      // Collapsed: a tap anywhere opens the full list.
       setExpanded(current, true);
       return;
     }
-    // Open: a section (dot or name) navigates and keeps the menu open;
-    // tapping empty pill area (the drum itself) is what collapses it.
-    const index = indexFromPoint(event.clientX, event.clientY);
+    // Open: a name navigates and keeps the menu open; tapping empty column area
+    // is what collapses it.
+    const index = nameIndexFromPoint(event.clientX, event.clientY);
     if (index != null) {
       jumpToSection(index);
       return;
@@ -463,12 +410,10 @@ export function initArticleWidget(): void {
   if (!root) return;
 
   const namesEl = root.querySelector<HTMLElement>("[data-article-names]");
-  const dotsEl = root.querySelector<HTMLElement>("[data-article-dots]");
-  const drum = root.querySelector<HTMLElement>("[data-article-drum]");
   const body = document.querySelector<HTMLElement>("[data-case-content-body]");
-  if (!namesEl || !dotsEl || !drum || !body) return;
+  if (!namesEl || !body) return;
 
-  const sections = readSections(body, dotsEl, namesEl);
+  const sections = readSections(body, namesEl);
   if (sections.length < 2) {
     root.removeAttribute("data-ready");
     return;
@@ -477,11 +422,9 @@ export function initArticleWidget(): void {
   const abort = new AbortController();
   const current: ArticleState = {
     root,
-    drum,
     namesEl,
-    dotsEl,
     sections,
-    baseHeight: dotsEl.clientHeight,
+    baseHeight: namesEl.clientHeight,
     pos: 0,
     targetPos: 0,
     expansion: 0,

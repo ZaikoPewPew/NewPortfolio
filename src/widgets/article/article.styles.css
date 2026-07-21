@@ -1,8 +1,8 @@
 /* Article widget — case scroll drum.
  * Fixed on the right, vertically centered, 16px from the edge.
- * Left: section names (active + neighbours). Right: a vertical pill with dots.
- * The active item is pinned to the pill edge at the first/last section.
- * Dots and names are generated and positioned by article.client.ts. */
+ * A column of section names (active + neighbours); a tap expands the full list.
+ * The active item is pinned to the edge at the first/last section.
+ * Names are generated and positioned by article.client.ts. */
 
 .article-widget {
   position: fixed;
@@ -27,12 +27,18 @@
   pointer-events: auto;
 }
 
-/* Names column — absolutely stacked, right-aligned; JS positions each label. */
+/* Names column — absolutely stacked, right-aligned; JS positions each label.
+ * The column itself is the tap target that expands the full list. */
 .article-widget__names {
   position: relative;
   flex-shrink: 0;
   width: var(--article-names-max-width);
   height: var(--article-drum-height);
+  cursor: pointer;
+}
+
+.article-widget__names.is-dragging {
+  cursor: grabbing;
 }
 
 .article-widget__name {
@@ -67,58 +73,6 @@
 /* Hover on a dimmed (inactive) section name — just brighten it, no background. */
 .article-widget__name:hover {
   opacity: 1;
-}
-
-/* Drum — dark pill; dots live inside and are clipped by the rounded edges. */
-.article-widget__drum {
-  position: relative;
-  flex-shrink: 0;
-  width: var(--article-drum-width);
-  height: var(--article-drum-height);
-  border-radius: var(--radius-pill);
-  background: var(--color-bg-surface);
-  overflow: hidden;
-  /* Pointer signals "click to expand"; grabbing only shows during an active drag */
-  cursor: pointer;
-}
-
-.article-widget__drum.is-dragging {
-  cursor: grabbing;
-}
-
-.article-widget__dots {
-  position: absolute;
-  inset: 0;
-}
-
-.article-widget__dot {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 0;
-  height: 0;
-  margin: 0;
-  padding: 0;
-  border: none;
-  border-radius: var(--radius-pill);
-  /* --dot-active is binary: 0 → muted border color, 1 → contrast (active section).
-   * Border reads on --color-bg-surface in every theme; control collides with the
-   * drum surface in light themes (near-identical values). */
-  background: color-mix(
-    in srgb,
-    var(--color-bg-contrast) calc(var(--dot-active, 0) * 100%),
-    var(--color-border)
-  );
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  opacity: 0;
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-/* Hover on an inactive dot — bring it to the active (white) color. */
-.article-widget__dot:hover {
-  background: var(--color-bg-contrast);
 }
 
 @media (max-width: 639px) {
