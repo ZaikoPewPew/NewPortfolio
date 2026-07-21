@@ -5,6 +5,30 @@
     var(--space-2xl) + 2 * var(--space-sm)
   );
 
+  /* Two-phase choreography. Open: the shell first grows to the RIGHT (width,
+     --pm-geom) with the name/role fading in during that horizontal stretch;
+     once it reaches full width the VERTICAL phase begins (--pm-open-vert) —
+     the tray/bento grow downward, the bio appears mid-way, and the contact
+     button irises open from its center (clip-path). Close is the strict
+     reverse: the button collapses to center, the bio fades and the card pulls
+     up, then the name/role leave and finally the block shrinks right-to-left. */
+  --pm-fade: var(--motion-base);
+  --pm-geom: var(--motion-slow);
+
+  /* open */
+  --pm-open-name: 120ms;
+  --pm-open-vert: 380ms;
+  --pm-open-bento: 400ms;
+  --pm-open-bio: 480ms;
+  --pm-open-contact: 580ms;
+
+  /* close (reverse) */
+  --pm-close-contact: 0ms;
+  --pm-close-bio: 120ms;
+  --pm-close-vert: 180ms;
+  --pm-close-name: 380ms;
+  --pm-close-geom: 460ms;
+
   position: fixed;
   top: var(--space-md);
   left: var(--space-md);
@@ -16,11 +40,12 @@
   width: var(--layout-widgets-width);
   max-width: var(--layout-widgets-width);
   box-sizing: border-box;
-  transition: gap var(--profile-menu-expand) var(--ease-spring-soft);
+  transition: gap var(--pm-geom) var(--ease-spring-soft) var(--pm-close-vert);
 }
 
 .profile-menu[data-open] {
   gap: var(--bento-gap);
+  transition-delay: var(--pm-open-vert);
 }
 
 .profile-menu__shell {
@@ -37,14 +62,16 @@
   background: var(--color-bg-surface);
   box-sizing: border-box;
   overflow: hidden;
+  /* width = horizontal phase, gap (header <-> tray) = vertical phase */
   transition:
-    width var(--profile-menu-expand) var(--ease-spring-soft),
-    gap var(--profile-menu-expand) var(--ease-spring-soft);
+    width var(--pm-geom) var(--ease-spring-soft) var(--pm-close-geom),
+    gap var(--pm-geom) var(--ease-spring-soft) var(--pm-close-vert);
 }
 
 .profile-menu[data-open] .profile-menu__shell {
   width: var(--layout-widgets-width);
   gap: var(--space-md);
+  transition-delay: 0s, var(--pm-open-vert);
 }
 
 /* "Say hi" hint anchored to the bottom-right corner of the collapsed shell;
@@ -159,27 +186,61 @@
   justify-content: center;
   gap: var(--space-2xs);
   min-width: 0;
-  opacity: 0;
-  transition: opacity var(--motion-base) var(--ease-out-expo);
+  opacity: 1;
 }
 
+/* Text items fade + rise, driven purely by [data-open]. Per-item
+   transition-delay lives in the base rule (close wave) and is overridden in the
+   [data-open] rule (open wave), so close is a strict reverse of open. Name/role
+   ride the horizontal phase; the bio appears once the card grows downward. */
 .profile-menu__identity-content,
-.profile-menu__bio-wrap,
-.profile-menu__contact-wrap {
+.profile-menu__bio-wrap {
   opacity: 0;
   transform: translate3d(0, var(--space-sm), 0);
+  transition:
+    opacity var(--pm-fade) var(--ease-out-expo),
+    transform var(--pm-fade) var(--ease-spring-soft);
 }
 
-.profile-menu[data-open] .profile-menu__identity {
-  opacity: 1;
-  transition-delay: 100ms;
+.profile-menu__identity-content {
+  transition-delay: var(--pm-close-name);
+}
+
+.profile-menu__bio-wrap {
+  transition-delay: var(--pm-close-bio);
+}
+
+/* The contact button irises open from its center (clip-path) instead of sliding
+   in from below, which used to clip it against the tray and read as "flying in
+   out of nowhere". Opacity rides along so the collapsed end is fully hidden
+   (0), not a visible hairline. Close collapses it back to the center. */
+.profile-menu__contact-wrap {
+  opacity: 0;
+  clip-path: inset(0 50% 0 50% round var(--radius-control));
+  transition:
+    opacity var(--pm-fade) var(--ease-out-expo),
+    clip-path var(--pm-fade) var(--ease-spring-soft);
+  transition-delay: var(--pm-close-contact);
 }
 
 .profile-menu[data-open] .profile-menu__identity-content,
-.profile-menu[data-open] .profile-menu__bio-wrap,
-.profile-menu[data-open] .profile-menu__contact-wrap {
+.profile-menu[data-open] .profile-menu__bio-wrap {
   opacity: 1;
   transform: none;
+}
+
+.profile-menu[data-open] .profile-menu__contact-wrap {
+  opacity: 1;
+  clip-path: inset(0 0 0 0 round var(--radius-control));
+  transition-delay: var(--pm-open-contact);
+}
+
+.profile-menu[data-open] .profile-menu__identity-content {
+  transition-delay: var(--pm-open-name);
+}
+
+.profile-menu[data-open] .profile-menu__bio-wrap {
+  transition-delay: var(--pm-open-bio);
 }
 
 .profile-menu__name,
@@ -214,12 +275,13 @@
 .profile-menu__tray {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows var(--profile-menu-expand)
-    var(--ease-spring-soft);
+  transition: grid-template-rows var(--pm-geom) var(--ease-spring-soft)
+    var(--pm-close-vert);
 }
 
 .profile-menu[data-open] .profile-menu__tray {
   grid-template-rows: 1fr;
+  transition-delay: var(--pm-open-vert);
 }
 
 .profile-menu__tray-clip {
@@ -234,13 +296,6 @@
   height: max-content;
 }
 
-.profile-menu__bio-wrap,
-.profile-menu__contact-wrap {
-  transition:
-    opacity var(--motion-base) var(--ease-out-expo),
-    transform var(--motion-base) var(--ease-spring-soft);
-}
-
 /* Bento stack below shell — flies in from below */
 .profile-menu__bento.home__widgets {
   display: grid;
@@ -250,15 +305,16 @@
   opacity: 0;
   pointer-events: none;
   transition:
-    grid-template-rows var(--profile-menu-expand) var(--ease-spring-soft),
-    opacity var(--motion-base) var(--ease-out-expo);
+    grid-template-rows var(--pm-geom) var(--ease-spring-soft)
+      var(--pm-close-vert),
+    opacity var(--motion-base) var(--ease-out-expo) 0s;
 }
 
 .profile-menu[data-open] .profile-menu__bento.home__widgets {
   grid-template-rows: 1fr;
   opacity: 1;
   pointer-events: auto;
-  transition-delay: 60ms;
+  transition-delay: var(--pm-open-bento), var(--pm-open-bento);
 }
 
 .profile-menu__bento > .home__widgets-body,
@@ -340,28 +396,10 @@
   display: none;
 }
 
-/* The opening sequence advances from shell content to the bento stack. */
-.home[data-profile-animating="opening"]
-  .profile-menu
-  .profile-menu__identity-content {
-  animation: profileItemEnter var(--motion-base) var(--ease-spring-soft) 100ms
-    both;
-}
-
-.home[data-profile-animating="opening"]
-  .profile-menu
-  .profile-menu__bio-wrap {
-  animation: profileItemEnter var(--motion-base) var(--ease-spring-soft) 200ms
-    both;
-}
-
-.home[data-profile-animating="opening"]
-  .profile-menu
-  .profile-menu__contact-wrap {
-  animation: profileItemEnter var(--motion-base) var(--ease-spring-soft) 300ms
-    both;
-}
-
+/* Shell content (name/role, bio, contact) is driven entirely by the [data-open]
+   transitions above, so the opening cascade only needs to sequence the bento
+   tiles, which share their transform with the contact swipe and therefore stay
+   on keyframes. Tiles fly in after the shell content, bottom of the wave. */
 .home[data-profile-animating="opening"]
   .profile-menu
   .profile-menu__bento:not([data-contact-open="true"])
@@ -378,58 +416,95 @@
   .profile-menu
   .profile-menu__bento:not([data-contact-open="true"])
   [data-contact-item="bento"] {
-  animation: profileBentoFlyIn var(--motion-slow) var(--ease-spring-soft) both;
+  animation: profileBentoFlyIn var(--pm-geom) var(--ease-spring-soft) both;
 }
 
 .home[data-profile-animating="opening"]
   .profile-menu
   .profile-menu__bento:not([data-contact-open="true"])
   .home__widget-item--git {
-  animation-delay: 420ms;
+  animation-delay: 560ms;
 }
 
 .home[data-profile-animating="opening"]
   .profile-menu
   .profile-menu__bento:not([data-contact-open="true"])
   [data-contact-item="book"] {
-  animation-delay: 470ms;
+  animation-delay: 600ms;
 }
 
 .home[data-profile-animating="opening"]
   .profile-menu
   .profile-menu__bento:not([data-contact-open="true"])
   [data-contact-item="photo"] {
-  animation-delay: 500ms;
+  animation-delay: 640ms;
 }
 
 .home[data-profile-animating="opening"]
   .profile-menu
   .profile-menu__bento:not([data-contact-open="true"])
   [data-contact-item="bento"] {
-  animation-delay: 520ms;
+  animation-delay: 680ms;
 }
 
-/* Close shell and bento together; nested widgets keep their own transforms. */
+/* Close: the bento leaves first (bottom of the wave). The container fades its
+   opacity to 0 right away (the widgets-body keeps a 292px min-height, so the
+   grid-row collapse alone cannot hide it — opacity is what hides it). The tiles
+   still reverse-stagger out on top of that fade for texture. We must NOT pin the
+   container opacity to 1 during the close: that would defer the hide until after
+   the settle timer, flashing the whole bento back in for a beat once the
+   keyframes are cleared. */
 .home[data-profile-animating="closing"]
   .profile-menu
-  .profile-menu__bento.home__widgets {
+  .profile-menu__bento[data-contact-open="true"] {
   animation: profileBentoExit var(--motion-fast) var(--ease-out-expo) both;
 }
 
 .home[data-profile-animating="closing"]
   .profile-menu
-  .profile-menu__contact-wrap {
-  animation: profileItemExit var(--motion-base) var(--ease-out-expo) 180ms both;
-}
-
-.home[data-profile-animating="closing"] .profile-menu .profile-menu__bio-wrap {
-  animation: profileItemExit var(--motion-base) var(--ease-out-expo) 240ms both;
+  .profile-menu__bento:not([data-contact-open="true"])
+  [data-contact-item="bento"],
+.home[data-profile-animating="closing"]
+  .profile-menu
+  .profile-menu__bento:not([data-contact-open="true"])
+  [data-contact-item="photo"],
+.home[data-profile-animating="closing"]
+  .profile-menu
+  .profile-menu__bento:not([data-contact-open="true"])
+  [data-contact-item="book"],
+.home[data-profile-animating="closing"]
+  .profile-menu
+  .profile-menu__bento:not([data-contact-open="true"])
+  .home__widget-item--git {
+  animation: profileBentoExitTile var(--motion-fast) var(--ease-out-expo) both;
 }
 
 .home[data-profile-animating="closing"]
   .profile-menu
-  .profile-menu__identity-content {
-  animation: profileItemExit var(--motion-base) var(--ease-out-expo) 300ms both;
+  .profile-menu__bento:not([data-contact-open="true"])
+  [data-contact-item="bento"] {
+  animation-delay: 0ms;
+}
+
+.home[data-profile-animating="closing"]
+  .profile-menu
+  .profile-menu__bento:not([data-contact-open="true"])
+  [data-contact-item="photo"] {
+  animation-delay: 40ms;
+}
+
+.home[data-profile-animating="closing"]
+  .profile-menu
+  .profile-menu__bento:not([data-contact-open="true"])
+  [data-contact-item="book"] {
+  animation-delay: 80ms;
+}
+
+.home[data-profile-animating="closing"]
+  .profile-menu
+  .profile-menu__bento:not([data-contact-open="true"])
+  .home__widget-item--git {
+  animation-delay: 120ms;
 }
 
 @keyframes profileBentoFlyIn {
@@ -454,19 +529,7 @@
   }
 }
 
-@keyframes profileItemEnter {
-  from {
-    opacity: 0;
-    transform: translate3d(0, var(--space-sm), 0);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes profileItemExit {
+@keyframes profileBentoExitTile {
   from {
     opacity: 1;
     transform: none;
@@ -474,7 +537,7 @@
 
   to {
     opacity: 0;
-    transform: translate3d(0, calc(-1 * var(--space-sm)), 0);
+    transform: translate3d(0, var(--space-md), 0);
   }
 }
 
@@ -579,6 +642,7 @@
   .profile-menu,
   .profile-menu__shell,
   .profile-menu__identity,
+  .profile-menu__identity-content,
   .profile-menu__bio-wrap,
   .profile-menu__contact-wrap,
   .profile-menu__tray,

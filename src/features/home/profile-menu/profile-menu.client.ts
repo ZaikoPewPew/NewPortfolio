@@ -6,8 +6,11 @@ import {
 } from "./profile-menu.storage";
 import { resetSayHiParticles } from "../say-hi/sayHiParticles.client";
 
-const OPEN_SETTLE_MS = 880;
-const CLOSE_SETTLE_MS = 360;
+// Must outlast the full CSS wave so data-profile-animating (which gates the
+// bento tile keyframes) is not cleared mid-flight. Open: last tile 680ms delay
+// + 500ms fly-in. Close: shell width 460ms delay + 500ms collapse.
+const OPEN_SETTLE_MS = 1200;
+const CLOSE_SETTLE_MS = 1000;
 
 let settleTimer: number | undefined;
 
